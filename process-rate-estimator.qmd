@@ -1,0 +1,55 @@
+---
+title: Process Rate Estimator
+subtitle: A modeling side-hustle for the ETH group sustainable agroecosystems
+author: Damian Oswald
+date: 2023-09-23
+toc: true
+number-sections: true
+bibliography: references.bib
+format:
+   gfm:
+      output-file: README.md
+   html: default
+   pdf:
+      documentclass: article
+      geometry: margin=2cm
+      include-in-header:
+         text: |
+            \usepackage[version=4]{mhchem}
+      link-citations: true
+---
+
+# Introduction
+
+Denitrification is the natural process by which nitrate (NO~3~^-^) in the soil are converted by bacteria into nitrous oxide (N~2~O) or pure nitrigen (N~2~). The latter is called *total denitrification* --- the full process described in @eq-denitrification takes place.
+$$
+\ce{NO3^- ->[\text{Nitrate}][\text{reductase}] NO2^- ->[\text{Nitrite}][\text{reductase}] NO ->[\text{Nitrite oxide}][\text{reductase}] N2O^- ->[\text{Nitrous oxide}][\text{reductase}] N2}
+$${#eq-denitrification}
+Denitrification occurs in conditions where oxygen is limited, such as waterlogged soils. It is part of the nitrogen cycle, where nitrogen is circulated between the atmosphere, organisms and the earth.
+
+# Formal model description
+
+The diffusion fluxes between soil increments are described by Frick's law (@eq-frick).
+$$
+F_{\text{calc}} = \frac{dC}{dZ} D_{\text s} \rho
+$${#eq-frick}
+Here, $D_s$ is the gas diffusion coefficient, $\rho$ is the gas density of N~2~O, and $\frac{dC}{dZ}$ is the N~2~O concentration gradient from lower to upper depth.
+
+The gas diffusion coefficient $D_{\text s}$ was calculated according @eq-MillingtonQuirk as established by @millington1961permeability.
+$$
+D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2}
+$${#eq-MillingtonQuirk}
+Here, $H$ represents a dimensionless form of Henry's solubility constant ($H'$) for N~2~O in water at a given temperature. The constant $H$ for N~2~O is calculated as follows:
+$$
+H = \frac{8.5470 \times 10^5 \times \exp \frac{-2284}{\text T}}{\text R \times \text T}
+$${#eq-H}
+Here, $\text R$ is the gas constant, and $\text T$ is the temperature ($\text T = 298 \; \text K$).
+
+# References {-}
+
+
+
+
+
+
+
