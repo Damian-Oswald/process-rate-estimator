@@ -36,8 +36,8 @@ of N<sub>2</sub>O, and $\frac{dC}{dZ}$ is the N<sub>2</sub>O
 concentration gradient from lower to upper depth.
 
 The gas diffusion coefficient $D_{\text s}$ was calculated according
-[Equation 3](#eq-MillingtonQuirk) as established
-by<sup>[1](#ref-millington1961permeability)</sup>.
+[Equation 3](#eq-MillingtonQuirk) as established by Millington and Quirk
+in 1961.<sup>[1](#ref-millington1961permeability)</sup>
 
 <span id="eq-MillingtonQuirk">$$D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2} \qquad(3)$$</span>
 
