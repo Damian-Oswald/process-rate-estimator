@@ -1,6 +1,6 @@
 # Process Rate Estimator
-
-Damian Oswald (*2023-09-23*)
+Damian Oswald
+2023-09-23
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)

@@ -10,7 +10,6 @@ format:
    gfm:
       output-file: README.md
       link-citations: true
-   html: default
    pdf:
       documentclass: article
       geometry: margin=2cm
