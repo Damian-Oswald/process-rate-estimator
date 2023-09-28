@@ -6,6 +6,7 @@ date: 2023-09-23
 toc: true
 number-sections: true
 bibliography: references.bib
+csl: nature.csl
 format:
    gfm:
       output-file: README.md

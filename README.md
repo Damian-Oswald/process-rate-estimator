@@ -36,8 +36,8 @@ of N<sub>2</sub>O, and $\frac{dC}{dZ}$ is the N<sub>2</sub>O
 concentration gradient from lower to upper depth.
 
 The gas diffusion coefficient $D_{\text s}$ was calculated according
-[Equation 3](#eq-MillingtonQuirk) as established by Millington and Quirk
-([1961](#ref-millington1961permeability)).
+[Equation 3](#eq-MillingtonQuirk) as established
+by<sup>[1](#ref-millington1961permeability)</sup>.
 
 <span id="eq-MillingtonQuirk">$$D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2} \qquad(3)$$</span>
 
@@ -52,12 +52,14 @@ Here, $\text R$ is the gas constant, and $\text T$ is the temperature
 
 # References
 
-<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="refs" class="references csl-bib-body" line-spacing="2">
 
 <div id="ref-millington1961permeability" class="csl-entry">
 
-Millington, RJ, and JP Quirk. 1961. “Permeability of Porous Solids.”
-*Transactions of the Faraday Society* 57: 1200–1207.
+<span class="csl-left-margin">1.
+</span><span class="csl-right-inline">Millington, R. & Quirk, J.
+Permeability of porous solids. *Transactions of the Faraday Society*
+**57**, 1200–1207 (1961).</span>
 
 </div>
 
