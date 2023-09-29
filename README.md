@@ -50,6 +50,11 @@ $H$ for N<sub>2</sub>O is calculated as follows:
 Here, $\text R$ is the gas constant, and $\text T$ is the temperature
 ($\text T = 298 \; \text K$).
 
+$D_{\text{fw}}$ was calculated according to **?@eq-Dfw** as documented
+by Versteeg and Van Swaaij (1988).
+
+$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}$$\#eq-Dfw
+
 # References
 
 <div id="refs" class="references csl-bib-body" line-spacing="2">
