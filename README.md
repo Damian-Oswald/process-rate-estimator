@@ -50,10 +50,11 @@ $H$ for N<sub>2</sub>O is calculated as follows:
 Here, $\text R$ is the gas constant, and $\text T$ is the temperature
 ($\text T = 298 \; \text K$).
 
-$D_{\text{fw}}$ was calculated according to **?@eq-Dfw** as documented
-by Versteeg and Van Swaaij (1988).
+$D_{\text{fw}}$ was calculated according to [Equation 5](#eq-Dfw) as
+documented by Versteeg and Van Swaaij
+(1988).<sup>[2](#ref-versteeg1988solubility)</sup>
 
-$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}$$\#eq-Dfw
+<span id="eq-Dfw">$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T} \qquad(5)$$</span>
 
 # References
 
@@ -65,6 +66,16 @@ $$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}$$\#eq-Df
 </span><span class="csl-right-inline">Millington, R. & Quirk, J.
 Permeability of porous solids. *Transactions of the Faraday Society*
 **57**, 1200–1207 (1961).</span>
+
+</div>
+
+<div id="ref-versteeg1988solubility" class="csl-entry">
+
+<span class="csl-left-margin">2.
+</span><span class="csl-right-inline">Versteeg, G. F. & Van Swaaij, W.
+P. Solubility and diffusivity of acid gases (carbon dioxide, nitrous
+oxide) in aqueous alkanolamine solutions. *Journal of Chemical &
+Engineering Data* **33**, 29–34 (1988).</span>
 
 </div>
 

@@ -49,9 +49,9 @@ $$H = \frac{8.5470 \times 10^5 \times \exp \frac{-2284}{\text T}}{\text R \times
 
 Here, $\text R$ is the gas constant, and $\text T$ is the temperature ($\text T = 298 \; \text K$).
 
-$D_{\text{fw}}$ was calculated according to @eq-Dfw as documented by Versteeg and Van Swaaij (1988).
+$D_{\text{fw}}$ was calculated according to @eq-Dfw as documented by Versteeg and Van Swaaij (1988) [@versteeg1988solubility].
 
-$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}$$#eq-Dfw
+$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}$${#eq-Dfw}
 
 # References {-}
 
