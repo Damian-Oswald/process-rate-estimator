@@ -3,6 +3,7 @@ title: Process Rate Estimator
 subtitle: A modeling side-hustle for the ETH group sustainable agroecosystems
 author: Damian Oswald
 date: 2023-09-23
+date-format: long
 toc: true
 number-sections: true
 bibliography: references.bib
