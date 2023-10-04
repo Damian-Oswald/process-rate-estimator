@@ -1,6 +1,6 @@
 # Process Rate Estimator
 Damian Oswald
-2023-09-23
+September 23, 2023
 
 - [<span class="toc-section-number">1</span>
   Introduction](#introduction)
@@ -33,7 +33,10 @@ law ([Equation 2](#eq-frick)).
 
 Here, $D_s$ is the gas diffusion coefficient, $\rho$ is the gas density
 of N<sub>2</sub>O, and $\frac{dC}{dZ}$ is the N<sub>2</sub>O
-concentration gradient from lower to upper depth.
+concentration gradient from lower to upper depth. The fluxes are
+calculated based on N<sub>2</sub>O concentration gradients between
+105-135 cm, 75-105 cm, 45-75 cm, 15-45 cm, and 0-15 cm depth layers, and
+ambient air above the soil surface.
 
 The gas diffusion coefficient $D_{\text s}$ was calculated according
 [Equation 3](#eq-MillingtonQuirk) as established by Millington and Quirk
