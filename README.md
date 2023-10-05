@@ -2,12 +2,6 @@
 Damian Oswald
 September 23, 2023
 
-- [<span class="toc-section-number">1</span>
-  Introduction](#introduction)
-- [<span class="toc-section-number">2</span> Formal model
-  description](#formal-model-description)
-- [References](#references)
-
 # Introduction
 
 Denitrification is the natural process by which nitrate
@@ -37,6 +31,9 @@ concentration gradient from lower to upper depth. The fluxes are
 calculated based on N<sub>2</sub>O concentration gradients between
 105-135 cm, 75-105 cm, 45-75 cm, 15-45 cm, and 0-15 cm depth layers, and
 ambient air above the soil surface.
+
+$\theta_w$ is the soil volumetric water content, $\theta_a$ the
+air-filled porosity, and $\theta_T$ is the total soil porosity.
 
 The gas diffusion coefficient $D_{\text s}$ was calculated according
 [Equation 3](#eq-MillingtonQuirk) as established by Millington and Quirk
