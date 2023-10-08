@@ -58,6 +58,14 @@ $D_{\text{fw}}$ was calculated according to @eq-Dfw as documented by Versteeg an
 
 $$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}$${#eq-Dfw}
 
+# The data
+
+The study uses data collected from a mesocosm experiment -- i.e. an outdoor experiment that examines the natural environment under controlled conditions. The experiment was set up as a randomized complete block design, with 4 varieties and 3 replicates, using 12 non-weighted lysimeters. A non-weighted lysimeter is a device to measure the amount of water that drains through soil, and to determine the types and amounts of dissolved nutrients or contaminants in the water. Each lysimeter had five sampling ports with soil moisture probes and custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm below soil surface.
+
+$$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
+
+@eq-dimension shows how many observations we should expect to have. In reality, some observations are missing.
+
 # References {-}
 
 

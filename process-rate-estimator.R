@@ -34,6 +34,17 @@ data <- read.csv("data/three-way-data.csv", row.names = 1)
 #' Transform the variable `date_R` to `Date` class
 #' QUESTION: Why isn't it correct unless I subtract 1 from the DOY?
 data$date <- as.Date(as.integer(substr(data$date_R, 5, 7))-1, origin = paste0(as.integer(substr(data$date_R, 1, 4)),"-01-01"))
+#' Some dates are missing. Proposition: The "true" date should be "2016-02-03"
+data[is.na(data[,"date"]),"date"] <- as.Date("2016-02-03")
+with(data[data$depth==7.5,], interaction.plot(date, column, moisture, col = par()$fg)) # Seems legit (last data points are not off...)
+
+#' Transform `column` from `character` to `integer`
+with(data, table(column, variety))
+data$column <- as.ordered(as.integer(substr(data$column, 2, 3)))
+
+#' Data with the missing data: It is the last data that do not have a date!
+#' Should it be the last date possible?
+data[is.na(data$date),]
 
 #' There is C:N ratio that is `Inf` -- should probably be omitted?
 data[which(data$CN==Inf),"CN"] <- NA
@@ -41,6 +52,9 @@ data[which(data$CN==Inf),"CN"] <- NA
 #' -----------------------------------------------------------------------------------------------------------
 #' Explore the data
 #' -----------------------------------------------------------------------------------------------------------
+
+#' The covered time span
+diff(range(data$date, na.rm = T))
 
 #' First look at the data
 boxplot(moisture ~ depth, data, outline = FALSE, col = palette(5))
@@ -67,18 +81,35 @@ for (y in colnames(data)[8:21]) {
    with(data, interaction.plot(depth, variety, data[,y], ylab = y, log = log, fun = function(x) mean(x,na.rm=TRUE))) # Interpretation: the soil moisture starts out relatively homogeneous, but as plants grow, it starts to differ by depth
 }
 
+#' Diffusion Fluxes
+for (variety in unique(data$variety)) {
+   with(data[(!is.na(data$corrected.N2O)) & (data$variety==variety),], interaction.plot(date, depth, corrected.N2O, col = par()$fg, ylab = expression("N"[2]*"O fluxes"), xlab = "Date", ylim = c(0,16)))
+   title(main = paste("Diffusion fluxes of", variety))
+}
+for (variety in unique(data$variety)) {
+   with(data[(!is.na(data$corrected.CO2)) & (data$variety==variety),], interaction.plot(date, depth, corrected.CO2, col = par()$fg, ylab = expression("CO"[2]*" fluxes"), xlab = "Date", ylim = c(0,45000), las = 0))
+   title(main = paste("Diffusion fluxes of", variety))
+}
+
 #' Mosaic plots -- of what data do we have entries?
 par(mar=c(4,4,4,2)+0.1)
 mosaicplot(~ depth + variety, data, col = palette(4)) # Why do we have the uneven distribution?
-mosaicplot(~ depth + increment, data, col = palette(4))
-mosaicplot(~ column + depth, data, col = palette(4))
-mosaicplot(~ increment + variety, data, col = palette(4))
+mosaicplot(~ column + depth, data, col = palette(5)) # It is only with colunn 6!
+mosaicplot(~ increment + column, data, col = palette(12))
+mosaicplot(~ increment + depth, data, col = palette(5)) # What is `increment`?
+
+#' Is increment the same as `depth < 15`? -> YES
+all((data$depth < 15) == (data$increment==15))
 
 #' What data does have measurements?
 x <- data[!is.na(data$SP),]
-dim(x)
-mosaicplot(~ column + depth, x, col = palette(4))
-data[data$column=="C1",] |> dim()
+mosaicplot(~ column + depth, x, col = palette(5), main = "data with measurements")
+with(x, table(depth, column)) # Should be 24 each, no?
+x$date |> unique() |> length() # Gas measurements only at 24 out of the dates
+mosaicplot(~ date + column, x, col = palette(12), main = "data with measurements") # Why are there the differences?
+with(x, tapply(SP, date, length)) |> barplot(las=2); abline(h=60, lwd = 2, lty = 2) # This should all be 60 or not? (Why are there 1440 - 1117 = 323 entries missing?)
+mosaicplot(~ column + depth, x, shade = TRUE, main = "data with measurements") # Why are there the differences?
+with(x, table(date, depth)) # We clearly see the missing values, not?
 
 #' Calculate average moisture across depths
 x <- with(data, tapply(moisture, list(depth), mean))
@@ -89,30 +120,23 @@ sapply(1:5, function(i) mean(x[(i-1):i]))
 #' We can also cross multiple factors
 with(data, tapply(moisture, list(depth, variety), mean))
 
+#' Pairs panel
+# plot(data[,8:21], cex = 0.3)
 
+#' Which two observations are missing in general
+with(data, table(column, depth)) # What??? Shouldn't this be 160 each???
+plot(moisture ~ date, data[data$column==6 & data$depth==90,], las = 0) # What happened with the moisture measurements for column 6 at depth = 90 cm?
+matplot(moisture, date, data[data$depth==7.5,], las = 0) # What happened with the moisture measurements for column 6 at depth = 90 cm?
+#' Why do we have 160 measurements for column 1:4 and 161 for column 5:12?
 
+#' NOTES OF THE DATA EXPLORATION
+#' Some observations are missing, specifically from column 6 at depth = 90 cm
+#' Many observations are missing regarding the flux data
+#' Fluxes were only measured at 24 distinct days (out of 161 possible days)
 
-
-
-
-
-data_C1_7 <- subset(data, depth == "7.5" & column == "C1")
-names(data_C1_7) <- c("day_column_depth","date_R", "column","depth","increment","column","moisture_7","corrected.N2O_7","gN2ONha_7","d15Nbulk_7","SP_7", "d18O_7","column_date")
-data_C1_30 <- subset(data, depth == "30" & column == "C1")
-names(data_C1_30) <- c("day_column_depth","date_R", "column","depth","increment","column","moisture_30","corrected.N2O_30","gN2ONha_30","d15Nbulk_30","SP_30", "d18O_30","column_date")
-data_C1_60 <- subset(data, depth == "60" & column == "C1")
-names(data_C1_60) <- c("day_column_depth","date_R", "column","depth","increment","column","moisture_60","corrected.N2O_60","gN2ONha_60","d15Nbulk_60","SP_60", "d18O_60","column_date")
-data_C1_90 <- subset(data, depth == "90" & column == "C1")
-names(data_C1_90) <- c("day_column_depth","date_R", "column","depth","increment","column","moisture_90","corrected.N2O_90","gN2ONha_90","d15Nbulk_90","SP_90", "d18O_90","column_date")
-data_C1_120 <- subset(data, depth == "120" & column == "C1")
-names(data_C1_120) <- c("day_column_depth","date_R", "column","depth","increment","column","moisture_120","corrected.N2O_120","gN2ONha_120","d15Nbulk_120","SP_120", "d18O_120","column_date")
-
-
-
-
-data_C1_7$theta_w_top_7
-
-data_C1_7$moisture_7
+#' -----------------------------------------------------------------------------------------------------------
+#' Start calculations
+#' -----------------------------------------------------------------------------------------------------------
 
 #calculate average moisture across depths
 
@@ -123,18 +147,33 @@ data_C1_7$moisture_7
 #' For every day in `date` (and apparently only for `column == "C1"`, why?),
 #' we want to calculate average moisture across depths
 
-mosaicplot(~ variety + column, data)
+column <- 1
+day <- as.Date("2015-09-02")
+i <- 1
+#' We calculate the following: for every column, day, depth,
+#' calculate the mean depth of this one and the one above --
+#' except for the top depth, there, return single value
+data[data[,"column"]==column & data[,"date"]==day & data$depth%in%depths[(i-1):i], "moisture"]
 
-mosaicplot(~ variety, data = data[data$column=="C1" & data$depth==7.5,])
-
-
-for (i in 1:length(depths)) {
-   upper <- data[data$column=="C1" & data$depth==depths[i-1],"moisture"]
-   lower <- data[data$column=="C1" & data$depth==depths[i],"moisture"]
-   if(length(upper)==0) upper <- 0
-   x <- (upper + lower)/2
-   plot(x ~ na.omit(unique(data$date)), xlab = "Date", ylab = "Avg. moisture")
+# Calculate average moisture across depths
+data$theta_w <- numeric(nrow(data))
+for (i in 1:nrow(data)) {
+   j <- which(depths==data[i,"depth"]) # Get the current depth index
+   data[i,"theta_w"] <- mean(data[data[,"column"]==data[i,"column"] & data[,"date"]==data[i,"date"] & data[,"depth"]%in%depths[(j-1):j], "moisture"])
+   # TODO: Build checker to see if calculation is correct, no missing values, always 1 or 2 values etc.
 }
+
+#' Calculate air-filled pore spaces across depths
+data$theta_a <- 1 - data$theta_w/theta_T
+
+#' Calculate Ds
+data$Ds <- with(data, ((theta_w^(10/3)*Dfw)/H+theta_a^(10/3)*Dfa)*theta_T^-2)
+
+
+
+
+
+
 
 
 

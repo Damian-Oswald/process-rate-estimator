@@ -56,6 +56,24 @@ documented by Versteeg and Van Swaaij
 
 <span id="eq-Dfw">$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T} \qquad(5)$$</span>
 
+# The data
+
+The study uses data collected from a mesocosm experiment – i.e. an
+outdoor experiment that examines the natural environment under
+controlled conditions. The experiment was set up as a randomized
+complete block design, with 4 varieties and 3 replicates, using 12
+non-weighted lysimeters. A non-weighted lysimeter is a device to measure
+the amount of water that drains through soil, and to determine the types
+and amounts of dissolved nutrients or contaminants in the water. Each
+lysimeter had five sampling ports with soil moisture probes and
+custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm
+below soil surface.
+
+<span id="eq-dimension">$$4 \times 3 \times 5 \times 161 = 9660 \qquad(6)$$</span>
+
+[Equation 6](#eq-dimension) shows how many observations we should expect
+to have. In reality, some observations are missing.
+
 # References
 
 <div id="refs" class="references csl-bib-body" line-spacing="2">
