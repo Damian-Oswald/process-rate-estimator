@@ -66,6 +66,16 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 
 @eq-dimension shows how many observations we should expect to have. In reality, some observations are missing.
 
+# Model parameters
+
+| Symbol     | Code          | Name         | Unit | Value       |
+|:-----------|:--------------|:-------------|:-----|:------------|
+|            | `BD`          | Bulk density |      |             |
+|$\theta_T$  | `theta_T`     |              |      |             |
+|$T$         | `temperature` | Temperature  | K    | 298         |
+
+: Overview of the parameters used in the model. {#tbl-parameters}
+
 # References {-}
 
 

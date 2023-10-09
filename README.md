@@ -74,6 +74,20 @@ below soil surface.
 [Equation 6](#eq-dimension) shows how many observations we should expect
 to have. In reality, some observations are missing.
 
+# Model parameters
+
+<div id="tbl-parameters">
+
+| Symbol     | Code          | Name         | Unit | Value |
+|:-----------|:--------------|:-------------|:-----|:------|
+|            | `BD`          | Bulk density |      |       |
+| $\theta_T$ | `theta_T`     |              |      |       |
+| $T$        | `temperature` | Temperature  | K    | 298   |
+
+Table 1: Overview of the parameters used in the model.
+
+</div>
+
 # References
 
 <div id="refs" class="references csl-bib-body" line-spacing="2">
