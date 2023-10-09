@@ -169,8 +169,20 @@ data$theta_a <- 1 - data$theta_w/theta_T
 #' Calculate Ds
 data$Ds <- with(data, ((theta_w^(10/3)*Dfw)/H+theta_a^(10/3)*Dfa)*theta_T^-2)
 
+#' Calculate dC/dz
+data$dCdz <- (data$corrected.N2O - N2Oatm)/1000000/(15/100/2)
 
 
+#' TODO: The `.Rmd` file contains the following code:
+#' 
+# calculate dC/dz across depths
+# data_C1$dCdz_top_7 <- (data_C1$corrected.N2O_7 - N2Oatm)/1000000/(15/100/2)
+# data_C1$dCdz_top_30 <- (data_C1$corrected.N2O_30 - data_C1$corrected.N2O_7)/1000000/(30/100/2+15/100/2)
+# data_C1$dCdz_top_60 <- (data_C1$corrected.N2O_60 - data_C1$corrected.N2O_30)/1000000/(30/100/2+30/100/2)
+# data_C1$dCdz_top_90 <- (data_C1$corrected.N2O_90 - data_C1$corrected.N2O_60)/1000000/(30/100/2+30/100/2)
+# data_C1$dCdz_top_120 <- (data_C1$corrected.N2O_120 - data_C1$corrected.N2O_90)/1000000/(30/100/2+30/100/2)
+#'
+#' Question: Should't it be different numbers in the exponents?
 
 
 
