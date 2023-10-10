@@ -68,13 +68,17 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 
 # Model parameters
 
-| Symbol     | Code          | Name         | Unit | Value       |
-|:-----------|:--------------|:-------------|:-----|:------------|
-|            | `BD`          | Bulk density |      |             |
-|$\theta_T$  | `theta_T`     |              |      |             |
-|$T$         | `temperature` | Temperature  | K    | 298         |
+| Symbol     | Code          | Name                                      | Unit | Value       |
+|:-----------|:--------------|:------------------------------------------|:-----|:------------|
+|            | `BD`          | Bulk density                              |      |             |
+|$\theta_T$  | `theta_T`     |                                           |      |             |
+|$T$         | `temperature` | Temperature                               | K    | 298         |
+|            | `Dfw`         | Bulk density                              |      |             |
+|            | `Dfa`         | Bulk density                              |      |             |
+|            | `H`           | Bulk density                              |      |             |
+|$\rho$      | `rho``        | Dimensionless Henry's solubility constant |      |             |
 
-: Overview of the parameters used in the model. {#tbl-parameters}
+: Overview of the parameters used in the model. {#tbl-parameters tbl-colwidths="[10,20,30,20,20]"}
 
 # References {-}
 

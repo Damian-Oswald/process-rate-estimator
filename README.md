@@ -78,11 +78,15 @@ to have. In reality, some observations are missing.
 
 <div id="tbl-parameters">
 
-| Symbol     | Code          | Name         | Unit | Value |
-|:-----------|:--------------|:-------------|:-----|:------|
-|            | `BD`          | Bulk density |      |       |
-| $\theta_T$ | `theta_T`     |              |      |       |
-| $T$        | `temperature` | Temperature  | K    | 298   |
+| Symbol     | Code          | Name                                      | Unit | Value |
+|:-----------|:--------------|:------------------------------------------|:-----|:------|
+|            | `BD`          | Bulk density                              |      |       |
+| $\theta_T$ | `theta_T`     |                                           |      |       |
+| $T$        | `temperature` | Temperature                               | K    | 298   |
+|            | `Dfw`         | Bulk density                              |      |       |
+|            | `Dfa`         | Bulk density                              |      |       |
+|            | `H`           | Bulk density                              |      |       |
+| $\rho$     | \`rho\`\`     | Dimensionless Henry’s solubility constant |      |       |
 
 Table 1: Overview of the parameters used in the model.
 
