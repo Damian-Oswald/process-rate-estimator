@@ -78,15 +78,17 @@ to have. In reality, some observations are missing.
 
 <div id="tbl-parameters">
 
-| Symbol     | Code          | Name                                      | Unit | Value |
-|:-----------|:--------------|:------------------------------------------|:-----|:------|
-|            | `BD`          | Bulk density                              |      |       |
-| $\theta_T$ | `theta_T`     |                                           |      |       |
-| $T$        | `temperature` | Temperature                               | K    | 298   |
-|            | `Dfw`         | Bulk density                              |      |       |
-|            | `Dfa`         | Bulk density                              |      |       |
-|            | `H`           | Bulk density                              |      |       |
-| $\rho$     | \`rho\`\`     | Dimensionless Henry’s solubility constant |      |       |
+| Symbol     | Code          | Name                                      | Unit | Value               |
+|:-----------|:--------------|:------------------------------------------|:-----|:--------------------|
+| $BD$       | `BD`          | Bulk density                              |      |                     |
+| $\theta_w$ | `theta_w`     | Soil volumetric water content             |      |                     |
+| $\theta_a$ | `theta_a`     | Air-filled porosity                       |      |                     |
+| $\theta_T$ | `theta_T`     | Total soil porosity                       |      | $1-\frac{BD}{2.65}$ |
+| $T$        | `temperature` | Soil temperature                          | K    | $298$               |
+|            | `Dfw`         | Diffusivity of N<sub>2</sub>O in water    |      |                     |
+|            | `Dfa`         | Diffusivity of N<sub>2</sub>O in air      |      |                     |
+|            | `H`           | Dimensionless Henry’s solubility constant |      |                     |
+| $\rho$     | `rho`         |                                           |      | $1.26 \times 10^6$  |
 
 Table 1: Overview of the parameters used in the model.
 
