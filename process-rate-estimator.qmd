@@ -68,19 +68,19 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 
 # Model parameters
 
-| Symbol     | Code          | Name                                      | Unit | Value                 |
-|:-----------|:--------------|:------------------------------------------|:-----|:----------------------|
-|$BD$        | `BD`          | Bulk density                              |      |                       |
-|$\theta_w$  | `theta_w`     | Soil volumetric water content             |      |                       |
-|$\theta_a$  | `theta_a`     | Air-filled porosity                       |      |                       |
-|$\theta_T$  | `theta_T`     | Total soil porosity                       |      | $1-\frac{BD}{2.65}$   |
-|$T$         | `temperature` | Soil temperature                          | K    | $298$                 |
-|            | `Dfw`         | Diffusivity of N~2~O in water             |      |                       |
-|            | `Dfa`         | Diffusivity of N~2~O in air               |      |                       |
-|            | `H`           | Dimensionless Henry's solubility constant |      |                       |
-|$\rho$      | `rho`         |                                           |      | $1.26 \times 10^6$    |
+| Symbol        | Code          | Name                                      | Unit | Value                 |          |
+|:--------------|:--------------|:------------------------------------------|:-----|:----------------------|---------:|
+|$BD$           | `BD`          | Bulk density                              |      | $1.686$               |          |
+|$\theta_w$     | `theta_w`     | Soil volumetric water content             |      |                       |          |
+|$\theta_a$     | `theta_a`     | Air-filled porosity                       |      |                       |          |
+|$\theta_T$     | `theta_T`     | Total soil porosity                       |      | $1-\frac{BD}{2.65}$   |          |
+|$T$            | `temperature` | Soil temperature                          | K    | $298$                 |          |
+|$D_{\text{fw}}$| `Dfw`         | Diffusivity of N~2~O in water             |      |                       |[see @eq-Dfw] |
+|$D_{\text{fa}}$| `Dfa`         | Diffusivity of N~2~O in air               |      |                       |          |
+|$H$            | `H`           | Dimensionless Henry's solubility constant |      |                       |          |
+|$\rho$         | `rho`         |                                           |      | $1.26 \times 10^6$    |          |
 
-: Overview of the parameters used in the model. {#tbl-parameters tbl-colwidths="[10,20,30,20,20]"}
+: Overview of the parameters used in the model. {#tbl-parameters tbl-colwidths="[10,20,30,10,20,10]"}
 
 # References {-}
 
