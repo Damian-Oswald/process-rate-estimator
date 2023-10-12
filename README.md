@@ -36,10 +36,10 @@ $\theta_w$ is the soil volumetric water content, $\theta_a$ the
 air-filled porosity, and $\theta_T$ is the total soil porosity.
 
 The gas diffusion coefficient $D_{\text s}$ was calculated according
-[Equation 3](#eq-MillingtonQuirk) as established by Millington and Quirk
-in 1961.<sup>[1](#ref-millington1961permeability)</sup>
+[Equation 3](#eq-Ds) as established by Millington and Quirk in
+1961.<sup>[1](#ref-millington1961permeability)</sup>
 
-<span id="eq-MillingtonQuirk">$$D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2} \qquad(3)$$</span>
+<span id="eq-Ds">$$D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2} \qquad(3)$$</span>
 
 Here, $H$ represents a dimensionless form of Henry’s solubility constant
 ($H'$) for N<sub>2</sub>O in water at a given temperature. The constant
@@ -56,6 +56,8 @@ documented by Versteeg and Van Swaaij
 
 <span id="eq-Dfw">$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T} \qquad(5)$$</span>
 
+<span id="eq-Dfa">$$D_{\text{fa}} = D_{\text{fa, NTP}} \times \left( \frac{\text T}{273.15} \right)^n \times \left( \frac{101'325}{\text P} \right) \qquad(6)$$</span>
+
 # The data
 
 The study uses data collected from a mesocosm experiment – i.e. an
@@ -69,26 +71,26 @@ lysimeter had five sampling ports with soil moisture probes and
 custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm
 below soil surface.
 
-<span id="eq-dimension">$$4 \times 3 \times 5 \times 161 = 9660 \qquad(6)$$</span>
+<span id="eq-dimension">$$4 \times 3 \times 5 \times 161 = 9660 \qquad(7)$$</span>
 
-[Equation 6](#eq-dimension) shows how many observations we should expect
+[Equation 7](#eq-dimension) shows how many observations we should expect
 to have. In reality, some observations are missing.
 
 # Model parameters
 
 <div id="tbl-parameters">
 
-| Symbol          | Code          | Name                                      | Unit | Value               |                  |
-|:----------------|:--------------|:------------------------------------------|:-----|:--------------------|-----------------:|
-| $BD$            | `BD`          | Bulk density                              |      | $1.686$             |                  |
-| $\theta_w$      | `theta_w`     | Soil volumetric water content             |      |                     |                  |
-| $\theta_a$      | `theta_a`     | Air-filled porosity                       |      |                     |                  |
-| $\theta_T$      | `theta_T`     | Total soil porosity                       |      | $1-\frac{BD}{2.65}$ |                  |
-| $T$             | `temperature` | Soil temperature                          | K    | $298$               |                  |
-| $D_{\text{fw}}$ | `Dfw`         | Diffusivity of N<sub>2</sub>O in water    |      |                     | [see 5](#eq-Dfw) |
-| $D_{\text{fa}}$ | `Dfa`         | Diffusivity of N<sub>2</sub>O in air      |      |                     |                  |
-| $H$             | `H`           | Dimensionless Henry’s solubility constant |      |                     |                  |
-| $\rho$          | `rho`         |                                           |      | $1.26 \times 10^6$  |                  |
+| Symbol           | Code          | Name                                      | Value                | Unit |              |
+|:-----------------|:--------------|:------------------------------------------|:---------------------|:-----|-------------:|
+| $BD$             | `BD`          | Bulk density                              | $1.686$              |      |              |
+| $\theta_w$       | `theta_w`     | Soil volumetric water content             |                      |      |              |
+| $\theta_a$       | `theta_a`     | Air-filled porosity                       |                      |      |              |
+| $\theta_\text T$ | `theta_T`     | Total soil porosity                       | $1-\frac{BD}{2.65}$  |      |              |
+| $\text T$        | `temperature` | Soil temperature                          | $298$                | K    |              |
+| $D_{\text{fw}}$  | `D_fw`        | Diffusivity of N<sub>2</sub>O in water    | [see eq. 5](#eq-Dfw) |      | [5](#eq-Dfw) |
+| $D_{\text{fa}}$  | `D_fa`        | Diffusivity of N<sub>2</sub>O in air      |                      |      | [6](#eq-Dfa) |
+| $H$              | `H`           | Dimensionless Henry’s solubility constant |                      |      |   [4](#eq-H) |
+| $\rho$           | `rho`         | Gas density of N<sub>2</sub>O             | $1.26 \times 10^6$   |      |              |
 
 Table 1: Overview of the parameters used in the model.
 

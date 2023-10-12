@@ -19,8 +19,8 @@ depths <- c(7.5,30,60,90,120)
 BD <- 1.686
 theta_T <- 1- BD/2.65
 temperature <- 298
-Dfw <- (5.07e-6)*exp(-2371/temperature)
-Dfa <- 0.1436e-4*(temperature/273.15)^1.81
+D_fw <- (5.07e-6) * exp(-2371/temperature)
+D_fa <- 0.1436e-4 * (temperature/273.15)^1.81
 H <- (8.5470e6 * exp(-2284/temperature)) / (8.3145*temperature)
 rho <- 1.26e6
 N2Oatm <- 0.2496
@@ -167,7 +167,7 @@ for (i in 1:nrow(data)) {
 data$theta_a <- 1 - data$theta_w/theta_T
 
 #' Calculate Ds
-data$Ds <- with(data, ((theta_w^(10/3)*Dfw)/H+theta_a^(10/3)*Dfa)*theta_T^-2)
+data$Ds <- with(data, ((theta_w^(10/3)*D_fw)/H+theta_a^(10/3)*D_fa)*theta_T^-2)
 
 #' Calculate dC/dz
 data$dCdz <- (data$corrected.N2O - N2Oatm)/1000000/(15/100/2)
