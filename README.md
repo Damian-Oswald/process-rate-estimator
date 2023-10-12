@@ -2,9 +2,7 @@
 Damian Oswald
 September 23, 2023
 
-$$
-\def\Ds{\text{D}_{\text{s}}}
-$$
+$$\def\Ds{\text{D}_{\text{s}}}$$
 
 # Introduction
 

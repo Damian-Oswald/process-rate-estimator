@@ -23,9 +23,7 @@ format:
       link-citations: true
 ---
 
-$$
-\def\Ds{\text{D}_{\text{s}}}
-$$
+$$\def\Ds{\text{D}_{\text{s}}}$$
 
 # Introduction
 
