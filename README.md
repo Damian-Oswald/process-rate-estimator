@@ -3,8 +3,10 @@ Damian Oswald
 September 23, 2023
 
 $$
-\def\Ds{\text{D}_{\text{s}}}
+\newcommand{\Ds}{Hello}
 $$
+
+$\Ds$
 
 # Introduction
 
@@ -35,7 +37,7 @@ circulated between the atmosphere, organisms and the earth.
 | $\theta_a$          | `theta_a`     | Air-filled porosity                                                                  |                       |                             |
 | $\theta_t$          | `theta_t`     | Total soil porosity                                                                  | $1-\frac{BD}{2.65}$   |                             |
 | $\text T$           | `temperature` | Soil temperature                                                                     | $298$                 | K                           |
-| $\Ds$               | `D_s`         | Gas diffusion coefficient                                                            | [Equation 3](#eq-Ds)  | m<sup>2</sup>s<sup>-1</sup> |
+| $Ds$                | `D_s`         | Gas diffusion coefficient                                                            | [Equation 3](#eq-Ds)  | m<sup>2</sup>s<sup>-1</sup> |
 | $D_{\text{fw}}$     | `D_fw`        | Diffusivity of N<sub>2</sub>O in water                                               | [Equation 5](#eq-Dfw) |                             |
 | $D_{\text{fa}}$     | `D_fa`        | Diffusivity of N<sub>2</sub>O in air                                                 | [Equation 6](#eq-Dfa) |                             |
 | $D_{\text{fa,NTP}}$ |               | Free air diffusion coefficient under standard conditions                             | [Equation 6](#eq-Dfa) |                             |
