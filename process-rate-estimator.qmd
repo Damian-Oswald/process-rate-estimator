@@ -23,9 +23,6 @@ format:
       link-citations: true
 ---
 
-$$
-\newcommand{\Ds}{\text{D}_s}
-$$
 # Introduction
 
 Denitrification is the natural process by which nitrate (NO~3~^-^) in the soil are converted by bacteria into nitrous oxide (N~2~O) or pure nitrigen (N~2~). The latter is called *total denitrification* --- the full process described in @eq-denitrification takes place.
@@ -44,16 +41,16 @@ Denitrification occurs in conditions where oxygen is limited, such as waterlogge
 |:-------------------|:--------------|:---------------------------------------------------------|:----------------------|:---------|
 | $BD$               | `BD`          | Bulk density (mass of the many particles of the material divided by the bulk volume) | $1.686$ | g cm^-3^ |
 | $\theta_w$         | `theta_w`     | Soil volumetric water content                            |                       |          |
-| $\theta_a$         | `theta_a`     | Air-filled porosity                                      |                       |          |
+| $\theta_a$         | `theta_a`     | Air-filled porosity                                      | $1-\frac{\theta_w}{\theta_t}$ |          |
 | $\theta_t$         | `theta_t`     | Total soil porosity                                      | $1-\frac{BD}{2.65}$   |          |
 | $\text T$          | `temperature` | Soil temperature                                         | $298$                 | K        |
-| $\Ds$              | `D_s`         | Gas diffusion coefficient                                | @eq-Ds                | m^2^s^-1^|
+| $D_{\text{s}}$     | `D_s`         | Gas diffusion coefficient                                | @eq-Ds                | m^2^s^-1^|
 | $D_{\text{fw}}$    | `D_fw`        | Diffusivity of N~2~O in water                            | @eq-Dfw               |          |
 | $D_{\text{fa}}$    | `D_fa`        | Diffusivity of N~2~O in air                              | @eq-Dfa               |          |
 | $D_{\text{fa,NTP}}$|               | Free air diffusion coefficient under standard conditions | @eq-Dfa               |          |
 | $n$                | `n`           | Empirical parameter [@massman1998review]                 | 1.81                  |          |
 | $H$                | `H`           | Dimensionless Henry's solubility constant                | @eq-H                 |          |
-| $\rho$             | `rho`         | Gas density of N~2~O                                     | $1.26 \times 10^6$    |          |
+| $\rho$             | `rho`         | Gas density of N~2~O                                     | $1.26 \times 10^6$    | mg m~-3~ |
 
 : Overview of the parameters used in the model. {#tbl-parameters tbl-colwidths="[10,15,55,15,5]"}
 
@@ -93,6 +90,29 @@ The study uses data collected from a mesocosm experiment -- i.e. an outdoor expe
 $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 
 @eq-dimension shows how many observations we should expect to have. In reality, some observations are missing.
+
+| Code               | Name                        | Description                                                 |
+|:-------------------|:----------------------------|:------------------------------------------------------------|
+| `day_column_depth` | Combination                 | Description                                                 |
+| `date_R`           | Weird date                  | Year + DOY                                                  |
+| `column`           | Column                      |                                                             |
+| `depth`            | Measurement depth           |                                                             |
+| `increment`        | ?                           |                                                             |
+| `variety`          | Wheat variety               |                                                             |
+| `moisture`         | Soil moisture               |                                                             |
+| `concNO3N`         |                             |                                                             |
+| `NO3N_ha`          |                             |                                                             |
+| `corrected.N2O`    |                             |                                                             |
+| `corrected.CO2`    |                             |                                                             |
+| `mgN2ONm3`         |                             |                                                             |
+| `gN2ONha`          |                             |                                                             |
+| `gCO2Cha`          |                             |                                                             |
+| `CN`               |                             |                                                             |
+| `d15Nbulk`         |                             |                                                             |
+| `d15Nalpha`        |                             |                                                             |
+| `d15Nbeta`         |                             |                                                             |
+| `SP`               | Site preference             |                                                             |
+| `d180`             |                             |                                                             |
 
 # References {-}
 

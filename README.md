@@ -2,12 +2,6 @@
 Damian Oswald
 September 23, 2023
 
-$$
-\newcommand{\Ds}{Hello}
-$$
-
-$\Ds$
-
 # Introduction
 
 Denitrification is the natural process by which nitrate
@@ -30,20 +24,20 @@ circulated between the atmosphere, organisms and the earth.
 
 <div id="tbl-parameters">
 
-| Symbol              | Code          | Name                                                                                 | Value                 | Unit                        |
-|:--------------------|:--------------|:-------------------------------------------------------------------------------------|:----------------------|:----------------------------|
-| $BD$                | `BD`          | Bulk density (mass of the many particles of the material divided by the bulk volume) | $1.686$               | g cm<sup>-3</sup>           |
-| $\theta_w$          | `theta_w`     | Soil volumetric water content                                                        |                       |                             |
-| $\theta_a$          | `theta_a`     | Air-filled porosity                                                                  |                       |                             |
-| $\theta_t$          | `theta_t`     | Total soil porosity                                                                  | $1-\frac{BD}{2.65}$   |                             |
-| $\text T$           | `temperature` | Soil temperature                                                                     | $298$                 | K                           |
-| $Ds$                | `D_s`         | Gas diffusion coefficient                                                            | [Equation 3](#eq-Ds)  | m<sup>2</sup>s<sup>-1</sup> |
-| $D_{\text{fw}}$     | `D_fw`        | Diffusivity of N<sub>2</sub>O in water                                               | [Equation 5](#eq-Dfw) |                             |
-| $D_{\text{fa}}$     | `D_fa`        | Diffusivity of N<sub>2</sub>O in air                                                 | [Equation 6](#eq-Dfa) |                             |
-| $D_{\text{fa,NTP}}$ |               | Free air diffusion coefficient under standard conditions                             | [Equation 6](#eq-Dfa) |                             |
-| $n$                 | `n`           | Empirical parameter<sup>[1](#ref-massman1998review)</sup>                            | 1.81                  |                             |
-| $H$                 | `H`           | Dimensionless Henry’s solubility constant                                            | [Equation 4](#eq-H)   |                             |
-| $\rho$              | `rho`         | Gas density of N<sub>2</sub>O                                                        | $1.26 \times 10^6$    |                             |
+| Symbol              | Code          | Name                                                                                 | Value                         | Unit                        |
+|:--------------------|:--------------|:-------------------------------------------------------------------------------------|:------------------------------|:----------------------------|
+| $BD$                | `BD`          | Bulk density (mass of the many particles of the material divided by the bulk volume) | $1.686$                       | g cm<sup>-3</sup>           |
+| $\theta_w$          | `theta_w`     | Soil volumetric water content                                                        |                               |                             |
+| $\theta_a$          | `theta_a`     | Air-filled porosity                                                                  | $1-\frac{\theta_w}{\theta_t}$ |                             |
+| $\theta_t$          | `theta_t`     | Total soil porosity                                                                  | $1-\frac{BD}{2.65}$           |                             |
+| $\text T$           | `temperature` | Soil temperature                                                                     | $298$                         | K                           |
+| $D_{\text{s}}$      | `D_s`         | Gas diffusion coefficient                                                            | [Equation 3](#eq-Ds)          | m<sup>2</sup>s<sup>-1</sup> |
+| $D_{\text{fw}}$     | `D_fw`        | Diffusivity of N<sub>2</sub>O in water                                               | [Equation 5](#eq-Dfw)         |                             |
+| $D_{\text{fa}}$     | `D_fa`        | Diffusivity of N<sub>2</sub>O in air                                                 | [Equation 6](#eq-Dfa)         |                             |
+| $D_{\text{fa,NTP}}$ |               | Free air diffusion coefficient under standard conditions                             | [Equation 6](#eq-Dfa)         |                             |
+| $n$                 | `n`           | Empirical parameter ([*1*](#ref-massman1998review))                                  | 1.81                          |                             |
+| $H$                 | `H`           | Dimensionless Henry’s solubility constant                                            | [Equation 4](#eq-H)           |                             |
+| $\rho$              | `rho`         | Gas density of N<sub>2</sub>O                                                        | $1.26 \times 10^6$            | mg m<sub>-3</sub>           |
 
 Table 1: Overview of the parameters used in the model.
 
@@ -65,8 +59,8 @@ $\theta_w$ is the soil volumetric water content, $\theta_a$ the
 air-filled porosity, and $\theta_T$ is the total soil porosity.
 
 The gas diffusion coefficient $D_{\text s}$ was calculated according
-[Equation 3](#eq-Ds) as established by Millington and Quirk in
-1961.<sup>[2](#ref-millington1961permeability)</sup>
+[Equation 3](#eq-Ds) as established by Millington and Quirk in 1961
+([*2*](#ref-millington1961permeability)).
 
 <span id="eq-Ds">$$D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2} \qquad(3)$$</span>
 
@@ -80,8 +74,8 @@ Here, $\text R$ is the gas constant, and $\text T$ is the temperature
 ($\text T = 298 \; \text K$).
 
 $D_{\text{fw}}$ was calculated according to [Equation 5](#eq-Dfw) as
-documented by Versteeg and Van Swaaij
-(1988).<sup>[3](#ref-versteeg1988solubility)</sup>
+documented by Versteeg and Van Swaaij (1988)
+([*3*](#ref-versteeg1988solubility)).
 
 <span id="eq-Dfw">$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T} \qquad(5)$$</span>
 
@@ -108,6 +102,29 @@ below soil surface.
 
 [Equation 7](#eq-dimension) shows how many observations we should expect
 to have. In reality, some observations are missing.
+
+| Code               | Name              | Description |
+|:-------------------|:------------------|:------------|
+| `day_column_depth` | Combination       | Description |
+| `date_R`           | Weird date        | Year + DOY  |
+| `column`           | Column            |             |
+| `depth`            | Measurement depth |             |
+| `increment`        | ?                 |             |
+| `variety`          | Wheat variety     |             |
+| `moisture`         | Soil moisture     |             |
+| `concNO3N`         |                   |             |
+| `NO3N_ha`          |                   |             |
+| `corrected.N2O`    |                   |             |
+| `corrected.CO2`    |                   |             |
+| `mgN2ONm3`         |                   |             |
+| `gN2ONha`          |                   |             |
+| `gCO2Cha`          |                   |             |
+| `CN`               |                   |             |
+| `d15Nbulk`         |                   |             |
+| `d15Nalpha`        |                   |             |
+| `d15Nbeta`         |                   |             |
+| `SP`               | Site preference   |             |
+| `d180`             |                   |             |
 
 # References
 
