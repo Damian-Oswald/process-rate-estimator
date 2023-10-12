@@ -2,6 +2,10 @@
 Damian Oswald
 September 23, 2023
 
+$$
+\def\Ds{\text{D}_{\text{s}}}
+$$
+
 # Introduction
 
 Denitrification is the natural process by which nitrate
@@ -20,6 +24,29 @@ circulated between the atmosphere, organisms and the earth.
 
 # Formal model description
 
+## Model parameters
+
+<div id="tbl-parameters">
+
+| Symbol              | Code          | Name                                                                                 | Value                 | Unit                        |
+|:--------------------|:--------------|:-------------------------------------------------------------------------------------|:----------------------|:----------------------------|
+| $BD$                | `BD`          | Bulk density (mass of the many particles of the material divided by the bulk volume) | $1.686$               | g cm<sup>-3</sup>           |
+| $\theta_w$          | `theta_w`     | Soil volumetric water content                                                        |                       |                             |
+| $\theta_a$          | `theta_a`     | Air-filled porosity                                                                  |                       |                             |
+| $\theta_t$          | `theta_t`     | Total soil porosity                                                                  | $1-\frac{BD}{2.65}$   |                             |
+| $\text T$           | `temperature` | Soil temperature                                                                     | $298$                 | K                           |
+| $D_s$               | `D_s`         | Gas diffusion coefficient                                                            | [Equation 3](#eq-Ds)  | m<sup>2</sup>s<sup>-1</sup> |
+| $D_{\text{fw}}$     | `D_fw`        | Diffusivity of N<sub>2</sub>O in water                                               | [Equation 5](#eq-Dfw) |                             |
+| $D_{\text{fa}}$     | `D_fa`        | Diffusivity of N<sub>2</sub>O in air                                                 | [Equation 6](#eq-Dfa) |                             |
+| $D_{\text{fa,NTP}}$ |               | Free air diffusion coefficient under standard conditions                             | [Equation 6](#eq-Dfa) |                             |
+| $n$                 | `n`           | Empirical parameter<sup>[1](#ref-massman1998review)</sup>                            | 1.81                  |                             |
+| $H$                 | `H`           | Dimensionless Henry’s solubility constant                                            | [Equation 4](#eq-H)   |                             |
+| $\rho$              | `rho`         | Gas density of N<sub>2</sub>O                                                        | $1.26 \times 10^6$    |                             |
+
+Table 1: Overview of the parameters used in the model.
+
+</div>
+
 The diffusion fluxes between soil increments are described by Frick’s
 law ([Equation 2](#eq-frick)).
 
@@ -37,7 +64,7 @@ air-filled porosity, and $\theta_T$ is the total soil porosity.
 
 The gas diffusion coefficient $D_{\text s}$ was calculated according
 [Equation 3](#eq-Ds) as established by Millington and Quirk in
-1961.<sup>[1](#ref-millington1961permeability)</sup>
+1961.<sup>[2](#ref-millington1961permeability)</sup>
 
 <span id="eq-Ds">$$D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2} \qquad(3)$$</span>
 
@@ -52,11 +79,15 @@ Here, $\text R$ is the gas constant, and $\text T$ is the temperature
 
 $D_{\text{fw}}$ was calculated according to [Equation 5](#eq-Dfw) as
 documented by Versteeg and Van Swaaij
-(1988).<sup>[2](#ref-versteeg1988solubility)</sup>
+(1988).<sup>[3](#ref-versteeg1988solubility)</sup>
 
 <span id="eq-Dfw">$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T} \qquad(5)$$</span>
 
 <span id="eq-Dfa">$$D_{\text{fa}} = D_{\text{fa, NTP}} \times \left( \frac{\text T}{273.15} \right)^n \times \left( \frac{101'325}{\text P} \right) \qquad(6)$$</span>
+
+## State function set
+
+Still to do.
 
 # The data
 
@@ -76,33 +107,23 @@ below soil surface.
 [Equation 7](#eq-dimension) shows how many observations we should expect
 to have. In reality, some observations are missing.
 
-# Model parameters
-
-<div id="tbl-parameters">
-
-| Symbol           | Code          | Name                                      | Value                 | Unit |
-|:-----------------|:--------------|:------------------------------------------|:----------------------|:-----|
-| $BD$             | `BD`          | Bulk density                              | $1.686$               |      |
-| $\theta_w$       | `theta_w`     | Soil volumetric water content             |                       |      |
-| $\theta_a$       | `theta_a`     | Air-filled porosity                       |                       |      |
-| $\theta_\text T$ | `theta_T`     | Total soil porosity                       | $1-\frac{BD}{2.65}$   |      |
-| $\text T$        | `temperature` | Soil temperature                          | $298$                 | K    |
-| $D_{\text{fw}}$  | `D_fw`        | Diffusivity of N<sub>2</sub>O in water    | [Equation 5](#eq-Dfw) |      |
-| $D_{\text{fa}}$  | `D_fa`        | Diffusivity of N<sub>2</sub>O in air      | [Equation 6](#eq-Dfa) |      |
-| $H$              | `H`           | Dimensionless Henry’s solubility constant | [Equation 4](#eq-H)   |      |
-| $\rho$           | `rho`         | Gas density of N<sub>2</sub>O             | $1.26 \times 10^6$    |      |
-
-Table 1: Overview of the parameters used in the model.
-
-</div>
-
 # References
 
 <div id="refs" class="references csl-bib-body" line-spacing="2">
 
-<div id="ref-millington1961permeability" class="csl-entry">
+<div id="ref-massman1998review" class="csl-entry">
 
 <span class="csl-left-margin">1.
+</span><span class="csl-right-inline">Massman, W. A review of the
+molecular diffusivities of H2O, CO2, CH4, CO, O3, SO2, NH3, N2O, NO, and
+NO2 in air, O2 and N2 near STP. *Atmospheric environment* **32**,
+1111–1127 (1998).</span>
+
+</div>
+
+<div id="ref-millington1961permeability" class="csl-entry">
+
+<span class="csl-left-margin">2.
 </span><span class="csl-right-inline">Millington, R. & Quirk, J.
 Permeability of porous solids. *Transactions of the Faraday Society*
 **57**, 1200–1207 (1961).</span>
@@ -111,7 +132,7 @@ Permeability of porous solids. *Transactions of the Faraday Society*
 
 <div id="ref-versteeg1988solubility" class="csl-entry">
 
-<span class="csl-left-margin">2.
+<span class="csl-left-margin">3.
 </span><span class="csl-right-inline">Versteeg, G. F. & Van Swaaij, W.
 P. Solubility and diffusivity of acid gases (carbon dioxide, nitrous
 oxide) in aqueous alkanolamine solutions. *Journal of Chemical &
