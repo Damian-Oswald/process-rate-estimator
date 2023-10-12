@@ -1,0 +1,375 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+%
+\documentclass[
+]{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{setspace}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else  
+    % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=2cm]{geometry}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\setcounter{secnumdepth}{5}
+% Make \paragraph and \subparagraph free-standing
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+\usepackage[version=4]{mhchem}
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\makeatletter
+\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
+\makeatother
+\makeatletter
+\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\makeatother
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={Process Rate Estimator},
+  pdfauthor={Damian Oswald},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Process Rate Estimator}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{A modeling side-hustle for the ETH group sustainable
+agroecosystems}
+\author{Damian Oswald}
+\date{September 23, 2023}
+
+\begin{document}
+\maketitle
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, enhanced, sharp corners, interior hidden, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, frame hidden]}{\end{tcolorbox}}\fi
+
+\setstretch{1.25}
+\[
+\def\Ds{\text{D}_{\text{s}}}
+\]
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+Denitrification is the natural process by which nitrate
+(NO\textsubscript{3}\textsuperscript{-}) in the soil are converted by
+bacteria into nitrous oxide (N\textsubscript{2}O) or pure nitrigen
+(N\textsubscript{2}). The latter is called \emph{total denitrification}
+--- the full process described in Equation~\ref{eq-denitrification}
+takes place.
+
+\begin{equation}\protect\hypertarget{eq-denitrification}{}{
+\ce{NO3^- ->[\text{Nitrate}][\text{reductase}] NO2^- ->[\text{Nitrite}][\text{reductase}] NO ->[\text{Nitrite oxide}][\text{reductase}] N2O^- ->[\text{Nitrous oxide}][\text{reductase}] N2}
+}\label{eq-denitrification}\end{equation}
+
+Denitrification occurs in conditions where oxygen is limited, such as
+waterlogged soils. It is part of the nitrogen cycle, where nitrogen is
+circulated between the atmosphere, organisms and the earth.
+
+\hypertarget{formal-model-description}{%
+\section{Formal model description}\label{formal-model-description}}
+
+\hypertarget{model-parameters}{%
+\subsection{Model parameters}\label{model-parameters}}
+
+\hypertarget{tbl-parameters}{}
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1000}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.5500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1500}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0500}}@{}}
+\caption{\label{tbl-parameters}Overview of the parameters used in the
+model.}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Symbol
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Code
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Name
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Unit
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Symbol
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Code
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Name
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Unit
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(BD\) & \texttt{BD} & Bulk density (mass of the many particles of the
+material divided by the bulk volume) & \(1.686\) & g
+cm\textsuperscript{-3} \\
+\(\theta_w\) & \texttt{theta\_w} & Soil volumetric water content & & \\
+\(\theta_a\) & \texttt{theta\_a} & Air-filled porosity & & \\
+\(\theta_t\) & \texttt{theta\_t} & Total soil porosity &
+\(1-\frac{BD}{2.65}\) & \\
+\(\text T\) & \texttt{temperature} & Soil temperature & \(298\) & K \\
+\(\Ds\) & \texttt{D\_s} & Gas diffusion coefficient &
+Equation~\ref{eq-Ds} & m\textsuperscript{2}s\textsuperscript{-1} \\
+\(D_{\text{fw}}\) & \texttt{D\_fw} & Diffusivity of N\textsubscript{2}O
+in water & Equation~\ref{eq-Dfw} & \\
+\(D_{\text{fa}}\) & \texttt{D\_fa} & Diffusivity of N\textsubscript{2}O
+in air & Equation~\ref{eq-Dfa} & \\
+\(D_{\text{fa,NTP}}\) & & Free air diffusion coefficient under standard
+conditions & Equation~\ref{eq-Dfa} & \\
+\(n\) & \texttt{n} & Empirical
+parameter\textsuperscript{\protect\hyperlink{ref-massman1998review}{1}}
+& 1.81 & \\
+\(H\) & \texttt{H} & Dimensionless Henry's solubility constant &
+Equation~\ref{eq-H} & \\
+\(\rho\) & \texttt{rho} & Gas density of N\textsubscript{2}O &
+\(1.26 \times 10^6\) & \\
+\end{longtable}
+
+The diffusion fluxes between soil increments are described by Frick's
+law (Equation~\ref{eq-frick}).
+
+\begin{equation}\protect\hypertarget{eq-frick}{}{F_{\text{calc}} = \frac{dC}{dZ} D_{\text s} \rho}\label{eq-frick}\end{equation}
+
+Here, \(D_s\) is the gas diffusion coefficient, \(\rho\) is the gas
+density of N\textsubscript{2}O, and \(\frac{dC}{dZ}\) is the
+N\textsubscript{2}O concentration gradient from lower to upper depth.
+The fluxes are calculated based on N\textsubscript{2}O concentration
+gradients between 105-135 cm, 75-105 cm, 45-75 cm, 15-45 cm, and 0-15 cm
+depth layers, and ambient air above the soil surface.
+
+\(\theta_w\) is the soil volumetric water content, \(\theta_a\) the
+air-filled porosity, and \(\theta_T\) is the total soil porosity.
+
+The gas diffusion coefficient \(D_{\text s}\) was calculated according
+Equation~\ref{eq-Ds} as established by Millington and Quirk in
+1961.\textsuperscript{\protect\hyperlink{ref-millington1961permeability}{2}}
+
+\begin{equation}\protect\hypertarget{eq-Ds}{}{D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2}}\label{eq-Ds}\end{equation}
+
+Here, \(H\) represents a dimensionless form of Henry's solubility
+constant (\(H'\)) for N\textsubscript{2}O in water at a given
+temperature. The constant \(H\) for N\textsubscript{2}O is calculated as
+follows:
+
+\begin{equation}\protect\hypertarget{eq-H}{}{H = \frac{8.5470 \times 10^5 \times \exp \frac{-2284}{\text T}}{\text R \times \text T}}\label{eq-H}\end{equation}
+
+Here, \(\text R\) is the gas constant, and \(\text T\) is the
+temperature (\(\text T = 298 \; \text K\)).
+
+\(D_{\text{fw}}\) was calculated according to Equation~\ref{eq-Dfw} as
+documented by Versteeg and Van Swaaij
+(1988).\textsuperscript{\protect\hyperlink{ref-versteeg1988solubility}{3}}
+
+\begin{equation}\protect\hypertarget{eq-Dfw}{}{D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}}\label{eq-Dfw}\end{equation}
+
+\begin{equation}\protect\hypertarget{eq-Dfa}{}{D_{\text{fa}} = D_{\text{fa, NTP}} \times \left( \frac{\text T}{273.15} \right)^n \times \left( \frac{101'325}{\text P} \right)}\label{eq-Dfa}\end{equation}
+
+\hypertarget{state-function-set}{%
+\subsection{State function set}\label{state-function-set}}
+
+Still to do.
+
+\hypertarget{the-data}{%
+\section{The data}\label{the-data}}
+
+The study uses data collected from a mesocosm experiment -- i.e.~an
+outdoor experiment that examines the natural environment under
+controlled conditions. The experiment was set up as a randomized
+complete block design, with 4 varieties and 3 replicates, using 12
+non-weighted lysimeters. A non-weighted lysimeter is a device to measure
+the amount of water that drains through soil, and to determine the types
+and amounts of dissolved nutrients or contaminants in the water. Each
+lysimeter had five sampling ports with soil moisture probes and
+custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm
+below soil surface.
+
+\begin{equation}\protect\hypertarget{eq-dimension}{}{4 \times 3 \times 5 \times 161 = 9660}\label{eq-dimension}\end{equation}
+
+Equation~\ref{eq-dimension} shows how many observations we should expect
+to have. In reality, some observations are missing.
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{0}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-massman1998review}{}}%
+\CSLLeftMargin{1. }%
+\CSLRightInline{Massman, W. A review of the molecular diffusivities of
+H2O, CO2, CH4, CO, O3, SO2, NH3, N2O, NO, and NO2 in air, O2 and N2 near
+STP. \emph{Atmospheric environment} \textbf{32}, 1111--1127 (1998).}
+
+\leavevmode\vadjust pre{\hypertarget{ref-millington1961permeability}{}}%
+\CSLLeftMargin{2. }%
+\CSLRightInline{Millington, R. \& Quirk, J. Permeability of porous
+solids. \emph{Transactions of the Faraday Society} \textbf{57},
+1200--1207 (1961).}
+
+\leavevmode\vadjust pre{\hypertarget{ref-versteeg1988solubility}{}}%
+\CSLLeftMargin{3. }%
+\CSLRightInline{Versteeg, G. F. \& Van Swaaij, W. P. Solubility and
+diffusivity of acid gases (carbon dioxide, nitrous oxide) in aqueous
+alkanolamine solutions. \emph{Journal of Chemical \& Engineering Data}
+\textbf{33}, 29--34 (1988).}
+
+\end{CSLReferences}
+
+
+
+\end{document}

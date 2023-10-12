@@ -23,7 +23,9 @@ format:
       link-citations: true
 ---
 
-$$\def\Ds{\text{D}_{\text{s}}}$$
+$$
+\def\Ds{\text{D}_{\text{s}}}
+$$
 
 # Introduction
 
@@ -46,7 +48,7 @@ Denitrification occurs in conditions where oxygen is limited, such as waterlogge
 | $\theta_a$         | `theta_a`     | Air-filled porosity                                      |                       |          |
 | $\theta_t$         | `theta_t`     | Total soil porosity                                      | $1-\frac{BD}{2.65}$   |          |
 | $\text T$          | `temperature` | Soil temperature                                         | $298$                 | K        |
-| $D_s$              | `D_s`         | Gas diffusion coefficient                                | @eq-Ds                | m^2^s^-1^|
+| $\Ds$              | `D_s`         | Gas diffusion coefficient                                | @eq-Ds                | m^2^s^-1^|
 | $D_{\text{fw}}$    | `D_fw`        | Diffusivity of N~2~O in water                            | @eq-Dfw               |          |
 | $D_{\text{fa}}$    | `D_fa`        | Diffusivity of N~2~O in air                              | @eq-Dfa               |          |
 | $D_{\text{fa,NTP}}$|               | Free air diffusion coefficient under standard conditions | @eq-Dfa               |          |
