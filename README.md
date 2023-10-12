@@ -80,17 +80,17 @@ to have. In reality, some observations are missing.
 
 <div id="tbl-parameters">
 
-| Symbol           | Code          | Name                                      | Value                | Unit |              |
-|:-----------------|:--------------|:------------------------------------------|:---------------------|:-----|-------------:|
-| $BD$             | `BD`          | Bulk density                              | $1.686$              |      |              |
-| $\theta_w$       | `theta_w`     | Soil volumetric water content             |                      |      |              |
-| $\theta_a$       | `theta_a`     | Air-filled porosity                       |                      |      |              |
-| $\theta_\text T$ | `theta_T`     | Total soil porosity                       | $1-\frac{BD}{2.65}$  |      |              |
-| $\text T$        | `temperature` | Soil temperature                          | $298$                | K    |              |
-| $D_{\text{fw}}$  | `D_fw`        | Diffusivity of N<sub>2</sub>O in water    | [see eq. 5](#eq-Dfw) |      | [5](#eq-Dfw) |
-| $D_{\text{fa}}$  | `D_fa`        | Diffusivity of N<sub>2</sub>O in air      |                      |      | [6](#eq-Dfa) |
-| $H$              | `H`           | Dimensionless Henry’s solubility constant |                      |      |   [4](#eq-H) |
-| $\rho$           | `rho`         | Gas density of N<sub>2</sub>O             | $1.26 \times 10^6$   |      |              |
+| Symbol           | Code          | Name                                      | Value                 | Unit |
+|:-----------------|:--------------|:------------------------------------------|:----------------------|:-----|
+| $BD$             | `BD`          | Bulk density                              | $1.686$               |      |
+| $\theta_w$       | `theta_w`     | Soil volumetric water content             |                       |      |
+| $\theta_a$       | `theta_a`     | Air-filled porosity                       |                       |      |
+| $\theta_\text T$ | `theta_T`     | Total soil porosity                       | $1-\frac{BD}{2.65}$   |      |
+| $\text T$        | `temperature` | Soil temperature                          | $298$                 | K    |
+| $D_{\text{fw}}$  | `D_fw`        | Diffusivity of N<sub>2</sub>O in water    | [Equation 5](#eq-Dfw) |      |
+| $D_{\text{fa}}$  | `D_fa`        | Diffusivity of N<sub>2</sub>O in air      | [Equation 6](#eq-Dfa) |      |
+| $H$              | `H`           | Dimensionless Henry’s solubility constant | [Equation 4](#eq-H)   |      |
+| $\rho$           | `rho`         | Gas density of N<sub>2</sub>O             | $1.26 \times 10^6$    |      |
 
 Table 1: Overview of the parameters used in the model.
 

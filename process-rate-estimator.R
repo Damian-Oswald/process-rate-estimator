@@ -32,7 +32,7 @@ N2Oatm <- 0.2496
 data <- read.csv("data/three-way-data.csv", row.names = 1)
 
 #' Transform the variable `date_R` to `Date` class
-#' QUESTION: Why isn't it correct unless I subtract 1 from the DOY?
+#' We have to subtract 1 from the cut out DOY, because the as.Date function starts counting from 0 onwards...
 data$date <- as.Date(as.integer(substr(data$date_R, 5, 7))-1, origin = paste0(as.integer(substr(data$date_R, 1, 4)),"-01-01"))
 #' Some dates are missing. Proposition: The "true" date should be "2016-02-03"
 data[is.na(data[,"date"]),"date"] <- as.Date("2016-02-03")
@@ -41,10 +41,6 @@ with(data[data$depth==7.5,], interaction.plot(date, column, moisture, col = par(
 #' Transform `column` from `character` to `integer`
 with(data, table(column, variety))
 data$column <- as.ordered(as.integer(substr(data$column, 2, 3)))
-
-#' Data with the missing data: It is the last data that do not have a date!
-#' Should it be the last date possible?
-data[is.na(data$date),]
 
 #' There is C:N ratio that is `Inf` -- should probably be omitted?
 data[which(data$CN==Inf),"CN"] <- NA
@@ -98,9 +94,6 @@ mosaicplot(~ column + depth, data, col = palette(5)) # It is only with colunn 6!
 mosaicplot(~ increment + column, data, col = palette(12))
 mosaicplot(~ increment + depth, data, col = palette(5)) # What is `increment`?
 
-#' Is increment the same as `depth < 15`? -> YES
-all((data$depth < 15) == (data$increment==15))
-
 #' What data does have measurements?
 x <- data[!is.na(data$SP),]
 mosaicplot(~ column + depth, x, col = palette(5), main = "data with measurements")
@@ -109,7 +102,7 @@ x$date |> unique() |> length() # Gas measurements only at 24 out of the dates
 mosaicplot(~ date + column, x, col = palette(12), main = "data with measurements") # Why are there the differences?
 with(x, tapply(SP, date, length)) |> barplot(las=2); abline(h=60, lwd = 2, lty = 2) # This should all be 60 or not? (Why are there 1440 - 1117 = 323 entries missing?)
 mosaicplot(~ column + depth, x, shade = TRUE, main = "data with measurements") # Why are there the differences?
-with(x, table(date, depth)) # We clearly see the missing values, not?
+with(x, table(date, column)) # We clearly see the missing values, not?
 
 #' Calculate average moisture across depths
 x <- with(data, tapply(moisture, list(depth), mean))
@@ -126,11 +119,10 @@ with(data, tapply(moisture, list(depth, variety), mean))
 #' Which two observations are missing in general
 with(data, table(column, depth)) # What??? Shouldn't this be 160 each???
 plot(moisture ~ date, data[data$column==6 & data$depth==90,], las = 0) # What happened with the moisture measurements for column 6 at depth = 90 cm?
-matplot(moisture, date, data[data$depth==7.5,], las = 0) # What happened with the moisture measurements for column 6 at depth = 90 cm?
 #' Why do we have 160 measurements for column 1:4 and 161 for column 5:12?
 
 #' NOTES OF THE DATA EXPLORATION
-#' Some observations are missing, specifically from column 6 at depth = 90 cm
+#' Some moisture observations are missing, specifically from column 6 at depth = 90 cm
 #' Many observations are missing regarding the flux data
 #' Fluxes were only measured at 24 distinct days (out of 161 possible days)
 
