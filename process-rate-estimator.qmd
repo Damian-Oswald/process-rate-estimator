@@ -111,8 +111,8 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 | `d15Nbulk`         |                             |                                                             |
 | `d15Nalpha`        |                             |                                                             |
 | `d15Nbeta`         |                             |                                                             |
-| `SP`               | Site preference             |                                                             |
-| `d180`             |                             |                                                             |
+| `SP`               | Site preference             |                                                                  |
+| `d18O`             |                             | Ratio of stable isotopes oxygen-18 (^18^O) and oxygen-16 (^16^O). |
 
 # References {-}
 

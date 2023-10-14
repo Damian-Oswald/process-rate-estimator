@@ -103,28 +103,28 @@ below soil surface.
 [Equation 7](#eq-dimension) shows how many observations we should expect
 to have. In reality, some observations are missing.
 
-| Code               | Name              | Description |
-|:-------------------|:------------------|:------------|
-| `day_column_depth` | Combination       | Description |
-| `date_R`           | Weird date        | Year + DOY  |
-| `column`           | Column            |             |
-| `depth`            | Measurement depth |             |
-| `increment`        | ?                 |             |
-| `variety`          | Wheat variety     |             |
-| `moisture`         | Soil moisture     |             |
-| `concNO3N`         |                   |             |
-| `NO3N_ha`          |                   |             |
-| `corrected.N2O`    |                   |             |
-| `corrected.CO2`    |                   |             |
-| `mgN2ONm3`         |                   |             |
-| `gN2ONha`          |                   |             |
-| `gCO2Cha`          |                   |             |
-| `CN`               |                   |             |
-| `d15Nbulk`         |                   |             |
-| `d15Nalpha`        |                   |             |
-| `d15Nbeta`         |                   |             |
-| `SP`               | Site preference   |             |
-| `d180`             |                   |             |
+| Code               | Name              | Description                                                                         |
+|:-------------------|:------------------|:------------------------------------------------------------------------------------|
+| `day_column_depth` | Combination       | Description                                                                         |
+| `date_R`           | Weird date        | Year + DOY                                                                          |
+| `column`           | Column            |                                                                                     |
+| `depth`            | Measurement depth |                                                                                     |
+| `increment`        | ?                 |                                                                                     |
+| `variety`          | Wheat variety     |                                                                                     |
+| `moisture`         | Soil moisture     |                                                                                     |
+| `concNO3N`         |                   |                                                                                     |
+| `NO3N_ha`          |                   |                                                                                     |
+| `corrected.N2O`    |                   |                                                                                     |
+| `corrected.CO2`    |                   |                                                                                     |
+| `mgN2ONm3`         |                   |                                                                                     |
+| `gN2ONha`          |                   |                                                                                     |
+| `gCO2Cha`          |                   |                                                                                     |
+| `CN`               |                   |                                                                                     |
+| `d15Nbulk`         |                   |                                                                                     |
+| `d15Nalpha`        |                   |                                                                                     |
+| `d15Nbeta`         |                   |                                                                                     |
+| `SP`               | Site preference   |                                                                                     |
+| `d18O`             |                   | Ratio of stable isotopes oxygen-18 (<sup>18</sup>O) and oxygen-16 (<sup>16</sup>O). |
 
 # References
 
