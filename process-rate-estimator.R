@@ -46,6 +46,9 @@ data[,"column"] |> substr(2, 3) |> as.integer() |> as.ordered() -> data[,"column
 #' There is C:N ratio that is `Inf` -- should probably be omitted?
 data[which(data$CN==Inf),"CN"] <- NA
 
+df <- data[,c("date", "column", "depth", "variety", "moisture", "corrected.N2O", "gN2ONha", "SP", "d18O")]
+data <- df[!is.na(df$gN2ONha),]
+
 #' -----------------------------------------------------------------------------------------------------------
 #' Explore the data
 #' -----------------------------------------------------------------------------------------------------------
@@ -93,7 +96,7 @@ mosaicplot(~ depth + variety, data, col = palette(4)) # Why do we have the uneve
 mosaicplot(~ column + depth, data, col = palette(5)) # It is only with colunn 6! -> Yes, column 6 is missing observations.
 
 #' What data does have measurements?
-x <- data[!is.na(data$SP),]
+x <- data[!is.na(data$gN2ONha),]
 mosaicplot(~ column + depth, x, col = palette(5), main = "data with measurements")
 with(x, table(depth, column)) # Should be 24 each, no?
 x$date |> unique() |> length() # Gas measurements only at 24 out of the dates
@@ -156,8 +159,6 @@ for (i in 1:nrow(data)) {
    # If any observation is missing, skip to the next
    if(length(N2O_bottom)==0 | length(N2O_top)==0) next
    
-   data[current_date_column & data[,"depth"]==depths[j], "dCdZ"] <- (N2O_bottom - N2O_top)/1000000
-   
    # TODO: The `.Rmd` file contains the following code:
    #
    # data_C1$dCdz_top_7 <- (data_C1$corrected.N2O_7 - N2Oatm)/1000000/(15/100/2)
@@ -167,6 +168,10 @@ for (i in 1:nrow(data)) {
    # data_C1$dCdz_top_120 <- (data_C1$corrected.N2O_120 - data_C1$corrected.N2O_90)/1000000/(30/100/2+30/100/2)
    #
    # Figure out how the values in the denominator came to be, and change code accoringly.
+   denominator <- c(`7.5` = 15/100/2, `30` = 30/100/2+15/100/2, `60` = 30/100/2+30/100/2, `90` = 30/100/2+30/100/2, `120` = 30/100/2+30/100/2)
+   
+   # TODO: Adjust the code if calculation is incorrect
+   data[current_date_column & data[,"depth"]==depths[j], "dCdZ"] <- (N2O_bottom - N2O_top)/1000000/denominator[j]
    
    # TODO: Build checker to see if calculation is correct, no missing values, always 1 or 2 values etc.
 }
@@ -180,9 +185,38 @@ sapply(1:5, function(i) 1000000/(bottom[i]/100/2+top[i]/100/2))
 #' originally in mg N2O-N/m2/s, converted to g N/ha/day
 data$F_calc <- with(data, dCdZ * Ds * rho * 10000 * 3600 * 24/1000)
 
+#' Calculate F_in and F_out from the bottom and top boundary of each layer
+data$F_top_in <- data$F_top_out <- data$F_bottom_in <- data$F_bottom_out <- numeric(nrow(data))
+for (i in 1:nrow(data)) {
+   j <- which(depths==data[i,"depth"]) # Get the current depth index
+   current_date_column <- data[,"column"]==data[i,"column"] & data[,"date"]==data[i,"date"]
+   
+   F_calc_top <- data[current_date_column & data$depth == depths[j],"F_calc"]
+   if(j==5) F_calc_bottom <- 0
+   else F_calc_bottom <- data[current_date_column & data$depth == depths[j+1],"F_calc"]
+   if(length(F_calc_top)==0) F_calc_top <- NA
+   if(length(F_calc_bottom)==0) F_calc_bottom <- NA
+   
+   data[current_date_column & data$depth == depths[j],"F_top_in"] <- ifelse(F_calc_top > 0, 0, abs(F_calc_top))
+   data[current_date_column & data$depth == depths[j],"F_top_out"] <- ifelse(F_calc_top < 0, 0, abs(F_calc_top))
+   data[current_date_column & data$depth == depths[j],"F_bottom_in"] <- ifelse(F_calc_bottom < 0, 0, abs(F_calc_bottom))
+   data[current_date_column & data$depth == depths[j],"F_bottom_out"] <- ifelse(F_calc_bottom > 0, 0, abs(F_calc_bottom))
+   
+}
 
+column <- 1
+for (depth in depths) {
+   data[data$depth==depth & data$column==column,c("date","F_top_out")] |> na.omit() |> plot(ylim = c(0,30), type = "o", lty = 2, ylab = "Flux")
+   data[data$depth==depth & data$column==column,c("date","F_top_in")] |> na.omit() |> points(col = "red", type = "o", lty = 2)
+   data[data$depth==depth & data$column==column,c("date","F_bottom_out")] |> na.omit() |> points(col = "blue", type = "o", lty = 2)
+   data[data$depth==depth & data$column==column,c("date","F_bottom_in")] |> na.omit() |> points(col = "orange", type = "o", lty = 2)
+   title(main = paste("Depth =",depth,"cm"))
+}
 
+#' TODO: The loops can be more efficient by combining all the steps at once, and by looking only at observations with N2O values.
+#' For this, check first if `gN2ONha` is `NA`
 
-
+#' In n' out
+data$F_out <- with(data, F_bottom_out + F_top_out)
 
 
