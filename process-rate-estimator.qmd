@@ -93,14 +93,14 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 
 | Code               | Name                        | Description                                                 |
 |:-------------------|:----------------------------|:------------------------------------------------------------|
-| `day_column_depth` | Combination                 | Description                                                 |
+| `day_column_depth` | Combination                 |                                                             |
 | `date_R`           | Weird date                  | Year + DOY                                                  |
 | `column`           | Column                      |                                                             |
 | `depth`            | Measurement depth           |                                                             |
 | `increment`        | ?                           |                                                             |
 | `variety`          | Wheat variety               |                                                             |
 | `moisture`         | Soil moisture               |                                                             |
-| `concNO3N`         |                             |                                                             |
+| `concNO3N`         | NO~3~-N concentration       | Nitrate nitrogen concentration ([NO~3~] = [NO~3~-N] * 4.43).|
 | `NO3N_ha`          |                             |                                                             |
 | `corrected.N2O`    |                             |                                                             |
 | `corrected.CO2`    |                             |                                                             |
