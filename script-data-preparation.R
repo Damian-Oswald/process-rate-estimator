@@ -1,7 +1,7 @@
 #' ---
 #' title: Process Rate Estimator
 #' author: Damian Oswald
-#' date: 2023-10-02
+#' date: 2023-10-16
 #' ---
 
 #' Read original data
@@ -84,7 +84,7 @@ mosaicplot(~ column + depth, x, shade = TRUE, main = "data with measurements") #
 with(x, table(date, column)) # We clearly see the missing values, not?
 
 #' Pairs panel
-# plot(data[,8:21], cex = 0.3)
+plot(data[,8:21], cex = 0.3)
 
 #' Which two observations are missing in general
 with(data, table(column, depth)) # What??? Shouldn't this be 160 each???
