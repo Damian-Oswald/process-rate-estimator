@@ -81,7 +81,22 @@ documented by Versteeg and Van Swaaij (1988)
 
 <span id="eq-Dfa">$$D_{\text{fa}} = D_{\text{fa, NTP}} \times \left( \frac{\text T}{273.15} \right)^n \times \left( \frac{101'325}{\text P} \right) \qquad(6)$$</span>
 
+## Smoothing curves
+
+The N<sub>2</sub>O concentration, site preference as well as
+$\delta$<sup>18</sup>O are estimated as a function of time for every
+depth and every column, separately. To achieve this function
+approximation, Kernel Regression as implemented in `npreg` is used
+([*4*](#ref-hayfield2008nonparametric)).
+
+The approach is based on Li and Racine (2003) who employ ‘generalized
+product kernels’ that admit a mix of continuous and discrete data types
+\[@\].
+
 ## State function set
+
+Li, Q. and J.S. Racine (2007), Nonparametric Econometrics: Theory and
+Practice, Princeton University Press.
 
 Still to do.
 
@@ -156,6 +171,16 @@ Permeability of porous solids. *Transactions of the Faraday Society*
 P. Solubility and diffusivity of acid gases (carbon dioxide, nitrous
 oxide) in aqueous alkanolamine solutions. *Journal of Chemical &
 Engineering Data* **33**, 29–34 (1988).</span>
+
+</div>
+
+<div id="ref-hayfield2008nonparametric" class="csl-entry">
+
+<span class="csl-left-margin">4.
+</span><span class="csl-right-inline">Hayfield, T. & Racine, J. S.
+[Nonparametric econometrics: The np
+package](https://doi.org/10.18637/jss.v027.i05). *Journal of Statistical
+Software* **27**, 1–32 (2008).</span>
 
 </div>
 

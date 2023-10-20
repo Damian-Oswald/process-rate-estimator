@@ -5,8 +5,8 @@ author: Damian Oswald
 date: 2023-09-23
 date-format: long
 number-sections: true
-bibliography: references.bib
-csl: nature.csl
+bibliography: resources/references.bib
+csl: resources/nature.csl
 notes-after-punctuation: true
 format:
    gfm:
@@ -79,7 +79,15 @@ $$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}$${#eq-Df
 
 $$D_{\text{fa}} = D_{\text{fa, NTP}} \times \left( \frac{\text T}{273.15} \right)^n \times \left( \frac{101'325}{\text P} \right)$${#eq-Dfa}
 
+## Smoothing curves
+
+The N~2~O concentration, site preference as well as $\delta$^18^O are estimated as a function of time for every depth and every column, separately. To achieve this function approximation, Kernel Regression as implemented in `npreg` is used [@hayfield2008nonparametric].
+
+The approach is based on Li and Racine (2003) who employ ‘generalized product kernels’ that admit a mix of continuous and discrete data types [@].
+
 ## State function set
+Li, Q. and J.S. Racine (2007), Nonparametric Econometrics: Theory and Practice, Princeton University Press.
+
 
 Still to do.
 
