@@ -27,7 +27,7 @@ data[which(data$CN==Inf),"CN"] <- NA
 #' Explore the data
 #' -----------------------------------------------------------------------------------------------------------
 
-pdf("results/eploring-the-data.pdf", width = 8, height = 12)
+pdf("results/exploring-the-data.pdf", width = 8, height = 12)
 
 par(mfrow = c(2,1))
 
@@ -94,6 +94,14 @@ plot(moisture ~ date, data[data$column==6 & data$depth==90,], las = 0, pch = 16,
 #' What's going on here?
 plot(gN2ONha ~ mgN2ONm3, data, col = palette(5)[as.factor(data$depth)], pch = 16, log = "xy")
 
+#' Visualize the missing data
+naniar::vis_miss(data)
+
+#' Visualize the correlation of the missing values
+apply(data, 2, function(x) is.na(x))[,-c(1:7,22)] |> cor() |> corrplot::corrplot(type = "upper", tl.col = par()$fg, method = "pie")
+
+#' All the missing data have the same
+
 dev.off()
 
 #' NOTES OF THE DATA EXPLORATION
@@ -106,7 +114,7 @@ dev.off()
 #' -----------------------------------------------------------------------------------------------------------
 
 #' Rearrange the data frame with only relevant variables
-data <- data[,c("date", "column", "depth", "variety", "moisture", "corrected.N2O", "gN2ONha", "SP", "d18O")]
+export <- data[,c("date", "column", "depth", "variety", "moisture", "corrected.N2O", "gN2ONha", "SP", "d18O")]
 
 #' Write new data frame as CSV file
-write.csv(data, "data/data.csv", row.names = FALSE)
+write.csv(export, "data/data.csv", row.names = FALSE)

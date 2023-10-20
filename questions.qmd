@@ -3,7 +3,7 @@ title: Questions regarding the process rate estimator project
 author: Damian Oswald
 ---
 
-# Questions Round 1
+# Questions Round I
 
 - In the data set, some dates are missing. I think that the missing date could be 2016-02-03, i.e. the last day, but maybe I'm mistaken. There are 40 observations with missing dates, and they seemingly all refer to the same date; as all observations from row 5-12 are missing this specific date. (That would be all the columns with 161 days of observations instead of 160...)
 - Regarding that: Why do we have 160 measurements for column 1:4 and 161 for column 5:12?
@@ -55,4 +55,9 @@ date         1 2 3 4 5 6 7 8 9 10 11 12
       ```
       
       I do not understand the last terms in each calculations. Why do you calculate `(30/100/2+30/100/2)` three times, but then `(30/100/2+15/100/2)` once? (I can't find the corresponding formula -- what do these numbers correspond to?)
+
+# Questions Round II
+
+- All the chemical analyses observations observations have the same number of 
+
 
