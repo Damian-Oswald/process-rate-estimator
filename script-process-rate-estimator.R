@@ -157,8 +157,10 @@ data$F_out <- with(data, F_bottom_out + F_top_out)
 
 #' - The curves are fitted for N2O concentrations, SP and d18O
 pdf("results/Curves.pdf", height = 12*2, width = 5*2.5)
-bandwidth <- 12
-for (variable in c("gN2ONha", "SP", "d18O")) {
+bandwidth <- 15
+variables <- c("gN2ONha", "SP", "d18O")
+for (v in 1:length(variables)) {
+   variable <- variables[v]
    par(oma = c(2,8,10,2), mar = c(0.5,3,0.5,0), mfrow = c(12, 5))
    for (column in 1:12) {
       for (depth in depths) {
@@ -180,7 +182,7 @@ for (variable in c("gN2ONha", "SP", "d18O")) {
          x <- as.numeric(dates)
          y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
          for (sigma in 1:3) {
-            polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor(palette(1), alpha.f = 0.25), border = FALSE)
+            polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor(palette(length(variables)+1)[v], alpha.f = 0.25), border = FALSE)
          }
          lines(dates, y$fit, lwd = 2)
          points(formula, data = subset, lwd = 1.5, cex = 0.6)
@@ -204,17 +206,47 @@ for (variable in c("gN2ONha", "SP", "d18O")) {
 }
 dev.off()
 
-model <- function(x_train, x_test, y_train, y_test, ...) {
-   train <- cbind(x_train, y_train)
-   test <- cbind(x_test, y_test)
-   model <- npreg(formula, data = subset, ...)
-}
+
+
+
 
 i <- sample(nrow(subset))[1:5]
 x_train <- subset[-i,"date"]
 x_test <- subset[i,"date"]
 y_train <- subset[-i,variable]
-y_test <- subset[-i,variable]
+y_test <- subset[i,variable]
+
+
+FUN <- function(x_train, x_test, y_train, y_test, ...) {
+   train <- data.frame(x = x_train, y = y_train)
+   test <- data.frame(x = x_test, y = y_test)
+   model <- np::npreg(y ~ x, data = train, ...)
+   y_hat <- predict(model, newdata = test)
+   damoswa::pred_vs_obs(predict(model, newdata = test), y_test)
+}
+
+cross_validate <- function (FUN, x, y, k = 5, r = 1) {
+   results <- data.frame()
+   for (j in 1:r) {
+      I <- matrix(c(sample(1:nrow(x)), rep(NA, k - nrow(x)%%k)), ncol = k, byrow = TRUE)
+      for (i in 1:k) {
+         options(warn = -1)
+         result <- cbind(FUN(x_train = as.matrix(x[-na.omit(I[, i]), ]), y_train = as.matrix(y[-na.omit(I[, i])]), x_test = as.matrix(x[na.omit(I[, i]), ]), y_test = as.matrix(y[na.omit(I[, i])]), ... = ...), r = j, k = i, i = I[, i])
+         options(warn = 0)
+         results <- rbind(results, result)
+         if (verbose) 
+            damoswa::progressbar((j - 1) * k + i, k * r, 
+                                 message)
+      }
+   }
+   return(results)
+}
+
+results <- cross_validate(FUN = f, x = mtcars[,-1], y = mtcars[,1], k = 5, r = 3)
+results
+
+damoswa::cross_validate(FUN = model, x = matrix(subset[,"date"]), y = subset[,variable], bws = 10)
+
 
 #' TODO: Change the ylab for both SP and d18O
 #' Idea: Use Cross-Validation to find best bandwidth for the fit in kernel regression, but only use one single hyperparameter for all the fits!
