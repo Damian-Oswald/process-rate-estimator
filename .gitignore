@@ -1,7 +1,2 @@
-# ignore all quarto markdown source documents
-*.log
-
-# ignore all PDF
 *.pdf
-
 .DS_Store
