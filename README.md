@@ -89,14 +89,10 @@ depth and every column, separately. To achieve this function
 approximation, Kernel Regression as implemented in `npreg` is used
 ([*4*](#ref-hayfield2008nonparametric)).
 
-The approach is based on Li and Racine (2003) who employ ‘generalized
-product kernels’ that admit a mix of continuous and discrete data types
-\[@\].
+<img src="results/explanation.gif" id="fig-explanation"
+alt="Figure 1: Animated explanation on two examplary subsets of the data. On the left, there is a very high sinal to noise ratio, thus the optimal bandwith hyperparameter will be smaller than on the right." />
 
 ## State function set
-
-Li, Q. and J.S. Racine (2007), Nonparametric Econometrics: Theory and
-Practice, Princeton University Press.
 
 Still to do.
 

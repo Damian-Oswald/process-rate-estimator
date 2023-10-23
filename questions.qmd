@@ -58,6 +58,5 @@ date         1 2 3 4 5 6 7 8 9 10 11 12
 
 # Questions Round II
 
-- All the chemical analyses observations observations have the same number of 
-
+- How should we do the hypertuning of the bandwidth? All variables the same; one per variable, one per variable and depth, one per variable and depth and column.
 

@@ -10,6 +10,7 @@
 
 library(magrittr)
 library(np)
+library(animation)
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Define global variables
@@ -41,7 +42,7 @@ data[,"variety"] %<>% as.factor()
 
 #' Pre-define a data frame of every possible combination
 variables <- c("gN2ONha", "SP", "d18O")
-bandwidths <- 10^seq(0,3,0.1)
+bandwidths <- exp(seq(log(5),log(100),l=50))
 results <- expand.grid(variable = variables,
                        column = 1:12,
                        depth = depths,
@@ -101,8 +102,8 @@ for (i in 1:nrow(results)) {
                         x = as.matrix(as.numeric(subset[,"date"])),
                         y = as.matrix(subset[,as.character(results[i,"variable"])]),
                         hyperparameter = results[i,"bandwidth"],
-                        k = 5,
-                        r = 5)
+                        k = 3,
+                        r = 10)
    
    # Calculate mean cost of all repeated model calibrations
    results[i,"cost"] <- mean(cv[,"cost"], na.rm = TRUE)
@@ -115,8 +116,8 @@ for (i in 1:nrow(results)) {
 write.csv(results, "data/results-hypertuning.csv", row.names = FALSE)
 
 #' Save the best hyperparameter for each combination of both depth and variable
-with(results, tapply(cost, list(bandwidth, depth, variable), mean)) |>
-   apply(2:3, function(cost) unique(results$bandwidth)[which.min(cost)]) ->
+with(results, tapply(cost, list(bandwidth, depth, column, variable), mean)) |>
+   apply(2:4, function(cost) unique(results$bandwidth)[which.min(cost)]) ->
    hyperparameters
 write.csv(hyperparameters, file = "resources/hyperparameters.csv")
 
@@ -132,12 +133,62 @@ for (variable in variables) {
            xlab = "Bandwidth", ylab = "RMSE", type = "l", xaxs = "i", lwd = 2)
       polygon(x = c(bandwidths, rev(bandwidths)), y = c(mean + se, rev(mean - se)), col = adjustcolor("#0E4749", alpha.f = 0.3), border = FALSE)
       grid(col=1)
-      points(x = hyperparameters[as.character(depth),variable], y = min(mean), pch = 21, bg = "white", lwd = 2, xpd = NA)
+      #points(x = hyperparameters[as.character(depth),variable], y = min(mean), pch = 21, bg = "white", lwd = 2, xpd = NA)
       title(main = paste("Variable:", variable, "   Depth:", depth))
    }
 }
 dev.off()
 
+
+#' -----------------------------------------------------------------------------------------------------------
+#' Explanatory GIF
+#' -----------------------------------------------------------------------------------------------------------
+
+ani.options(ani.width = 1600, # setting width
+            ani.height = 1000, # setting height
+            interval = 0.05,
+            ani.res = 300) # setting time/image
+saveGIF(expr = {
+   s <- exp(seq(log(100),log(3),length=100))
+   for (bandwidth in c(s,rev(s))) {
+      layout(matrix(c(1,1,1,1,3,2,2,2,2,3), ncol = 2))
+      par(mar = rep(0.1, 4), oma = rep(0.1, 4), bg = "#EBB797")
+      formula <- as.formula(paste("gN2ONha", "date", sep  = " ~ "))
+      subset <- na.omit(data[data$column==4 & data$depth==120,c("date","gN2ONha")])
+      subset[,"date"] %<>% as.numeric
+      plot(formula, data = subset, log = "", xlab = "", ylab = "", cex = 0.6, axes = FALSE); box()
+      model <- npreg(formula, data = subset, bws = bandwidth)
+      dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
+      x <- as.numeric(dates)
+      y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
+      for (sigma in 1:3) {
+         polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor("#0E4749", alpha.f = 0.25), border = FALSE)
+      }
+      lines(dates, y$fit, lwd = 2)
+      points(formula, data = subset, lwd = 1.5, cex = 0.6)
+
+      formula <- as.formula(paste("SP", "date", sep  = " ~ "))
+      subset <- na.omit(data[data$column==1 & data$depth==7.5,c("date","SP")])
+      subset[,"date"] %<>% as.numeric
+      plot(formula, data = subset, log = "", xlab = "", ylab = "", cex = 0.6, axes = FALSE); box()
+      model <- npreg(formula, data = subset, bws = bandwidth)
+      dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
+      x <- as.numeric(dates)
+      y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
+      for (sigma in 1:3) {
+         polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor("#0E4749", alpha.f = 0.25), border = FALSE)
+      }
+      lines(dates, y$fit, lwd = 2)
+      points(formula, data = subset, lwd = 1.5, cex = 0.6)
+      
+      par(mar = c(4,0.5,0,0.5))
+      plot(NA, ylim = c(0,1), xlim = c(1,200), axes = FALSE, ylab = "", xlab = "Bandwidth", log = "x", yaxs = "i")
+      axis(1)
+      points(x = bandwidth, y = 0, xpd = NA, pch = 16)
+   }},
+   movie.name = "explanation.gif"
+)
+system("mv explanation.gif results/explanation.gif")
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Curve fitting
@@ -162,8 +213,10 @@ for (v in 1:length(variables)) {
          plot(formula, data = subset, log = "", xlab = "", ylab = "", cex = 0.6, axes = FALSE); box(); axis(2)
          
          # Fit a kernel regression model
-         model <- npreg(formula, data = subset, bws = hyperparameters[as.character(depth),variable])
+         bandwidth <- hyperparameters[as.character(depth),column,variable]
+         model <- npreg(formula, data = subset, bws = bandwidth)
          
+         # Add model visualization
          dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
          x <- as.numeric(dates)
          y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
@@ -173,7 +226,9 @@ for (v in 1:length(variables)) {
          lines(dates, y$fit, lwd = 2)
          points(formula, data = subset, lwd = 1.5, cex = 0.6)
          grid(col=1)
+         legend("topright", bty = "n", legend = paste("BW =", signif(bandwidth,3)), text.font = 2)
          
+         # Add axes
          if(column==1 & depth %in% depths) {
             axis(3, at = c(16700,16750,16800), labels = c("Sep", "Nov", "Jan"))
          } else if(column==12 & depth %in% depths) {
@@ -191,3 +246,62 @@ for (v in 1:length(variables)) {
    mtext(variable, 3, outer = TRUE, line = 6, cex = 1.5, font = 2, adj = -0.05)
 }
 dev.off()
+
+# Less flexible option
+hyperparameters <- apply(hyperparameters, 3, function(x) exp(mean(log(x))))
+pdf("results/curve-fitting-fixed.pdf", height = 12*2, width = 5*2.5)
+variables <- c("gN2ONha", "SP", "d18O")
+for (v in 1:length(variables)) {
+   variable <- variables[v]
+   par(oma = c(2,8,10,2), mar = c(0.5,3,0.5,0), mfrow = c(12, 5))
+   for (column in 1:12) {
+      for (depth in depths) {
+         
+         # Formula for this plot
+         formula <- as.formula(paste(variable, "date", sep  = " ~ "))
+         
+         # Subset for this plot
+         subset <- na.omit(data[data$column==column & data$depth==depth,c("date",variable)])
+         subset[,"date"] %<>% as.numeric
+         
+         # Start plotting plane
+         plot(formula, data = subset, log = "", xlab = "", ylab = "", cex = 0.6, axes = FALSE); box(); axis(2)
+         
+         # Fit a kernel regression model
+         bandwidth <- hyperparameters[variable]
+         model <- npreg(formula, data = subset, bws = bandwidth)
+         
+         # Add model visualization
+         dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
+         x <- as.numeric(dates)
+         y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
+         for (sigma in 1:3) {
+            polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor(palette(length(variables)+1)[v], alpha.f = 0.25), border = FALSE)
+         }
+         lines(dates, y$fit, lwd = 2)
+         points(formula, data = subset, lwd = 1.5, cex = 0.6)
+         grid(col=1)
+
+         # Add axes
+         if(column==1 & depth %in% depths) {
+            axis(3, at = c(16700,16750,16800), labels = c("Sep", "Nov", "Jan"))
+         } else if(column==12 & depth %in% depths) {
+            axis(1, at = c(16700,16750,16800), labels = c("Sep", "Nov", "Jan"))
+         }
+         if(depth==7.5 & column %in% 1:12) {
+            title(ylab = expression("N"[2]*"O-N concentration [g ha"^{-2}*"]"), xpd = NA)
+         }
+      }
+   }
+   mtext(paste(depths, "cm"), 3, outer = TRUE, adj = c(0.1,0.3,0.5,0.7,0.9)*1.03, line = 3.5)
+   mtext("Depth", 3, outer = TRUE, line = 6, cex = 1.2, font = 2)
+   mtext(12:1, 2, outer = TRUE, adj = (1:12)/12-0.042, line = 3.5)
+   mtext("Column", 2, outer = TRUE, line = 6, cex = 1.2, font = 2)
+   mtext(variable, 3, outer = TRUE, line = 6, cex = 1.5, font = 2, adj = -0.05)
+}
+dev.off()
+
+#' ANOVA?
+df <- as.data.frame.table(hyperparameters, responseName = c("bandwidth"))
+colnames(df) <- c("depth","column","variable","bandwidth")
+lm(bandwidth ~ depth * column + variable, data = df) %>% anova()
