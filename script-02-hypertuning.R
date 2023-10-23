@@ -119,7 +119,10 @@ write.csv(results, "data/results-hypertuning.csv", row.names = FALSE)
 with(results, tapply(cost, list(bandwidth, depth, column, variable), mean)) |>
    apply(2:4, function(cost) unique(results$bandwidth)[which.min(cost)]) ->
    hyperparameters
-write.csv(hyperparameters, file = "resources/hyperparameters.csv")
+df <- as.data.frame.table(hyperparameters, responseName = c("bandwidth"))
+colnames(df) <- c("depth","column","variable","bandwidth")
+write.csv(df, file = "resources/hyperparameters.csv")
+save(hyperparameters, file = "resources/hyperparameters.RData")
 
 #' Visualize pick of the hyperparameter
 pdf("results/hypertuning.pdf", width = 5*4, height = 3*4)
