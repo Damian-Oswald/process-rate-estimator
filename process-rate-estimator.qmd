@@ -11,7 +11,7 @@ notes-after-punctuation: true
 format:
    html: 
       embed-resources: true
-      self-contained-math: true
+      #self-contained-math: true
    gfm:
       output-file: README.md
       link-citations: true
@@ -84,7 +84,11 @@ The bandwidth hyperparameter is individually tuned using 3-fold 10 times repeate
 
 [^variable]: I.e. the three variables N~2~O concentration, site preference and $\delta$^18^O.
 
-![Visualization of the optimal hyperparameter size by depth, column and variable.](results/hyperparameters.svg){#fig-hyperparameters}
+![Visualization of the optimal hyperparameter size by depth and column for the site N~2~O-N concentration](results/hyperparameters-1.svg){#fig-hyperparameters-1}
+
+![Visualization of the optimal hyperparameter size by depth and column for the site preference.](results/hyperparameters-2.svg){#fig-hyperparameters-2}
+
+![Visualization of the optimal hyperparameter size by depth and column for the $\delta$^18^O concentration.](results/hyperparameters-3.svg){#fig-hyperparameters-3}
 
 ## State function set
 
