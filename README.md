@@ -98,8 +98,14 @@ The bandwidth hyperparameter is individually tuned using 3-fold 10 times
 repeated cross-validation for every combination of column and depth and
 variable[^1], respectively.
 
-<img src="results/hyperparameters.svg" id="fig-hyperparameters"
-alt="Figure 2: Visualization of the optimal hyperparameter size by depth, column and variable." />
+<img src="results/hyperparameters-1.svg" id="fig-hyperparameters-1"
+alt="Figure 2: Visualization of the optimal hyperparameter size by depth and column for the site N2O-N concentration" />
+
+<img src="results/hyperparameters-2.svg" id="fig-hyperparameters-2"
+alt="Figure 3: Visualization of the optimal hyperparameter size by depth and column for the site preference." />
+
+<img src="results/hyperparameters-3.svg" id="fig-hyperparameters-3"
+alt="Figure 4: Visualization of the optimal hyperparameter size by depth and column for the \delta18O concentration." />
 
 ## State function set
 
