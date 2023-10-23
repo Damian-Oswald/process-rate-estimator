@@ -84,28 +84,6 @@ The bandwidth hyperparameter is individually tuned using 3-fold 10 times repeate
 
 [^variable]: I.e. the three variables N~2~O concentration, site preference and $\delta$^18^O.
 
-```{r}
-#| label: tbl-hyperparameters-1
-#| tbl-cap: List of all the best working hyperparameters (bandwidth) for every combination of depth, column for the `gN2ONha` variable. The search range was $[5,100]$.
-#| echo: false
-load("resources/hyperparameters.RData")
-knitr::kable(signif(hyperparameters[,,1],3))
-```
-```{r}
-#| label: tbl-hyperparameters-2
-#| tbl-cap: List of all the best working hyperparameters (bandwidth) for every combination of depth, column for the `SP` variable. The search range was $[5,100]$.
-#| echo: false
-load("resources/hyperparameters.RData")
-knitr::kable(signif(hyperparameters[,,2],3))
-```
-```{r}
-#| label: tbl-hyperparameters-3
-#| tbl-cap: List of all the best working hyperparameters (bandwidth) for every combination of depth, column for the `d18O` variable. The search range was $[5,100]$.
-#| echo: false
-load("resources/hyperparameters.RData")
-knitr::kable(signif(hyperparameters[,,3],3))
-```
-
 ![Visualization of the optimal hyperparameter size by depth, column and variable.](results/hyperparameters.svg){#fig-hyperparameters}
 
 ## State function set

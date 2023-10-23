@@ -98,54 +98,6 @@ The bandwidth hyperparameter is individually tuned using 3-fold 10 times
 repeated cross-validation for every combination of column and depth and
 variable[^1], respectively.
 
-<div id="tbl-hyperparameters-1">
-
-|     |     1 |    2 |    3 |     4 |     5 |     6 |     7 |     8 |     9 |    10 |    11 |     12 |
-|:----|------:|-----:|-----:|------:|------:|------:|------:|------:|------:|------:|------:|-------:|
-| 7.5 | 100.0 | 13.3 | 5.32 | 83.20 | 100.0 | 94.10 | 94.10 |  5.65 |  9.80 | 21.70 | 57.70 | 100.00 |
-| 30  |  65.2 | 83.2 | 6.39 |  8.15 |  65.2 |  7.67 | 83.20 | 78.30 | 14.10 | 94.10 |  6.01 |   7.67 |
-| 60  |  18.1 | 18.1 | 5.65 |  6.79 |  78.3 | 24.50 | 21.70 | 17.00 |  6.79 |  6.79 |  5.65 |   6.39 |
-| 90  |  18.1 | 11.1 | 8.67 |  5.32 |  14.1 | 29.40 | 15.00 |  5.00 | 10.40 | 45.20 |  7.67 |   6.01 |
-| 120 |  17.0 | 10.4 | 5.00 |  5.00 |  18.1 | 11.10 |  8.15 | 10.40 |  5.65 |  6.79 |  9.21 |   6.39 |
-
-Table 2: List of all the best working hyperparameters (bandwidth) for
-every combination of depth, column for the `gN2ONha` variable. The
-search range was $[5,100]$.
-
-</div>
-
-<div id="tbl-hyperparameters-2">
-
-|     |     1 |    2 |    3 |     4 |     5 |     6 |     7 |    8 |     9 |   10 |   11 |   12 |
-|:----|------:|-----:|-----:|------:|------:|------:|------:|-----:|------:|-----:|-----:|-----:|
-| 7.5 |  8.15 | 57.7 | 21.7 |  33.3 | 100.0 |  83.2 | 37.60 | 27.7 | 18.10 | 51.0 | 54.3 | 65.2 |
-| 30  | 11.10 | 33.3 | 17.0 |  23.1 | 100.0 |  40.0 | 26.10 | 51.0 | 83.20 | 26.1 | 78.3 | 78.3 |
-| 60  |  7.67 | 73.7 | 35.4 | 100.0 |  69.3 |  11.8 |  5.65 |  9.8 | 94.10 | 51.0 | 11.8 | 26.1 |
-| 90  | 35.40 | 94.1 | 29.4 | 100.0 |  88.5 | 100.0 | 78.30 | 73.7 |  5.32 | 40.0 | 24.5 | 11.1 |
-| 120 |  8.67 | 15.0 | 31.3 |  27.7 |  88.5 |  54.3 |  7.67 | 35.4 | 73.70 | 37.6 | 12.5 | 13.3 |
-
-Table 3: List of all the best working hyperparameters (bandwidth) for
-every combination of depth, column for the `SP` variable. The search
-range was $[5,100]$.
-
-</div>
-
-<div id="tbl-hyperparameters-3">
-
-|     |     1 |      2 |    3 |    4 |    5 |     6 |     7 |    8 |     9 |    10 |    11 |    12 |
-|:----|------:|-------:|-----:|-----:|-----:|------:|------:|-----:|------:|------:|------:|------:|
-| 7.5 | 61.30 | 100.00 | 23.1 | 31.3 | 83.2 |  37.6 | 65.20 | 35.4 | 61.30 |  88.5 | 88.50 | 100.0 |
-| 30  |  6.79 |   9.21 | 17.0 | 29.4 | 51.0 |  61.3 | 12.50 | 18.1 |  8.67 | 100.0 |  5.65 |  17.0 |
-| 60  | 18.10 |  27.70 | 42.5 | 13.3 | 17.0 |  23.1 | 40.00 | 78.3 | 19.20 |  12.5 |  5.65 |  23.1 |
-| 90  | 24.50 |  12.50 | 35.4 | 23.1 | 16.0 | 100.0 | 37.60 | 19.2 |  5.00 |  16.0 | 20.40 |  20.4 |
-| 120 |  7.67 |   8.15 | 45.2 | 24.5 | 18.1 |  83.2 |  7.67 | 19.2 | 31.30 |  83.2 | 19.20 |  26.1 |
-
-Table 4: List of all the best working hyperparameters (bandwidth) for
-every combination of depth, column for the `d18O` variable. The search
-range was $[5,100]$.
-
-</div>
-
 <img src="results/hyperparameters.svg" id="fig-hyperparameters"
 alt="Figure 2: Visualization of the optimal hyperparameter size by depth, column and variable." />
 
