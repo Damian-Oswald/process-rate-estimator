@@ -146,6 +146,9 @@ range was $[5,100]$.
 
 </div>
 
+<img src="results/hyperparameters.svg" id="fig-hyperparameters"
+alt="Figure 2: Visualization of the optimal hyperparameter size by depth, column and variable." />
+
 ## State function set
 
 Still to do.

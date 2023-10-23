@@ -106,6 +106,8 @@ load("resources/hyperparameters.RData")
 knitr::kable(signif(hyperparameters[,,3],3))
 ```
 
+![Visualization of the optimal hyperparameter size by depth, column and variable.](results/hyperparameters.svg){#fig-hyperparameters}
+
 ## State function set
 
 Still to do.
