@@ -152,7 +152,7 @@ saveGIF(expr = {
    s <- exp(seq(log(100),log(3),length=100))
    for (bandwidth in c(s,rev(s))) {
       layout(matrix(c(1,1,1,1,3,2,2,2,2,3), ncol = 2))
-      par(mar = rep(0.1, 4), oma = rep(0.1, 4), bg = "#EBB797")
+      par(mar = rep(0.01, 4), oma = rep(0.01, 4))
       formula <- as.formula(paste("gN2ONha", "date", sep  = " ~ "))
       subset <- na.omit(data[data$column==4 & data$depth==120,c("date","gN2ONha")])
       subset[,"date"] %<>% as.numeric
