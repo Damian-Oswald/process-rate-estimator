@@ -197,20 +197,20 @@ system("mv explanation.gif results/explanation.gif")
 #' Hyperparameter bubble plot
 #' -----------------------------------------------------------------------------------------------------------
 
-svg("results/hyperparameters.svg", width = 12, height = 4)
+svg("results/hyperparameters.svg", width = 4, height = 8)
 variablenames <- c(expression("N"[2]*"O concentration"), "Site preference", expression(delta^{18}*"O"))
-par(mfrow = c(1,3))
+par(mfrow = c(3,1))
 for (v in 1:3) {
-   plot(NA, ylim = c(0.5,12.5), xlim = c(0.5,5.5), axes = FALSE, xlab = "Depth [cm]", ylab = "Column", main = variablenames[v])
-   abline(h=1:12, v=1:5, lty = 3)
-   axis(2, las = 1, at = 1:12, labels = 1:12)
-   axis(1, at = 1:5, labels = depths)
+   plot(NA, xlim = c(0.5,12.5), ylim = c(0.5,5.5), axes = FALSE, ylab = "Depth [cm]", xlab = "Column", main = variablenames[v])
+   abline(h=1:5, v=1:12, lty = 3)
+   axis(1, at = 1:12, labels = 1:12)
+   axis(2, las = 1, at = 1:5, labels = depths)
    col <- palette(12 * 5)
    box()
    for (i in 1:12) {
       for (j in 1:5) {
          hyperparameters[j,i,v]
-         points(x = j, y = i, cex = log(hyperparameters[j,i,1]), pch = 21, bg = col[(i-1)*5+j])
+         points(x = i, y = j, cex = log(hyperparameters[j,i,1]), pch = 21, bg = col[(i-1)*5+j])
       }
    }
 }
