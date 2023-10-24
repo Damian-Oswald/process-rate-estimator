@@ -114,7 +114,12 @@ dev.off()
 #' -----------------------------------------------------------------------------------------------------------
 
 #' Rearrange the data frame with only relevant variables
-export <- data[,c("date", "column", "depth", "variety", "moisture", "corrected.N2O", "gN2ONha", "SP", "d18O")]
+export <- data[,c("date", "column", "depth", "variety", "moisture", "corrected.N2O", "corrected.CO2", "gN2ONha", "SP", "d18O", "d15Nbulk", "d15Nalpha", "d15Nbeta")]
+
+png("results/missing-values.png", width = 10, height = 8, res = 300, unit = "in")
+par(oma = rep(1,4))
+naniar::vis_miss(export)
+dev.off()
 
 #' Write new data frame as CSV file
 write.csv(export, "data/data.csv", row.names = FALSE)

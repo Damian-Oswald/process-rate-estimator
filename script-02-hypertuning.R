@@ -199,7 +199,7 @@ system("mv explanation.gif results/explanation.gif")
 
 variablenames <- c(expression("N"[2]*"O concentration"), "Site preference", expression(delta^{18}*"O"))
 for (v in 1:3) {
-   svg(paste("results/hyperparameters-", v, ".svg", sep = ""), width = 12, height = 5)
+   svg(paste("results/hyperparameters-", v, ".svg", sep = ""), width = 7, height = 4)
    plot(NA, xlim = c(0.5,12.5), ylim = c(0.5,5.5), axes = FALSE, ylab = "Depth [cm]", xlab = "Column", main = variablenames[v])
    abline(h=1:5, v=1:12, lty = 3)
    axis(1, at = 1:12, labels = 1:12)
@@ -209,7 +209,7 @@ for (v in 1:3) {
    for (i in 1:12) {
       for (j in 1:5) {
          hyperparameters[j,i,v]
-         points(x = i, y = j, cex = log(hyperparameters[j,i,1]), pch = 21, bg = col[(i-1)*5+j])
+         points(x = i, y = j, cex = 1.1*log(hyperparameters[j,i,v]), pch = 21, bg = colorRampPalette(c("red","#66999B"))(31)[round(10*(log(hyperparameters))-15)[j,i,v]])
       }
    }
    dev.off()

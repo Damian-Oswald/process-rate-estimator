@@ -28,6 +28,44 @@ $${#eq-denitrification}
 
 Denitrification occurs in conditions where oxygen is limited, such as waterlogged soils. It is part of the nitrogen cycle, where nitrogen is circulated between the atmosphere, organisms and the earth.
 
+# The data
+
+The study uses data collected from a mesocosm experiment -- i.e. an outdoor experiment that examines the natural environment under controlled conditions. The experiment was set up as a randomized complete block design, with 4 varieties and 3 replicates, using 12 non-weighted lysimeters. A non-weighted lysimeter is a device to measure the amount of water that drains through soil, and to determine the types and amounts of dissolved nutrients or contaminants in the water. Each lysimeter had five sampling ports with soil moisture probes and custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm below soil surface.
+
+$$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
+
+@eq-dimension shows how many observations we should expect to have. In reality, some observations are missing.
+
+| Code               | Name                        | Description                                                 |
+|:-------------------|:----------------------------|:------------------------------------------------------------|
+| `day_column_depth` | Combination                 |                                                             |
+| `date_R`           | Weird date                  | Year + DOY                                                  |
+| `column`           | Column                      |                                                             |
+| `depth`            | Measurement depth           |                                                             |
+| `increment`        | Height of a specific layer  |                                                             |
+| `variety`          | Wheat variety               |                                                             |
+| `moisture`         | Soil moisture               |                                                             |
+| `concNO3N`         | x NO~3~-N concentration       | Nitrate nitrogen concentration ([NO~3~] = [NO~3~-N] * 4.43).|
+| `NO3N_ha`          |                             |                                                             |
+| `corrected.N2O`    |                             |                                                             |
+| `corrected.CO2`    |                             |                                                             |
+| `mgN2ONm3`         |                             |                                                             |
+| `gN2ONha`          | Calculated from BD |                                                             |
+| `gCO2Cha`          |                             |                                                             |
+| `CN`               | x                            |                                                             |
+| `d15Nbulk`         |                             |                                                             |
+| `d15Nalpha`        |                             |                                                             |
+| `d15Nbeta`         |                             |                                                             |
+| `SP`               | Site preference             |                                                                  |
+| `d18O`             |                             | Ratio of stable isotopes oxygen-18 (^18^O) and oxygen-16 (^16^O). |
+
+```r
+bulk.density <- 1686 #kg/m3 #verify later
+porosity <- 1- bulk.density/2650 #1 - kg minerals/m3 soil * m3 minerals/kg minerals = 1 - m3 minerals/m3 soil = m3 pore/m3 soil
+VWC_gas$mgN2ONm3 <- VWC_gas$corrected.N2O * 1 /(0.082*293)*28 # 0.082 = Gas constant, 293 = Temperature, 28 = conversion coefficient for N2O-N
+VWC_gas$gN2ONha <- VWC_gas$mgN2ONm3 * VWC_gas$increment/100 * (porosity - VWC_gas$moisture)*10000/1000
+```
+
 # Formal model description
 
 ## Model parameters
@@ -84,46 +122,15 @@ The bandwidth hyperparameter is individually tuned using 3-fold 10 times repeate
 
 [^variable]: I.e. the three variables N~2~O concentration, site preference and $\delta$^18^O.
 
-![Visualization of the optimal hyperparameter size by depth and column for the site N~2~O-N concentration](results/hyperparameters-1.svg){#fig-hyperparameters-1}
+![Visualization of the optimal hyperparameter size by depth and column for the site N~2~O-N concentration](results/hyperparameters-1.svg){#fig-hyperparameters-1 width=100%}
 
-![Visualization of the optimal hyperparameter size by depth and column for the site preference.](results/hyperparameters-2.svg){#fig-hyperparameters-2}
+![Visualization of the optimal hyperparameter size by depth and column for the site preference.](results/hyperparameters-2.svg){#fig-hyperparameters-2 width=100%}
 
-![Visualization of the optimal hyperparameter size by depth and column for the $\delta$^18^O concentration.](results/hyperparameters-3.svg){#fig-hyperparameters-3}
+![Visualization of the optimal hyperparameter size by depth and column for the $\delta$^18^O concentration.](results/hyperparameters-3.svg){#fig-hyperparameters-3 width=100%}
 
 ## State function set
 
 Still to do.
-
-# The data
-
-The study uses data collected from a mesocosm experiment -- i.e. an outdoor experiment that examines the natural environment under controlled conditions. The experiment was set up as a randomized complete block design, with 4 varieties and 3 replicates, using 12 non-weighted lysimeters. A non-weighted lysimeter is a device to measure the amount of water that drains through soil, and to determine the types and amounts of dissolved nutrients or contaminants in the water. Each lysimeter had five sampling ports with soil moisture probes and custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm below soil surface.
-
-$$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
-
-@eq-dimension shows how many observations we should expect to have. In reality, some observations are missing.
-
-| Code               | Name                        | Description                                                 |
-|:-------------------|:----------------------------|:------------------------------------------------------------|
-| `day_column_depth` | Combination                 |                                                             |
-| `date_R`           | Weird date                  | Year + DOY                                                  |
-| `column`           | Column                      |                                                             |
-| `depth`            | Measurement depth           |                                                             |
-| `increment`        | ?                           |                                                             |
-| `variety`          | Wheat variety               |                                                             |
-| `moisture`         | Soil moisture               |                                                             |
-| `concNO3N`         | NO~3~-N concentration       | Nitrate nitrogen concentration ([NO~3~] = [NO~3~-N] * 4.43).|
-| `NO3N_ha`          |                             |                                                             |
-| `corrected.N2O`    |                             |                                                             |
-| `corrected.CO2`    |                             |                                                             |
-| `mgN2ONm3`         |                             |                                                             |
-| `gN2ONha`          |                             |                                                             |
-| `gCO2Cha`          |                             |                                                             |
-| `CN`               |                             |                                                             |
-| `d15Nbulk`         |                             |                                                             |
-| `d15Nalpha`        |                             |                                                             |
-| `d15Nbeta`         |                             |                                                             |
-| `SP`               | Site preference             |                                                                  |
-| `d18O`             |                             | Ratio of stable isotopes oxygen-18 (^18^O) and oxygen-16 (^16^O). |
 
 # References {-}
 

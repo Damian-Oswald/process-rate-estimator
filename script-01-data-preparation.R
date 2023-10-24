@@ -40,7 +40,7 @@ data[,"date"] %<>% as.Date
 data[,"column"] %<>% as.ordered
 
 #' Transform `variety` from `character` to `factor`
-data[,"variety"] %<>% as.factor()
+data[,"variety"] %<>% as.factor
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Start calculating the parameters
@@ -53,7 +53,7 @@ data[,"variety"] %<>% as.factor()
 data$theta_w <- numeric(nrow(data))
 for (i in 1:nrow(data)) {
    j <- which(depths==data[i,"depth"]) # Get the current depth index
-   data[i,"theta_w"] <- mean(data[data[,"column"]==data[i,"column"] & data[,"date"]==data[i,"date"] & data[,"depth"]%in%depths[(j-1):j], "moisture"])
+   data[i,"theta_w"] <- mean(data[data[,"column"]==data[i,"column"] & data[,"date"]==data[i,"date"] & data[,"depth"]%in%depths[(j-1):j], "moisture"]) # Calculate the mean of the current moisture and the one above (if it is the top layer, have the mean of one)
    # TODO: Build checker to see if calculation is correct, no missing values, always 1 or 2 values etc.
 }
 
@@ -98,11 +98,6 @@ for (i in 1:nrow(data)) {
    
    # TODO: Build checker to see if calculation is correct, no missing values, always 1 or 2 values etc.
 }
-
-#' Do we want this here?
-top <- c(0,depths)[-6]
-bottom <- depths
-sapply(1:5, function(i) 1000000/(bottom[i]/100/2+top[i]/100/2))
 
 #' Calculate `F_calc` across depths, considering flux is upward 
 #' originally in mg N2O-N/m2/s, converted to g N/ha/day

@@ -59,4 +59,16 @@ date         1 2 3 4 5 6 7 8 9 10 11 12
 # Questions Round II
 
 - How should we do the hypertuning of the bandwidth? All variables the same; one per variable, one per variable and depth, one per variable and depth and column.
+- What are the exact aims of the project? Suggestion:
+  - Complete refactoring of the code base -- all code and necessary files contained in a GitHub repository
+  - Automatic bandwidth choice for a more reproducible code.
+  - Full sensitivity analysis (with e[1:8] and BD) of the parameters -- would not contain the hyperparameter tuning due to computational issues.
+  - Address the points in the reviewer comments.
+
+
+
+
+
+
+
 

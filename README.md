@@ -18,6 +18,54 @@ Denitrification occurs in conditions where oxygen is limited, such as
 waterlogged soils. It is part of the nitrogen cycle, where nitrogen is
 circulated between the atmosphere, organisms and the earth.
 
+# The data
+
+The study uses data collected from a mesocosm experiment – i.e. an
+outdoor experiment that examines the natural environment under
+controlled conditions. The experiment was set up as a randomized
+complete block design, with 4 varieties and 3 replicates, using 12
+non-weighted lysimeters. A non-weighted lysimeter is a device to measure
+the amount of water that drains through soil, and to determine the types
+and amounts of dissolved nutrients or contaminants in the water. Each
+lysimeter had five sampling ports with soil moisture probes and
+custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm
+below soil surface.
+
+<span id="eq-dimension">$$4 \times 3 \times 5 \times 161 = 9660 \qquad(2)$$</span>
+
+[Equation 2](#eq-dimension) shows how many observations we should expect
+to have. In reality, some observations are missing.
+
+| Code               | Name                             | Description                                                                         |
+|:-------------------|:---------------------------------|:------------------------------------------------------------------------------------|
+| `day_column_depth` | Combination                      |                                                                                     |
+| `date_R`           | Weird date                       | Year + DOY                                                                          |
+| `column`           | Column                           |                                                                                     |
+| `depth`            | Measurement depth                |                                                                                     |
+| `increment`        | Height of a specific layer       |                                                                                     |
+| `variety`          | Wheat variety                    |                                                                                     |
+| `moisture`         | Soil moisture                    |                                                                                     |
+| `concNO3N`         | x NO<sub>3</sub>-N concentration | Nitrate nitrogen concentration (\[NO<sub>3</sub>\] = \[NO<sub>3</sub>-N\] \* 4.43). |
+| `NO3N_ha`          |                                  |                                                                                     |
+| `corrected.N2O`    |                                  |                                                                                     |
+| `corrected.CO2`    |                                  |                                                                                     |
+| `mgN2ONm3`         |                                  |                                                                                     |
+| `gN2ONha`          | Calculated from BD               |                                                                                     |
+| `gCO2Cha`          |                                  |                                                                                     |
+| `CN`               | x                                |                                                                                     |
+| `d15Nbulk`         |                                  |                                                                                     |
+| `d15Nalpha`        |                                  |                                                                                     |
+| `d15Nbeta`         |                                  |                                                                                     |
+| `SP`               | Site preference                  |                                                                                     |
+| `d18O`             |                                  | Ratio of stable isotopes oxygen-18 (<sup>18</sup>O) and oxygen-16 (<sup>16</sup>O). |
+
+``` r
+bulk.density <- 1686 #kg/m3 #verify later
+porosity <- 1- bulk.density/2650 #1 - kg minerals/m3 soil * m3 minerals/kg minerals = 1 - m3 minerals/m3 soil = m3 pore/m3 soil
+VWC_gas$mgN2ONm3 <- VWC_gas$corrected.N2O * 1 /(0.082*293)*28 # 0.082 = Gas constant, 293 = Temperature, 28 = conversion coefficient for N2O-N
+VWC_gas$gN2ONha <- VWC_gas$mgN2ONm3 * VWC_gas$increment/100 * (porosity - VWC_gas$moisture)*10000/1000
+```
+
 # Formal model description
 
 ## Model parameters
@@ -31,12 +79,12 @@ circulated between the atmosphere, organisms and the earth.
 | $\theta_a$          | `theta_a`     | Air-filled porosity                                                                  | $1-\frac{\theta_w}{\theta_t}$ |                             |
 | $\theta_t$          | `theta_t`     | Total soil porosity                                                                  | $1-\frac{BD}{2.65}$           |                             |
 | $\text T$           | `temperature` | Soil temperature                                                                     | $298$                         | K                           |
-| $D_{\text{s}}$      | `D_s`         | Gas diffusion coefficient                                                            | [Equation 3](#eq-Ds)          | m<sup>2</sup>s<sup>-1</sup> |
-| $D_{\text{fw}}$     | `D_fw`        | Diffusivity of N<sub>2</sub>O in water                                               | [Equation 5](#eq-Dfw)         |                             |
-| $D_{\text{fa}}$     | `D_fa`        | Diffusivity of N<sub>2</sub>O in air                                                 | [Equation 6](#eq-Dfa)         |                             |
-| $D_{\text{fa,NTP}}$ |               | Free air diffusion coefficient under standard conditions                             | [Equation 6](#eq-Dfa)         |                             |
+| $D_{\text{s}}$      | `D_s`         | Gas diffusion coefficient                                                            | [Equation 4](#eq-Ds)          | m<sup>2</sup>s<sup>-1</sup> |
+| $D_{\text{fw}}$     | `D_fw`        | Diffusivity of N<sub>2</sub>O in water                                               | [Equation 6](#eq-Dfw)         |                             |
+| $D_{\text{fa}}$     | `D_fa`        | Diffusivity of N<sub>2</sub>O in air                                                 | [Equation 7](#eq-Dfa)         |                             |
+| $D_{\text{fa,NTP}}$ |               | Free air diffusion coefficient under standard conditions                             | [Equation 7](#eq-Dfa)         |                             |
 | $n$                 | `n`           | Empirical parameter ([*1*](#ref-massman1998review))                                  | 1.81                          |                             |
-| $H$                 | `H`           | Dimensionless Henry’s solubility constant                                            | [Equation 4](#eq-H)           |                             |
+| $H$                 | `H`           | Dimensionless Henry’s solubility constant                                            | [Equation 5](#eq-H)           |                             |
 | $\rho$              | `rho`         | Gas density of N<sub>2</sub>O                                                        | $1.26 \times 10^6$            | mg m<sub>-3</sub>           |
 
 Table 1: Overview of the parameters used in the model.
@@ -44,9 +92,9 @@ Table 1: Overview of the parameters used in the model.
 </div>
 
 The diffusion fluxes between soil increments are described by Frick’s
-law ([Equation 2](#eq-frick)).
+law ([Equation 3](#eq-frick)).
 
-<span id="eq-frick">$$F_{\text{calc}} = \frac{dC}{dZ} D_{\text s} \rho \qquad(2)$$</span>
+<span id="eq-frick">$$F_{\text{calc}} = \frac{dC}{dZ} D_{\text s} \rho \qquad(3)$$</span>
 
 Here, $D_s$ is the gas diffusion coefficient, $\rho$ is the gas density
 of N<sub>2</sub>O, and $\frac{dC}{dZ}$ is the N<sub>2</sub>O
@@ -59,27 +107,27 @@ $\theta_w$ is the soil volumetric water content, $\theta_a$ the
 air-filled porosity, and $\theta_T$ is the total soil porosity.
 
 The gas diffusion coefficient $D_{\text s}$ was calculated according
-[Equation 3](#eq-Ds) as established by Millington and Quirk in 1961
+[Equation 4](#eq-Ds) as established by Millington and Quirk in 1961
 ([*2*](#ref-millington1961permeability)).
 
-<span id="eq-Ds">$$D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2} \qquad(3)$$</span>
+<span id="eq-Ds">$$D_{\text s} = \left( \frac{\theta_w^{\frac{10}{3}} + D_{\text fw}}{H} + \theta_a^{\frac{10}{3}} \times D_{\text fa} \right) \times \theta_T^{-2} \qquad(4)$$</span>
 
 Here, $H$ represents a dimensionless form of Henry’s solubility constant
 ($H'$) for N<sub>2</sub>O in water at a given temperature. The constant
 $H$ for N<sub>2</sub>O is calculated as follows:
 
-<span id="eq-H">$$H = \frac{8.5470 \times 10^5 \times \exp \frac{-2284}{\text T}}{\text R \times \text T} \qquad(4)$$</span>
+<span id="eq-H">$$H = \frac{8.5470 \times 10^5 \times \exp \frac{-2284}{\text T}}{\text R \times \text T} \qquad(5)$$</span>
 
 Here, $\text R$ is the gas constant, and $\text T$ is the temperature
 ($\text T = 298 \; \text K$).
 
-$D_{\text{fw}}$ was calculated according to [Equation 5](#eq-Dfw) as
+$D_{\text{fw}}$ was calculated according to [Equation 6](#eq-Dfw) as
 documented by Versteeg and Van Swaaij (1988)
 ([*3*](#ref-versteeg1988solubility)).
 
-<span id="eq-Dfw">$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T} \qquad(5)$$</span>
+<span id="eq-Dfw">$$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T} \qquad(6)$$</span>
 
-<span id="eq-Dfa">$$D_{\text{fa}} = D_{\text{fa, NTP}} \times \left( \frac{\text T}{273.15} \right)^n \times \left( \frac{101'325}{\text P} \right) \qquad(6)$$</span>
+<span id="eq-Dfa">$$D_{\text{fa}} = D_{\text{fa, NTP}} \times \left( \frac{\text T}{273.15} \right)^n \times \left( \frac{101'325}{\text P} \right) \qquad(7)$$</span>
 
 ## Smoothing curves
 
@@ -99,58 +147,20 @@ repeated cross-validation for every combination of column and depth and
 variable[^1], respectively.
 
 <img src="results/hyperparameters-1.svg" id="fig-hyperparameters-1"
+style="width:100.0%"
 alt="Figure 2: Visualization of the optimal hyperparameter size by depth and column for the site N2O-N concentration" />
 
 <img src="results/hyperparameters-2.svg" id="fig-hyperparameters-2"
+style="width:100.0%"
 alt="Figure 3: Visualization of the optimal hyperparameter size by depth and column for the site preference." />
 
 <img src="results/hyperparameters-3.svg" id="fig-hyperparameters-3"
+style="width:100.0%"
 alt="Figure 4: Visualization of the optimal hyperparameter size by depth and column for the \delta18O concentration." />
 
 ## State function set
 
 Still to do.
-
-# The data
-
-The study uses data collected from a mesocosm experiment – i.e. an
-outdoor experiment that examines the natural environment under
-controlled conditions. The experiment was set up as a randomized
-complete block design, with 4 varieties and 3 replicates, using 12
-non-weighted lysimeters. A non-weighted lysimeter is a device to measure
-the amount of water that drains through soil, and to determine the types
-and amounts of dissolved nutrients or contaminants in the water. Each
-lysimeter had five sampling ports with soil moisture probes and
-custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm
-below soil surface.
-
-<span id="eq-dimension">$$4 \times 3 \times 5 \times 161 = 9660 \qquad(7)$$</span>
-
-[Equation 7](#eq-dimension) shows how many observations we should expect
-to have. In reality, some observations are missing.
-
-| Code               | Name                           | Description                                                                         |
-|:-------------------|:-------------------------------|:------------------------------------------------------------------------------------|
-| `day_column_depth` | Combination                    |                                                                                     |
-| `date_R`           | Weird date                     | Year + DOY                                                                          |
-| `column`           | Column                         |                                                                                     |
-| `depth`            | Measurement depth              |                                                                                     |
-| `increment`        | ?                              |                                                                                     |
-| `variety`          | Wheat variety                  |                                                                                     |
-| `moisture`         | Soil moisture                  |                                                                                     |
-| `concNO3N`         | NO<sub>3</sub>-N concentration | Nitrate nitrogen concentration (\[NO<sub>3</sub>\] = \[NO<sub>3</sub>-N\] \* 4.43). |
-| `NO3N_ha`          |                                |                                                                                     |
-| `corrected.N2O`    |                                |                                                                                     |
-| `corrected.CO2`    |                                |                                                                                     |
-| `mgN2ONm3`         |                                |                                                                                     |
-| `gN2ONha`          |                                |                                                                                     |
-| `gCO2Cha`          |                                |                                                                                     |
-| `CN`               |                                |                                                                                     |
-| `d15Nbulk`         |                                |                                                                                     |
-| `d15Nalpha`        |                                |                                                                                     |
-| `d15Nbeta`         |                                |                                                                                     |
-| `SP`               | Site preference                |                                                                                     |
-| `d18O`             |                                | Ratio of stable isotopes oxygen-18 (<sup>18</sup>O) and oxygen-16 (<sup>16</sup>O). |
 
 # References
 
