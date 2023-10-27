@@ -45,26 +45,16 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 | `increment`        | Height of a specific layer  |                                                             |
 | `variety`          | Wheat variety               |                                                             |
 | `moisture`         | Soil moisture               |                                                             |
-| `concNO3N`         | x NO~3~-N concentration       | Nitrate nitrogen concentration ([NO~3~] = [NO~3~-N] * 4.43).|
-| `NO3N_ha`          |                             |                                                             |
-| `corrected.N2O`    |                             |                                                             |
-| `corrected.CO2`    |                             |                                                             |
-| `mgN2ONm3`         |                             |                                                             |
-| `gN2ONha`          | Calculated from BD |                                                             |
+| `N2O`              | Corrected N~2~O conc.       |                                                             |
+| `CO2`              | Corrected CO~2~ conc.       |                                                             |
+| `N2ONvolume`       |                             |                                                             |
+| `N2ONarea`         | Calculated from BD          |                                                             |
 | `gCO2Cha`          |                             |                                                             |
-| `CN`               | x                            |                                                             |
 | `d15Nbulk`         |                             |                                                             |
 | `d15Nalpha`        |                             |                                                             |
 | `d15Nbeta`         |                             |                                                             |
 | `SP`               | Site preference             |                                                                  |
 | `d18O`             |                             | Ratio of stable isotopes oxygen-18 (^18^O) and oxygen-16 (^16^O). |
-
-```r
-bulk.density <- 1686 #kg/m3 #verify later
-porosity <- 1- bulk.density/2650 #1 - kg minerals/m3 soil * m3 minerals/kg minerals = 1 - m3 minerals/m3 soil = m3 pore/m3 soil
-VWC_gas$mgN2ONm3 <- VWC_gas$corrected.N2O * 1 /(0.082*293)*28 # 0.082 = Gas constant, 293 = Temperature, 28 = conversion coefficient for N2O-N
-VWC_gas$gN2ONha <- VWC_gas$mgN2ONm3 * VWC_gas$increment/100 * (porosity - VWC_gas$moisture)*10000/1000
-```
 
 # Formal model description
 

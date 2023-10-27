@@ -114,7 +114,7 @@ dev.off()
 #' -----------------------------------------------------------------------------------------------------------
 
 #' Rearrange the data frame with only relevant variables
-export <- data[,c("date", "column", "depth", "variety", "moisture", "corrected.N2O", "corrected.CO2", "gN2ONha", "SP", "d18O", "d15Nbulk", "d15Nalpha", "d15Nbeta")]
+export <- data[,c("date", "column", "depth", "increment", "variety", "moisture", "corrected.N2O", "corrected.CO2", "gN2ONha", "SP", "d18O", "d15Nbulk", "d15Nalpha", "d15Nbeta")]
 
 png("results/missing-values.png", width = 10, height = 8, res = 300, unit = "in")
 par(oma = rep(1,4))

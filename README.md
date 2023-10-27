@@ -36,35 +36,25 @@ below soil surface.
 [Equation 2](#eq-dimension) shows how many observations we should expect
 to have. In reality, some observations are missing.
 
-| Code               | Name                             | Description                                                                         |
-|:-------------------|:---------------------------------|:------------------------------------------------------------------------------------|
-| `day_column_depth` | Combination                      |                                                                                     |
-| `date_R`           | Weird date                       | Year + DOY                                                                          |
-| `column`           | Column                           |                                                                                     |
-| `depth`            | Measurement depth                |                                                                                     |
-| `increment`        | Height of a specific layer       |                                                                                     |
-| `variety`          | Wheat variety                    |                                                                                     |
-| `moisture`         | Soil moisture                    |                                                                                     |
-| `concNO3N`         | x NO<sub>3</sub>-N concentration | Nitrate nitrogen concentration (\[NO<sub>3</sub>\] = \[NO<sub>3</sub>-N\] \* 4.43). |
-| `NO3N_ha`          |                                  |                                                                                     |
-| `corrected.N2O`    |                                  |                                                                                     |
-| `corrected.CO2`    |                                  |                                                                                     |
-| `mgN2ONm3`         |                                  |                                                                                     |
-| `gN2ONha`          | Calculated from BD               |                                                                                     |
-| `gCO2Cha`          |                                  |                                                                                     |
-| `CN`               | x                                |                                                                                     |
-| `d15Nbulk`         |                                  |                                                                                     |
-| `d15Nalpha`        |                                  |                                                                                     |
-| `d15Nbeta`         |                                  |                                                                                     |
-| `SP`               | Site preference                  |                                                                                     |
-| `d18O`             |                                  | Ratio of stable isotopes oxygen-18 (<sup>18</sup>O) and oxygen-16 (<sup>16</sup>O). |
-
-``` r
-bulk.density <- 1686 #kg/m3 #verify later
-porosity <- 1- bulk.density/2650 #1 - kg minerals/m3 soil * m3 minerals/kg minerals = 1 - m3 minerals/m3 soil = m3 pore/m3 soil
-VWC_gas$mgN2ONm3 <- VWC_gas$corrected.N2O * 1 /(0.082*293)*28 # 0.082 = Gas constant, 293 = Temperature, 28 = conversion coefficient for N2O-N
-VWC_gas$gN2ONha <- VWC_gas$mgN2ONm3 * VWC_gas$increment/100 * (porosity - VWC_gas$moisture)*10000/1000
-```
+| Code               | Name                           | Description                                                                         |
+|:-------------------|:-------------------------------|:------------------------------------------------------------------------------------|
+| `day_column_depth` | Combination                    |                                                                                     |
+| `date_R`           | Weird date                     | Year + DOY                                                                          |
+| `column`           | Column                         |                                                                                     |
+| `depth`            | Measurement depth              |                                                                                     |
+| `increment`        | Height of a specific layer     |                                                                                     |
+| `variety`          | Wheat variety                  |                                                                                     |
+| `moisture`         | Soil moisture                  |                                                                                     |
+| `N2O`              | Corrected N<sub>2</sub>O conc. |                                                                                     |
+| `CO2`              | Corrected CO<sub>2</sub> conc. |                                                                                     |
+| `N2ONvolume`       |                                |                                                                                     |
+| `N2ONarea`         | Calculated from BD             |                                                                                     |
+| `gCO2Cha`          |                                |                                                                                     |
+| `d15Nbulk`         |                                |                                                                                     |
+| `d15Nalpha`        |                                |                                                                                     |
+| `d15Nbeta`         |                                |                                                                                     |
+| `SP`               | Site preference                |                                                                                     |
+| `d18O`             |                                | Ratio of stable isotopes oxygen-18 (<sup>18</sup>O) and oxygen-16 (<sup>16</sup>O). |
 
 # Formal model description
 

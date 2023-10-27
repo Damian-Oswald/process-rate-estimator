@@ -64,6 +64,10 @@ date         1 2 3 4 5 6 7 8 9 10 11 12
   - Automatic bandwidth choice for a more reproducible code.
   - Full sensitivity analysis (with e[1:8] and BD) of the parameters -- would not contain the hyperparameter tuning due to computational issues.
   - Address the points in the reviewer comments.
+  
+# Questions Round III
+
+- Where does the gas constant come from? (The script uses 0.082, on Wikipedia, I find 8.314 J/mol K)
 
 
 
