@@ -1,4 +1,4 @@
-"date","column","depth","increment","variety","moisture","corrected.N2O","corrected.CO2","gN2ONha","SP","d18O","d15Nbulk","d15Nalpha","d15Nbeta"
+"date","column","depth","increment","variety","moisture","N2O","CO2","gN2ONha","SP","d18O","d15Nbulk","d15Nalpha","d15Nbeta"
 2015-08-27,"1",120,30,"Zinal",0.308025,NA,NA,NA,NA,NA,NA,NA,NA
 2015-08-27,"1",30,30,"Zinal",0.31045,NA,NA,NA,NA,NA,NA,NA,NA
 2015-08-27,"1",60,30,"Zinal",0.276556395,NA,NA,NA,NA,NA,NA,NA,NA

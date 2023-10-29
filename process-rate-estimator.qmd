@@ -11,7 +11,6 @@ notes-after-punctuation: true
 format:
    html: 
       embed-resources: true
-      #self-contained-math: true
    gfm:
       output-file: README.md
       link-citations: true
@@ -38,17 +37,16 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 
 | Code               | Name                        | Description                                                 |
 |:-------------------|:----------------------------|:------------------------------------------------------------|
-| `day_column_depth` | Combination                 |                                                             |
-| `date_R`           | Weird date                  | Year + DOY                                                  |
+| `date`             | Date (`YYYY-MM-DD`)         | Year + DOY                                                  |
 | `column`           | Column                      |                                                             |
 | `depth`            | Measurement depth           |                                                             |
 | `increment`        | Height of a specific layer  |                                                             |
 | `variety`          | Wheat variety               |                                                             |
 | `moisture`         | Soil moisture               |                                                             |
 | `N2O`              | Corrected N~2~O conc.       |                                                             |
+| `N2ONvolume`       | N~2~O per volume            |                                                             |
+| `N2ONarea`         | N~2~O per area              |                                                             |
 | `CO2`              | Corrected CO~2~ conc.       |                                                             |
-| `N2ONvolume`       |                             |                                                             |
-| `N2ONarea`         | Calculated from BD          |                                                             |
 | `gCO2Cha`          |                             |                                                             |
 | `d15Nbulk`         |                             |                                                             |
 | `d15Nalpha`        |                             |                                                             |

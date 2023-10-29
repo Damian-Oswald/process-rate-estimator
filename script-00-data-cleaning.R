@@ -62,11 +62,11 @@ for (y in colnames(data)[8:21]) {
 
 #' Diffusion Fluxes
 for (variety in unique(data$variety)) {
-   with(data[(!is.na(data$corrected.N2O)) & (data$variety==variety),], interaction.plot(date, depth, corrected.N2O, col = par()$fg, ylab = expression("N"[2]*"O fluxes"), xlab = "Date", ylim = c(0,16)))
+   with(data[(!is.na(data$N2O)) & (data$variety==variety),], interaction.plot(date, depth, N2O, col = par()$fg, ylab = expression("N"[2]*"O fluxes"), xlab = "Date", ylim = c(0,16)))
    title(main = paste("Diffusion fluxes of", variety))
 }
 for (variety in unique(data$variety)) {
-   with(data[(!is.na(data$corrected.CO2)) & (data$variety==variety),], interaction.plot(date, depth, corrected.CO2, col = par()$fg, ylab = expression("CO"[2]*" fluxes"), xlab = "Date", ylim = c(0,45000), las = 0))
+   with(data[(!is.na(data$CO2)) & (data$variety==variety),], interaction.plot(date, depth, CO2, col = par()$fg, ylab = expression("CO"[2]*" fluxes"), xlab = "Date", ylim = c(0,45000), las = 0))
    title(main = paste("Diffusion fluxes of", variety))
 }
 
@@ -114,7 +114,7 @@ dev.off()
 #' -----------------------------------------------------------------------------------------------------------
 
 #' Rearrange the data frame with only relevant variables
-export <- data[,c("date", "column", "depth", "increment", "variety", "moisture", "corrected.N2O", "corrected.CO2", "gN2ONha", "SP", "d18O", "d15Nbulk", "d15Nalpha", "d15Nbeta")]
+export <- data[,c("date", "column", "depth", "increment", "variety", "moisture", "N2O", "CO2", "gN2ONha", "SP", "d18O", "d15Nbulk", "d15Nalpha", "d15Nbeta")]
 
 png("results/missing-values.png", width = 10, height = 8, res = 300, unit = "in")
 par(oma = rep(1,4))

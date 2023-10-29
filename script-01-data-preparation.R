@@ -5,26 +5,17 @@
 #' ---
 
 #' -----------------------------------------------------------------------------------------------------------
-#' Attach packages to search path
+#' Prepare work space
 #' -----------------------------------------------------------------------------------------------------------
 
+#' Attach packages to search path
 library(magrittr)
 
-#' -----------------------------------------------------------------------------------------------------------
-#' Define global variables
-#' -----------------------------------------------------------------------------------------------------------
-
+#' Define color function for plots
 palette <- colorRampPalette(c("#66999B","#0E4749","#E55812","#EFE7DA"))
 
-#' -----------------------------------------------------------------------------------------------------------
-#' Set Model Parameters
-#' -----------------------------------------------------------------------------------------------------------
-
-#' Read parameters
-parameters <- jsonlite::read_json("resources/parameters.json", simplifyVector = TRUE)
-
 #' Attach parameter list to global environment
-attach(parameters)
+PRE::getParameters() |> attach()
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Load and prepare the data
@@ -57,8 +48,7 @@ data[,"N2ONarea"] <- with(data, N2ONvolume * increment/100 * (theta_t - moisture
 #' -----------------------------------------------------------------------------------------------------------
 
 #' Calculate average moisture across depths -- Soil volumetric water content `theta_w`
-#' We calculate the following: for every column, day, depth,
-#' calculate the mean depth of this one and the one above --
+#' We calculate the following: for every column, day, depth: calculate the mean depth of this one and the one above --
 #' except for the top depth, there, return single value.
 data$theta_w <- numeric(nrow(data))
 for (i in 1:nrow(data)) {
@@ -68,7 +58,7 @@ for (i in 1:nrow(data)) {
 }
 
 #' Calculate air-filled pore spaces across depths
-data$theta_a <- 1 - data$theta_w/theta_t
+data$theta_a <- with(data, 1 - theta_w/theta_t)
 
 #' Calculate Ds
 data$Ds <- with(data, ((theta_w^(10/3)*D_fw)/H+theta_a^(10/3)*D_fa)*theta_t^-2)

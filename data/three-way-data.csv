@@ -1,4 +1,4 @@
-,day_column_depth,date_R,column,depth,increment,variety,moisture,concNO3N,NO3N_ha,corrected.N2O,corrected.CO2,mgN2ONm3,mgCO2Cm3,gN2ONha,gCO2Cha,CN,d15Nbulk,d15Nalpha,d15Nbeta,SP,d18O
+,day_column_depth,date_R,column,depth,increment,variety,moisture,concNO3N,NO3N_ha,N2O,CO2,mgN2ONm3,mgCO2Cm3,gN2ONha,gCO2Cha,CN,d15Nbulk,d15Nalpha,d15Nbeta,SP,d18O
 1,2015239 C1 120,2015239,C1,120,30,Zinal,0.308025,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 2,2015239 C1 30,2015239,C1,30,30,Zinal,0.31045,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 3,2015239 C1 60,2015239,C1,60,30,Zinal,0.276556395,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
