@@ -114,12 +114,12 @@ dev.off()
 #' -----------------------------------------------------------------------------------------------------------
 
 #' Rearrange the data frame with only relevant variables
-export <- data[,c("date", "column", "depth", "increment", "variety", "moisture", "N2O", "CO2", "gN2ONha", "SP", "d18O", "d15Nbulk", "d15Nalpha", "d15Nbeta")]
+measurements <- data[,c("date", "column", "depth", "increment", "variety", "moisture", "N2O", "CO2", "SP", "d18O", "d15Nbulk", "d15Nalpha", "d15Nbeta")]
 
-png("results/missing-values.png", width = 10, height = 8, res = 300, unit = "in")
-par(oma = rep(1,4))
-naniar::vis_miss(export)
-dev.off()
+#' Set package working directory
+setwd(file.path(getwd(),"PRE"))
 
-#' Write new data frame as CSV file
-write.csv(export, "data/data.csv", row.names = FALSE)
+#' Save `measurements` data frame for the R package `PRE`
+usethis::use_data(measurements, overwrite = TRUE)
+
+

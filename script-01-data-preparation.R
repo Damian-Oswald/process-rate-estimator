@@ -17,21 +17,11 @@ palette <- colorRampPalette(c("#66999B","#0E4749","#E55812","#EFE7DA"))
 #' Attach parameter list to global environment
 PRE::getParameters() |> attach()
 
-#' -----------------------------------------------------------------------------------------------------------
-#' Load and prepare the data
-#' -----------------------------------------------------------------------------------------------------------
-
 #' Read the prepared data
-data <- read.csv("data/data.csv")
+data <- PRE::measurements
 
-#' Transform the variable `date_R` to `Date` class
-data[,"date"] %<>% as.Date
-
-#' Transform `column` to `ordered` to `integer`
-data[,"column"] %<>% as.ordered
-
-#' Transform `variety` from `character` to `factor`
-data[,"variety"] %<>% as.factor
+#' Get information on data
+help("measurements")
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Calculate N2O-N 
