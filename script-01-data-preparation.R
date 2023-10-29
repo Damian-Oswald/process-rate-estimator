@@ -38,7 +38,7 @@ data[,"variety"] %<>% as.factor
 #' -----------------------------------------------------------------------------------------------------------
 
 #' Calculate the volumetric N2O-N
-data[,"N2ONvolume"] <- with(data, corrected.N2O * 1/(R*temperature)*28)
+data[,"N2ONvolume"] <- with(data, N2O * 1/(R*temperature)*28)
 
 #' Calculate the area N2O-N
 data[,"N2ONarea"] <- with(data, N2ONvolume * increment/100 * (theta_t - moisture) * 10000/1000)

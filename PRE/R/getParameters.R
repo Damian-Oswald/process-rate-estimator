@@ -10,11 +10,11 @@
 #' @param PD ???
 #' @param theta_t Total soil porosity.
 #' @param temperature Soil temperature \[K\].
-#' @param D_fw Diffusivity of N2O in water.
-#' @param D_fa Diffusivity of N2O in air.
+#' @param D_fw Diffusivity of N₂O in water.
+#' @param D_fa Diffusivity of N₂O in air.
 #' @param H Dimensionless Henry's constant \[-\].
-#' @param rho Gas density of N2O.
-#' @param N2Oatm Atmospheric N~2~O concentration \[ppmv\].
+#' @param rho Gas density of N₂O.
+#' @param N2Oatm Atmospheric N₂O concentration \[ppmv\].
 #' @param R Gas constant. ???
 #' @param depths A numeric vector containing the measurement depths \[cm\].
 #' 

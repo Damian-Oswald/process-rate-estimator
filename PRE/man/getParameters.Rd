@@ -27,15 +27,15 @@ getParameters(
 
 \item{temperature}{Soil temperature [K].}
 
-\item{rho}{Gas density of N2O.}
+\item{rho}{Gas density of N₂O.}
 
 \item{R}{Gas constant. ???}
 
-\item{N2Oatm}{Atmospheric N~2~O concentration [ppmv].}
+\item{N2Oatm}{Atmospheric N₂O concentration [ppmv].}
 
-\item{D_fw}{Diffusivity of N2O in water.}
+\item{D_fw}{Diffusivity of N₂O in water.}
 
-\item{D_fa}{Diffusivity of N2O in air.}
+\item{D_fa}{Diffusivity of N₂O in air.}
 
 \item{H}{Dimensionless Henry's constant [-].}
 
