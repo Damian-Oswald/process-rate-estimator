@@ -23,6 +23,8 @@ getParameters(
 
 \item{PD}{???}
 
+\item{theta_t}{Total soil porosity.}
+
 \item{temperature}{Soil temperature [K].}
 
 \item{rho}{Gas density of N2O.}
@@ -31,13 +33,13 @@ getParameters(
 
 \item{N2Oatm}{Atmospheric N~2~O concentration [ppmv].}
 
-\item{D_fw}{???}
+\item{D_fw}{Diffusivity of N2O in water.}
 
-\item{D_fa}{???}
+\item{D_fa}{Diffusivity of N2O in air.}
 
 \item{H}{Dimensionless Henry's constant [-].}
 
-\item{depth}{A numeric vector containing the measurement depths [cm].}
+\item{depths}{A numeric vector containing the measurement depths [cm].}
 }
 \description{
 This function returns the initial parameters necessary to run the Process Rate Estimator.

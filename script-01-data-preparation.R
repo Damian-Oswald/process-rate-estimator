@@ -139,4 +139,3 @@ data$F_out <- with(data, F_bottom_out + F_top_out)
 
 #' Write data to resources
 write.csv(data, file = "data/data-calculated.csv", row.names = FALSE)
-
