@@ -12,7 +12,7 @@
 library(magrittr)
 
 #' Define color function for plots
-palette <- colorRampPalette(c("#66999B","#0E4749","#E55812","#EFE7DA"))
+palette <- colorRampPalette(c("#66999B","#0E4749","red"))
 
 #' Attach parameter list to global environment
 PRE::getParameters() |> attach()
@@ -65,21 +65,13 @@ for (i in 1:nrow(data)) {
    N2O_top <- if(j==1){
       N2O_top <- N2Oatm
    } else {
-      N2O_top <- data[current_date_column & data[,"depth"]==depths[j-1], "corrected.N2O"]
+      N2O_top <- data[current_date_column & data[,"depth"]==depths[j-1], "N2O"]
    }
-   N2O_bottom <- data[current_date_column & data[,"depth"]==depths[j], "corrected.N2O"]
+   N2O_bottom <- data[current_date_column & data[,"depth"]==depths[j], "N2O"]
    
    # If any observation is missing, skip to the next
    if(length(N2O_bottom)==0 | length(N2O_top)==0) next
    
-   # TODO: The `.Rmd` file contains the following code:
-   #
-   # data_C1$dCdz_top_7 <- (data_C1$corrected.N2O_7 - N2Oatm)/1000000/(15/100/2)
-   # data_C1$dCdz_top_30 <- (data_C1$corrected.N2O_30 - data_C1$corrected.N2O_7)/1000000/(30/100/2+15/100/2)
-   # data_C1$dCdz_top_60 <- (data_C1$corrected.N2O_60 - data_C1$corrected.N2O_30)/1000000/(30/100/2+30/100/2)
-   # data_C1$dCdz_top_90 <- (data_C1$corrected.N2O_90 - data_C1$corrected.N2O_60)/1000000/(30/100/2+30/100/2)
-   # data_C1$dCdz_top_120 <- (data_C1$corrected.N2O_120 - data_C1$corrected.N2O_90)/1000000/(30/100/2+30/100/2)
-   #
    # Figure out how the values in the denominator came to be, and change code accoringly.
    denominator <- c(`7.5` = 15/100/2, `30` = 30/100/2+15/100/2, `60` = 30/100/2+30/100/2, `90` = 30/100/2+30/100/2, `120` = 30/100/2+30/100/2)
    
