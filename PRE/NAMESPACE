@@ -2,4 +2,5 @@
 
 export(getEpsilons)
 export(getParameters)
+export(invert)
 importFrom(Rdpack,reprompt)

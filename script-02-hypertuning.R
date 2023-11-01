@@ -4,74 +4,38 @@
 #' date: 2023-10-02
 #' ---
 
+
 #' -----------------------------------------------------------------------------------------------------------
-#' Attach packages to search path
+#' Prepare work space
 #' -----------------------------------------------------------------------------------------------------------
 
+#' Attach packages to search path
 library(magrittr)
+library(PRE)
 library(np)
 library(animation)
 
-#' -----------------------------------------------------------------------------------------------------------
-#' Define global variables
-#' -----------------------------------------------------------------------------------------------------------
-
-palette <- colorRampPalette(c("#66999B","#0E4749","#E55812","#EFE7DA"))
-
-#' -----------------------------------------------------------------------------------------------------------
-#' Read data and parameters
-#' -----------------------------------------------------------------------------------------------------------
-
-#' Read parameters
-parameters <- jsonlite::read_json("resources/parameters.json", simplifyVector = TRUE)
+#' Define color function for plots
+palette <- colorRampPalette(c("#66999B","#0E4749","red"))
 
 #' Attach parameter list to global environment
-attach(parameters)
+PRE::getParameters() |> attach()
 
 #' Read the prepared data
-data <- read.csv("data/data-calculated.csv")
-
-#' Transform the variable `date_R` to `Date` class
-data[,"date"] %<>% as.Date
-
-#' Transform `column` to `ordered` to `integer`
-data[,"column"] %<>% as.ordered
-
-#' Transform `variety` from `character` to `factor`
-data[,"variety"] %<>% as.factor()
+data <- PRE::measurements
 
 #' Pre-define a data frame of every possible combination
 variables <- c("gN2ONha", "SP", "d18O")
-bandwidths <- exp(seq(log(5),log(100),l=50))
+bandwidths <- exp(seq(log(5), log(100), l = 50))
 results <- expand.grid(variable = variables,
                        column = 1:12,
                        depth = depths,
                        bandwidth = bandwidths,
                        cost = NA)
 
-#' Progressbar
-progressbar <- function (i, n) {
-   w <- (options("width")$width - 7)/n
-   cat("\r[", strrep("=", ceiling(i * w)), ">", strrep("-", floor((n - i) * w)), "] ", paste0(format(round(i/n * 100, 1), nsmall = 1), "%"), sep = "")
-}
-
 #' -----------------------------------------------------------------------------------------------------------
 #' Cross-validation of the curve smoothing
 #' -----------------------------------------------------------------------------------------------------------
-
-#' Function to `k`-fold cross-validate a model `FUN` for `r` times given the hyperparameter `theta`
-cross_validate <- function (FUN, x, y, k = nrow(x), r = 1, hyperparameter = NULL) {
-   results <- data.frame()
-   for (R in 1:r) {
-      I <- matrix(c(sample(1:nrow(x)), rep(NA, k - nrow(x)%%k)), ncol = k, byrow = TRUE)
-      for (K in 1:k) {
-         i <- na.omit(I[,K])
-         result <- cbind(cost = FUN(x_train = x[-i,], y_train = y[-i,], x_test = x[i,], y_test = y[i,], hyperparameter = hyperparameter), r = R, k = K)
-         results <- rbind(results, result)
-      }
-   }
-   return(results)
-}
 
 #' Define model evaluation function `FUN`
 options(np.messages = FALSE) # Turn off messages by the npreg function
