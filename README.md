@@ -158,7 +158,9 @@ N<sub>2</sub>O leaving the depth increment through diffusion
 (`N2Oden`), and the rate of N<sub>2</sub>O reduced to N<sub>2</sub>
 (`N2Ored`).
 
-$$\frac{d}{dt}[\ce{N2O}] = F_{top} + F_{bottom}  + \ce{N2O}_{\text{nitrification}} + \ce{N2O}_{\text{denitrification}} + \ce{N2O}_{\text{reduction}}$$
+<span id="eq-state">$$\frac{d}{dt}[\ce{N2O}] = F_{top} + F_{bottom}  + \ce{N2O}_{\text{nitrification}} + \ce{N2O}_{\text{denitrification}} + \ce{N2O}_{\text{reduction}} \qquad(8)$$</span>
+
+Continue here.
 
 # References
 
