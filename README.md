@@ -146,7 +146,19 @@ alt="Figure 4: Visualization of the optimal hyperparameter size by depth and co
 
 ## State function set
 
-Still to do.
+The process rate estimator includes three-state functions, describing
+the change in N<sub>2</sub>O concentrations over time. The change in
+N<sub>2</sub>O concentrations in each depth increment over time
+$\frac{d}{dt}[\ce{N2O}]$ depends on the flux of N<sub>2</sub>O entering
+the depth increment from the top or the bottom through diffusion
+($F_{top,in}$ and $F_{bot,in}$, respectively), the flux of
+N<sub>2</sub>O leaving the depth increment through diffusion
+($F_{out}$), the rate of N<sub>2</sub>O produced through nitrification
+(`N2Onit`), the rate of N<sub>2</sub>O produced through denitrification
+(`N2Oden`), and the rate of N<sub>2</sub>O reduced to N<sub>2</sub>
+(`N2Ored`).
+
+$$\frac{d}{dt}[\ce{N2O}] = F_{top} + F_{bottom}  + \ce{N2O}_{\text{nitrification}} + \ce{N2O}_{\text{denitrification}} + \ce{N2O}_{\text{reduction}}$$
 
 # References
 

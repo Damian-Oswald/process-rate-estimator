@@ -115,7 +115,10 @@ The bandwidth hyperparameter is individually tuned using 3-fold 10 times repeate
 
 ## State function set
 
-Still to do.
+The process rate estimator includes three-state functions, describing the change in N~2~O concentrations over time.
+The change in N~2~O concentrations in each depth increment over time $\frac{d}{dt}[\ce{N2O}]$ depends on the flux of N~2~O entering the depth increment from the top or the bottom through diffusion ($F_{top,in}$ and $F_{bot,in}$, respectively), the flux of N~2~O leaving the depth increment through diffusion ($F_{out}$), the rate of N~2~O produced through nitrification (`N2Onit`), the rate of N~2~O produced through denitrification (`N2Oden`), and the rate of N~2~O reduced to N~2~ (`N2Ored`).
+
+$$\frac{d}{dt}[\ce{N2O}] = F_{top} + F_{bottom}  + \ce{N2O}_{\text{nitrification}} + \ce{N2O}_{\text{denitrification}} + \ce{N2O}_{\text{reduction}}$$
 
 # References {-}
 
