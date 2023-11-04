@@ -24,8 +24,15 @@ PRE::getParameters() |> attach()
 #' Read the prepared data
 data <- PRE::measurements
 
+#' Calculate the volumetric N2O-N
+data[,"N2ONvolume"] <- with(data, N2O * 1/(R*temperature)*28)
+
+#' Calculate the area N2O-N
+data[,"N2ONarea"] <- with(data, N2ONvolume * increment/100 * (theta_t - moisture) * 10000/1000)
+
+
 #' Pre-define a data frame of every possible combination
-variables <- c("N2O", "SP", "d18O")
+variables <- c("N2ONarea", "SP", "d18O")
 bandwidths <- exp(seq(log(5), log(100), l = 50))
 results <- expand.grid(variable = variables,
                        column = 1:12,
