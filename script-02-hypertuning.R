@@ -26,7 +26,7 @@ data <- PRE::measurements
 
 #' Pre-define a data frame of every possible combination
 variables <- c("N2O", "SP", "d18O")
-bandwidths <- exp(seq(log(5), log(100), l = 5))
+bandwidths <- exp(seq(log(5), log(100), l = 50))
 results <- expand.grid(variable = variables,
                        column = 1:12,
                        depth = depths,
@@ -67,7 +67,7 @@ for (i in 1:nrow(results)) {
                        y = as.matrix(subset[,as.character(results[i,"variable"])]),
                        hyperparameter = results[i,"bandwidth"],
                        k = 3,
-                       r = 5)
+                       r = 10)
    
    # Calculate mean cost of all repeated model calibrations
    results[i,"cost"] <- mean(cv[,"cost"], na.rm = TRUE)

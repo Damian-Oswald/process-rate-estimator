@@ -1,6 +1,5 @@
 *.pdf
 *.html
 .DS_Store
-questions.qmd
-
 /.quarto/
+/varia/
