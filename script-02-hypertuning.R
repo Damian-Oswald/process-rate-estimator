@@ -30,7 +30,6 @@ data[,"N2ONvolume"] <- with(data, N2O * 1/(R*temperature)*28)
 #' Calculate the area N2O-N
 data[,"N2ONarea"] <- with(data, N2ONvolume * increment/100 * (theta_t - moisture) * 10000/1000)
 
-
 #' Pre-define a data frame of every possible combination
 variables <- c("N2ONarea", "SP", "d18O")
 bandwidths <- exp(seq(log(5), log(100), l = 50))
@@ -45,8 +44,10 @@ results <- expand.grid(variable = variables,
 #' -----------------------------------------------------------------------------------------------------------
 
 #' Define model evaluation function `FUN`
-options(np.messages = FALSE) # Turn off messages by the npreg function
 FUN <- function(x_train, x_test, y_train, y_test, hyperparameter) {
+   
+   # Turn off messages by the npreg function
+   options(np.messages = FALSE)
    
    # Create two data frames `train` and `test`
    train <- data.frame(x = x_train, y = y_train)
