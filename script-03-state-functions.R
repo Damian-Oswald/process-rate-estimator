@@ -18,10 +18,16 @@ remove(denominator, F_calc_bottom, F_calc_top, i, j, mask, value, complete, conc
 
 load("resources/hyperparameters.RData")
 
-getDerivative <- function(x, y, bandwidth = 1) {
-   formula <- formula(paste("y", "x", sep = "~"))
+getDerivative <- function(date, value, bandwidth = 1) {
+   x <- as.numeric(date)
+   formula <- formula(paste("value", "x", sep = "~"))
    f <- np::npreg(formula, data = data, bws = bandwidth)
-   predict(f)
+   xr <- seq(min(x), max(x), l = 160)
+   y <- predict(f, newdata = data.frame(x = xr))
+   plot(xr, y, type = "l")
+   diff(y)
+   
+   ?D()
 }
 
 with(data[data$column==1 & data$depth==7.5,],
@@ -30,6 +36,11 @@ with(data[data$column==1 & data$depth==7.5,],
      })
 
 data[data$column==1 & data$depth==7.5,]
+
+# numerical differentiation example
+f <- function(t) t^2
+t <- seq(-5,5,0.1)
+pracma::fderiv(f, t)
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Run solver
@@ -42,12 +53,15 @@ help("multiStart", package = "BB")
 attach(data[1,])
 
 dN2Odt <- 1 # get this from the approximated function
+dSP_dt <- 1 # get this from the approximated function
+d18O_dt <- 1 # get this from the approximated function
+
+
 SPtopin <- 1
 SPbottomin <- 1
-dSP_dt <- 1 # get this from the approximated function
+
 d18Otopin <- 1
 d18Obottomin <- 1
-d18O_dt <- 1 # get this from the approximated function
 
 eqset <- function(x = c(N2Onit = 0, N2Oden = 0, N2Ored = 0), e = unlist(getEpsilons())) {
    f <- numeric(length(x))
@@ -63,6 +77,9 @@ par <- multiStart(par = matrix(runif(1000*3, 0, 40), ncol = 3), fn = eqset, acti
                   details = FALSE,
                   quiet = TRUE)
 boxplot(par$par)
+
+
+
 
 
 

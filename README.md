@@ -158,9 +158,25 @@ N<sub>2</sub>O leaving the depth increment through diffusion
 (`N2Oden`), and the rate of N<sub>2</sub>O reduced to N<sub>2</sub>
 (`N2Ored`).
 
-<span id="eq-state">$$\frac{d}{dt}[\ce{N2O}] = F_{top} + F_{bottom}  + \ce{N2O}_{\text{nitrification}} + \ce{N2O}_{\text{denitrification}} + \ce{N2O}_{\text{reduction}} \qquad(8)$$</span>
+<span id="eq-stateN2O">$$\frac{\Delta[\ce{N2O}]}{\Delta t} = F_{top} + F_{bottom}  + \ce{N2O}_{\text{nitrification}} + \ce{N2O}_{\text{denitrification}} + \ce{N2O}_{\text{reduction}} \qquad(8)$$</span>
 
-Continue here.
+<span id="eq-stateSP">$$\frac{\Delta \text{SP}}{\Delta t} = F_{t,i}(\text{SP}_{t,i} - \eta_{SP,dif} - \text{SP}_0) + F_{b,i}(\text{SP}_{b,i}) ... \qquad(9)$$</span>
+
+## Numerical differentiation
+
+One common way to numerically approximate the derivative of a function
+$f$ at a point $t$ is through the central difference method. This method
+computes the average rate of change over a small interval around the
+point of interest.
+
+<span id="eq-centraldifference">$$\frac{df}{dt} \approx \frac{f(t + h) - f(t - h)}{2h} \qquad(10)$$</span>
+
+Here, $h$ is a small positive number known as the step size. The
+notations $f(t + h)$ and $f(t - h)$ represent the function values at
+$t + h$ and $t - h$, respectively. The smaller h is, the more accurate
+the approximation should be. However, if h is too small, then round-off
+errors from computer arithmetic can become significant. So, an
+appropriate balance must be struck.
 
 # References
 
