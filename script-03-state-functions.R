@@ -57,7 +57,8 @@ dSP_dt <- 1 # get this from the approximated function
 d18O_dt <- 1 # get this from the approximated function
 
 
-SPtopin <- 1
+
+SPtopin <- 1 
 SPbottomin <- 1
 
 d18Otopin <- 1
@@ -76,6 +77,7 @@ par <- multiStart(par = matrix(runif(1000*3, 0, 40), ncol = 3), fn = eqset, acti
                   control = list(tol = 5, noimp = 100, maxit = 1500),
                   details = FALSE,
                   quiet = TRUE)
+
 boxplot(par$par)
 
 

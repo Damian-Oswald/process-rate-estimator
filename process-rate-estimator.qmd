@@ -128,7 +128,7 @@ One common way to numerically approximate the derivative of a function $f$ at a 
 
 $$\frac{df}{dt} \approx \frac{f(t + h) - f(t - h)}{2h}$${#eq-centraldifference}
 
-Here, $h$ is a small positive number known as the step size. The notations $f(t + h)$ and $f(t - h)$ represent the function values at $t + h$ and $t - h$, respectively. The smaller h is, the more accurate the approximation should be. However, if h is too small, then round-off errors from computer arithmetic can become significant. So, an appropriate balance must be struck.
+Here, $h$ is a small positive number known as the step size. The notations $f(t + h)$ and $f(t - h)$ represent the function values at $t + h$ and $t - h$, respectively. The smaller h is, the more accurate the approximation should be. However, if h is too small, then round-off errors from computer arithmetic can become significant. So, an appropriate balance must be struck. The central difference method is implemented as the `fderiv` function in the `pracma` R package.
 
 # References {-}
 

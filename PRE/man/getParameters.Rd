@@ -12,6 +12,8 @@ getParameters(
   rho = 1260000,
   R = 0.082,
   N2Oatm = 0.2496,
+  SPatm = 15.1,
+  d18Oatm = 49.6,
   D_fw = 5.07e-06 * exp(-2371/temperature),
   D_fa = 1.436e-05 * (temperature/273.15)^1.81,
   H = (8547000 * exp(-2284/temperature))/(8.3145 * temperature),
@@ -21,7 +23,7 @@ getParameters(
 \arguments{
 \item{BD}{Bulk density.}
 
-\item{PD}{???}
+\item{PD}{Particle density.}
 
 \item{theta_t}{Total soil porosity.}
 
@@ -29,9 +31,13 @@ getParameters(
 
 \item{rho}{Gas density of N₂O.}
 
-\item{R}{Gas constant. ???}
+\item{R}{Gas constant [L⋅atm⋅K⁻¹⋅mol⁻¹].}
 
 \item{N2Oatm}{Atmospheric N₂O concentration [ppmv].}
+
+\item{SPatm}{Atmospheric SP concentration.}
+
+\item{d18Oatm}{Atmospheric d18O concentration.}
 
 \item{D_fw}{Diffusivity of N₂O in water.}
 
