@@ -100,6 +100,8 @@ for (i in complete) {
    data[mask & data$depth == depths[j],"F_bottom_in"] <- ifelse(F_calc_bottom < 0, 0, abs(F_calc_bottom))
    data[mask & data$depth == depths[j],"F_bottom_out"] <- ifelse(F_calc_bottom > 0, 0, abs(F_calc_bottom))
    
+   # if(j==5) data[mask & data$depth == depths[j], "SP_bottom_in"] <- 0
+   # else data[mask & data$depth == depths[j], "SP_bottom_in"] <- data[mask & data$depth == depths[j+1], "SP"]
 }
 
 #' In n' out
