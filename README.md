@@ -38,15 +38,15 @@ to have. In reality, some observations are missing.
 
 | Code        | Name                           | Description                                                                         |
 |:------------|:-------------------------------|:------------------------------------------------------------------------------------|
-| `date`      | Date (`YYYY-MM-DD`)            | Year + DOY                                                                          |
-| `column`    | Column                         |                                                                                     |
-| `depth`     | Measurement depth              |                                                                                     |
+| `date`      | Date (`YYYY-MM-DD`)            |                                                                                     |
+| `column`    | Column                         | One out of twelve experimental units.                                               |
+| `depth`     | Measurement depth              | Depth of the measurement, either 7.5, 30, 60, 90, or 120 cm                         |
 | `increment` | Height of a specific layer     |                                                                                     |
-| `variety`   | Wheat variety                  |                                                                                     |
+| `variety`   | Wheat variety                  | Either `CH Claro`, `Monte Calme 268`, `Probus`, or `Zinal`.                         |
 | `moisture`  | Soil moisture                  |                                                                                     |
 | `N2O`       | Corrected N<sub>2</sub>O conc. |                                                                                     |
 | `CO2`       | Corrected CO<sub>2</sub> conc. |                                                                                     |
-| `SP`        | Site preference                |                                                                                     |
+| `SP`        | Site preference                | Site preference values for N<sub>2</sub>O                                           |
 | `d15Nbulk`  |                                |                                                                                     |
 | `d15Nalpha` |                                |                                                                                     |
 | `d15Nbeta`  |                                |                                                                                     |
@@ -176,7 +176,8 @@ notations $f(t + h)$ and $f(t - h)$ represent the function values at
 $t + h$ and $t - h$, respectively. The smaller h is, the more accurate
 the approximation should be. However, if h is too small, then round-off
 errors from computer arithmetic can become significant. So, an
-appropriate balance must be struck.
+appropriate balance must be struck. The central difference method is
+implemented as the `fderiv` function in the `pracma` R package.
 
 # References
 
