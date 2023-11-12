@@ -35,20 +35,20 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 
 @eq-dimension shows how many observations we should expect to have. In reality, some observations are missing.
 
-| Code        | Name                        | Description                                                 |
-|:------------|:----------------------------|:------------------------------------------------------------|
-| `date`      | Date (`YYYY-MM-DD`)         |                                                             |
-| `column`    | Column                      | One out of twelve experimental units.                       |
-| `depth`     | Measurement depth           | Depth of the measurement, either 7.5, 30, 60, 90, or 120 cm |
-| `increment` | Height of a specific layer  |                                                             |
-| `variety`   | Wheat variety               | Either `CH Claro`, `Monte Calme 268`, `Probus`, or `Zinal`. |
-| `moisture`  | Soil moisture               |                                                             |
-| `N2O`       | Corrected N~2~O conc.       |                                                             |
-| `CO2`       | Corrected CO~2~ conc.       |                                                             |
-| `SP`        | Site preference             | Site preference values for N~2~O                            |
-| `d15Nbulk`  |                             |                                                             |
-| `d15Nalpha` |                             |                                                             |
-| `d15Nbeta`  |                             |                                                             |
+| Code        | Name                        | Description                                                       |
+|:------------|:----------------------------|:------------------------------------------------------------------|
+| `date`      | Date (`YYYY-MM-DD`)         |                                                                   |
+| `column`    | Column                      | One out of twelve experimental units.                             |
+| `depth`     | Measurement depth           | Depth of the measurement, either 7.5, 30, 60, 90, or 120 cm.      |
+| `increment` | Height of a specific layer  |                                                                   |
+| `variety`   | Wheat variety               | Either `CH Claro`, `Monte Calme 268`, `Probus`, or `Zinal`.       |
+| `moisture`  | Soil moisture               |                                                                   |
+| `N2O`       | Corrected N~2~O conc.       |                                                                   |
+| `CO2`       | Corrected CO~2~ conc.       |                                                                   |
+| `SP`        | Site preference             | Site preference values for N~2~O                                  |
+| `d15Nbulk`  |                             |                                                                   |
+| `d15Nalpha` |                             |                                                                   |
+| `d15Nbeta`  |                             |                                                                   |
 | `d18O`      |                             | Ratio of stable isotopes oxygen-18 (^18^O) and oxygen-16 (^16^O). |
 
 # Formal model description

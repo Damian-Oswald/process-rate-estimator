@@ -107,5 +107,35 @@ for (i in complete) {
 #' In n' out
 data$F_out <- with(data, F_bottom_out + F_top_out)
 
+#' Calculate top and bottom inputs for SP and d18O
+for (i in complete) {
+   
+   # Create a `mask`, which is a logical vector selecting all current 
+   j <- which(depths==data[i,"depth"]) # Get the current depth index
+   mask <- with(data, column == data[i,"column"] & date == data[i,"date"])
+   
+   # Inputs from the bottom layer: if we're in the deepest increment, the inputs are all zero
+   if(j==5) {
+      data[mask & data$depth == depths[j],"SP_bottom"] <- 0
+      data[mask & data$depth == depths[j],"d18O_bottom"] <- 0
+   } else {
+      x <- data[mask & data$depth == depths[j+1],"SP"]
+      data[mask & data$depth == depths[j],"SP_bottom"] <- ifelse(length(x)==1,x,NA)
+      x <- data[mask & data$depth == depths[j+1],"d18O"]
+      data[mask & data$depth == depths[j],"d18O_bottom"] <- ifelse(length(x)==1,x,NA)
+   }
+   
+   # Inputs from the top layer: if we're in the surface increment, the inputs are from the atmosphere
+   if(j==1) {
+      data[mask & data$depth == depths[j],"SP_top"] <- SPatm
+      data[mask & data$depth == depths[j],"d18O_top"] <- d18Oatm
+   } else {
+      x <- data[mask & data$depth == depths[j-1],"SP"]
+      data[mask & data$depth == depths[j],"SP_top"] <- ifelse(length(x)==1,x,NA)
+      x <- data[mask & data$depth == depths[j-1],"d18O"]
+      data[mask & data$depth == depths[j],"d18O_top"] <- ifelse(length(x)==1,x,NA)
+   }
+}
+
 #' Write data to resources
 write.csv(data, file = "data/data-calculated.csv", row.names = FALSE)
