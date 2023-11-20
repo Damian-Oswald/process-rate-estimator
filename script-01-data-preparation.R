@@ -39,6 +39,8 @@ data[,"N2ONarea"] <- with(data, N2ONvolume * increment/100 * (theta_t - moisture
 
 visdat::vis_miss(data[complete,-c(1:13)])
 
+visdat::vis_miss(PRE::measurements[,-c(8,11:13)])
+
 #' -----------------------------------------------------------------------------------------------------------
 #' Start calculating the parameters
 #' -----------------------------------------------------------------------------------------------------------
