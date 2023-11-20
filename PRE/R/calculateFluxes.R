@@ -37,9 +37,9 @@ calculateFluxes <- function(data = PRE::measurements, parameters = PRE::getParam
         
         # calculate the N2O concentration gradient dC/cZ
         if(j==1) {
-            C <- c(data[i,"N2O"], N2Oatm) # in the top layer, C is the difference between N2O concentration and atmospheric N2O concentration 
+            C <- c(N2Oatm, data[i,"N2O"]) # in the top layer, C is the difference between N2O concentration and atmospheric N2O concentration 
         } else {
-            C <- c(data[i,"N2O"], data[i_top,"N2O"]) # in the other layers, C is the difference between current and top N2O concentration
+            C <- c(data[i_top,"N2O"], data[i,"N2O"]) # in the other layers, C is the difference between current and top N2O concentration
         }
         dC <- ifelse(is.null(diff(C)), NA, diff(C)/1000000)
         dZ <- (diff(c(0,depths))/100)[j] # dZ is the distance from one measurement depth to the next in meters
@@ -95,16 +95,16 @@ calculateFluxes <- function(data = PRE::measurements, parameters = PRE::getParam
     
     return(data)
 }
-
-results <- calculateFluxes(data = PRE::measurements, parameters = PRE::getParameters())
-complete <- PRE::measurements |> apply(2, is.na) |> apply(1, any) |> PRE::invert() |> which()
-apply(results, 2, function(x) sum(PRE::invert(is.na(x))))
-visdat::vis_miss(results[complete,])
-
-with(results, table(column, depth))
-with(results[is.na(results$F_out),], table(column, depth))
-
-results[complete,][which(is.na(results[complete,"F_bottom_in"])),]
+# 
+# results <- calculateFluxes(data = PRE::measurements, parameters = PRE::getParameters())
+# complete <- PRE::measurements |> apply(2, is.na) |> apply(1, any) |> PRE::invert() |> which()
+# apply(results, 2, function(x) sum(PRE::invert(is.na(x))))
+# visdat::vis_miss(results[complete,])
+# 
+# with(results, table(column, depth))
+# with(results[is.na(results$F_out),], table(column, depth))
+# 
+# results[complete,][which(is.na(results[complete,"F_bottom_in"])),]
 
 
 

@@ -13,7 +13,13 @@ library(np)
 library(PRE)
 
 #' Calculate fluxes from measurement data
-data <- calculateFluxes(data = PRE::measurements, parameters = PRE::getParameters())
+data2 <- calculateFluxes(data = PRE::measurements, parameters = PRE::getParameters())
+source("script-01-data-preparation.R")
+
+for (i in colnames(data)) {
+    plot(data[,i], data2[,i], main = i, xlab = "Old", ylab = "New")
+    abline(a = 0, b = 1)
+}
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Derivative

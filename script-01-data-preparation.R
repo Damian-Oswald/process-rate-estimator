@@ -64,8 +64,6 @@ data$theta_a <- with(data, 1 - theta_w/theta_t)
 #' Calculate Ds
 data$Ds <- with(data, ((theta_w^(10/3)*D_fw)/H+theta_a^(10/3)*D_fa)*theta_t^-2)
 
-visdat::vis_miss(data[complete,-c(1:13)])
-
 #' *Calculate dC/dz*
 #' In this step, we calculate the N2O concentration gradient as the difference in concentration between the current depth increment and the one above
 for (i in complete) {
@@ -86,7 +84,7 @@ for (i in complete) {
 }
 
 #' Calculate `F_calc` across depths, considering flux is upward (originally in mg N2O-N/m2/s, converted to g N/ha/day)
-data[,"F_calc"] <- with(data, dCdZ * Ds * rho * 10000 * 3600 * 24/1000)
+data[,"F"] <- with(data, dCdZ * Ds * rho * 10000 * 3600 * 24/1000)
 
 #' Check missing values
 visdat::vis_miss(data[complete,-c(1:13)])
@@ -104,8 +102,8 @@ for (i in complete) {
    center <- which(with(data, column == data[i,"column"] & date == data[i,"date"] & depth == depths[j]))
    bottom <- which(with(data, column == data[i,"column"] & date == data[i,"date"] & depth == depths[j+1]))
    
-   F_calc_top <- data[center,"F_calc"]
-   if(j==5) F_calc_bottom <- 0 else F_calc_bottom <- data[bottom,"F_calc"]
+   F_calc_top <- data[center,"F"]
+   if(j==5) F_calc_bottom <- 0 else F_calc_bottom <- data[bottom,"F"]
    if(length(F_calc_top)==0) F_calc_top <- NA
    if(length(F_calc_bottom)==0) F_calc_bottom <- NA
    
@@ -151,3 +149,6 @@ for (i in complete) {
 
 #' Write data to resources
 write.csv(data, file = "data/data-calculated.csv", row.names = FALSE)
+
+rm("bottom","center","complete","concentration","denominator","F_calc_bottom","F_calc_top","i","j","mask","palette","top","value","x")
+
