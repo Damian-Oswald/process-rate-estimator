@@ -12,11 +12,8 @@
 library(magrittr)
 library(PRE)
 
-#' Define color function for plots
-palette <- colorRampPalette(c("#66999B","#0E4749","red"))
-
 #' Attach parameter list to global environment
-PRE::getParameters() |> attach()
+list2env(PRE::getParameters(), environment())
 
 #' Read the prepared data
 data <- PRE::measurements
@@ -36,10 +33,6 @@ data[,"N2ONvolume"] <- with(data, N2O * 1/(R*temperature)*28)
 
 #' Calculate the area N2O-N
 data[,"N2ONarea"] <- with(data, N2ONvolume * increment/100 * (theta_t - moisture) * 10000/1000)
-
-visdat::vis_miss(data[complete,-c(1:13)])
-
-visdat::vis_miss(PRE::measurements[,-c(8,11:13)])
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Start calculating the parameters
@@ -68,12 +61,14 @@ data$Ds <- with(data, ((theta_w^(10/3)*D_fw)/H+theta_a^(10/3)*D_fa)*theta_t^-2)
 #' In this step, we calculate the N2O concentration gradient as the difference in concentration between the current depth increment and the one above
 for (i in complete) {
    
+   # WARNING: THE FOLLOWING CODE IS BUGGY -- THE SELECTION VIA MASK DOESN'T KEEP THE ORDER
+   
    # Create a `mask`, which is a logical vector selecting all current 
    j <- which(depths==data[i,"depth"]) # Get the current depth index
    mask <- with(data, column == data[i,"column"] & date == data[i,"date"] & depth %in% depths[(j-1):j])
    
    # Get the N2O concentration of current and above layer
-   concentration <- data[mask,"N2O"]
+   concentration <- rev(data[mask,"N2O"])
    if(j==1) concentration <- c(N2Oatm, concentration)
    
    # Save the denominator, which is the distance from one measurement point to the next

@@ -13,13 +13,10 @@ library(np)
 library(PRE)
 
 #' Calculate fluxes from measurement data
-data2 <- calculateFluxes(data = PRE::measurements, parameters = PRE::getParameters())
-source("script-01-data-preparation.R")
+data <- calculateFluxes(data = measurements, parameters = getParameters())
 
-for (i in colnames(data)) {
-    plot(data[,i], data2[,i], main = i, xlab = "Old", ylab = "New")
-    abline(a = 0, b = 1)
-}
+#' Visualize some results
+boxplot(F ~ depth, data, outline = FALSE)
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Derivative
@@ -47,14 +44,14 @@ derivatives[derivatives$date=="2015-09-02",2:4]
 
 #' try to run the state equations once with arbitrary starting values
 stateEquations(
-   x = c(N2Onit = 1, N2Oden = 2, N2Ored = 3),
+   x = c(N2Onit = 20, N2Oden = 20, N2Ored = 20),
    e = unlist(getEpsilons()),
    derivatives = as.list(derivatives[derivatives$date=="2015-09-02",2:4]),
    fluxes = as.list(data[data$column==column & data$depth==depth & data$date=="2015-09-02",])
 )
 
 #' run repeatedly with varying starting values using the multistart package
-ans <- multiStart(par = matrix(runif(50*3, 0, 40), ncol = 3),
+solution <- multiStart(par = matrix(runif(500*3, 0, 40), ncol = 3),
                   fn = stateEquations,
                   action = "solve",
                   method = 2, 
@@ -65,10 +62,12 @@ ans <- multiStart(par = matrix(runif(50*3, 0, 40), ncol = 3),
                   derivatives = as.list(derivatives[derivatives$date=="2015-09-02",2:4]),
                   fluxes = as.list(data[data$column==column & data$depth==depth & data$date=="2015-09-02",]))
 
-# selecting only converged solutions
-pmat <- ans$par[ans$converged,]
-colnames(pmat) = c("N2Onit", "N2Oden", "N2Ored")
-boxplot(pmat)
-b <- barplot(apply(pmat, 2, mean), ylim = c(-10,30), col = "transparent") # how can we have negative values???
-arrows(x0 = unlist(b), y0 = apply(pmat, 2, mean)+apply(pmat, 2, damoswa::se)*1.96, y1 = apply(pmat, 2, mean)-apply(pmat, 2, damoswa::se)*1.96, code = 3, angle = 90)
-
+# selecting only best 2.5% of solutions
+P <- with(solution, par[fvalue < quantile(fvalue, probs = 0.05),])
+colnames(P) = c("N2Onit", "N2Oden", "N2Ored")
+cbind(parameter = rep(1:3, each = nrow(P)), value = as.numeric(P)) |> plot(cex = 0.8, col = "grey", pch = 16, axes = FALSE, xlab = "", ylab = "", xlim = c(0.5,3.5))
+grid()
+arrows(x0 = 1:3, y0 = apply(P, 2, mean)+apply(P, 2, damoswa::se)*1.96, y1 = apply(P, 2, mean)-apply(P, 2, damoswa::se)*1.96, code = 3, angle = 90)
+axis(2, col = "transparent", col.ticks = par()$fg, las = 1)
+points(1:3, colMeans(P), pch = 16)
+axis(1, at = 1:3, labels = colnames(P), col = "transparent")

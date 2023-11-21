@@ -36,12 +36,8 @@ calculateFluxes <- function(data = PRE::measurements, parameters = PRE::getParam
         data[i,"Ds"] <- with(data[i,], ((theta_w^(10/3)*D_fw)/H+theta_a^(10/3)*D_fa)*theta_t^-2)
         
         # calculate the N2O concentration gradient dC/cZ
-        if(j==1) {
-            C <- c(N2Oatm, data[i,"N2O"]) # in the top layer, C is the difference between N2O concentration and atmospheric N2O concentration 
-        } else {
-            C <- c(data[i_top,"N2O"], data[i,"N2O"]) # in the other layers, C is the difference between current and top N2O concentration
-        }
-        dC <- ifelse(is.null(diff(C)), NA, diff(C)/1000000)
+        dC <- (data[i,"N2O"] - ifelse(j==1, N2Oatm, data[i_top,"N2O"]))/1000000
+        if(length(dC)==0) dC <- NA
         dZ <- (diff(c(0,depths))/100)[j] # dZ is the distance from one measurement depth to the next in meters
         data[i,"dCdZ"] <- dC/dZ
         
