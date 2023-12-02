@@ -91,16 +91,3 @@ calculateFluxes <- function(data = PRE::measurements, parameters = PRE::getParam
     
     return(data)
 }
-# 
-# results <- calculateFluxes(data = PRE::measurements, parameters = PRE::getParameters())
-# complete <- PRE::measurements |> apply(2, is.na) |> apply(1, any) |> PRE::invert() |> which()
-# apply(results, 2, function(x) sum(PRE::invert(is.na(x))))
-# visdat::vis_miss(results[complete,])
-# 
-# with(results, table(column, depth))
-# with(results[is.na(results$F_out),], table(column, depth))
-# 
-# results[complete,][which(is.na(results[complete,"F_bottom_in"])),]
-
-
-
