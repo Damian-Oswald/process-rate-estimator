@@ -12,19 +12,27 @@
 #' Attach packages to search path
 library(magrittr)
 library(PRE)
+library(np)
 library(animation)
 
 #' Read the prepared data
-data <- calculateFluxes(data = measurements, parameters = getParameters())
+load("resources/hyperparameters.Rdata")
+
+data <- getMissing(hyperparameters = hyperparameters)
+
+data <- calculateFluxes(data = data, parameters = getParameters())
 
 #' Pre-define a data frame of every possible combination
-variables <- c("N2ONarea", "SP", "d18O")
+variables <- c("N2ONarea", "SP", "d18O", "F_top_in", "F_bottom_in")
 bandwidths <- exp(seq(log(5), log(100), l = 50))
 results <- expand.grid(variable = variables,
                        if("column"%in%variables) column = 1:12,
                        depth = depths,
                        bandwidth = bandwidths,
                        cost = NA)
+
+ss <- data[data$column==1 & data$depth==7.5,]
+plot(N2O ~ date, PRE::measurements)
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Cross-validation of the curve smoothing

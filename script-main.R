@@ -13,10 +13,25 @@ library(np)
 library(PRE)
 
 #' Calculate fluxes from measurement data
-data <- calculateFluxes(data = measurements, parameters = getParameters())
+data <- getMissing(measurements, hyperparameters = hyperparameters)
+str(data)
+calculateFluxes(data)
 
 #' Visualize some results
-boxplot(F ~ depth, data, outline = FALSE)
+boxplot(N2O ~ depth, data, outline = FALSE, log = "y")
+
+#' Compare old and new data
+comparison = read.csv("/Users/answaltan/Desktop/new_data_C1_7.csv")
+rangeComparison <- function(newname, oldname = newname) {
+    x <- data[data$column==1 & data$depth==7.5, newname]
+    y <- comparison[,oldname]
+    boxplot(list(New = x, Old = y), outline = FALSE)
+    if(t.test(x,y)$p.value<0.05) title(main = "Group differences detected") else title(main = "No group differences detected")
+}
+rangeComparison("N2O") # --> This is already not good...
+rangeComparison("F_top_in")
+rangeComparison("F_bottom_in")
+rangeComparison("F_bottom_in")
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Derivative

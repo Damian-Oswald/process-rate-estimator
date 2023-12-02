@@ -114,12 +114,10 @@ dev.off()
 #' -----------------------------------------------------------------------------------------------------------
 
 #' Rearrange the data frame with only relevant variables
-measurements <- data[,c("date", "column", "depth", "increment", "variety", "moisture", "N2O", "CO2", "SP", "d18O", "d15Nbulk", "d15Nalpha", "d15Nbeta")]
+measurements <- data[,c("date", "column", "depth", "increment", "variety", "moisture", "N2O", "SP", "d18O")]
 
 #' Set package working directory
 setwd(file.path(getwd(),"PRE"))
 
 #' Save `measurements` data frame for the R package `PRE`
 usethis::use_data(measurements, overwrite = TRUE)
-
-

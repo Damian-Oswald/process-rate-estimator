@@ -23,7 +23,9 @@
 #' 
 #' @export
 getDerivative <- function(x, y, bandwidth, newdata = NULL, n = 1, h = NULL) {
-   model <- np::npreg(y ~ x, data = data, bws = bandwidth)
+   model <- np::npreg(y ~ x, data = data.frame(x = x, y = y), bws = bandwidth)
    f <- function(x) predict(model, newdata = data.frame(x = x))
    pracma::fderiv(f = f, x = {if(is.null(newdata)) x else newdata}, n = n, h = if(is.null(h)) 0 else h)
 }
+
+
