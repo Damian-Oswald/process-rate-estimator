@@ -15,13 +15,6 @@ library(PRE)
 library(np)
 library(animation)
 
-#' Read the prepared data
-load("resources/hyperparameters.Rdata")
-
-data <- getMissing(hyperparameters = hyperparameters)
-
-data <- calculateFluxes(data = data, parameters = getParameters())
-
 #' Pre-define a data frame of every possible combination
 variables <- c("N2ONarea", "SP", "d18O", "F_top_in", "F_bottom_in")
 bandwidths <- exp(seq(log(5), log(100), l = 50))

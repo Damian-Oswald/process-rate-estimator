@@ -7,7 +7,6 @@
 stateEquations(
   x = c(N2Onit = NA, N2Oden = NA, N2Ored = NA),
   e = unlist(getEpsilons()),
-  derivatives = list(N2O_derivative = NA, SP_derivative = NA, d18O_derivative = NA),
   fluxes = list(F_top_in = NA, F_bottom_in = NA, F_out = NA, SP_top = NA, SP = NA,
     SP_bottom = NA, N2O = NA, d18O_top = NA, d18O_bottom = NA, d18O = NA)
 )
@@ -17,9 +16,9 @@ stateEquations(
 
 \item{e}{Vector of the isotope end members.}
 
-\item{derivatives}{Derivatives of \code{N2O}, \code{SP} and \code{d18O} with respect to time.}
-
 \item{fluxes}{Values of \code{N2O}, \code{SP} and \code{d18O} as well as their fluxes from other increments.}
+
+\item{derivatives}{Derivatives of \code{N2O}, \code{SP} and \code{d18O} with respect to time.}
 }
 \description{
 The state equation set are the core of the process rate estimator (PRE).

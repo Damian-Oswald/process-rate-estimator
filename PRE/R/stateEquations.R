@@ -13,9 +13,8 @@
 #' @export
 stateEquations <- function(x = c(N2Onit = NA, N2Oden = NA, N2Ored = NA),
                            e = unlist(getEpsilons()),
-                           derivatives = list(N2O_derivative = NA, SP_derivative = NA, d18O_derivative = NA),
                            fluxes = list(F_top_in = NA, F_bottom_in = NA, F_out = NA, SP_top = NA, SP = NA, SP_bottom = NA, N2O = NA, d18O_top = NA, d18O_bottom = NA, d18O = NA)) {
-   with(c(derivatives, fluxes), {
+   with(fluxes, {
       f <- numeric(3)
       f[1] <- F_top_in + F_bottom_in - F_out + x[1] + x[2] - x[3] - N2O_derivative
       f[2] <- (F_top_in*(SP_top - e[3] - SP) + F_bottom_in*(SP_bottom - e[3] - SP) + x[1]*(e[1]-SP) + 

@@ -12,11 +12,14 @@ getMissing <- function(data = PRE::measurements, hyperparameters) {
         for (column in dimnames(hyperparameters)[[2]]) {
             for (depth in dimnames(hyperparameters)[[1]]) {
                 indices <- which(data[,"column"]==column & data[,"depth"]==as.numeric(depth))
-                computed <- PRE::getDerivative(x = as.numeric(data[indices,"date"]),
-                                               y = data[indices,variable],
-                                               bandwidth = hyperparameters[as.character(depth),as.character(column),variable],
-                                               n = 0)
-                data[indices,variable] <- computed
+                data[indices,variable] <- PRE::getDerivative(x = as.numeric(data[indices,"date"]),
+                                                             y = data[indices,variable],
+                                                             bandwidth = hyperparameters[as.character(depth),as.character(column),variable],
+                                                             n = 0)
+                data[indices,paste0(variable,"_derivative")] <- PRE::getDerivative(x = as.numeric(data[indices,"date"]),
+                                                                                   y = data[indices,variable],
+                                                                                   bandwidth = hyperparameters[as.character(depth),as.character(column),variable],
+                                                                                   n = 1)
             }
         }
     }
