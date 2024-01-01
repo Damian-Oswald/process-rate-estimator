@@ -16,10 +16,6 @@ calculateFluxes <- function(data = PRE::measurements, parameters = PRE::getParam
     # save index vector of complete observations
     complete <- data |> apply(2, is.na) |> apply(1, any) |> PRE::invert() |> which()
     
-    # calculate the volumetric and area N2O-N
-    data[,"N2ONvolume"] <- with(data, N2O * 1/(R*temperature)*28)
-    data[,"N2ONarea"] <- with(data, N2ONvolume * increment/100 * (theta_t - moisture) * 10000/1000)
-    
     # loop through every complete observation in the data frame
     for (i in complete) {
         

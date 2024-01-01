@@ -12,5 +12,5 @@ getMissing(data = PRE::measurements, hyperparameters)
 \item{hyperparameters}{An array of hyperparameters (bandwidths) used in the kernel regression process.}
 }
 \description{
-This function automatically optimizes the bandwidth for a specified combination of variables.
+This function interpolates the missing values of all variable names in \code{hyperparameters}. Also, it returns the derivatives of the smoothing functions used.
 }

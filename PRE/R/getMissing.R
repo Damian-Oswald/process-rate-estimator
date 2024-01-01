@@ -1,7 +1,6 @@
 #' @title Interpolate missing measurement data using kernel regression
 #' 
-#' @description
-#' This function automatically optimizes the bandwidth for a specified combination of variables.
+#' @description This function interpolates the missing values of all variable names in `hyperparameters`. Also, it returns the derivatives of the smoothing functions used.
 #' 
 #' @param data The original data we wish to interpolate. Needs to have the same variables as [measurements].
 #' @param hyperparameters An array of hyperparameters (bandwidths) used in the kernel regression process.
