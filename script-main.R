@@ -19,8 +19,8 @@ load("resources/hyperparameters.Rdata")
 parameters <- getParameters()
 
 #' Calculate N2O-N
-PRE::measurements |>
-    getN2ON(parameters = parameters) |>
+measurements <- getN2ON(data = PRE::measurements, parameters = parameters)
+measurements
     getMissing(hyperparameters = hyperparameters) |> # Interpolate the missing values based on the bandwidths in `hyperparameters` (This function interpolates all values over time; and it also computes and adds the derivatives)
     calculateFluxes(parameters = parameters) -> # Calculate fluxes from measurement data (This function calculates all necessary parameters from the data)
     data
@@ -47,14 +47,23 @@ boxplot(SP ~ depth, data, outline = FALSE, log = "")
 #' Run solver
 #' -----------------------------------------------------------------------------------------------------------
 
+magnitude = round(sapply(results, function(x) x[3,"N2Onit"]))
+magnitude <- magnitude + abs(min(magnitude)) + 1
+plot(x = data[data$column==column & data$depth==depth, "d18O"],
+     y = data[data$column==column & data$depth==depth, "SP"],
+     xlab = names["d18O"],
+     ylab = names["SP"], pch = 16,
+     col = viridis::viridis(6)[magnitude])
+
+
 # Run for-loop on all
-for (column in 8:12) {
+for (column in 1) {
     
-    for (depth in getParameters()$depths) {
+    for (depth in 7.5) {
         
         # Run PRE on all combinations
         dates <- data[data$column==column & data$depth==depth, "date"]
-        results <- lapply(dates, function(x) PRE::runPRE(data = data, column = column, depth = depth, date = x, nonNegative = FALSE))
+        results <- lapply(dates, function(x) PRE::runPRE(data = data, column = column, depth = depth, date = x, n = 1000, nonNegative = FALSE))
         
         # Write all results as PDF
         cairo_pdf(sprintf("results/PRE/Estimated-Process-Rates-C%s-D%s.pdf", column, depth), width = 8.27, height = 11.67, onefile = TRUE)
@@ -64,9 +73,14 @@ for (column in 8:12) {
             names <- c(N2ONarea = expression("N"[2]*"O-N"[area]),
                        SP = "SP",
                        d18O = expression("δ"^18*"O"))
+            ranges <- list(N2ONarea = c(0,10),
+                           SP = c(-8,23),
+                           d18O = c(22,55))
             plot(x = dates, y = data[data$column==column & data$depth==depth, x],
-                 type = "l", lwd = 2, xlab = "Time", ylab = names[x])
+                 type = "l", lwd = 2, xlab = "Time", ylab = names[x], ylim = ranges[[x]])
             grid(col = 1)
+            points(x = dates, y = measurements[data$column==column & data$depth==depth, x],
+                   pch = 16, cex = 0.8)
         }
         for (process in c("N2Onit", "N2Oden", "N2Ored")) {
             processnames <- c(N2Onit = expression("N"[2]*"O"[nitrification]),
@@ -84,18 +98,7 @@ for (column in 8:12) {
             }
             lines(x = dates, y = sapply(results, function(x) x[3,process]), lwd = 2)
             grid(col = 1)
-        }
-        mtext(text = sprintf("Column %s at a depth of %s cm", column, depth), outer = TRUE, side = 3, adj = 0)
-        layout(matrix(1:9,nrow=3))
-        par(mar = c(4,4,1,1)+0.5, oma = rep(2,4))
-        for (x in c("N2ONarea", "SP", "d18O")) {
-            for (process in c("N2Onit", "N2Oden", "N2Ored")) {
-                plot(x = sapply(results, function(x) x[3,process]),
-                     y = data[data$column==column & data$depth==depth, x],
-                     xlab = processnames[process],
-                     ylab = names[x], pch = 16)
-                grid(col = 1)
-            }
+            abline(h = 0)
         }
         mtext(text = sprintf("Column %s at a depth of %s cm", column, depth), outer = TRUE, side = 3, adj = 0)
         dev.off()
@@ -106,9 +109,6 @@ for (column in 8:12) {
         cat(" ...Done!\n")
     }
 }
-
-# How to read it again...
-jsonlite::read_json("results/PRE/PRE-results-C1-D7.5.json", simplifyVector = TRUE)
 
 
 
