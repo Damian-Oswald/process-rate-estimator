@@ -47,42 +47,14 @@ boxplot(SP ~ depth, data, outline = FALSE, log = "")
 #' Run solver
 #' -----------------------------------------------------------------------------------------------------------
 
-# Function to run PRE for *one* specific column, depth and date
-runPRE <- function(data, column, depth, date, nonNegative = FALSE, n = 200) {
-    
-    # run repeatedly with varying starting values using the multistart package
-    solution <- multiStart(par = matrix(runif(n*3, 0, 40), ncol = 3),
-                           fn = stateEquations,
-                           action = "solve",
-                           control = list(tol = 1e3),
-                           details = FALSE,
-                           quiet = TRUE,
-                           e = unlist(getEpsilons()),
-                           fluxes = as.list(data[data$column==column & data$depth==depth & data$date==date,]))
-    
-    # select all the converged solutions
-    solution <- with(solution, par[converged,])
-    colnames(solution) = c("N2Onit", "N2Oden", "N2Ored")
-    
-    # select only solutions for which all (estimated) processes are is non-negative
-    if(nonNegative) solution <- solution[apply(solution, 1, function(x) all(x>0)),]
-    
-    # print out a success message
-    cat(sprintf("\rPRE run with %s solutions (C%s D%s %s)", nrow(solution), column, depth, as.character(as.Date(date))))
-    
-    # return the quantiles on the solution
-    apply(solution, 2, quantile, probs = c(0.025, 0.25, 0.5, 0.75, 0.975))
-}
-
-
 # Run for-loop on all
-for (column in 7:12) {
+for (column in 8:12) {
     
     for (depth in getParameters()$depths) {
         
         # Run PRE on all combinations
         dates <- data[data$column==column & data$depth==depth, "date"]
-        results <- lapply(dates, function(x) runPRE(data = data, column = column, depth = depth, date = x, nonNegative = TRUE))
+        results <- lapply(dates, function(x) PRE::runPRE(data = data, column = column, depth = depth, date = x, nonNegative = FALSE))
         
         # Write all results as PDF
         cairo_pdf(sprintf("results/PRE/Estimated-Process-Rates-C%s-D%s.pdf", column, depth), width = 8.27, height = 11.67, onefile = TRUE)
