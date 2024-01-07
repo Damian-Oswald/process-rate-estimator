@@ -1,74 +1,59 @@
-#' ---
-#' title: Process Rate Estimator
-#' author: Damian Oswald
-#' date: 2023-10-02
-#' ---
+# ---
+# title: Process Rate Estimator
+# author: Damian Oswald
+# date: 2023-10-02
+# ---
 
-#' -----------------------------------------------------------------------------------------------------------
-#' Load the `PRE` package from GitHub
-#' -----------------------------------------------------------------------------------------------------------
+# load the `PRE` package from GitHub
+remotes::install_github("https://github.com/Damian-Oswald/PRE")
 
-remotes::install_github("https://github.com/Damian-Oswald/process-rate-estimator/tree/main/PRE")
-
-#' -----------------------------------------------------------------------------------------------------------
-#' Load the `PRE` package from GitHub
-#' -----------------------------------------------------------------------------------------------------------
-
+# attach the package to the search path
 library(PRE)
 
-#' Load the prepared hyperparameters
+# load the prepared hyperparameters
 load("resources/hyperparameters.Rdata")
 
-#' Load the parameters for this session
+# load the measurements used for the modelling
+measurements <- PRE::measurements
+
+# load the parameters for this session
 parameters <- getParameters()
 
-#' Calculate N2O-N
-measurements <- getN2ON(data = PRE::measurements, parameters = parameters)
-measurements
-    getMissing(hyperparameters = hyperparameters) |> # Interpolate the missing values based on the bandwidths in `hyperparameters` (This function interpolates all values over time; and it also computes and adds the derivatives)
-    calculateFluxes(parameters = parameters) -> # Calculate fluxes from measurement data (This function calculates all necessary parameters from the data)
-    data
+# calculate N2O-N
+original <- getN2ON(data = PRE::measurements, parameters = parameters)
 
-#' Look at the derivatives
-instpect <- function(xname = "N2O", Column = 1, Depth = 7.5) {
-    df <- data[data$column==Column&data$depth==Depth,c("date",xname)]
-    df2 <- PRE::measurements[data$column==Column&data$depth==Depth,c("date",xname)]
-    plot(df, type = "l", ylim = c(min(0,min(na.omit(df2[,xname]))),max(na.omit(df2[,xname]))))
-    points(df2)
-    title(main = paste0("Column = ",Column," and depth = ",Depth))
-}
-instpect("N2O", Column = 2, Depth = 7.5)
+# interpolate the missing values based on the bandwidths in `hyperparameters` (This function interpolates all values over time; and it also computes and adds the derivatives)
+interpolated <- getMissing(data = original, hyperparameters = hyperparameters)
 
-data[data$column==1&data$depth==30,c("date","moisture")] |> plot(type = "l", ylim = c(0.3,0.35))
+# calculate fluxes from measurement data (This function calculates all necessary parameters from the data)
+data <- calculateFluxes(data = interpolated, parameters = parameters)
 
-#' Visualize some results
-boxplot(N2O ~ depth, data, outline = FALSE, log = "y")
-boxplot(F_bottom_in ~ depth, data, outline = FALSE, log = "")
-boxplot(SP ~ depth, data, outline = FALSE, log = "")
+# run the solver once
+result <- PRE(data = data, column = 1, depth = 7.5, date = "2016-01-01")
 
+# print out information
+print(result)
 
-#' -----------------------------------------------------------------------------------------------------------
-#' Run solver
-#' -----------------------------------------------------------------------------------------------------------
+# plot
+plot(result)
 
-magnitude = round(sapply(results, function(x) x[3,"N2Onit"]))
-magnitude <- magnitude + abs(min(magnitude)) + 1
-plot(x = data[data$column==column & data$depth==depth, "d18O"],
-     y = data[data$column==column & data$depth==depth, "SP"],
-     xlab = names["d18O"],
-     ylab = names["SP"], pch = 16,
-     col = viridis::viridis(6)[magnitude])
+# run the solver for all the dates
+result <- longPRE(data, column = 2, depth = 7.5, n = 50, quantiles = c(0.01,0.5,0.99))
 
+# print information about the PRE results
+print(result)
+
+# plot result
+plot(result, which = "Nitrification")
+
+# calculate the average non-negative rate
+N2Onit <- nonNegative(results[,"N2Onit_50%"])
 
 # Run for-loop on all
 for (column in 1) {
     
     for (depth in 7.5) {
-        
-        # Run PRE on all combinations
-        dates <- data[data$column==column & data$depth==depth, "date"]
-        results <- lapply(dates, function(x) PRE::runPRE(data = data, column = column, depth = depth, date = x, n = 1000, nonNegative = FALSE))
-        
+
         # Write all results as PDF
         cairo_pdf(sprintf("results/PRE/Estimated-Process-Rates-C%s-D%s.pdf", column, depth), width = 8.27, height = 11.67, onefile = TRUE)
         layout(mat = matrix(c(1,2,3,4,4,4,5,5,5,6,6,6), ncol = 3, byrow = TRUE))
@@ -83,7 +68,7 @@ for (column in 1) {
             plot(x = dates, y = data[data$column==column & data$depth==depth, x],
                  type = "l", lwd = 2, xlab = "Time", ylab = names[x], ylim = ranges[[x]])
             grid(col = 1)
-            points(x = dates, y = measurements[data$column==column & data$depth==depth, x],
+            points(x = dates, y = original[data$column==column & data$depth==depth, x],
                    pch = 16, cex = 0.8)
         }
         for (process in c("N2Onit", "N2Oden", "N2Ored")) {
