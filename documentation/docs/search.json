@@ -35,17 +35,17 @@
     "text": "I.e. the three variables N2O concentration, site preference and \\(\\delta\\)18O.↩︎"
   },
   {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "1. Hayfield, T. & Racine, J. S. Nonparametric econometrics:\nThe np package. Journal of Statistical Software\n27, 1–32 (2008).\n\n\n2. Massman, W. A review of the molecular\ndiffusivities of H2O, CO2, CH4, CO, O3, SO2, NH3, N2O, NO, and NO2 in\nair, O2 and N2 near STP. Atmospheric environment\n32, 1111–1127 (1998).\n\n\n3. Versteeg, G. F. & Van Swaaij, W. P.\nSolubility and diffusivity of acid gases (carbon dioxide, nitrous oxide)\nin aqueous alkanolamine solutions. Journal of Chemical &\nEngineering Data 33, 29–34 (1988).\n\n\n4. Millington, R. & Quirk, J. Permeability of\nporous solids. Transactions of the Faraday Society\n57, 1200–1207 (1961)."
-  },
-  {
     "objectID": "results.html",
     "href": "results.html",
     "title": "5  Results",
     "section": "",
     "text": "TODO: Make a panel tabset to go through all results.\n\nFirst panelSecond Panel\n\n\n\nBirdFish\n\n\n\n\n\n\n\n\n\n\n\nWell, here’s just some text…"
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "1. Hayfield, T. & Racine, J. S. Nonparametric econometrics:\nThe np package. Journal of Statistical Software\n27, 1–32 (2008).\n\n\n2. Massman, W. A review of the molecular\ndiffusivities of H2O, CO2, CH4, CO, O3, SO2, NH3, N2O, NO, and NO2 in\nair, O2 and N2 near STP. Atmospheric environment\n32, 1111–1127 (1998).\n\n\n3. Versteeg, G. F. & Van Swaaij, W. P.\nSolubility and diffusivity of acid gases (carbon dioxide, nitrous oxide)\nin aqueous alkanolamine solutions. Journal of Chemical &\nEngineering Data 33, 29–34 (1988).\n\n\n4. Millington, R. & Quirk, J. Permeability of\nporous solids. Transactions of the Faraday Society\n57, 1200–1207 (1961)."
   }
 ]
