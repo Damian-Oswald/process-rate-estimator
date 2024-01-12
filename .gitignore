@@ -1,7 +1,4 @@
-*.pdf
-*.html
 .DS_Store
 /.quarto/
 /varia/
 .Rhistory
-/results/PRE/
