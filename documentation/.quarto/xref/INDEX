@@ -1,0 +1,26 @@
+{
+  "index.qmd": {
+    "index.html": "9cd56736"
+  },
+  "intro.qmd": {
+    "intro.html": "fbc04b10"
+  },
+  "summary.qmd": {
+    "summary.html": "01810df8"
+  },
+  "references.qmd": {
+    "references.html": "07e790df"
+  },
+  "introduction.qmd": {
+    "introduction.html": "8f67c98b"
+  },
+  "data-preparation.qmd": {
+    "data-preparation.html": "1fb9a228"
+  },
+  "running-the-model.qmd": {
+    "running-the-model.html": "40b51d66"
+  },
+  "results.qmd": {
+    "results.html": "3a2faca4"
+  }
+}
