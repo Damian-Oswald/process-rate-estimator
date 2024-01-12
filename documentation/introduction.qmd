@@ -1,0 +1,37 @@
+---
+title: Introduction
+---
+
+## Background
+
+Denitrification is the natural process by which nitrate (NO~3~^-^) in the soil are converted by bacteria into nitrous oxide (N~2~O) or pure nitrigen (N~2~). The latter is called *total denitrification* --- the full process described in @eq-denitrification takes place.
+
+$$
+\ce{NO3^- ->[\text{Nitrate}][\text{reductase}] NO2^- ->[\text{Nitrite}][\text{reductase}] NO ->[\text{Nitrite oxide}][\text{reductase}] N2O^- ->[\text{Nitrous oxide}][\text{reductase}] N2}
+$${#eq-denitrification}
+
+Denitrification occurs in conditions where oxygen is limited, such as waterlogged soils. It is part of the nitrogen cycle, where nitrogen is circulated between the atmosphere, organisms and the earth.
+
+## The data
+
+The study uses data collected from a mesocosm experiment -- i.e. an outdoor experiment that examines the natural environment under controlled conditions. The experiment was set up as a randomized complete block design, with 4 varieties and 3 replicates, using 12 non-weighted lysimeters. A non-weighted lysimeter is a device to measure the amount of water that drains through soil, and to determine the types and amounts of dissolved nutrients or contaminants in the water. Each lysimeter had five sampling ports with soil moisture probes and custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm below soil surface.
+
+$$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
+
+@eq-dimension shows how many observations we should expect to have. In reality, some observations are missing.
+
+| Code        | Name                        | Description                                                       |
+|:------------|:----------------------------|:------------------------------------------------------------------|
+| `date`      | Date (`YYYY-MM-DD`)         |                                                                   |
+| `column`    | Column                      | One out of twelve experimental units.                             |
+| `depth`     | Measurement depth           | Depth of the measurement, either 7.5, 30, 60, 90, or 120 cm.      |
+| `increment` | Height of a specific layer  |                                                                   |
+| `variety`   | Wheat variety               | Either `CH Claro`, `Monte Calme 268`, `Probus`, or `Zinal`.       |
+| `moisture`  | Soil moisture               |                                                                   |
+| `N2O`       | Corrected N~2~O conc.       |                                                                   |
+| `CO2`       | Corrected CO~2~ conc.       |                                                                   |
+| `SP`        | Site preference             | Site preference values for N~2~O                                  |
+| `d15Nbulk`  |                             |                                                                   |
+| `d15Nalpha` |                             |                                                                   |
+| `d15Nbeta`  |                             |                                                                   |
+| `d18O`      |                             | Ratio of stable isotopes oxygen-18 (^18^O) and oxygen-16 (^16^O). |

@@ -17,7 +17,7 @@ library(PRE)
 # ================
 
 # load the prepared hyperparameters
-load("resources/hyperparameters.Rdata")
+hyperparameters <- PRE::hyperparameters
 
 # load the measurements used for the modelling
 measurements <- PRE::measurements
@@ -29,7 +29,7 @@ parameters <- getParameters()
 # ================================
 
 # calculate N2O-N
-original <- getN2ON(data = PRE::measurements, parameters = parameters)
+original <- getN2ON(data = measurements, parameters = parameters)
 
 # interpolate the missing values based on the bandwidths in `hyperparameters` (This function interpolates all values over time; and it also computes and adds the derivatives)
 interpolated <- getMissing(data = original, hyperparameters = hyperparameters)
