@@ -2,24 +2,31 @@
 
 TODO: Make a panel tabset to go through all results.
 
-::: {.panel-tabset}
+```{r}
+#| eval: true
+#| echo: false
+#| results: asis
 
-## First panel
+cat("::: {.column-body-outset-right}\n\n")
 
-::: {.panel-tabset}
+cat("::: {.panel-tabset}\n\n")
+for (column in 1:2) {
+    
+    cat("## Column", column, "\n\n")
+    
+    cat("::: {.panel-tabset}\n\n")
+    
+    for (depth in PRE::getParameters()$depths) {
+        
+        cat("## Depth =", depth, "\n\n")
+        cat(sprintf("![](graphics/PRE/Estimated-Process-Rates-C%s-D%s.svg){width=\"100%%\"}\n\n", column, depth))
+    }
+    
+    cat(":::\n\n")
+}
 
-## Bird
+cat(":::\n\n")
 
-![](https://upload.wikimedia.org/wikipedia/commons/4/45/Eopsaltria_australis_-_Mogo_Campground.jpg)
+cat(":::\n\n")
+```
 
-## Fish
-
-![](https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Europ%C3%A4ischer_Hecht.jpg/2880px-Europ%C3%A4ischer_Hecht.jpg)
-
-::: 
-
-## Second Panel
-
-Well, here's just some text...
-
-:::

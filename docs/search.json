@@ -35,11 +35,32 @@
     "text": "I.e. the three variables N2O concentration, site preference and \\(\\delta\\)18O.↩︎"
   },
   {
+    "objectID": "running-the-model.html#install-the-r-package-pre",
+    "href": "running-the-model.html#install-the-r-package-pre",
+    "title": "4  Running the process rate estimator",
+    "section": "4.1 Install the R package PRE",
+    "text": "4.1 Install the R package PRE\nYou can directly install this R package from GitHub. The package itself already contains all data and parameters necessary to run the process rate estimator.\n\ninstall.packages(\"remotes\")\nremotes::install_github(\"https://github.com/Damian-Oswald/PRE\")\n\nOnce installed, add the package to the search path.\n\nlibrary(PRE)"
+  },
+  {
+    "objectID": "running-the-model.html#prepare-the-data",
+    "href": "running-the-model.html#prepare-the-data",
+    "title": "4  Running the process rate estimator",
+    "section": "4.2 Prepare the data",
+    "text": "4.2 Prepare the data\nIn a first step, we can calculate the N2O-N from the original measurements.\n\noriginal &lt;- getN2ON(data = measurements, parameters = parameters)\n\nNext, the data are interpolated. This process uses kernel regression to interpolate between the measured values of N2O-N, SP and d18O.\n\ndata &lt;- getMissing(data = data, hyperparameters = hyperparameters)\n\nWith all of these steps done, we can calculate the Fluxes according to equations 1, 2, 3.\n\ndata &lt;- calculateFluxes(data = data, parameters = parameters)\n\nNow, everything is ready to run the PRE."
+  },
+  {
+    "objectID": "running-the-model.html#running-the-process-rate-estimator",
+    "href": "running-the-model.html#running-the-process-rate-estimator",
+    "title": "4  Running the process rate estimator",
+    "section": "4.3 Running the process rate estimator",
+    "text": "4.3 Running the process rate estimator\n\n# run the solver once\nx &lt;- PRE(data = data, column = 1, depth = 7.5, date = \"2016-01-01\", n = 200)\n\n# print out information\nprint(x)\n\n# plot\nplot(x)\n\n# pairs panel\npairs(x)"
+  },
+  {
     "objectID": "results.html",
     "href": "results.html",
     "title": "5  Results",
     "section": "",
-    "text": "TODO: Make a panel tabset to go through all results.\n\nFirst panelSecond Panel\n\n\n\nBirdFish\n\n\n\n\n\n\n\n\n\n\n\nWell, here’s just some text…"
+    "text": "TODO: Make a panel tabset to go through all results.\n\n\nColumn 1Column 2\n\n\n\nDepth = 7.5Depth = 30Depth = 60Depth = 90Depth = 120\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDepth = 7.5Depth = 30Depth = 60Depth = 90Depth = 120"
   },
   {
     "objectID": "references.html",

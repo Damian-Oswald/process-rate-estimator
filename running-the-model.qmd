@@ -1,1 +1,60 @@
-# Running the process rate estimator
+---
+title: Running the process rate estimator
+execute: 
+  eval: false
+  echo: true
+---
+
+## Install the R package `PRE`
+
+You can directly install this R package from GitHub. The package itself already contains all data and parameters necessary to run the process rate estimator.
+
+```{r}
+install.packages("remotes")
+remotes::install_github("https://github.com/Damian-Oswald/PRE")
+```
+
+Once installed, add the package to the search path.
+
+```{r}
+library(PRE)
+```
+
+## Prepare the data
+
+In a first step, we can calculate the N~2~O-N from the original measurements.
+
+```{r}
+original <- getN2ON(data = measurements, parameters = parameters)
+```
+
+Next, the data are interpolated. This process uses kernel regression to interpolate between the measured values of N~2~O-N, SP and d18O.
+
+```{r}
+data <- getMissing(data = data, hyperparameters = hyperparameters)
+```
+
+With all of these steps done, we can calculate the Fluxes according to equations 1, 2, 3.
+
+```{r}
+data <- calculateFluxes(data = data, parameters = parameters)
+```
+
+Now, everything is ready to run the PRE.
+
+## Running the process rate estimator
+
+
+```{r}
+# run the solver once
+x <- PRE(data = data, column = 1, depth = 7.5, date = "2016-01-01", n = 200)
+
+# print out information
+print(x)
+
+# plot
+plot(x)
+
+# pairs panel
+pairs(x)
+```

@@ -76,11 +76,11 @@ for (column in 1:2) {
     for (depth in getParameters()$depths) {
 
         # Write all results as PDF
-        pdf(sprintf("results/PRE/Estimated-Process-Rates-C%s-D%s.pdf", column, depth), width = 8.27, height = 11.67)
+        svg(sprintf("graphics/PRE/Estimated-Process-Rates-C%s-D%s.svg", column, depth), width = 8, height = 12)
         layout(mat = matrix(c(1,2,3,4,4,4,5,5,5,6,6,6), ncol = 3, byrow = TRUE))
         
         # run the solver for all the dates
-        result <- longPRE(data, column = column, depth = depth, n = 10)
+        result <- longPRE(data, column = column, depth = depth, n = 15)
         
         # save dates
         dates <- data[data$column==column & data$depth==depth, "date"]
