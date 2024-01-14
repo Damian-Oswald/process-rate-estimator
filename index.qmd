@@ -1,3 +1,9 @@
+:::{.callout-note}
+This repo is still very much work in progress.
+:::
+
 # Preface
 
 This site contains the documentation for the process rate estimator.
+
+For a detailed (scientific) description of the process rate estimator, see @decock2022process.

@@ -6,27 +6,29 @@ TODO: Make a panel tabset to go through all results.
 #| eval: true
 #| echo: false
 #| results: asis
-
-cat("::: {.column-body-outset-right}\n\n")
-
 cat("::: {.panel-tabset}\n\n")
-for (column in 1:2) {
+for (column in 1:12) {
     
-    cat("## Column", column, "\n\n")
+    if(column==1) {
+        cat("## Column 1\n\n")
+    } else {
+        cat("##", column, "\n\n")
+    }
     
     cat("::: {.panel-tabset}\n\n")
     
     for (depth in PRE::getParameters()$depths) {
         
-        cat("## Depth =", depth, "\n\n")
-        cat(sprintf("![](graphics/PRE/Estimated-Process-Rates-C%s-D%s.svg){width=\"100%%\"}\n\n", column, depth))
+        if(depth==7.5) {
+            cat("## Depth =", depth, "cm\n\n")
+        } else {
+            cat("##", depth, "cm\n\n")
+        }
+        
+        cat(sprintf("![](scripts/run-process-rate-estimator/output/visualized-process-rates-C%s-D%s.svg){width=\"100%%\"}\n\n", column, depth))
     }
-    
     cat(":::\n\n")
 }
 
 cat(":::\n\n")
-
-cat(":::\n\n")
 ```
-

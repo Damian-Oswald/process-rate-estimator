@@ -22,7 +22,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -182,11 +201,30 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This repo is still very much work in progress.</p>
+</div>
+</div>
 <section id="preface" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Preface</h1>
 <p>This site contains the documentation for the process rate estimator.</p>
+<p>For a detailed (scientific) description of the process rate estimator, see <span class="citation" data-cites="decock2022process">(<a href="references.html#ref-decock2022process" role="doc-biblioref"><em>1</em></a>)</span>.</p>
 
 
+<div id="refs" class="references csl-bib-body" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-decock2022process" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Decock, C. <em>et al.</em> Process rate estimator: A novel model to predict total denitrification using natural abundance stable isotopes of n 2 o. <em>Biogeosciences Discussions</em> <strong>2022</strong>, 1–29 (2022).</div>
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->

@@ -1,8 +1,143 @@
 ---
 title: Data preparation
+execute: 
+  eval: false
 ---
 
-## Formal model description
+This chapter describes the data used for the process rate estimator as well as how it is pre-processed and how new variables are calculated.
+
+## Description of the measurements
+
+The study uses data collected from a mesocosm experiment -- i.e. an outdoor experiment that examines the natural environment under controlled conditions. The experiment was set up as a randomized complete block design, with 4 varieties and 3 replicates, using 12 non-weighted lysimeters. A non-weighted lysimeter is a device to measure the amount of water that drains through soil, and to determine the types and amounts of dissolved nutrients or contaminants in the water. Each lysimeter had five sampling ports with soil moisture probes and custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm below soil surface.
+
+$$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
+
+@eq-dimension shows how many observations we should expect to have. In reality, some observations are missing. Hence, the `measurements` data frame only includes 9558 rows, with 9 variables. @tbl-measurements gives an overview of those variables.
+
+:::{.column-page-right}
+
+| Code        | Name                        | Description                                                       | Class       | Missing |
+|:------------|:----------------------------|:------------------------------------------------------------------|:------------|--------:|
+| `date`      | Date (`YYYY-MM-DD`)         |                                                                   | `"Date"`    | 0%      |
+| `column`    | Column                      | One out of twelve experimental units.                             | `"ordered"` | 0%      |
+| `depth`     | Measurement depth           | Depth of the measurement, either 7.5, 30, 60, 90, or 120 cm.      | `"numeric"` | 0%      |
+| `increment` | Height of a specific layer  |                                                                   | `"integer"` | 0%      |
+| `variety`   | Wheat variety               | Either `CH Claro`, `Monte Calme 268`, `Probus`, or `Zinal`.       | `"factor"`  | 0%      |
+| `moisture`  | Soil moisture               |                                                                   | `"numeric"` | 0%      |
+| `N2O`       | Corrected N~2~O conc.       |                                                                   | `"numeric"` | 86.9%   |
+| `SP`        | Site preference             | Site preference values for N~2~O                                  | `"numeric"` | 86.3%   |
+| `d18O`      | Stable isotope ratio        | Ratio of stable isotopes oxygen-18 (^18^O) and oxygen-16 (^16^O). | `"numeric"` | 86.3%   |
+
+: Overview of the variables included in the `measurements` data as included in the R package `PRE`. {#tbl-measurements}
+
+:::
+
+### Accessing the measurement data in R
+
+In the R package `PRE`, this data is available as the object `measurements`. We can load the data with the `data` function in R.
+
+```{r}
+data("measurements", package = "PRE")
+```
+
+Upon doing so, a data frame called `measurements` will appear in our global environment. Alternatively, the data can be directly accessed as `PRE::measurements` (the prefix `PRE::` tells R that the object can be found in the `PRE` package.)
+
+You can see an interactive overview of the `measurements` data in the column below. For many dates, there are no measurements of $\ce{N2O}$, site preference, or $\delta^{18}\text{O}$.
+
+:::{.column-screen-inset}
+---
+
+```{r}
+#| eval: true
+#| echo: false
+reactable::reactable(PRE::measurements)
+```
+
+---
+:::
+
+Luckily, the measurements for N~2~O concentration, site preference as well as $\delta$^18^O are distributed more or less evenly over time. Hence, we'll interpolate the missing values. This step will be the focus of the next section.
+
+## Calculating volumetric and area N~2~O-N
+
+In a first step, we are calculating the N~2~O-N per volume and subsequently per area. This is a necessary step, because the process rate estimator requires these variables.
+
+Since both `N2ONvolume` as well as `N2ONarea` are dependent on initial parameters, their computation is part of the workflow and might change slightly for a changed experimental set-up or different assumptions regarding the environment.
+
+The volumetric N~2~O-N is calculated from the N~2~O concentration (@eq-N2ONvolume).
+
+$$\text N_2 \text {O-N}_\text{volume} =  \frac{28[\text{N}_2\text O]}{\text {R} \cdot \text {T}}$${#eq-N2ONvolume}
+
+Here, $\text {R}$ is the gas constant and $T$ is the temperature.
+In a next step, we calculate the per-area N~2~O-N from the volumetric N~2~O-N and the soil moisture as well as the total porosity and the increment in meters.
+
+$$\text N_2 \text {O-N}_\text{area} = \text N_2 \text {O-N}_\text{volume} \times \frac{1}{100} \texttt{increment} \times \frac{10^4}{10^3} \left(\theta_t - \texttt{moisture} \right)$${#eq-N2ONarea}
+
+All of these equations are implemented in the `getN2ON` function. This function returns a data frame very similar to `measurements`, but with two extra columns for the computed `N2ONvolume` and `N2ONarea` variables.
+
+```{r}
+data <- getN2ON(data = PRE::measurements, parameters = getParameters())
+```
+
+Note that the `getParameters` function simply returns a list with the default values for all necessary parameters such as the gas constant $\text R$ or the assumed air temperature $\text T$. If we wish to change these, we can pass alternative parameter values to the function. For example, we could assume an air temperature of 300 K with `getParameters(temperature = 300)`. This makes sure that depended parameter values are updated as well.
+
+## Interpolating the measurements {#sec-interpolation}
+
+The N~2~O concentration, site preference as well as $\delta$^18^O are estimated as a function of time for every depth and every column, separately. To achieve this function approximation, Kernel Regression as implemented in `npreg` is used [@hayfield2008nonparametric].
+The model requires a single parameter, the bandwidth (`bws`), which defines how flexible it is.
+However, the bandwidth needs to be actively chosen and cannot be intrinsically estimated -- it's a hypertuning parameter a.k.a. a hyperparameter.
+
+### Choosing optimal bandwidths for the interpolation
+
+@fig-explanation gives an intuitive understanding on why we don't want to use the same bandwidth for every single combination of depth and column: In some instances we seem to have a very clear signal, while in others, there seems to be much noise -- we are dealing with unequal variance, a.k.a. heteroskedasticity.
+
+![Animated explanation on two examplary subsets of the data. On the left, there is a very high sinal to noise ratio, thus the optimal `bandwith` hyperparameter will be smaller than on the right.](graphics/explanation.gif){#fig-explanation}
+
+The bandwidth hyperparameter is individually tuned using 3-fold 10 times repeated cross-validation for every combination of column and depth and variable[^variable], respectively. You can see an overview of the found hyperparameters in [figure @fig-hyperparameters-1], [-@fig-hyperparameters-2], and [-@fig-hyperparameters-3].
+
+[^variable]: I.e. the three variables N~2~O concentration, site preference and $\delta$^18^O.
+
+::: {.panel-tabset}
+
+## N~2~O concentration
+
+![Optimal hyperparameter size by depth and column for the N~2~O-N concentration.](graphics/hyperparameters-1.svg){#fig-hyperparameters-1 width=100%}
+
+## Site preference
+
+![Optimal hyperparameter size by depth and column for the preference.](graphics/hyperparameters-2.svg){#fig-hyperparameters-2 width=100%}
+
+## Stable isotope ratio	($\delta$^18^O)
+
+![Optimal hyperparameter size by depth and column for the $\delta$^18^O concentration.](graphics/hyperparameters-3.svg){#fig-hyperparameters-3 width=100%}
+
+:::
+
+Generally, smaller bandwidths correspond to a more flexible model, indicating a larger signal-to-noise ratio.
+Notice how deeper measurements seem to correspond to smaller bandwidths, at least for the N~2~O concentration and the stable isotope ratio	($\delta$^18^O).
+Note that the optimal bandwidths for N~2~O are also used for the interpolation of N~2~O-N~volume~ and N~2~O-N~area~.
+
+### Using kernel regression for function estimation
+
+With the optimized hyperparameters, we are all set to estimate the functions over time, as well as their derivatives, which are needed for the process rate estimator.
+
+One common way to numerically approximate the derivative of a function $f$ at a point $t$ is through the central difference method. This method computes the average rate of change over a small interval around the point of interest.
+
+$$\frac{df}{dt} \approx \frac{f(t + h) - f(t - h)}{2h}$${#eq-centraldifference}
+
+Here, $h$ is a small positive number known as the step size. The notations $f(t + h)$ and $f(t - h)$ represent the function values at $t + h$ and $t - h$, respectively. The smaller h is, the more accurate the approximation should be. However, if h is too small, then round-off errors from computer arithmetic can become significant. So, an appropriate balance must be struck. The central difference method is implemented as the `fderiv` function in the `pracma` R package.
+
+Both the function estimation as well as the estimation of the derivative are performed with a single function call in the R package `PRE`.
+
+```{r}
+data <- getMissing(data = data, hyperparameters = PRE::hyperparameters)
+```
+
+Here, `data` is the data frame that we slightly extended with the `getN2ON` function. The object `hyperparameters` is a three-dimensional array containing the optimized hyperparameters for this project. It is also included in the `PRE` package[^2].
+
+[^2]: To optimize the hyperparameters, you can run the R script `hypertuning.R`.
+
+## Calculating the fluxes
 
 ### Model parameters
 
@@ -48,22 +183,6 @@ $$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}$${#eq-Df
 
 $$D_{\text{fa}} = D_{\text{fa, NTP}} \times \left( \frac{\text T}{273.15} \right)^n \times \left( \frac{101'325}{\text P} \right)$${#eq-Dfa}
 
-### Smoothing curves
-
-The N~2~O concentration, site preference as well as $\delta$^18^O are estimated as a function of time for every depth and every column, separately. To achieve this function approximation, Kernel Regression as implemented in `npreg` is used [@hayfield2008nonparametric]. Besides choosing a Kernel, the model only requires a single hyperparameter, i.e. the bandwidth (`bws`), which facilitates the hyperparameter tuning.
-
-![Animated explanation on two examplary subsets of the data. On the left, there is a very high sinal to noise ratio, thus the optimal `bandwith` hyperparameter will be smaller than on the right.](graphics/explanation.gif){#fig-explanation}
-
-The bandwidth hyperparameter is individually tuned using 3-fold 10 times repeated cross-validation for every combination of column and depth and variable[^variable], respectively.
-
-[^variable]: I.e. the three variables N~2~O concentration, site preference and $\delta$^18^O.
-
-![Visualization of the optimal hyperparameter size by depth and column for the site N~2~O-N concentration](graphics/hyperparameters-1.svg){#fig-hyperparameters-1 width=100%}
-
-![Visualization of the optimal hyperparameter size by depth and column for the site preference.](graphics/hyperparameters-2.svg){#fig-hyperparameters-2 width=100%}
-
-![Visualization of the optimal hyperparameter size by depth and column for the $\delta$^18^O concentration.](graphics/hyperparameters-3.svg){#fig-hyperparameters-3 width=100%}
-
 ### State function set
 
 The process rate estimator includes three-state functions, describing the change in N~2~O concentrations over time.
@@ -72,11 +191,3 @@ The change in N~2~O concentrations in each depth increment over time $\frac{d}{d
 $$\frac{\Delta[\ce{N2O}]}{\Delta t} = F_{top} + F_{bottom}  + \ce{N2O}_{\text{nitrification}} + \ce{N2O}_{\text{denitrification}} + \ce{N2O}_{\text{reduction}}$${#eq-stateN2O}
 
 $$\frac{\Delta \text{SP}}{\Delta t} = F_{t,i}(\text{SP}_{t,i} - \eta_{SP,dif} - \text{SP}_0) + F_{b,i}(\text{SP}_{b,i}) ...$${#eq-stateSP}
-
-### Numerical differentiation
-
-One common way to numerically approximate the derivative of a function $f$ at a point $t$ is through the central difference method. This method computes the average rate of change over a small interval around the point of interest.
-
-$$\frac{df}{dt} \approx \frac{f(t + h) - f(t - h)}{2h}$${#eq-centraldifference}
-
-Here, $h$ is a small positive number known as the step size. The notations $f(t + h)$ and $f(t - h)$ represent the function values at $t + h$ and $t - h$, respectively. The smaller h is, the more accurate the approximation should be. However, if h is too small, then round-off errors from computer arithmetic can become significant. So, an appropriate balance must be struck. The central difference method is implemented as the `fderiv` function in the `pracma` R package.

@@ -21,8 +21,9 @@ git clone https://github.com/Damian-Oswald/process-rate-estimator
 cd process-rate-estimator
 ```
 
-With this, you are ready to run the main script.
+With this, you are ready to run the main script, which will reproduce the results for the process rate estimations.
 
 ```bash
-Rscript script-main.R
+cd scripts/run-process-rate-estimator
+Rscript run-PRE.R
 ```

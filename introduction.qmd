@@ -1,5 +1,7 @@
 ---
 title: Introduction
+execute: 
+  eval: false
 ---
 
 ## Background
@@ -12,26 +14,42 @@ $${#eq-denitrification}
 
 Denitrification occurs in conditions where oxygen is limited, such as waterlogged soils. It is part of the nitrogen cycle, where nitrogen is circulated between the atmosphere, organisms and the earth.
 
-## The data
+## Installation of the R package PRE
 
-The study uses data collected from a mesocosm experiment -- i.e. an outdoor experiment that examines the natural environment under controlled conditions. The experiment was set up as a randomized complete block design, with 4 varieties and 3 replicates, using 12 non-weighted lysimeters. A non-weighted lysimeter is a device to measure the amount of water that drains through soil, and to determine the types and amounts of dissolved nutrients or contaminants in the water. Each lysimeter had five sampling ports with soil moisture probes and custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm below soil surface.
+All functions that are used repeatedly throughout this projec are implemented in an R package called `PRE`. The source code of this package is stored in a [publically accessible way on GitHub](https://github.com/Damian-Oswald/PRE). You can install the package directly from GitHub using the `install_github` function from the `remotes` package.
 
-$$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
+```{r}
+install.packages("remotes")
+remotes::install_github("https://github.com/Damian-Oswald/PRE")
+```
 
-@eq-dimension shows how many observations we should expect to have. In reality, some observations are missing.
+Alternatively, you could download the GitHub repository and manually install the `PRE` package locally.
+Once the package is installed, you can attach it to the search path in the usual way.
 
-| Code        | Name                        | Description                                                       |
-|:------------|:----------------------------|:------------------------------------------------------------------|
-| `date`      | Date (`YYYY-MM-DD`)         |                                                                   |
-| `column`    | Column                      | One out of twelve experimental units.                             |
-| `depth`     | Measurement depth           | Depth of the measurement, either 7.5, 30, 60, 90, or 120 cm.      |
-| `increment` | Height of a specific layer  |                                                                   |
-| `variety`   | Wheat variety               | Either `CH Claro`, `Monte Calme 268`, `Probus`, or `Zinal`.       |
-| `moisture`  | Soil moisture               |                                                                   |
-| `N2O`       | Corrected N~2~O conc.       |                                                                   |
-| `CO2`       | Corrected CO~2~ conc.       |                                                                   |
-| `SP`        | Site preference             | Site preference values for N~2~O                                  |
-| `d15Nbulk`  |                             |                                                                   |
-| `d15Nalpha` |                             |                                                                   |
-| `d15Nbeta`  |                             |                                                                   |
-| `d18O`      |                             | Ratio of stable isotopes oxygen-18 (^18^O) and oxygen-16 (^16^O). |
+```{r}
+#| eval: true
+#| message: false
+library(PRE)
+```
+
+### What do the various functions do?
+
+The R code shown on this project help page is extremely simplified. If you want want to understand what a specific function of the `PRE` package does, simple visit the corresponding R help page. For example, you could read on the function `crossValidate` by using one of the the following commands.
+
+```{r}
+help("crossValidate", package = "PRE")
+?crossValidate
+```
+
+If you want to jump really deep into a function, you could print it out in your console.
+
+```{r}
+#| eval: true
+print(crossValidate)
+```
+
+Note this function source code output is lacking any comments. Those were automatically removed when compiling the R package. To see the commented source code, you'll have to jump into the package files, or visit the GitHub page. Simply use the following URL:
+
+<https://github.com/Damian-Oswald/PRE/blob/main/R/crossValidate.R>
+
+Notice how the base name (the last part of the URL) matches the function name. You can replace that by any function name of your liking.
