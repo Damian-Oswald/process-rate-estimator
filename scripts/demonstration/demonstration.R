@@ -8,7 +8,7 @@
 # ======================
 
 # load the `PRE` package from GitHub
-# remotes::install_github("https://github.com/Damian-Oswald/PRE")
+remotes::install_github("https://github.com/Damian-Oswald/PRE")
 
 # attach the package to the search path
 library(PRE)
@@ -25,6 +25,9 @@ measurements <- PRE::measurements
 # load the parameters for this session
 parameters <- getParameters()
 
+# load the parameters with an alternative parameter value
+parameters <- getParameters(BD = 1.7)
+
 # CALCULATE MISSING DEPENDENT DATA
 # ================================
 
@@ -36,6 +39,9 @@ data <- getMissing(data = data, hyperparameters = hyperparameters)
 
 # calculate fluxes from measurement data (This function calculates all necessary parameters from the data)
 data <- calculateFluxes(data = data, parameters = parameters)
+
+# read some details on a function
+help(calculateFluxes)
 
 # RUN THE SOLVER ONCE
 # ===================
@@ -56,7 +62,7 @@ pairs(x)
 # ========================
 
 # run the solver for all the dates
-x <- longPRE(data, column = 1, depth = 7.5, n = 15)
+x <- longPRE(data, column = 1, depth = 7.5, n = 5)
 
 # print information about the PRE results
 print(x)
@@ -70,75 +76,29 @@ plot(x)
 # plot overview with fixed y-axis limits
 plot(x, ylim.processes = list(Nitrification = c(-50,50), Denitrification = NA, Reduction = NA))
 
-# RUN THE SOLVER OVER THE ENTIRE DATASET
-# ======================================
-
-# Prepare an "overall" data frame
-totalResults <- data.frame()
-
-# Run for-loop on all
-for (column in 1:2) {
-    
-    for (depth in getParameters()$depths) {
-
-        # Write all results as PDF
-        svg(sprintf("graphics/PRE/Estimated-Process-Rates-C%s-D%s.svg", column, depth), width = 8, height = 12)
-        layout(mat = matrix(c(1,2,3,4,4,4,5,5,5,6,6,6), ncol = 3, byrow = TRUE))
-        
-        # run the solver for all the dates
-        result <- longPRE(data, column = column, depth = depth, n = 15)
-        
-        # save dates
-        dates <- data[data$column==column & data$depth==depth, "date"]
-        
-        # Visualize the (interpolated) model parameters
-        par(mar = c(4,4,1,1)+0.5, oma = rep(2,4))
-        for (x in c("N2ONarea", "SP", "d18O")) {
-            ranges <- list(N2ONarea = c(0,10), SP = c(-8,23), d18O = c(22,55))
-            plot(x = dates, y = data[data$column==column & data$depth==depth, x],
-                 type = "l", lwd = 2, xlab = "Time", ylab = x, ylim = ranges[[x]])
-            grid(col = 1)
-            points(x = dates, y = original[data$column==column & data$depth==depth, x],
-                   pch = 16, cex = 0.8)
-        }
-        plot(result)
-        mtext(text = sprintf("Column %s at a depth of %s cm", column, depth), outer = TRUE, side = 3, adj = 0)
-        dev.off()
-        
-        # print current results
-        print(result)
-        
-        # bind current results to total results
-        totalResults <- rbind(totalResults, result[["data"]])
-        
-        }
-}
-
-# Save the total results
-write.csv(totalResults, "results/PRE/totalResults.csv")
-
-# PLOT THE RESULTS AS SVG
-# =======================
-
-results <- read.csv("results/totalResults.csv", row.names = 1)
-
-results[results$column==1 & results$depth==7.5,]
-
-for (column in unique(results$column)) {
-    for (depth in getParameters()$depth) {
-        
-        #svg(sprintf("graphics/PRE/Estimated-Process-Rates-C%s-D%s.svg", column, depth), width = 8, height = 12)
-        
-    }
-}
 
 # CREATE A SURROGATE MODEL
 # ========================
 
-model <- lm(`Reduction_50%` ~ N2ONarea + N2ONarea_derivative + SP + SP_derivative + d18O + d18O_derivative + F + theta_w, totalResults)
+data <- read.csv("/Users/answaltan/Library/CloudStorage/OneDrive-Persönlich/Documents/Work/Hustles/SAE/process-rate-estimator/scripts/run-process-rate-estimator/output/estimated-process-rates.csv", row.names = 1)
+
+model <- lm(Nitrification_50. ~ ., data[,c(colnames(data)[1:35],"Nitrification_50.")])
 anova(model)
 summary(model)
-plot(predict(model), model$model$`Nitrification_50%`)
+plot(predict(model), model$model$Nitrification_50.)
+coefplot::coefplot(model)
 
+model <- lm(Denitrification_50. ~ ., data[,c(colnames(data)[1:35],"Denitrification_50.")])
+anova(model)
+summary(model)
+plot(predict(model), model$model$Denitrification_50.)
+coefplot::coefplot(model)
 
+model <- lm(Reduction_50. ~ ., data[,c(colnames(data)[1:35],"Reduction_50.")])
+anova(model)
+summary(model)
+plot(predict(model), model$model$Reduction_50.)
+coefplot::coefplot(model)
+
+# TODO: Adjust the coefficients by their magnitude, or do z-score normalization
 

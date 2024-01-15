@@ -12,7 +12,6 @@
 #' Attach packages to search path
 library(magrittr)
 library(PRE)
-library(np)
 library(animation)
 
 #' Pre-define a data frame of every possible combination
@@ -20,7 +19,7 @@ variables <- c("N2ONarea", "SP", "d18O", "F_top_in", "F_bottom_in")
 bandwidths <- exp(seq(log(5), log(100), l = 50))
 results <- expand.grid(variable = variables,
                        if("column"%in%variables) column = 1:12,
-                       depth = depths,
+                       depth = getParameters()$depths,
                        bandwidth = bandwidths,
                        cost = NA)
 
@@ -106,70 +105,71 @@ dev.off()
 #' -----------------------------------------------------------------------------------------------------------
 #' Explanatory GIF
 #' -----------------------------------------------------------------------------------------------------------
-# 
-# ani.options(ani.width = 1600, # setting width
-#             ani.height = 1000, # setting height
-#             interval = 0.05,
-#             ani.res = 300) # setting time/image
-# saveGIF(expr = {
-#    s <- exp(seq(log(100),log(3),length=100))
-#    for (bandwidth in c(s,rev(s))) {
-#       layout(matrix(c(1,1,1,1,3,2,2,2,2,3), ncol = 2))
-#       par(mar = rep(0.01, 4), oma = rep(0.01, 4))
-#       formula <- as.formula(paste("gN2ONha", "date", sep  = " ~ "))
-#       subset <- na.omit(data[data$column==4 & data$depth==120,c("date","gN2ONha")])
-#       subset[,"date"] %<>% as.numeric
-#       plot(formula, data = subset, log = "", xlab = "", ylab = "", cex = 0.6, axes = FALSE); box()
-#       model <- npreg(formula, data = subset, bws = bandwidth)
-#       dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
-#       x <- as.numeric(dates)
-#       y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
-#       for (sigma in 1:3) {
-#          polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor("#0E4749", alpha.f = 0.25), border = FALSE)
-#       }
-#       lines(dates, y$fit, lwd = 2)
-#       points(formula, data = subset, lwd = 1.5, cex = 0.6)
-# 
-#       formula <- as.formula(paste("SP", "date", sep  = " ~ "))
-#       subset <- na.omit(data[data$column==1 & data$depth==7.5,c("date","SP")])
-#       subset[,"date"] %<>% as.numeric
-#       plot(formula, data = subset, log = "", xlab = "", ylab = "", cex = 0.6, axes = FALSE); box()
-#       model <- npreg(formula, data = subset, bws = bandwidth)
-#       dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
-#       x <- as.numeric(dates)
-#       y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
-#       for (sigma in 1:3) {
-#          polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor("#0E4749", alpha.f = 0.25), border = FALSE)
-#       }
-#       lines(dates, y$fit, lwd = 2)
-#       points(formula, data = subset, lwd = 1.5, cex = 0.6)
-#       
-#       par(mar = c(4,0.5,0,0.5))
-#       plot(NA, ylim = c(0,1), xlim = c(1,200), axes = FALSE, ylab = "", xlab = "Bandwidth", log = "x", yaxs = "i")
-#       axis(1)
-#       points(x = bandwidth, y = 0, xpd = NA, pch = 16)
-#    }},
-#    movie.name = "explanation.gif"
-# )
-# system("mv explanation.gif results/explanation.gif")
+
+color = "#0c6efc"
+ani.options(ani.width = 1600, # setting width
+            ani.height = 1000, # setting height
+            interval = 0.05,
+            ani.res = 300) # setting time/image
+saveGIF(expr = {
+   s <- exp(seq(log(100),log(3),length=150))
+   for (bandwidth in c(s,rev(s))) {
+      layout(matrix(c(1,1,1,1,3,2,2,2,2,3), ncol = 2))
+      par(mar = rep(0.2, 4), oma = rep(0.01, 4))
+      formula <- as.formula(paste("N2O", "date", sep  = " ~ "))
+      subset <- na.omit(measurements[measurements$column==4 & measurements$depth==120,c("date","N2O")])
+      subset[,"date"] %<>% as.numeric
+      plot(formula, data = subset, log = "", xlab = "", ylab = "", cex = 0.6, axes = FALSE); box()
+      model <- npreg(formula, data = subset, bws = bandwidth)
+      dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
+      x <- as.numeric(dates)
+      y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
+      for (sigma in 1:3) {
+         polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor(color, alpha.f = c(0.6,0.3,0.15)[sigma]), border = FALSE)
+      }
+      lines(dates, y$fit, lwd = 2)
+      points(formula, data = subset, lwd = 1.5, cex = 0.6)
+
+      formula <- as.formula(paste("SP", "date", sep  = " ~ "))
+      subset <- na.omit(measurements[measurements$column==1 & measurements$depth==7.5,c("date","SP")])
+      subset[,"date"] %<>% as.numeric
+      plot(formula, data = subset, log = "", xlab = "", ylab = "", cex = 0.6, axes = FALSE); box()
+      model <- npreg(formula, data = subset, bws = bandwidth)
+      dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
+      x <- as.numeric(dates)
+      y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
+      for (sigma in 1:3) {
+         polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor(color, alpha.f = c(0.6,0.3,0.15)[sigma]), border = FALSE)
+      }
+      lines(dates, y$fit, lwd = 2)
+      points(formula, data = subset, lwd = 1.5, cex = 0.6)
+
+      par(mar = c(4,0.5,0,0.5))
+      plot(NA, ylim = c(0,1), xlim = c(1,200), axes = FALSE, ylab = "", xlab = "Bandwidth", log = "x", yaxs = "i")
+      axis(1)
+      points(x = bandwidth, y = 0, xpd = NA, pch = 16)
+   }},
+   movie.name = "explanation.gif"
+)
 
 #' -----------------------------------------------------------------------------------------------------------
 #' Hyperparameter bubble plot
 #' -----------------------------------------------------------------------------------------------------------
 
+palette <- colorRampPalette(c("red", color))
 variablenames <- c(expression("N"[2]*"O concentration"), "Site preference", expression(delta^{18}*"O"))
 for (v in 1:3) {
-   svg(paste("results/hyperparameters-", v, ".svg", sep = ""), width = 7, height = 4)
-   plot(NA, xlim = c(0.5,12.5), ylim = c(0.5,5.5), axes = FALSE, ylab = "Depth [cm]", xlab = "Column", main = variablenames[v])
+   svg(paste("graphics/hyperparameters-", v, ".svg", sep = ""), width = 7*1.2, height = 3.4*1.2)
+   par(mar = c(4,4,0,0)+0.1)
+   plot(NA, xlim = c(0.5,12.5), ylim = c(0.5,5.5), axes = FALSE, ylab = "Depth [cm]", xlab = "Column")
    abline(h=1:5, v=1:12, lty = 3)
    axis(1, at = 1:12, labels = 1:12)
-   axis(2, las = 1, at = 1:5, labels = depths)
-   col <- palette(12 * 5)
+   axis(2, las = 1, at = 1:5, labels = getParameters()$depths)
    box()
    for (i in 1:12) {
       for (j in 1:5) {
-         hyperparameters[j,i,v]
-         points(x = i, y = j, cex = 1.1*log(hyperparameters[j,i,v]), pch = 21, bg = colorRampPalette(c("red","#66999B"))(31)[round(10*(log(hyperparameters))-15)[j,i,v]])
+         points(x = i, y = j, cex = 1.33*log(hyperparameters[j,i,v+2]), pch = 21, bg = adjustcolor(color, alpha.f = .75)) # palette(31)[round(10*(log(hyperparameters))-15)[j,i,v]]
+         text(x = i, y = j, labels = signif(hyperparameters[j,i,v+2],1), col = "white", cex = 0.8)
       }
    }
    dev.off()

@@ -15,7 +15,7 @@ library(PRE)
 # ===========================
 
 # number of samples of starting positions taken by the `BB::MultiStart` function
-SAMPLENUMBER <- 25
+SAMPLENUMBER <- 500
 
 # columns to compute
 COLUMNS <- 1:12

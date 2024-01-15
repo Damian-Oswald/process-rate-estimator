@@ -3,9 +3,7 @@ project:
   output-dir: docs
 
 book:
-  title: Documentation of the Process Rate Estimator R package PRE
-  author: Damian Oswald
-  date: 2024-01-12
+  title: Process Rate Estimator (`PRE`)
   chapters:
     - index.qmd
     - introduction.qmd
@@ -15,7 +13,7 @@ book:
     - references.qmd
 
 bibliography: resources/references.bib
-csl: resources/nature.csl
+csl: resources/ecology.csl
 
 format:
   html:

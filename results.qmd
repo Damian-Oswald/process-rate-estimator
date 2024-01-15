@@ -1,6 +1,8 @@
 # Results
 
-TODO: Make a panel tabset to go through all results.
+The tabset panels below show all results, from column 1 to 12[^missing] and depths 7.5 cm, 30 cm, 60 cm, 90 cm and 120 cm.
+
+[^missing]: Note that due to missing measurements, column 6 couldn't be computed completely.
 
 ```{r}
 #| eval: true
