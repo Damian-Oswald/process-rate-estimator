@@ -80,25 +80,50 @@ plot(x, ylim.processes = list(Nitrification = c(-50,50), Denitrification = NA, R
 # CREATE A SURROGATE MODEL
 # ========================
 
+# read the prepared data
 data <- read.csv("/Users/answaltan/Library/CloudStorage/OneDrive-Persönlich/Documents/Work/Hustles/SAE/process-rate-estimator/scripts/run-process-rate-estimator/output/estimated-process-rates.csv", row.names = 1)
+cn <- colnames(data)
+i <- which(cn %in% c("Nitrification_50.","Denitrification_50.","Reduction_50."))
+cn[i] <- c("Nitrification", "Denitrification", "Reduction")
+colnames(data) <- cn
 
-model <- lm(Nitrification_50. ~ ., data[,c(colnames(data)[1:35],"Nitrification_50.")])
+# change some variable types
+for (i in c("depth", "column", "variety")) {
+    data[,i] %<>% as.factor()
+}
+
+# save variables
+variables <- c("date", "column", "depth", "increment", "variety", "moisture", "N2O", "SP", "d18O", "N2ONvolume", "N2ONarea", "N2O_derivative", "N2ONvolume_derivative", "N2ONarea_derivative", "SP_derivative", "d18O_derivative", "theta_w", "theta_a", "Ds", "dCdZ", "F", "F_top_in", "F_top_out", "F_bottom_in", "F_bottom_out", "F_out", "SP_bottom", "d18O_bottom", "SP_top", "d18O_top")
+
+
+apply(data[,variables], 2, function(x) mean(is.na(x)))
+
+data <- data[,c(variables,"Nitrification","Denitrification","Reduction")]
+
+data <- na.omit(data)
+
+# Nitrification
+model <- lm(Nitrification ~ ., data[,c(variables,"Nitrification")])
 anova(model)
 summary(model)
-plot(predict(model), model$model$Nitrification_50.)
-coefplot::coefplot(model)
+plot(predict(model), model$model[["Nitrification"]])
 
-model <- lm(Denitrification_50. ~ ., data[,c(colnames(data)[1:35],"Denitrification_50.")])
+SA <- src(y = as.numeric(data[,"Nitrification"]),
+          X = data.matrix(data[,variables[c(1:9,11:12,14:15)]]),
+          nboot = 100, conf = 0.95)
+ggplot2::ggplot(SA)
+
+# Denitrification
+model <- lm(Denitrification_50. ~ ., data[,c(variables,"Denitrification_50.")])
 anova(model)
 summary(model)
 plot(predict(model), model$model$Denitrification_50.)
-coefplot::coefplot(model)
 
-model <- lm(Reduction_50. ~ ., data[,c(colnames(data)[1:35],"Reduction_50.")])
+# Reduction
+model <- lm(Reduction_50. ~ ., data[,c(variables,"Reduction_50.")])
 anova(model)
 summary(model)
 plot(predict(model), model$model$Reduction_50.)
-coefplot::coefplot(model)
 
 # TODO: Adjust the coefficients by their magnitude, or do z-score normalization
 

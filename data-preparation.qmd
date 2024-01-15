@@ -121,7 +121,7 @@ Generally, smaller bandwidths correspond to a more flexible model, indicating a 
 Notice how deeper measurements seem to correspond to smaller bandwidths, at least for the N~2~O concentration and the stable isotope ratio	($\delta$^18^O).
 Note that the optimal bandwidths for N~2~O are also used for the interpolation of N~2~O-N~volume~ and N~2~O-N~area~.
 
-### Using kernel regression for function estimation
+### Numerical approximation of the derivative estimation
 
 With the optimized hyperparameters, we are all set to estimate the functions over time, as well as their derivatives, which are needed for the process rate estimator.
 
