@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Process Rate Estimator (PRE) - 4&nbsp; Running the process rate estimator</title>
+<title>Process Rate Estimator (PRE) - 6&nbsp; Sensitivity Analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,41 +20,26 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
 }
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
 }
-</style>
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -64,8 +49,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./results.html" rel="next">
-<link href="./data-preparation.html" rel="prev">
+<link href="./references.html" rel="next">
+<link href="./results.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -96,6 +81,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -108,7 +95,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./running-the-model.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Running the process rate estimator</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./sensitivity-analysis.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sensitivity Analysis</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -153,7 +140,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./running-the-model.html" class="sidebar-item-text sidebar-link active">
+  <a href="./running-the-model.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Running the process rate estimator</span></span></a>
   </div>
 </li>
@@ -165,7 +152,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./sensitivity-analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="./sensitivity-analysis.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sensitivity Analysis</span></span></a>
   </div>
 </li>
@@ -181,22 +168,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#install-the-r-package-pre" id="toc-install-the-r-package-pre" class="nav-link active" data-scroll-target="#install-the-r-package-pre"><span class="header-section-number">4.1</span> Install the R package <code>PRE</code></a></li>
-  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data"><span class="header-section-number">4.2</span> Prepare the data</a></li>
-  <li><a href="#running-the-process-rate-estimator" id="toc-running-the-process-rate-estimator" class="nav-link" data-scroll-target="#running-the-process-rate-estimator"><span class="header-section-number">4.3</span> Running the process rate estimator</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Running the process rate estimator</span></h1>
+<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sensitivity Analysis</span></h1>
 </div>
 
 
@@ -211,52 +190,102 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="install-the-r-package-pre" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="install-the-r-package-pre"><span class="header-section-number">4.1</span> Install the R package <code>PRE</code></h2>
-<p>You can directly install this R package from GitHub. The package itself already contains all data and parameters necessary to run the process rate estimator.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"https://github.com/Damian-Oswald/PRE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Once installed, add the package to the search path.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="prepare-the-data" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">4.2</span> Prepare the data</h2>
-<p>In a first step, we can calculate the N<sub>2</sub>O-N from the original measurements.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>original <span class="ot">&lt;-</span> <span class="fu">getN2ON</span>(<span class="at">data =</span> measurements, <span class="at">parameters =</span> parameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Next, the data are interpolated. This process uses kernel regression to interpolate between the measured values of N<sub>2</sub>O-N, SP and d18O.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">getMissing</span>(<span class="at">data =</span> data, <span class="at">hyperparameters =</span> hyperparameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>With all of these steps done, we can calculate the Fluxes according to equations 1, 2, 3.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">calculateFluxes</span>(<span class="at">data =</span> data, <span class="at">parameters =</span> parameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Now, everything is ready to run the PRE.</p>
-</section>
-<section id="running-the-process-rate-estimator" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="running-the-process-rate-estimator"><span class="header-section-number">4.3</span> Running the process rate estimator</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the solver once</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">PRE</span>(<span class="at">data =</span> data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>, <span class="at">date =</span> <span class="st">"2016-01-01"</span>, <span class="at">n =</span> <span class="dv">200</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># print out information</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># pairs panel</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions. This technique is used in various fields such as finance, engineering, and environmental studies to test the robustness of models against changes in input values. By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.</p>
+<div id="tbl-sensitivity" class="anchored">
+<table class="table">
+<caption>Table&nbsp;6.1: Isotope end members values used for modeling gross nitrification derived N<sub>2</sub>O production, gross denitrification derived N<sub>2</sub>O production, and gross N<sub>2</sub>O reduction.</caption>
+<colgroup>
+<col style="width: 10%">
+<col style="width: 15%">
+<col style="width: 25%">
+<col style="width: 15%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>End Member</th>
+<th>Value [‰]</th>
+<th>Reference</th>
+<th>Value [‰]</th>
+<th>Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(\eta\)</span> SP<sub>diff</sub></td>
+<td>1.55</td>
+<td><span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span></td>
+<td>1.55±0.28</td>
+<td><span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\eta\delta\)</span><sup>18</sup>O</td>
+<td>-7.79</td>
+<td><span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span></td>
+<td>-7.79±0.27</td>
+<td><span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span></td>
+</tr>
+<tr class="odd">
+<td>SP<sub>nit</sub></td>
+<td>34.4</td>
+<td><span class="citation" data-cites="decock2013potential">Decock and Six (<a href="references.html#ref-decock2013potential" role="doc-biblioref">2013</a>)</span></td>
+<td>26.2 to 34.6</td>
+<td><span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\delta\)</span><sup>18</sup>O<sub>nit</sub></td>
+<td>36.5</td>
+<td><span class="citation" data-cites="lewicka2017quantifying">Lewicka-Szczebak et al. (<a href="references.html#ref-lewicka2017quantifying" role="doc-biblioref">2017</a>)</span></td>
+<td>36.5±2</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>SP<sub>den</sub></td>
+<td>-2.4</td>
+<td><span class="citation" data-cites="decock2013potential">Decock and Six (<a href="references.html#ref-decock2013potential" role="doc-biblioref">2013</a>)</span></td>
+<td>-2.4 to -0.9</td>
+<td><span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\delta\)</span><sup>18</sup>O<sub>den</sub></td>
+<td>11.1</td>
+<td><span class="citation" data-cites="lewicka2017quantifying">Lewicka-Szczebak et al. (<a href="references.html#ref-lewicka2017quantifying" role="doc-biblioref">2017</a>)</span></td>
+<td>11.1±2</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(\eta\)</span>SP<sub>red</sub></td>
+<td>-5.3</td>
+<td><span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span></td>
+<td>-8 to -2</td>
+<td><span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(\eta\delta\)</span><sup>18</sup>O<sub>red</sub></td>
+<td>-16.1</td>
+<td><span class="citation" data-cites="lewicka2017quantifying">Lewicka-Szczebak et al. (<a href="references.html#ref-lewicka2017quantifying" role="doc-biblioref">2017</a>)</span></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
-</section>
+<div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-decock2013potential" class="csl-entry" role="listitem">
+Decock, C., and J. Six. 2013. On the potential of <span class="math inline">\(\delta\)</span> 18O and <span class="math inline">\(\delta\)</span> 15N to assess N2O reduction to N2 in soil. European journal of soil science 64:610–620.
+</div>
+<div id="ref-denk2017nitrogen" class="csl-entry" role="listitem">
+Denk, T. R., J. Mohn, C. Decock, D. Lewicka-Szczebak, E. Harris, K. Butterbach-Bahl, R. Kiese, and B. Wolf. 2017. The nitrogen cycle: A review of isotope effects and isotope modeling approaches. Soil Biology and Biochemistry 105:121–137.
+</div>
+<div id="ref-lewicka2017quantifying" class="csl-entry" role="listitem">
+Lewicka-Szczebak, D., J. Augustin, A. Giesemann, and R. Well. 2017. Quantifying N₂O reduction to N₂ based on N₂O isotopocules – validation with independent methods (helium incubation and ¹⁵N gas flux method). Biogeosciences 14:711–732.
+</div>
+<div id="ref-well2008isotope" class="csl-entry" role="listitem">
+Well, R., and H. Flessa. 2008. Isotope fractionation factors of N₂O diffusion. Rapid Communications in Mass Spectrometry: An International Journal Devoted to the Rapid Dissemination of Up-to-the-Minute Research in Mass Spectrometry 22:2621–2628.
+</div>
+</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -494,13 +523,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./data-preparation.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Data preparation</span></span>
+      <a href="./results.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Results</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./results.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Results</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

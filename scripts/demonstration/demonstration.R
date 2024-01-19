@@ -62,7 +62,7 @@ pairs(x)
 # ========================
 
 # run the solver for all the dates
-x <- longPRE(data, column = 1, depth = 7.5, n = 5)
+x <- longPRE(data, column = 1, depth = 7.5, n = 10)
 
 # print information about the PRE results
 print(x)
@@ -127,3 +127,12 @@ plot(predict(model), model$model$Reduction_50.)
 
 # TODO: Adjust the coefficients by their magnitude, or do z-score normalization
 
+data <- read.csv("/Users/answaltan/Library/CloudStorage/OneDrive-Persönlich/Documents/Work/Hustles/SAE/process-rate-estimator/scripts/run-process-rate-estimator/output/estimated-process-rates.csv", row.names = 1)
+data <- data[apply(data[,c("SP_measurement","d18O_measurement")], 1, function(x) all(!is.na(x))),]
+
+x <- data[,"Nitrification_50."]
+x[x<0] <- NA
+x <- log(x)
+hist(x)
+m <- round(damoswa::normalize(x)*255+1)
+plot(SP_measurement ~ d18O_measurement, data, col = viridis::viridis(256)[m], pch = 16)

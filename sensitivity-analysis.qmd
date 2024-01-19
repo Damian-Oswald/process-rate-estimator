@@ -1,0 +1,16 @@
+# Sensitivity Analysis
+
+Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions. This technique is used in various fields such as finance, engineering, and environmental studies to test the robustness of models against changes in input values. By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.
+
+| End Member             | Value [‰] | Reference               | Value [‰]    | Reference         |
+|------------------------|-----------|-------------------------|--------------|-------------------|
+| $\eta$ SP~diff~        | 1.55      | @well2008isotope        | 1.55±0.28    | @well2008isotope  |
+| $\eta\delta$^18^O      | -7.79     | @well2008isotope        | -7.79±0.27   | @well2008isotope  |
+| SP~nit~                | 34.4      | @decock2013potential    | 26.2 to 34.6 | @denk2017nitrogen |
+| $\delta$^18^O~nit~     | 36.5      | @lewicka2017quantifying | 36.5±2       |                   |
+| SP~den~                | -2.4      | @decock2013potential    | -2.4 to -0.9 | @denk2017nitrogen |
+| $\delta$^18^O~den~     | 11.1      | @lewicka2017quantifying | 11.1±2       |                   |
+| $\eta$SP~red~          | -5.3      | @denk2017nitrogen       | -8 to -2     | @denk2017nitrogen |
+| $\eta\delta$^18^O~red~ | -16.1     | @lewicka2017quantifying |              |                   |
+
+: Isotope end members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. {#tbl-sensitivity tbl-colwidths="[10,15,25,15,25]"}

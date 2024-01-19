@@ -10,6 +10,7 @@ book:
     - data-preparation.qmd
     - running-the-model.qmd
     - results.qmd
+    - sensitivity-analysis.qmd
     - references.qmd
 
 bibliography: resources/references.bib
