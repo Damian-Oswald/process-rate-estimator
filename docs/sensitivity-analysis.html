@@ -171,7 +171,7 @@ div.csl-indent {
         
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -191,77 +191,88 @@ div.csl-indent {
 </header>
 
 <p>Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions. This technique is used in various fields such as finance, engineering, and environmental studies to test the robustness of models against changes in input values. By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.</p>
+<div class="column-page">
 <div id="tbl-sensitivity" class="anchored">
 <table class="table">
-<caption>Table&nbsp;6.1: Isotope end members values used for modeling gross nitrification derived N<sub>2</sub>O production, gross denitrification derived N<sub>2</sub>O production, and gross N<sub>2</sub>O reduction.</caption>
+<caption>Table&nbsp;6.1: Isotope end members values used for modeling gross nitrification derived N<sub>2</sub>O production, gross denitrification derived N<sub>2</sub>O production, and gross N<sub>2</sub>O reduction. <span class="citation" data-cites="lewicka2017quantifying">Lewicka-Szczebak et al. (<a href="references.html#ref-lewicka2017quantifying" role="doc-biblioref">2017</a>)</span> originally report <span class="math inline">\(\delta \ce{^{18} O \text - N2O} (\ce{N2O}/\ce{H2O})\)</span>. When a range is indicated, a random number from the range was selected in each iteration. When an average and standard deviation is indicated, a random value was drawn from the normal distribution in each iteration.</caption>
 <colgroup>
+<col style="width: 15%">
 <col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 20%">
 <col style="width: 15%">
-<col style="width: 25%">
-<col style="width: 15%">
-<col style="width: 25%">
+<col style="width: 20%">
 </colgroup>
 <thead>
 <tr class="header">
 <th>End Member</th>
+<th></th>
 <th>Value [‰]</th>
-<th>Reference</th>
-<th>Value [‰]</th>
-<th>Reference</th>
+<th>Value reference</th>
+<th>Sampling</th>
+<th>Range reference</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td><span class="math inline">\(\eta\)</span> SP<sub>diff</sub></td>
+<td><code>eta_SP_diffusion</code></td>
+<td><span class="math inline">\(\eta\: \text{SP}_\text{diff.}\)</span></td>
 <td>1.55</td>
 <td><span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span></td>
-<td>1.55±0.28</td>
+<td><span class="math inline">\(\sim \mathcal{N}(1.55, 0.28^2)\)</span></td>
 <td><span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\eta\delta\)</span><sup>18</sup>O</td>
+<td><code>eta_18O_diffusion</code></td>
+<td><span class="math inline">\(\eta\ce{^{18}O}_\text{diff.}\)</span></td>
 <td>-7.79</td>
 <td><span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span></td>
-<td>-7.79±0.27</td>
+<td><span class="math inline">\(\sim \mathcal{N}(-7.79, 0.27^2)\)</span></td>
 <td><span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span></td>
 </tr>
 <tr class="odd">
-<td>SP<sub>nit</sub></td>
+<td><code>SP_nitrification</code></td>
+<td><span class="math inline">\(\text{SP}_\text{nit.}\)</span></td>
 <td>34.4</td>
 <td><span class="citation" data-cites="decock2013potential">Decock and Six (<a href="references.html#ref-decock2013potential" role="doc-biblioref">2013</a>)</span></td>
-<td>26.2 to 34.6</td>
+<td><span class="math inline">\(\sim \mathcal{U}(26.2, 34.6)\)</span></td>
 <td><span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\delta\)</span><sup>18</sup>O<sub>nit</sub></td>
+<td><code>d18O_nitrification</code></td>
+<td><span class="math inline">\(\delta\ce{^{18}O_\text{nit.}}\)</span></td>
 <td>36.5</td>
 <td><span class="citation" data-cites="lewicka2017quantifying">Lewicka-Szczebak et al. (<a href="references.html#ref-lewicka2017quantifying" role="doc-biblioref">2017</a>)</span></td>
-<td>36.5±2</td>
+<td><span class="math inline">\(\sim \mathcal{N}(36.5, 2^2)\)</span></td>
 <td></td>
 </tr>
 <tr class="odd">
-<td>SP<sub>den</sub></td>
+<td><code>SP_denitrification</code></td>
+<td><span class="math inline">\(\text{SP}_\text{den.}\)</span></td>
 <td>-2.4</td>
 <td><span class="citation" data-cites="decock2013potential">Decock and Six (<a href="references.html#ref-decock2013potential" role="doc-biblioref">2013</a>)</span></td>
-<td>-2.4 to -0.9</td>
+<td><span class="math inline">\(\sim \mathcal{U}(-2.4, -0.9)\)</span></td>
 <td><span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\delta\)</span><sup>18</sup>O<sub>den</sub></td>
+<td><code>d18O_denitrification</code></td>
+<td><span class="math inline">\(\delta\ce{^{18}O_\text{den.}}\)</span></td>
 <td>11.1</td>
 <td><span class="citation" data-cites="lewicka2017quantifying">Lewicka-Szczebak et al. (<a href="references.html#ref-lewicka2017quantifying" role="doc-biblioref">2017</a>)</span></td>
-<td>11.1±2</td>
+<td><span class="math inline">\(\sim \mathcal{N}(11.1, 2^2)\)</span></td>
 <td></td>
 </tr>
 <tr class="odd">
-<td><span class="math inline">\(\eta\)</span>SP<sub>red</sub></td>
+<td><code>eta_SP_reduction</code></td>
+<td><span class="math inline">\(\eta\:\text{SP}_\text{red.}\)</span></td>
 <td>-5.3</td>
 <td><span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span></td>
-<td>-8 to -2</td>
+<td><span class="math inline">\(\sim \mathcal{U}(-8, -2)\)</span></td>
 <td><span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span></td>
 </tr>
 <tr class="even">
-<td><span class="math inline">\(\eta\delta\)</span><sup>18</sup>O<sub>red</sub></td>
+<td><code>eta_18O_reduction</code></td>
+<td><span class="math inline">\(\eta\ce{^{18}O_\text{red.}}\)</span></td>
 <td>-16.1</td>
 <td><span class="citation" data-cites="lewicka2017quantifying">Lewicka-Szczebak et al. (<a href="references.html#ref-lewicka2017quantifying" role="doc-biblioref">2017</a>)</span></td>
 <td></td>
@@ -269,6 +280,7 @@ div.csl-indent {
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 
 
