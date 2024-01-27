@@ -187,14 +187,6 @@ $$D_{\text{fw}} = 5.07 \times 10^{-6} \times \exp \frac{-2371}{\text T}$${#eq-Df
 
 $$D_{\text{fa}} = D_{\text{fa, NTP}} \times \left( \frac{\text T}{273.15} \right)^n \times \left( \frac{101'325}{\text P} \right)$${#eq-Dfa}
 
-### State function set
-
-The process rate estimator includes three-state functions, describing the change in N~2~O concentrations over time.
-The change in N~2~O concentrations in each depth increment over time $\frac{d}{dt}[\ce{N2O}]$ depends on the flux of N~2~O entering the depth increment from the top or the bottom through diffusion ($F_{top,in}$ and $F_{bot,in}$, respectively), the flux of N~2~O leaving the depth increment through diffusion ($F_{out}$), the rate of N~2~O produced through nitrification (`N2Onit`), the rate of N~2~O produced through denitrification (`N2Oden`), and the rate of N~2~O reduced to N~2~ (`N2Ored`).
-
-$$\frac{\Delta[\ce{N2O}]}{\Delta t} = F_{top} + F_{bottom}  + \ce{N2O}_{\text{nitrification}} + \ce{N2O}_{\text{denitrification}} + \ce{N2O}_{\text{reduction}}$${#eq-stateN2O}
-
-$$\frac{\Delta \text{SP}}{\Delta t} = F_{t,i}(\text{SP}_{t,i} - \eta_{SP,dif} - \text{SP}_0) + F_{b,i}(\text{SP}_{b,i}) ...$${#eq-stateSP}
 Calculate mean moisture between depth increments:
 
 $$

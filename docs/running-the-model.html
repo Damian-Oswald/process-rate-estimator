@@ -96,6 +96,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -185,7 +187,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#install-the-r-package-pre" id="toc-install-the-r-package-pre" class="nav-link active" data-scroll-target="#install-the-r-package-pre"><span class="header-section-number">4.1</span> Install the R package <code>PRE</code></a></li>
+  <li><a href="#state-function-set" id="toc-state-function-set" class="nav-link active" data-scroll-target="#state-function-set"><span class="header-section-number">4.0.1</span> State function set</a></li>
+  <li><a href="#install-the-r-package-pre" id="toc-install-the-r-package-pre" class="nav-link" data-scroll-target="#install-the-r-package-pre"><span class="header-section-number">4.1</span> Install the R package <code>PRE</code></a></li>
   <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data"><span class="header-section-number">4.2</span> Prepare the data</a></li>
   <li><a href="#running-the-process-rate-estimator" id="toc-running-the-process-rate-estimator" class="nav-link" data-scroll-target="#running-the-process-rate-estimator"><span class="header-section-number">4.3</span> Running the process rate estimator</a></li>
   </ul>
@@ -211,6 +214,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<section id="state-function-set" class="level3" data-number="4.0.1">
+<h3 data-number="4.0.1" class="anchored" data-anchor-id="state-function-set"><span class="header-section-number">4.0.1</span> State function set</h3>
+<p>The process rate estimator includes three-state functions, describing the change in N<sub>2</sub>O concentrations over time. The change in N<sub>2</sub>O concentrations in each depth increment over time <span class="math inline">\(\frac{d}{dt}[\ce{N2O}]\)</span> depends on the flux of N<sub>2</sub>O entering the depth increment from the top or the bottom through diffusion (<span class="math inline">\(F_{top,in}\)</span> and <span class="math inline">\(F_{bot,in}\)</span>, respectively), the flux of N<sub>2</sub>O leaving the depth increment through diffusion (<span class="math inline">\(F_{out}\)</span>), the rate of N<sub>2</sub>O produced through nitrification (<code>N2Onit</code>), the rate of N<sub>2</sub>O produced through denitrification (<code>N2Oden</code>), and the rate of N<sub>2</sub>O reduced to N<sub>2</sub> (<code>N2Ored</code>).</p>
+<p><span id="eq-stateN2O"><span class="math display">\[\frac{d[\ce{N2O}]}{d t} = \text F_{\text{top,in}} + \text F_{\text{bottom,in}}  + \ce{N2O}_{\text{nit.}} + \ce{N2O}_{\text{den.}} + \ce{N2O}_{\text{red.}} \tag{4.1}\]</span></span></p>
+<p>For the equation of the change of site preference over time, we’ll use the substitutions <span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span> and <span class="math inline">\(C\)</span>, as the expression is rather long.</p>
+<p><span id="eq-stateSP"><span class="math display">\[\frac{d \text{SP}}{d t} = \frac{A + B + C}{[\ce{N2O}]} \tag{4.2}\]</span></span></p>
+<p><span class="math display">\[A = \text F_{\text{top,in}}(\text{SP}_{\text{top,in}} - \eta\: \text{SP}_\text{diff.} - \text{SP}) + \text F_{\text{bottom,in}}(\text{SP}_{\text{bottom,in}} - \eta\: \text{SP}_\text{diff.} - \text{SP})\]</span> <span class="math display">\[B = \ce{N2O}_{\text{nit.}}(\text{SP}_\text{nit.} - \text{SP}) + \ce{N2O}_{\text{den.}}(\text{SP}_\text{den.} - \text{SP})\]</span> <span class="math display">\[C = - \eta\: \text{SP}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_\text{red.}} \ce{N2O}_{\text{red.}}\]</span></p>
+</section>
 <section id="install-the-r-package-pre" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="install-the-r-package-pre"><span class="header-section-number">4.1</span> Install the R package <code>PRE</code></h2>
 <p>You can directly install this R package from GitHub. The package itself already contains all data and parameters necessary to run the process rate estimator.</p>

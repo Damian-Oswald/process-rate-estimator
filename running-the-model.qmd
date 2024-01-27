@@ -5,6 +5,23 @@ execute:
   echo: true
 ---
 
+### State function set
+
+The process rate estimator includes three-state functions, describing the change in N~2~O concentrations over time.
+The change in N~2~O concentrations in each depth increment over time $\frac{d}{dt}[\ce{N2O}]$ depends on the flux of N~2~O entering the depth increment from the top or the bottom through diffusion ($F_{top,in}$ and $F_{bot,in}$, respectively), the flux of N~2~O leaving the depth increment through diffusion ($F_{out}$), the rate of N~2~O produced through nitrification (`N2Onit`), the rate of N~2~O produced through denitrification (`N2Oden`), and the rate of N~2~O reduced to N~2~ (`N2Ored`).
+
+$$\frac{d[\ce{N2O}]}{d t} = \text F_{\text{top,in}} + \text F_{\text{bottom,in}}  + \ce{N2O}_{\text{nit.}} + \ce{N2O}_{\text{den.}} + \ce{N2O}_{\text{red.}}$${#eq-stateN2O}
+
+For the equation of the change of site preference over time, we'll use the substitutions $A$, $B$ and $C$, as the expression is rather long.
+
+$$\frac{d \text{SP}}{d t} = \frac{A + B + C}{[\ce{N2O}]}$${#eq-stateSP}
+
+
+$$A = \text F_{\text{top,in}}(\text{SP}_{\text{top,in}} - \eta\: \text{SP}_\text{diff.} - \text{SP}) + \text F_{\text{bottom,in}}(\text{SP}_{\text{bottom,in}} - \eta\: \text{SP}_\text{diff.} - \text{SP})$$
+$$B = \ce{N2O}_{\text{nit.}}(\text{SP}_\text{nit.} - \text{SP}) + \ce{N2O}_{\text{den.}}(\text{SP}_\text{den.} - \text{SP})$$
+$$C = - \eta\: \text{SP}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_\text{red.}} \ce{N2O}_{\text{red.}}$$
+
+
 ## Install the R package `PRE`
 
 You can directly install this R package from GitHub. The package itself already contains all data and parameters necessary to run the process rate estimator.
@@ -43,7 +60,6 @@ data <- calculateFluxes(data = data, parameters = parameters)
 Now, everything is ready to run the PRE.
 
 ## Running the process rate estimator
-
 
 ```{r}
 # run the solver once
