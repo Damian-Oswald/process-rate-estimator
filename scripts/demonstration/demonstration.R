@@ -47,7 +47,7 @@ help(calculateFluxes)
 # ===================
 
 # run the solver once
-x <- PRE(data = data, column = 1, depth = 7.5, date = "2016-01-01", n = 200)
+x <- PRE(data = data, column = 1, depth = 7.5, date = "2016-01-01", n = 200, parameters = parameters)
 
 # print out information
 print(x)
@@ -75,7 +75,6 @@ plot(x)
 
 # plot overview with fixed y-axis limits
 plot(x, ylim.processes = list(Nitrification = c(-50,50), Denitrification = NA, Reduction = NA))
-
 
 # CREATE A SURROGATE MODEL
 # ========================
