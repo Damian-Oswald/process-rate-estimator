@@ -316,6 +316,7 @@ div.csl-indent {
 </table>
 </div>
 </div>
+<p>To conduct the sensitivity analysis, a data frame with parameters sampled according to the distributions in <a href="#tbl-sensitivity">Table&nbsp;<span>6.1</span></a> is created. We’ll have to specify how many times we want to do this — in this example that’s <code>n = 200</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">200</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">eta_SP_diffusion =</span> <span class="fu">rnorm</span>(n, <span class="fl">1.55</span>, <span class="fl">0.28</span>),</span>
@@ -327,19 +328,25 @@ div.csl-indent {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">eta_SP_reduction =</span> <span class="fu">runif</span>(n,<span class="sc">-</span><span class="dv">8</span>,<span class="sc">-</span><span class="dv">2</span>),</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">eta_18O_reduction =</span> <span class="fu">runif</span>(n,<span class="sc">-</span><span class="dv">24</span>,<span class="sc">-</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Next, we write a function <code>f</code> that will run the process rate estimator for a specified column and depth with the parameters in the vector <code>p</code> — which coincides to one row in the <code>parameters</code> data frame.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(p) {</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">PRE</span>(data, <span class="dv">1</span>, <span class="fl">7.5</span>, <span class="st">"2015-08-27"</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">parameters =</span> <span class="fu">do.call</span>(getParameters, <span class="fu">as.list</span>(p)))</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span>(x, <span class="dv">2</span>, mean)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(p, data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">longPRE</span>(<span class="at">data =</span> data,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">column =</span> column,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">depth =</span> depth,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">n =</span> <span class="dv">3</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                 <span class="at">parameters =</span> <span class="fu">do.call</span>(getParameters, <span class="fu">as.list</span>(p)))</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(x[[<span class="st">"processes"</span>]])</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>That function makes it very straightforward to compute the data for the sensitivity analysis. We’ll simply apply <code>f</code> to every single row in <code>parameters</code> using the <code>apply</code> function <span class="citation" data-cites="wickham2011split">(<a href="references.html#ref-wickham2011split" role="doc-biblioref">Wickham 2011</a>)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(parameters, <span class="dv">1</span>, f))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(parameters, <span class="dv">1</span>, f, <span class="at">data =</span> data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="column-screen-inset">
 <div id="fig-sensitivity" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="graphics/sensitivity.svg" class="img-fluid figure-img"></p>
+<p><img src="graphics/sensitivity.svg" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption class="figure-caption">Figure&nbsp;6.1: Pairwise results of the sensitivity analysis of the isotope end members.</figcaption>
 </figure>
 </div>
@@ -397,80 +404,29 @@ Reduction
 </tr>
 <tr>
 <td style="text-align:left">
-SP_nitrification
-</td>
-<td>
-0.157<sup>***</sup>
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.014)
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-SP_denitrification
-</td>
-<td>
--0.551<sup>***</sup>
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.077)
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
 eta_SP_diffusion
 </td>
 <td>
+1.783<sup>***</sup>
 </td>
 <td>
--0.652
+-0.664<sup>***</sup>
 </td>
 <td>
+-0.731<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.190)
+</td>
+<td>
+(0.147)
+</td>
+<td>
+(0.220)
 </td>
 </tr>
 <tr>
@@ -479,9 +435,72 @@ eta_SP_diffusion
 <td>
 </td>
 <td>
-(0.465)
 </td>
 <td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+eta_18O_diffusion
+</td>
+<td>
+-0.668<sup>***</sup>
+</td>
+<td>
+-0.655<sup>***</sup>
+</td>
+<td>
+0.926<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.168)
+</td>
+<td>
+(0.130)
+</td>
+<td>
+(0.195)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+SP_nitrification
+</td>
+<td>
+-0.764<sup>***</sup>
+</td>
+<td>
+0.339<sup>***</sup>
+</td>
+<td>
+0.356<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.020)
+</td>
+<td>
+(0.016)
+</td>
+<td>
+(0.024)
 </td>
 </tr>
 <tr>
@@ -499,11 +518,26 @@ eta_SP_diffusion
 d18O_nitrification
 </td>
 <td>
+0.382<sup>***</sup>
 </td>
 <td>
--0.088
+0.145<sup>***</sup>
 </td>
 <td>
+-0.397<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.022)
+</td>
+<td>
+(0.017)
+</td>
+<td>
+(0.026)
 </td>
 </tr>
 <tr>
@@ -512,7 +546,31 @@ d18O_nitrification
 <td>
 </td>
 <td>
-(0.058)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+SP_denitrification
+</td>
+<td>
+-0.984<sup>***</sup>
+</td>
+<td>
+0.210<sup>**</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.113)
+</td>
+<td>
+(0.087)
 </td>
 <td>
 </td>
@@ -532,26 +590,26 @@ d18O_nitrification
 d18O_denitrification
 </td>
 <td>
-0.073<sup>***</sup>
+0.387<sup>***</sup>
 </td>
 <td>
-0.431<sup>***</sup>
+0.268<sup>***</sup>
 </td>
 <td>
--0.280<sup>***</sup>
+-0.393<sup>***</sup>
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.017)
+(0.026)
 </td>
 <td>
-(0.060)
+(0.020)
 </td>
 <td>
-(0.106)
+(0.030)
 </td>
 </tr>
 <tr>
@@ -569,24 +627,26 @@ d18O_denitrification
 eta_SP_reduction
 </td>
 <td>
-1.130<sup>***</sup>
+1.165<sup>***</sup>
 </td>
 <td>
--0.135<sup>**</sup>
+-0.339<sup>***</sup>
 </td>
 <td>
+-0.184<sup>***</sup>
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
 </td>
 <td>
-(0.020)
+(0.028)
 </td>
 <td>
-(0.067)
+(0.021)
 </td>
 <td>
+(0.032)
 </td>
 </tr>
 <tr>
@@ -604,63 +664,26 @@ eta_SP_reduction
 eta_18O_reduction
 </td>
 <td>
--0.135<sup>***</sup>
+-0.529<sup>***</sup>
 </td>
 <td>
--0.917<sup>***</sup>
+-0.440<sup>***</sup>
 </td>
 <td>
-0.487<sup>***</sup>
+0.450<sup>***</sup>
 </td>
 </tr>
 <tr>
 <td style="text-align:left">
+</td>
+<td>
+(0.010)
 </td>
 <td>
 (0.007)
 </td>
 <td>
-(0.023)
-</td>
-<td>
-(0.042)
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-</td>
-<td>
-</td>
-<td>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-Constant
-</td>
-<td>
--7.348<sup>***</sup>
-</td>
-<td>
-3.642
-</td>
-<td>
-45.322<sup>***</sup>
-</td>
-</tr>
-<tr>
-<td style="text-align:left">
-</td>
-<td>
-(0.483)
-</td>
-<td>
-(2.341)
-</td>
-<td>
-(1.304)
+(0.011)
 </td>
 </tr>
 <tr>
@@ -696,13 +719,13 @@ Observations
 R<sup>2</sup>
 </td>
 <td>
-0.955
+0.976
 </td>
 <td>
-0.900
+0.958
 </td>
 <td>
-0.434
+0.928
 </td>
 </tr>
 <tr>
@@ -710,13 +733,13 @@ R<sup>2</sup>
 Adjusted R<sup>2</sup>
 </td>
 <td>
-0.954
+0.975
 </td>
 <td>
-0.897
+0.957
 </td>
 <td>
-0.429
+0.925
 </td>
 </tr>
 <tr>
@@ -724,13 +747,13 @@ Adjusted R<sup>2</sup>
 Residual Std. Error
 </td>
 <td>
-0.477 (df = 194)
+0.676 (df = 191)
 </td>
 <td>
-1.622 (df = 194)
+0.521 (df = 191)
 </td>
 <td>
-2.937 (df = 197)
+0.785 (df = 192)
 </td>
 </tr>
 <tr>
@@ -738,13 +761,13 @@ Residual Std. Error
 F Statistic
 </td>
 <td>
-820.752<sup>***</sup> (df = 5; 194)
+981.605<sup>***</sup> (df = 8; 191)
 </td>
 <td>
-347.543<sup>***</sup> (df = 5; 194)
+549.782<sup>***</sup> (df = 8; 191)
 </td>
 <td>
-75.614<sup>***</sup> (df = 2; 197)
+353.306<sup>***</sup> (df = 7; 192)
 </td>
 </tr>
 <tr>
@@ -776,6 +799,9 @@ Lewicka-Szczebak, D., J. Augustin, A. Giesemann, and R. Well. 2017. Quantifying 
 </div>
 <div id="ref-well2008isotope" class="csl-entry" role="listitem">
 Well, R., and H. Flessa. 2008. Isotope fractionation factors of N₂O diffusion. Rapid Communications in Mass Spectrometry: An International Journal Devoted to the Rapid Dissemination of Up-to-the-Minute Research in Mass Spectrometry 22:2621–2628.
+</div>
+<div id="ref-wickham2011split" class="csl-entry" role="listitem">
+Wickham, H. 2011. The split-apply-combine strategy for data analysis. Journal of statistical software 40:1–29.
 </div>
 </div>
 

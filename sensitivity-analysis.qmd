@@ -8,7 +8,6 @@ execute:
 Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions. This technique is used in various fields such as finance, engineering, and environmental studies to test the robustness of models against changes in input values. By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.
 
 :::{.column-page}
-
 | End Member             |                                 | Value [‰] | Value reference         | Sampling                         | Range reference   |
 |------------------------|---------------------------------|-----------|-------------------------|----------------------------------|-------------------|
 | `eta_SP_diffusion`     | $\eta\: \text{SP}_\text{diff.}$ | 1.55      | @well2008isotope        | $\sim \mathcal{N}(1.55, 0.28^2)$ | @well2008isotope  |
@@ -21,8 +20,9 @@ Sensitivity analysis is a method used to determine how different values of an in
 | `eta_18O_reduction`    | $\eta\ce{^{18}O_\text{red.}}$   | -16.1     | @lewicka2017quantifying |                                  |                   |
 
 : Isotope end members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. @lewicka2017quantifying originally report $\delta \ce{^{18} O \text - N2O} (\ce{N2O}/\ce{H2O})$. When a range is indicated, a random number from the range was selected in each iteration. When an average and standard deviation is indicated, a random value was drawn from the normal distribution in each iteration. {#tbl-sensitivity tbl-colwidths="[15,10,10,20,15,20]"}
-
 :::
+
+To conduct the sensitivity analysis, a data frame with parameters sampled according to the distributions in @tbl-sensitivity is created. We'll have to specify how many times we want to do this --- in this example that's `n = 200`.
 
 ```{r}
 n <- 200
@@ -36,19 +36,27 @@ parameters <- data.frame(eta_SP_diffusion = rnorm(n, 1.55, 0.28),
                          eta_18O_reduction = runif(n,-24,-6))
 ```
 
+Next, we write a function `f` that will run the process rate estimator for a specified column and depth with the parameters in the vector `p` --- which coincides to one row in the `parameters` data frame.
+
 ```{r}
-f <- function(p) {
-    x <- PRE(data, 1, 7.5, "2015-08-27", n = 20, parameters = do.call(getParameters, as.list(p)))
-    apply(x, 2, mean)
+f <- function(p, data, column = 1, depth = 7.5) {
+    x <- longPRE(data = data,
+                 column = column,
+                 depth = depth,
+                 n = 3,
+                 parameters = do.call(getParameters, as.list(p)))
+    return(x[["processes"]])
 }
 ```
 
+That function makes it very straightforward to compute the data for the sensitivity analysis. We'll simply apply `f` to every single row in `parameters` using the `apply` function [@wickham2011split].
+
 ```{r}
-results <- t(apply(parameters, 1, f))
+results <- t(apply(parameters, 1, f, data = data, column = 1, depth = 7.5))
 ```
 
 :::{.column-screen-inset}
-![Pairwise results of the sensitivity analysis of the isotope end members.](graphics/sensitivity.svg){#fig-sensitivity}
+![Pairwise results of the sensitivity analysis of the isotope end members.](graphics/sensitivity.svg){#fig-sensitivity width=100%}
 :::
 
 Some text before.
