@@ -18,3 +18,20 @@ Sensitivity analysis is a method used to determine how different values of an in
 : Isotope end members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. @lewicka2017quantifying originally report $\delta \ce{^{18} O \text - N2O} (\ce{N2O}/\ce{H2O})$. When a range is indicated, a random number from the range was selected in each iteration. When an average and standard deviation is indicated, a random value was drawn from the normal distribution in each iteration. {#tbl-sensitivity tbl-colwidths="[15,10,10,20,15,20]"}
 
 :::
+
+```{r}
+n <- 200
+parameters <- data.frame(eta_SP_diffusion = rnorm(n, 1.55, 0.28),
+                         eta_18O_diffusion = rnorm(n, -7.79, 0.27),
+                         SP_nitrification = runif(n, 26.2, 34.6),
+                         d18O_nitrification = rnorm(n, 36.5, 2),
+                         SP_denitrification = runif(n, -2.4, -0.9),
+                         d18O_denitrification = rnorm(n,11.1, 2),
+                         eta_SP_reduction = runif(n,-8,-2),
+                         eta_18O_reduction = runif(n,-24,-6))
+```
+
+
+:::{.column-screen-inset}
+![Pairwise results of the sensitivity analysis of the isotope end members.](graphics/sensitivity.svg){#fig-sensitivity}
+:::

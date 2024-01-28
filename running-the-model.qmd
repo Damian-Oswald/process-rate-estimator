@@ -8,7 +8,7 @@ execute:
 ### State function set
 
 The process rate estimator includes three-state functions, describing the change in N~2~O concentrations over time.
-The change in N~2~O concentrations in each depth increment over time $\frac{\Delta}{\Delta t}[\ce{N2O}]$ depends on the flux of N~2~O entering the depth increment from the top or the bottom through diffusion ($\text F_\text{t,i}$ and $\text F_\text {bot,in}$, respectively), the flux of N~2~O leaving the depth increment through diffusion ($\text F_\text {out}$), the rate of N~2~O produced through nitrification (`N2Onit`), the rate of N~2~O produced through denitrification (`N2Oden`), and the rate of N~2~O reduced to N~2~ (`N2Ored`).
+The change in N~2~O concentrations in each depth increment over time $\frac{\Delta}{\Delta t}[\ce{N2O}]$ depends on the flux of N~2~O entering the depth increment from the top or the bottom through diffusion ($\text F_\text{t,i}$ and $\text F_\text {b,i}$, respectively), the flux of N~2~O leaving the depth increment through diffusion ($\text F_\text {out}$), the rate of N~2~O produced through nitrification (`N2Onit`), the rate of N~2~O produced through denitrification (`N2Oden`), and the rate of N~2~O reduced to N~2~ (`N2Ored`).
 
 $$\frac{\Delta[\ce{N2O}]}{\Delta t} = \text F_{\text{t,i}} + \text F_{\text{b,i}}  + \ce{N2O}_{\text{nit.}} + \ce{N2O}_{\text{den.}} + \ce{N2O}_{\text{red.}}$${#eq-stateN2O}
 
