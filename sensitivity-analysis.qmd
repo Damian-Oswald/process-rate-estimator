@@ -1,3 +1,8 @@
+---
+execute: 
+  eval: false
+---
+
 # Sensitivity Analysis
 
 Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions. This technique is used in various fields such as finance, engineering, and environmental studies to test the robustness of models against changes in input values. By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.
@@ -31,7 +36,31 @@ parameters <- data.frame(eta_SP_diffusion = rnorm(n, 1.55, 0.28),
                          eta_18O_reduction = runif(n,-24,-6))
 ```
 
+```{r}
+f <- function(p) {
+    x <- PRE(data, 1, 7.5, "2015-08-27", n = 20, parameters = do.call(getParameters, as.list(p)))
+    apply(x, 2, mean)
+}
+```
+
+```{r}
+results <- t(apply(parameters, 1, f))
+```
 
 :::{.column-screen-inset}
 ![Pairwise results of the sensitivity analysis of the isotope end members.](graphics/sensitivity.svg){#fig-sensitivity}
 :::
+
+Some text before.
+
+```{r}
+#| echo: false
+#| eval: true
+#| results: asis
+#| tbl-cap: Regression results of multiple linear models with stepwise variable selection.
+cat(readLines("resources/tbl-sensitivity.txt"))
+```
+
+
+
+

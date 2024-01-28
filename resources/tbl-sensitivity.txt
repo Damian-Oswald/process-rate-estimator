@@ -1,0 +1,36 @@
+
+<table style="text-align:center"><tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td colspan="3"><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="3" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td>Nitrification</td><td>Denitrification</td><td>Reduction</td></tr>
+<tr><td style="text-align:left"></td><td>(1)</td><td>(2)</td><td>(3)</td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">SP_nitrification</td><td>0.157<sup>***</sup></td><td></td><td></td></tr>
+<tr><td style="text-align:left"></td><td>(0.014)</td><td></td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">SP_denitrification</td><td>-0.551<sup>***</sup></td><td></td><td></td></tr>
+<tr><td style="text-align:left"></td><td>(0.077)</td><td></td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">eta_SP_diffusion</td><td></td><td>-0.652</td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td>(0.465)</td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">d18O_nitrification</td><td></td><td>-0.088</td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td>(0.058)</td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">d18O_denitrification</td><td>0.073<sup>***</sup></td><td>0.431<sup>***</sup></td><td>-0.280<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.017)</td><td>(0.060)</td><td>(0.106)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">eta_SP_reduction</td><td>1.130<sup>***</sup></td><td>-0.135<sup>**</sup></td><td></td></tr>
+<tr><td style="text-align:left"></td><td>(0.020)</td><td>(0.067)</td><td></td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">eta_18O_reduction</td><td>-0.135<sup>***</sup></td><td>-0.917<sup>***</sup></td><td>0.487<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.007)</td><td>(0.023)</td><td>(0.042)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>-7.348<sup>***</sup></td><td>3.642</td><td>45.322<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.483)</td><td>(2.341)</td><td>(1.304)</td></tr>
+<tr><td style="text-align:left"></td><td></td><td></td><td></td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>200</td><td>200</td><td>200</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.955</td><td>0.900</td><td>0.434</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.954</td><td>0.897</td><td>0.429</td></tr>
+<tr><td style="text-align:left">Residual Std. Error</td><td>0.477 (df = 194)</td><td>1.622 (df = 194)</td><td>2.937 (df = 197)</td></tr>
+<tr><td style="text-align:left">F Statistic</td><td>820.752<sup>***</sup> (df = 5; 194)</td><td>347.543<sup>***</sup> (df = 5; 194)</td><td>75.614<sup>***</sup> (df = 2; 197)</td></tr>
+<tr><td colspan="4" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td colspan="3" style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+</table>

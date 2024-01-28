@@ -327,6 +327,15 @@ div.csl-indent {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                         <span class="at">eta_SP_reduction =</span> <span class="fu">runif</span>(n,<span class="sc">-</span><span class="dv">8</span>,<span class="sc">-</span><span class="dv">2</span>),</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                         <span class="at">eta_18O_reduction =</span> <span class="fu">runif</span>(n,<span class="sc">-</span><span class="dv">24</span>,<span class="sc">-</span><span class="dv">6</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(p) {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">PRE</span>(data, <span class="dv">1</span>, <span class="fl">7.5</span>, <span class="st">"2015-08-27"</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">parameters =</span> <span class="fu">do.call</span>(getParameters, <span class="fu">as.list</span>(p)))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span>(x, <span class="dv">2</span>, mean)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">apply</span>(parameters, <span class="dv">1</span>, f))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <div class="column-screen-inset">
 <div id="fig-sensitivity" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -334,6 +343,424 @@ div.csl-indent {
 <figcaption class="figure-caption">Figure&nbsp;6.1: Pairwise results of the sensitivity analysis of the isotope end members.</figcaption>
 </figure>
 </div>
+</div>
+<p>Some text before.</p>
+<div class="cell" data-tbl-cap="Regression results of multiple linear models with stepwise variable selection.">
+
+<table style="text-align:center">
+<tbody><tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Nitrification
+</td>
+<td>
+Denitrification
+</td>
+<td>
+Reduction
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+SP_nitrification
+</td>
+<td>
+0.157<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.014)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+SP_denitrification
+</td>
+<td>
+-0.551<sup>***</sup>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.077)
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+eta_SP_diffusion
+</td>
+<td>
+</td>
+<td>
+-0.652
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.465)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+d18O_nitrification
+</td>
+<td>
+</td>
+<td>
+-0.088
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.058)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+d18O_denitrification
+</td>
+<td>
+0.073<sup>***</sup>
+</td>
+<td>
+0.431<sup>***</sup>
+</td>
+<td>
+-0.280<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.017)
+</td>
+<td>
+(0.060)
+</td>
+<td>
+(0.106)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+eta_SP_reduction
+</td>
+<td>
+1.130<sup>***</sup>
+</td>
+<td>
+-0.135<sup>**</sup>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.020)
+</td>
+<td>
+(0.067)
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+eta_18O_reduction
+</td>
+<td>
+-0.135<sup>***</sup>
+</td>
+<td>
+-0.917<sup>***</sup>
+</td>
+<td>
+0.487<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.007)
+</td>
+<td>
+(0.023)
+</td>
+<td>
+(0.042)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+-7.348<sup>***</sup>
+</td>
+<td>
+3.642
+</td>
+<td>
+45.322<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.483)
+</td>
+<td>
+(2.341)
+</td>
+<td>
+(1.304)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+200
+</td>
+<td>
+200
+</td>
+<td>
+200
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.955
+</td>
+<td>
+0.900
+</td>
+<td>
+0.434
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.954
+</td>
+<td>
+0.897
+</td>
+<td>
+0.429
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.477 (df = 194)
+</td>
+<td>
+1.622 (df = 194)
+</td>
+<td>
+2.937 (df = 197)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+820.752<sup>***</sup> (df = 5; 194)
+</td>
+<td>
+347.543<sup>***</sup> (df = 5; 194)
+</td>
+<td>
+75.614<sup>***</sup> (df = 2; 197)
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="3" style="text-align:right">
+<sup><em></em></sup><em>p&lt;0.1; <sup><strong></strong></sup><strong>p&lt;0.05; <sup></sup></strong></em>p&lt;0.01
+</td>
+</tr>
+
+</tbody></table>
 </div>
 
 

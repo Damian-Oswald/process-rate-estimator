@@ -26,7 +26,7 @@ pairs(parameters)
 
 # function to take one row of `parameters` and run PRE with that
 f <- function(p) {
-    x <- PRE(data, 1, 7.5, "2015-08-27", n = 20, parameters = do.call(getParameters, as.list(p)))
+    x <- longPRE(data, 1, 7.5, n = 5, parameters = do.call(getParameters, as.list(p)))
     apply(x, 2, mean)
 }
 
@@ -48,4 +48,11 @@ for (j in 1:3) {
     }
 }
 dev.off()
+
+Nitrification <- step(lm(results[,1] ~ ., data = parameters))
+Denitrification <- step(lm(results[,2] ~ ., data = parameters))
+Reduction <- step(lm(results[,3] ~ ., data = parameters))
+sink("tbl-sensitivity.txt")
+stargazer::stargazer(Nitrification, Denitrification, Reduction, type = "html", dep.var.labels = colnames(results))
+sink()
 
