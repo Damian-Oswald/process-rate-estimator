@@ -8,26 +8,26 @@ execute:
 ### State function set
 
 The process rate estimator includes three-state functions, describing the change in N~2~O concentrations over time.
-The change in N~2~O concentrations in each depth increment over time $\frac{d}{dt}[\ce{N2O}]$ depends on the flux of N~2~O entering the depth increment from the top or the bottom through diffusion ($F_{top,in}$ and $F_{bot,in}$, respectively), the flux of N~2~O leaving the depth increment through diffusion ($F_{out}$), the rate of N~2~O produced through nitrification (`N2Onit`), the rate of N~2~O produced through denitrification (`N2Oden`), and the rate of N~2~O reduced to N~2~ (`N2Ored`).
+The change in N~2~O concentrations in each depth increment over time $\frac{\Delta}{\Delta t}[\ce{N2O}]$ depends on the flux of N~2~O entering the depth increment from the top or the bottom through diffusion ($\text F_\text{t,i}$ and $\text F_\text {bot,in}$, respectively), the flux of N~2~O leaving the depth increment through diffusion ($\text F_\text {out}$), the rate of N~2~O produced through nitrification (`N2Onit`), the rate of N~2~O produced through denitrification (`N2Oden`), and the rate of N~2~O reduced to N~2~ (`N2Ored`).
 
-$$\frac{d[\ce{N2O}]}{d t} = \text F_{\text{top,in}} + \text F_{\text{bottom,in}}  + \ce{N2O}_{\text{nit.}} + \ce{N2O}_{\text{den.}} + \ce{N2O}_{\text{red.}}$${#eq-stateN2O}
+$$\frac{\Delta[\ce{N2O}]}{\Delta t} = \text F_{\text{t,i}} + \text F_{\text{b,i}}  + \ce{N2O}_{\text{nit.}} + \ce{N2O}_{\text{den.}} + \ce{N2O}_{\text{red.}}$${#eq-stateN2O}
 
 For the equation of the change of site preference over time, we'll use the substitutions $A_1$, $A_2$ and $A_3$, as the expression is rather long.
 
-$$\frac{d \text{SP}}{d t} = \frac{A_1 + A_2 + A_3}{[\ce{N2O}]}$${#eq-stateSP}
-
-
-$$A_1 = \text F_{\text{top,in}}(\text{SP}_{\text{top,in}} - \eta\: \text{SP}_\text{diff.} - \text{SP}) + \text F_{\text{bottom,in}}(\text{SP}_{\text{bottom,in}} - \eta\: \text{SP}_\text{diff.} - \text{SP})$$
-$$A_2 = \ce{N2O}_{\text{nit.}}(\text{SP}_\text{nit.} - \text{SP}) + \ce{N2O}_{\text{den.}}(\text{SP}_\text{den.} - \text{SP})$$
-$$Â_3 = - \eta\: \text{SP}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_\text{red.}} \ce{N2O}_{\text{red.}}$$
+$$\begin{gathered}
+\frac{\Delta \text{SP}}{\Delta t} = \frac{A_1 + A_2 + A_3}{[\ce{N2O}]} \\ \\
+A_1 = \text F_{\text{t,i}}(\text{SP}_{\text{t,i}} - \eta\: \text{SP}_\text{diff.} - \text{SP}) + \text F_{\text{b,i}}(\text{SP}_{\text{b,i}} - \eta\: \text{SP}_\text{diff.} - \text{SP}) \\
+A_2 = \ce{N2O}_{\text{nit.}}(\text{SP}_\text{nit.} - \text{SP}) + \ce{N2O}_{\text{den.}}(\text{SP}_\text{den.} - \text{SP}) \\
+A_3 = - \eta\: \text{SP}_\text{diff.} \text F_{\text{out}} - \eta\text{SP}_\text{red.} \ce{N2O}_{\text{red.}}
+\end{gathered}$${#eq-stateSP}
 Similar to $\text{SP}$, the change in $\delta^{18}\text O$ over time in each time point and depth increment can be described as:
 
-$$\begin{multline}
-\frac{d\:\delta^{18}\ce{O}}{d t} = \frac{B_1 + B_2 + B_3}{[\ce{N2O}]} \\
-B_1 = \\
-B_2 = \\
-B_3 = \\
-\end{multline}$${#eq-stated18O}
+$$\begin{gathered}
+\frac{\Delta\:\delta^{18}\text{O}}{\Delta t} = \frac{B_1 + B_2 + B_3}{[\ce{N2O}]} \\ \\
+B_1 = \text F_{\text{t,i}}(\delta^{18}\text{O}_{\text{t,i}} - \eta\: ^{18}\text{O}_\text{diff.} - \delta^{18}\text{O}) + \text F_{\text{b,i}}(\delta^{18}\text{O}_{\text{b,i}} - \eta\: ^{18}\text{O}_\text{diff.} - \delta^{18}\text{O}) \\
+B_2 = \ce{N2O}_{\text{nit.}}(\delta^{18}\text{O}_\text{nit.} - \delta^{18}\text{O}) + \ce{N2O}_{\text{den.}}(\delta^{18}\text{O}_\text{den.} - \delta^{18}\text{O}) \\
+B_3 = - \eta\: ^{18}\text{O}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_\text{red.}} \ce{N2O}_{\text{red.}}
+\end{gathered}$${#eq-stated18O}
 
 ## Install the R package `PRE`
 

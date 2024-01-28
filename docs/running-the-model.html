@@ -216,17 +216,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="state-function-set" class="level3" data-number="4.0.1">
 <h3 data-number="4.0.1" class="anchored" data-anchor-id="state-function-set"><span class="header-section-number">4.0.1</span> State function set</h3>
-<p>The process rate estimator includes three-state functions, describing the change in N<sub>2</sub>O concentrations over time. The change in N<sub>2</sub>O concentrations in each depth increment over time <span class="math inline">\(\frac{d}{dt}[\ce{N2O}]\)</span> depends on the flux of N<sub>2</sub>O entering the depth increment from the top or the bottom through diffusion (<span class="math inline">\(F_{top,in}\)</span> and <span class="math inline">\(F_{bot,in}\)</span>, respectively), the flux of N<sub>2</sub>O leaving the depth increment through diffusion (<span class="math inline">\(F_{out}\)</span>), the rate of N<sub>2</sub>O produced through nitrification (<code>N2Onit</code>), the rate of N<sub>2</sub>O produced through denitrification (<code>N2Oden</code>), and the rate of N<sub>2</sub>O reduced to N<sub>2</sub> (<code>N2Ored</code>).</p>
-<p><span id="eq-stateN2O"><span class="math display">\[\frac{d[\ce{N2O}]}{d t} = \text F_{\text{top,in}} + \text F_{\text{bottom,in}}  + \ce{N2O}_{\text{nit.}} + \ce{N2O}_{\text{den.}} + \ce{N2O}_{\text{red.}} \tag{4.1}\]</span></span></p>
+<p>The process rate estimator includes three-state functions, describing the change in N<sub>2</sub>O concentrations over time. The change in N<sub>2</sub>O concentrations in each depth increment over time <span class="math inline">\(\frac{\Delta}{\Delta t}[\ce{N2O}]\)</span> depends on the flux of N<sub>2</sub>O entering the depth increment from the top or the bottom through diffusion (<span class="math inline">\(\text F_\text{t,i}\)</span> and <span class="math inline">\(\text F_\text {bot,in}\)</span>, respectively), the flux of N<sub>2</sub>O leaving the depth increment through diffusion (<span class="math inline">\(\text F_\text {out}\)</span>), the rate of N<sub>2</sub>O produced through nitrification (<code>N2Onit</code>), the rate of N<sub>2</sub>O produced through denitrification (<code>N2Oden</code>), and the rate of N<sub>2</sub>O reduced to N<sub>2</sub> (<code>N2Ored</code>).</p>
+<p><span id="eq-stateN2O"><span class="math display">\[\frac{\Delta[\ce{N2O}]}{\Delta t} = \text F_{\text{t,i}} + \text F_{\text{b,i}}  + \ce{N2O}_{\text{nit.}} + \ce{N2O}_{\text{den.}} + \ce{N2O}_{\text{red.}} \tag{4.1}\]</span></span></p>
 <p>For the equation of the change of site preference over time, we’ll use the substitutions <span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span> and <span class="math inline">\(A_3\)</span>, as the expression is rather long.</p>
-<p><span id="eq-stateSP"><span class="math display">\[\frac{d \text{SP}}{d t} = \frac{A_1 + A_2 + A_3}{[\ce{N2O}]} \tag{4.2}\]</span></span></p>
-<p><span class="math display">\[A_1 = \text F_{\text{top,in}}(\text{SP}_{\text{top,in}} - \eta\: \text{SP}_\text{diff.} - \text{SP}) + \text F_{\text{bottom,in}}(\text{SP}_{\text{bottom,in}} - \eta\: \text{SP}_\text{diff.} - \text{SP})\]</span> <span class="math display">\[A_2 = \ce{N2O}_{\text{nit.}}(\text{SP}_\text{nit.} - \text{SP}) + \ce{N2O}_{\text{den.}}(\text{SP}_\text{den.} - \text{SP})\]</span> <span class="math display">\[Â_3 = - \eta\: \text{SP}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_\text{red.}} \ce{N2O}_{\text{red.}}\]</span> Similar to <span class="math inline">\(\text{SP}\)</span>, the change in <span class="math inline">\(\delta^{18}\text O\)</span> over time in each time point and depth increment can be described as:</p>
-<p><span id="eq-stated18O"><span class="math display">\[\begin{multline}
-\frac{d\:\delta^{18}\ce{O}}{d t} = \frac{B_1 + B_2 + B_3}{[\ce{N2O}]} \\
-B_1 = \\
-B_2 = \\
-B_3 = \\
-\end{multline} \tag{4.3}\]</span></span></p>
+<p><span id="eq-stateSP"><span class="math display">\[\begin{gathered}
+\frac{\Delta \text{SP}}{\Delta t} = \frac{A_1 + A_2 + A_3}{[\ce{N2O}]} \\ \\
+A_1 = \text F_{\text{t,i}}(\text{SP}_{\text{t,i}} - \eta\: \text{SP}_\text{diff.} - \text{SP}) + \text F_{\text{b,i}}(\text{SP}_{\text{b,i}} - \eta\: \text{SP}_\text{diff.} - \text{SP}) \\
+A_2 = \ce{N2O}_{\text{nit.}}(\text{SP}_\text{nit.} - \text{SP}) + \ce{N2O}_{\text{den.}}(\text{SP}_\text{den.} - \text{SP}) \\
+A_3 = - \eta\: \text{SP}_\text{diff.} \text F_{\text{out}} - \eta\text{SP}_\text{red.} \ce{N2O}_{\text{red.}}
+\end{gathered} \tag{4.2}\]</span></span> Similar to <span class="math inline">\(\text{SP}\)</span>, the change in <span class="math inline">\(\delta^{18}\text O\)</span> over time in each time point and depth increment can be described as:</p>
+<p><span id="eq-stated18O"><span class="math display">\[\begin{gathered}
+\frac{\Delta\:\delta^{18}\text{O}}{\Delta t} = \frac{B_1 + B_2 + B_3}{[\ce{N2O}]} \\ \\
+B_1 = \text F_{\text{t,i}}(\delta^{18}\text{O}_{\text{t,i}} - \eta\: ^{18}\text{O}_\text{diff.} - \delta^{18}\text{O}) + \text F_{\text{b,i}}(\delta^{18}\text{O}_{\text{b,i}} - \eta\: ^{18}\text{O}_\text{diff.} - \delta^{18}\text{O}) \\
+B_2 = \ce{N2O}_{\text{nit.}}(\delta^{18}\text{O}_\text{nit.} - \delta^{18}\text{O}) + \ce{N2O}_{\text{den.}}(\delta^{18}\text{O}_\text{den.} - \delta^{18}\text{O}) \\
+B_3 = - \eta\: ^{18}\text{O}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_\text{red.}} \ce{N2O}_{\text{red.}}
+\end{gathered} \tag{4.3}\]</span></span></p>
 </section>
 <section id="install-the-r-package-pre" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="install-the-r-package-pre"><span class="header-section-number">4.1</span> Install the R package <code>PRE</code></h2>
