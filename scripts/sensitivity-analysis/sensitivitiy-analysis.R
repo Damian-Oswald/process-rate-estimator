@@ -4,7 +4,7 @@
 # date: 2024-01-27
 # ---
 
-# PREPARE WORKSPAEC
+# PREPARE WORKSPACE
 # =================
 
 # add packages to search path
@@ -13,9 +13,12 @@ library(PRE)
 # prepare PRE data
 data <- calculateFluxes()
 
-n <- 180
+# define sample size
+n <- 11*5*5
+
+# sample parameters
 parameters <- data.frame(
-    column = rep(1:12, each = 5, length = n),
+    column = rep(c(1:5,7:12), each = 5, length = n),
     depth = rep(getParameters()$depth, length = n),
     eta_SP_diffusion = rnorm(n, 1.55, 0.28),
     eta_18O_diffusion = rnorm(n, -7.79, 0.27),
@@ -34,12 +37,22 @@ f <- function(p) {
                  depth = p[["depth"]],
                  n = 5,
                  parameters = do.call(getParameters, as.list(p[-c(1:2)])),
-                 verbose = TRUE)
+                 verbose = FALSE)
     return(x[["processes"]])
 }
 
 # apply `f` to all rows in `parameters`
 results <- t(apply(parameters, 1, f))
+
+# define list of expressions
+expressions <- list(eta_SP_diffusion = expression(eta*"SP"[diffusion]),
+                    eta_18O_diffusion = expression(eta^"18"*"O"[diffusion]),
+                    SP_nitrification = expression("SP"[nitrification]),
+                    d18O_nitrification = expression(delta^"18"*"O"[nitrification]),
+                    SP_denitrification = expression("SP"[denitrification]),
+                    d18O_denitrification = expression(delta^"18"*"O"[denitrification]),
+                    eta_SP_reduction = expression(eta*"SP"[reduction]),
+                    eta_18O_reduction = expression(eta^"18"*"O"[reduction]))
 
 # plot pairwise linear relationship
 svg("sensitivity.svg", width = 12, height = 5)
@@ -48,7 +61,7 @@ for (j in 1:3) {
     for (i in 1:8) {
         x <- parameters[,i+2]
         y <- results[,j]
-        plot(x = x, y = y, ylab = "", xlab = "", axes = FALSE, col = "transparent")
+        plot(x = x, y = y, ylab = "", xlab = "", axes = FALSE, col = "transparent", ylim = c(0,50))
         grid(lty = 1)
         model <- lm(y ~ x)
         xr <- seq(min(x),max(x),l=100)
@@ -58,7 +71,7 @@ for (j in 1:3) {
         points(x, y, cex = 0.5, pch = 16)
         box()
         if(j==3) {
-            title(xlab = colnames(parameters)[i+2], xpd = NA)
+            title(xlab = expressions[[colnames(parameters)[i+2]]], xpd = NA)
             axis(1)
         }
         if(i==1) {
@@ -70,12 +83,17 @@ for (j in 1:3) {
 dev.off()
 
 # table of coefficients
-Nitrification <- lm(results[,1] ~ as.factor(parameters$column) + as.factor(parameters$depth) + ., data = parameters)
-Denitrification <- lm(results[,2] ~ ., data = parameters)
-Reduction <- lm(results[,3] ~ ., data = parameters)
+Nitrification <- step(lm(results[,1] ~ column*depth + ., data = parameters))
+Denitrification <- step(lm(results[,2] ~ column*depth + ., data = parameters))
+Reduction <- step(lm(results[,3] ~ column*depth + ., data = parameters))
 sink("tbl-sensitivity.txt")
-stargazer::stargazer(Nitrification, Denitrification, Reduction, type = "html", dep.var.labels = colnames(results), omit = "Constant")
+stargazer::stargazer(Nitrification, Denitrification, Reduction, type = "html", dep.var.labels = colnames(results), omit = c("Constant",names(coefficients(Nitrification))[!names(coefficients(Nitrification))%in%colnames(parameters)]))
 sink()
+
+Nitrification <- lme4::lmer(results[,1] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
+Denitrification <- lme4::lmer(results[,2] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
+
+Nitrification$coefficients[-1,1] |> dotchart()
 
 # barplot of coefficients
 df <- data.frame(Nitrification = coefficients(Nitrification),
@@ -83,6 +101,4 @@ df <- data.frame(Nitrification = coefficients(Nitrification),
                  Reduction = coefficients(Reduction))
 barplot(t(df[-1,]), beside = TRUE)
 
-
-i <- is.nan(results[,1])
-sensitivity::src(X = parameters[-i,], y = results[-i,1])
+sensitivity::src(X = parameters[,-c(1,2)], y = results[,2]) |> plot()
