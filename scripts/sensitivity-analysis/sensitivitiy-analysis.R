@@ -14,7 +14,7 @@ library(PRE)
 data <- calculateFluxes()
 
 # define sample size
-n <- 300
+n <- 500
 
 # sample parameters
 parameters <- data.frame(
@@ -35,7 +35,7 @@ f <- function(p) {
     x <- longPRE(data,
                  column = 1, #p[["column"]],
                  depth = 7.5, #p[["depth"]],
-                 n = 5,
+                 n = 15,
                  parameters = do.call(getParameters, as.list(p)))
     return(x[["processes"]])
 }
@@ -58,7 +58,7 @@ SRC <- sapply(1:3,function(i) sensitivity::src(parameters, results[,i])[["SRC"]]
 
 # plot pairwise linear relationship
 svg("sensitivity.svg", width = 12, height = 5)
-par(mfrow = c(3,8), mar = rep(0,4)+0.2, oma = c(4,4,0,0), bg = "black", fg = "white")
+par(mfrow = c(3,8), mar = rep(0,4)+0.2, oma = c(4,4,0,0))
 for (j in 1:3) {
     for (i in 1:8) {
         x <- parameters[,i]
@@ -70,7 +70,7 @@ for (j in 1:3) {
         yr <- predict(model, data.frame(x = xr), se.fit = TRUE)
         polygon(c(xr,rev(xr)),c(yr$fit+yr$se.fit*1.96,rev(yr$fit-yr$se.fit*1.96)), col = adjustcolor("red", alpha.f = 0.3), border = FALSE)
         lines(xr, yr$fit, lwd = 1.5, col = "red")
-        points(x, y, cex = 0.5, pch = 16)
+        points(x, y, cex = 0.3, pch = 16)
         w <- diff(par("usr"))[1]*0.04
         m <- mean(par("usr")[3:4])
         h <- 0.5*abs(SRC[i,j])*diff(par("usr")[3:4])
@@ -97,15 +97,7 @@ sink("tbl-sensitivity.txt")
 stargazer::stargazer(Nitrification, Denitrification, Reduction, type = "html", dep.var.labels = colnames(results))
 sink()
 
-Nitrification <- lme4::lmer(results[,1] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
-Denitrification <- lme4::lmer(results[,2] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
+#Nitrification <- lme4::lmer(results[,1] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
+#Denitrification <- lme4::lmer(results[,2] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
 
-Nitrification$coefficients[-1,1] |> dotchart()
-
-# barplot of coefficients
-df <- data.frame(Nitrification = coefficients(Nitrification),
-                 Denitrification = coefficients(Denitrification),
-                 Reduction = coefficients(Reduction))
-barplot(t(df[-1,]), beside = TRUE)
-
-sensitivity::src(X = parameters[,-c(1,2)], y = results[,2]) |> plot()
+#Nitrification$coefficients[-1,1] |> dotchart()

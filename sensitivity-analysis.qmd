@@ -5,7 +5,9 @@ execute:
 
 # Sensitivity Analysis
 
-Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions. This technique is used in various fields such as finance, engineering, and environmental studies to test the robustness of models against changes in input values. By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.
+Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions.
+
+By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.
 
 :::{.column-page}
 | End Member             |                                 | Value [‰] | Value reference         | Sampling                         | Range reference   |
@@ -56,6 +58,8 @@ results <- t(apply(parameters, 1, f, data = data, column = 1, depth = 7.5))
 ```
 
 To conduct the sensitivity analysis, we now model the results based on the sampled parameters -- so we treat the sampled parameters as independent variables $\mathbf X$, and the computed process rates as dependent variables $\mathbf Y$.
+
+A commonly applied method of sensitivity analysis is Sobol's method, which decomposes the total variance and assigns it to individual parameters specific interactions [@sobol1990sensitivity]. However, Sobol's method require's a large number of resampling, and is thus unfit for this application. Instead, a linear regression model is used as an emulator. Often, this works fine enough because even though the reponse might not be linear overall, it can be approximated by a linear model well enough on a specific parameter interval.
 
 First, we might look at the pairwise correlations between columns of $\mathbf X$ and $\mathbf Y$, i.e. all combinations of process rates as well as isotope end members (@fig-sensitivity).
 
