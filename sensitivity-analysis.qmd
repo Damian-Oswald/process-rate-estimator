@@ -60,7 +60,7 @@ To conduct the sensitivity analysis, we now model the results based on the sampl
 First, we might look at the pairwise correlations between columns of $\mathbf X$ and $\mathbf Y$, i.e. all combinations of process rates as well as isotope end members (@fig-sensitivity).
 
 :::{.column-screen-inset}
-![Pairwise results of the process rates (y-axis) and the isotope end members (x-axis) for column 1 at 7.5 cm depth. The red lines indicate the respective linear models with their 95% conficence intervals.](graphics/sensitivity.svg){#fig-sensitivity width=100%}
+![Pairwise results of the process rates (y-axis) and the isotope end members (x-axis) for column 1 at 7.5 cm depth. The red lines indicate the respective linear models with their 95% conficence intervals. The black bar to the right of each plot represents the magnitude of the absolute standardized regression coefficient (SRC). The absolute SRC can range from 0 to 1, where an SRC of 1 would range the entire plot plane. As such, these bars represent the importance of a given parameter for emulating the respective process.](graphics/sensitivity.svg){#fig-sensitivity width=100%}
 :::
 
 @fig-sensitivity already reveals quite a lot, but it would be better to construct a multiple linear regression model where we include all isotope end members at the same time.
@@ -71,7 +71,6 @@ The table below shows the resulting coefficients of such a multiple linear regre
 #| echo: false
 #| eval: true
 #| results: asis
-#| tbl-cap: Regression results of multiple linear models with stepwise variable selection.
 cat(readLines("resources/tbl-sensitivity.txt"))
 ```
 
