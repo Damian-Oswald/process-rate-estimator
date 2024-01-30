@@ -9,17 +9,20 @@
 
 # add packages to search path
 library(PRE)
+library(sjPlot)
+library(lme4)
 
 # prepare PRE data
 data <- calculateFluxes()
 
+# subset of the data
+subset <- expand.grid(repetition = 1:200, column = 1:2, depth = getParameters()$depths[1:2])
+
 # define sample size
-n <- 500
+n <- nrow(subset)
 
 # sample parameters
 parameters <- data.frame(
-    #column = rep(c(1:5,7:12), each = 5, length = n),
-    #depth = rep(getParameters()$depth, length = n),
     eta_SP_diffusion = rnorm(n, 1.55, 0.28),
     eta_18O_diffusion = rnorm(n, -7.79, 0.27),
     SP_nitrification = runif(n, 26.2, 34.6),
@@ -31,17 +34,19 @@ parameters <- data.frame(
     )
 
 # function to take one row of `parameters` and run PRE with that
-f <- function(p) {
+f <- function(parameter, subset) {
     x <- longPRE(data,
-                 column = 1, #p[["column"]],
-                 depth = 7.5, #p[["depth"]],
-                 n = 15,
-                 parameters = do.call(getParameters, as.list(p)))
+                 column = subset[,"column"],
+                 depth = subset[,"depth"],
+                 n = 3,
+                 parameters = do.call(getParameters, as.list(parameter)),
+                 verbose = FALSE)
+    cat("\n", paste(subset[1,], collapse = ", "), "   ")
     return(x[["processes"]])
 }
 
 # apply `f` to all rows in `parameters`
-results <- t(apply(parameters, 1, f))
+results <- t(sapply(1:nrow(parameters), function(i) f(parameters[i,], subset[i,])))
 
 # define list of expressions
 expressions <- list(eta_SP_diffusion = expression(eta*"SP"[diffusion]),
@@ -54,7 +59,7 @@ expressions <- list(eta_SP_diffusion = expression(eta*"SP"[diffusion]),
                     eta_18O_reduction = expression(eta^"18"*"O"[reduction]))
 
 # compute standardized regression coefficients
-SRC <- sapply(1:3,function(i) sensitivity::src(parameters, results[,i])[["SRC"]][,1])
+SRC <- sapply(1:3, function(i) sensitivity::src(parameters, results[,i])[["SRC"]][,1])
 
 # plot pairwise linear relationship
 svg("sensitivity.svg", width = 12, height = 5)
@@ -96,6 +101,23 @@ Reduction <- step(lm(results[,3] ~ ., data = parameters))
 sink("tbl-sensitivity.txt")
 stargazer::stargazer(Nitrification, Denitrification, Reduction, type = "html", dep.var.labels = colnames(results))
 sink()
+
+coefficients <- lm(results ~ ., parameters)
+
+for (i in 0:5) {
+    model <- lm(results[1:50+i*50,1] ~ ., data = parameters[1:50+i*50,])
+    print(summary(model))
+}
+
+df <- sapply(1:5, function(i) coef(lm(results[1:50+i*50,1] ~ ., data = parameters[1:50+i*50,])))
+
+subset$group <- as.factor(paste("C",subset$column,"D",subset$depth,sep=""))
+
+m1 <- lmer(Nitrification ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Nitrification = results[,1], parameters, subset))
+m2 <- lmer(Denitrification ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Denitrification = results[,2], parameters, subset))
+m3 <- lmer(Reduction ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Reduction = results[,3], parameters, subset))
+
+tab_model(m1, m2, m3, show.ci = FALSE)
 
 #Nitrification <- lme4::lmer(results[,1] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
 #Denitrification <- lme4::lmer(results[,2] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()

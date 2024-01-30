@@ -19,7 +19,7 @@ By systematically varying key parameters, sensitivity analysis helps in identify
 | `SP_denitrification`   | $\text{SP}_\text{den.}$         | -2.4      | @decock2013potential    | $\sim \mathcal{U}(-2.4, -0.9)$   | @denk2017nitrogen |
 | `d18O_denitrification` | $\delta\ce{^{18}O_\text{den.}}$ | 11.1      | @lewicka2017quantifying | $\sim \mathcal{N}(11.1, 2^2)$    |                   |
 | `eta_SP_reduction`     | $\eta\:\text{SP}_\text{red.}$   | -5.3      | @denk2017nitrogen       | $\sim \mathcal{U}(-8, -2)$       | @denk2017nitrogen |
-| `eta_18O_reduction`    | $\eta\ce{^{18}O_\text{red.}}$   | -16.1     | @lewicka2017quantifying |                                  |                   |
+| `eta_18O_reduction`    | $\eta\ce{^{18}O_\text{red.}}$   | -16.1     | @lewicka2017quantifying | $\sim \mathcal{U}(-24, -6)$      |                   |
 
 : Isotope end members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. @lewicka2017quantifying originally report $\delta \ce{^{18} O \text - N2O} (\ce{N2O}/\ce{H2O})$. When a range is indicated, a random number from the range was selected in each iteration. When an average and standard deviation is indicated, a random value was drawn from the normal distribution in each iteration. {#tbl-sensitivity tbl-colwidths="[15,10,10,20,15,20]"}
 :::
