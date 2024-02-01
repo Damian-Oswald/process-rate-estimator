@@ -202,7 +202,13 @@ div.csl-indent {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#using-a-mixed-effects-model-as-an-emulator" id="toc-using-a-mixed-effects-model-as-an-emulator" class="nav-link active" data-scroll-target="#using-a-mixed-effects-model-as-an-emulator"><span class="header-section-number">6.1</span> Using a mixed effects model as an emulator</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -828,9 +834,19 @@ F Statistic (df = 8; 491)
 
 </tbody></table>
 <p>Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.</p>
+<section id="using-a-mixed-effects-model-as-an-emulator" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="using-a-mixed-effects-model-as-an-emulator"><span class="header-section-number">6.1</span> Using a mixed effects model as an emulator</h2>
+<p>A mixed effects model is a statistical model containing both fixed effects and random effects. In matrix notation, a linear mixed effects model can be represented as follows. <span id="eq-mem"><span class="math display">\[
+\mathbf y = \mathbf X \boldsymbol \beta + \mathbf Z \boldsymbol \zeta  + \boldsymbol \varepsilon
+\tag{6.1}\]</span></span> In this notation, <span class="math inline">\(\mathbf y\)</span> is a known vector of obervations, where <span class="math inline">\(\mathbb E (\mathbf y) = \mathbf X \boldsymbol \beta\)</span>. Unlike in the OLS model, the errors of this mixed effects model are derived from two sources: on one hand from the error vector <span class="math inline">\(\boldsymbol \varepsilon\)</span>, but on the other hand also from the random effects <span class="math inline">\(\mathbf Z \boldsymbol \zeta\)</span>, where we have both <span class="math inline">\(\mathbb E (\boldsymbol \varepsilon) = \mathbf 0\)</span> and <span class="math inline">\(\mathbb E (\boldsymbol \zeta) = \mathbf 0\)</span>. So, generally, the expected error in the model is still zero. However, by use of the term <span class="math inline">\(\mathbf Z \boldsymbol \zeta\)</span>, errors might be clustered into groups, where <span class="math inline">\(\mathbf Z\)</span> is a design matrix containing information about these groups.</p>
+<p><em>One interpretation of the fixed effects coefficients <span class="math inline">\(\boldsymbol \beta\)</span> is that they are the estimated population means of the coefficient distributions of the random effects coefficients</em> <span class="citation" data-cites="bates2014fitting">(<a href="references.html#ref-bates2014fitting" role="doc-biblioref">Bates et al. 2014</a>)</span>.</p>
+<p>For approximating the synthetic data within the scope of the sensitivity analysis, we estimate three mixed effects models – one for Nitrification, Denitrification and Reduction, respectively – with random intercepts and random slopes. Thus, <span class="math inline">\(3 \cdot 12 \cdot 5 \cdot 2 \cdot 8 + 3 \cdot 2 \cdot 8 = 2928\)</span> parameters are estimated in total.</p>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-bates2014fitting" class="csl-entry" role="listitem">
+Bates, D., M. Mächler, B. Bolker, and S. Walker. 2014. Fitting linear mixed-effects models using lme4. arXiv preprint arXiv:1406.5823.
+</div>
 <div id="ref-decock2013potential" class="csl-entry" role="listitem">
 Decock, C., and J. Six. 2013. On the potential of <span class="math inline">\(\delta\)</span> 18O and <span class="math inline">\(\delta\)</span> 15N to assess N2O reduction to N2 in soil. European journal of soil science 64:610–620.
 </div>
@@ -850,6 +866,7 @@ Well, R., and H. Flessa. 2008. Isotope fractionation factors of N₂O diffusion.
 Wickham, H. 2011. The split-apply-combine strategy for data analysis. Journal of statistical software 40:1–29.
 </div>
 </div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

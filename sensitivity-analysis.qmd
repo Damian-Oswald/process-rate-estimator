@@ -81,5 +81,14 @@ cat(readLines("resources/tbl-sensitivity.txt"))
 Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.
 
 
+## Using a mixed effects model as an emulator
 
+A mixed effects model is a statistical model containing both fixed effects and random effects. In matrix notation, a linear mixed effects model can be represented as follows.
+$$
+\mathbf y = \mathbf X \boldsymbol \beta + \mathbf Z \boldsymbol \zeta  + \boldsymbol \varepsilon
+$${#eq-mem}
+In this notation, $\mathbf y$ is a known vector of obervations, where $\mathbb E (\mathbf y) = \mathbf X \boldsymbol \beta$. Unlike in the OLS model, the errors of this mixed effects model are derived from two sources: on one hand from the error vector $\boldsymbol \varepsilon$, but on the other hand also from the random effects $\mathbf Z \boldsymbol \zeta$, where we have both $\mathbb E (\boldsymbol \varepsilon) = \mathbf 0$ and $\mathbb E (\boldsymbol \zeta) = \mathbf 0$. So, generally, the expected error in the model is still zero. However, by use of the term $\mathbf Z \boldsymbol \zeta$, errors might be clustered into groups, where $\mathbf Z$ is a design matrix containing information about these groups.
 
+*One interpretation of the fixed effects coefficients $\boldsymbol \beta$ is that they are the estimated population means of the coefficient distributions of the random effects coefficients* [@bates2014fitting].
+
+For approximating the synthetic data within the scope of the sensitivity analysis, we estimate three mixed effects models -- one for Nitrification, Denitrification and Reduction, respectively -- with random intercepts and random slopes. Thus, $3 \cdot 12 \cdot 5 \cdot 2 \cdot 8 + 3 \cdot 2 \cdot 8 = 2928$ parameters are estimated in total.
