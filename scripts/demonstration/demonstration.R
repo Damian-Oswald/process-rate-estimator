@@ -62,7 +62,7 @@ pairs(x)
 # ========================
 
 # run the solver for all the dates
-x <- longPRE(data, column = 1, depth = 7.5, n = 10)
+x <- longPRE(data, column = 6, depth = 90, n = 10)
 
 # print information about the PRE results
 print(x)
