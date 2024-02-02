@@ -9,6 +9,18 @@ Sensitivity analysis is a method used to determine how different values of an in
 
 By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.
 
+A sensitivity analysis is conducted in five steps:
+
+1. Define parameter distribution.
+2. Sample from parameter space.
+3. Calculate model output of interest.
+4. Approximate the model output based on inputs with an emulator.
+5. Use the emulator to calculate parameter contributions to the output variance.
+
+The first step is usually the hardest one, as it requires an extensive review of prior knowledge of the parameters.
+
+## Parameter priors
+
 :::{.column-page}
 | End Member             |                                 | Value [‰] | Value reference         | Sampling                         | Range reference   |
 |------------------------|---------------------------------|-----------|-------------------------|----------------------------------|-------------------|
