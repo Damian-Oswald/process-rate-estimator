@@ -24,6 +24,6 @@ cd process-rate-estimator
 With this, you are ready to run the main script, which will reproduce the results for the process rate estimations.
 
 ```bash
-cd scripts/run-process-rate-estimator
-Rscript run-PRE.R
+Rscript scripts/run-process-rate-estimator/run-PRE.R
 ```
+

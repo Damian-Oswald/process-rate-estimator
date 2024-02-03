@@ -5,6 +5,13 @@
 # description: This is the main script to run the process rate estimator (PRE) with some specified parameters
 # ---
 
+# RANGES
+# ======
+
+# Nitrification:   95% = [ -6, 49], 99% = [ -9, 177]
+# Denitrification: 95% = [ -6, 50], 99% = [-15,  94]
+# Reduction:       95% = [-45, 59], 99% = [-92, 104]
+
 # PREPARATION
 # ===========
 
@@ -15,7 +22,7 @@ library(PRE)
 # ===========================
 
 # number of samples of starting positions taken by the `BB::MultiStart` function
-SAMPLENUMBER <- 500
+SAMPLENUMBER <- 1000
 
 # columns to compute
 COLUMNS <- 1:12
@@ -63,8 +70,8 @@ for (column in COLUMNS) {
         cat("\n")
         
         # Write all results as an SVG file
-        svg(file.path("output",sprintf("visualized-process-rates-C%s-D%s.svg", column, depth)), width = 8, height = 12)
-        try(plot(x)) # `try()` prevents crash when input data is missing
+        svg(file.path("scrips","run-process-rate-estimator","output",sprintf("visualized-process-rates-C%s-D%s.svg", column, depth)), width = 8, height = 12)
+        try(plot(x, ylim.variable = list(N2ONarea = c(0,10), SP = c(-8,22), d18O = c(23,52)), ylim.processes = list(Nitrification = c(-10,60), Denitrification = c(-10,60), Reduction = c(-10,60)))) # `try()` prevents crash when input data is missing
         dev.off()
         
         # print the results in the console
@@ -76,4 +83,4 @@ for (column in COLUMNS) {
 }
 
 # Save the total results
-write.csv(results, file.path("output","estimated-process-rates.csv"))
+write.csv(results, file.path("scrips","run-process-rate-estimator","output","estimated-process-rates.csv"))
