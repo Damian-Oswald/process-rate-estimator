@@ -5,13 +5,6 @@
 # description: This is the main script to run the process rate estimator (PRE) with some specified parameters
 # ---
 
-# RANGES
-# ======
-
-# Nitrification:   95% = [ -6, 49], 99% = [ -9, 177]
-# Denitrification: 95% = [ -6, 50], 99% = [-15,  94]
-# Reduction:       95% = [-45, 59], 99% = [-92, 104]
-
 # PREPARATION
 # ===========
 
@@ -22,13 +15,13 @@ library(PRE)
 # ===========================
 
 # number of samples of starting positions taken by the `BB::MultiStart` function
-SAMPLENUMBER <- 1000
+SAMPLENUMBER <- 5 # 1000
 
 # columns to compute
-COLUMNS <- 1:12
+COLUMNS <- 1:2 # 1:12
 
 # depths to compute
-DEPTHS <- getParameters()$depths
+DEPTHS <- getParameters()$depths[1:2]
 
 # LOADING THE DATA
 # ================
@@ -70,8 +63,17 @@ for (column in COLUMNS) {
         cat("\n")
         
         # Write all results as an SVG file
-        svg(file.path("scrips","run-process-rate-estimator","output",sprintf("visualized-process-rates-C%s-D%s.svg", column, depth)), width = 8, height = 12)
-        try(plot(x, ylim.variable = list(N2ONarea = c(0,10), SP = c(-8,22), d18O = c(23,52)), ylim.processes = list(Nitrification = c(-10,60), Denitrification = c(-10,60), Reduction = c(-10,60)))) # `try()` prevents crash when input data is missing
+        svg(file.path("scripts","run-process-rate-estimator","output",sprintf("visualized-process-rates-C%s-D%s.svg", column, depth)),
+            width = 8*0.9, height = 10*0.9)
+        
+        # `try()` prevents crash when input data is missing
+        try({
+            par(mar = c(4,4,2,1)+0.1, oma = c(4,0,1,0)+0.1)
+            layout(mat = matrix(c(1,2,3,4,5,6,4,5,6,4,5,6), nrow = 3, byrow = FALSE))
+            plot(x, col = "#0C6EFCB3", layout = TRUE, ylim.processes = list(Nitrification = c(-10,60), Denitrification = c(-10,60), Reduction = c(-10,60)))
+        })
+        
+        # close the writing process to SVG again
         dev.off()
         
         # print the results in the console
@@ -83,4 +85,4 @@ for (column in COLUMNS) {
 }
 
 # Save the total results
-write.csv(results, file.path("scrips","run-process-rate-estimator","output","estimated-process-rates.csv"))
+write.csv(results, file.path("scripts","run-process-rate-estimator","output","estimated-process-rates.csv"))
