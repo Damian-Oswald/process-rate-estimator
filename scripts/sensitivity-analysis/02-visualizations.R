@@ -12,42 +12,6 @@ library(PRE)
 library(sjPlot)
 library(lme4)
 
-# prepare PRE data
-data <- calculateFluxes()
-
-# subset of the data
-subset <- expand.grid(repetition = 1:200, column = 1:2, depth = getParameters()$depths[1:2])
-
-# define sample size
-n <- nrow(subset)
-
-# sample parameters
-parameters <- data.frame(
-    eta_SP_diffusion = rnorm(n, 1.55, 0.28),
-    eta_18O_diffusion = rnorm(n, -7.79, 0.27),
-    SP_nitrification = runif(n, 26.2, 34.6),
-    d18O_nitrification = rnorm(n, 36.5, 2),
-    SP_denitrification = runif(n, -2.4, -0.9),
-    d18O_denitrification = rnorm(n,11.1, 2),
-    eta_SP_reduction = runif(n,-8,-2),
-    eta_18O_reduction = runif(n,-24,-6)
-    )
-
-# function to take one row of `parameters` and run PRE with that
-f <- function(parameter, subset) {
-    x <- longPRE(data,
-                 column = subset[,"column"],
-                 depth = subset[,"depth"],
-                 n = 3,
-                 parameters = do.call(getParameters, as.list(parameter)),
-                 verbose = FALSE)
-    cat("\n", paste(subset[1,], collapse = ", "), "   ")
-    return(x[["processes"]])
-}
-
-# apply `f` to all rows in `parameters`
-results <- t(sapply(1:nrow(parameters), function(i) f(parameters[i,], subset[i,])))
-
 # define list of expressions
 expressions <- list(eta_SP_diffusion = expression(eta*"SP"[diffusion]),
                     eta_18O_diffusion = expression(eta^"18"*"O"[diffusion]),

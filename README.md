@@ -25,4 +25,21 @@ With this, you are ready to run the main script, which will reproduce the result
 ```bash
 Rscript scripts/run-process-rate-estimator/run-PRE.R
 ```
+
+# How to reproduce the rest of the study?
+
+The scripts to reproduce the study results are divided by topic.
+
+## Sensitivity Analysis
+
+To reproduce the sensitivity analysis, enter the following command:
+
+```bash
+Rscript scripts/sensitivity-analysis/01-sensitivitiy-analysis.R
+```
+
+Note that you can open the corresponding file to change parameters such as `SAMPLESIZE` and `SAMPLEREPEAT`; however, doing this will change the exact numerical results.[^2]
+
 [^1]: This R package contains all functions that are repeatedly used throughout the workflow of this project. It's stored [on its own GitHub repository](https://github.com/Damian-Oswald/PRE/).
+
+[^2]: Although the *expected* results will not change.
