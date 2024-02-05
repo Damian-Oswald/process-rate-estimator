@@ -1,18 +1,21 @@
 # ---
 # title: Sensitivity Analysis for the Process Rate Estimator
 # author: Damian Oswald
-# date: 2024-01-27
+# date: 2024-02-05
 # ---
+
+# EXPERIMENTS TO DETERMINE ADEQUATE SA PARAMETERS
+# ===============================================
 
 set.seed(42)
 
 # SET PARAMETERS FOR SENSITIVITY ANALYSIS
 # =======================================
 
-COLUMNS = 1:2 # All the columns to compute 
+COLUMNS = 1:12 # All the columns to compute 
 DEPTHS = PRE::getParameters()$depths # A vector of depths to compute
-SAMPLESIZE = 3 # How many samples should we draw from the parameter space?
-SAMPLEREPEAT = 5 # What should be `n` in the `longPRE` function call?
+SAMPLESIZE = 500 # How many samples should we draw from the parameter space?
+SAMPLEREPEAT = 15 # What should be `n` in the `longPRE` function call?
 
 # PREPARE WORKSPACE
 # =================
@@ -75,5 +78,4 @@ write.csv(x = data.frame(subset, parameters, results),
                            "output",
                            "results-sensitivity-analysis.csv"),
           row.names = FALSE)
-
 
