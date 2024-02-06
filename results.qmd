@@ -1,5 +1,48 @@
 # Results
 
+## Analysis of variance
+
+### Nitrification
+
+```{r}
+#| echo: false
+#| results: asis
+data <- read.csv(file.path("scripts","run-process-rate-estimator","output","estimated-process-rates.csv"))
+df <- reshape2::melt(with(data, tapply(Nitrification, list(depth, column), mean)), varnames = c("depth", "column"), value.name = "Nitrification")
+model <- lm(Nitrification ~ depth * as.factor(column), df)
+options(knitr.kable.NA = "")
+df <- as.data.frame(anova(model))
+df <- data.frame(signif(df, 3), stars = gtools::stars.pval(df$`Pr(>F)`))
+colnames(df)[5:6] <- c("p-value", " ")
+knitr::kable(df, format = "pipe")
+```
+
+### Denitrification
+
+```{r}
+#| echo: false
+#| results: asis
+df <- reshape2::melt(with(data, tapply(Denitrification, list(depth, column), mean)), varnames = c("depth", "column"), value.name = "Denitrification")
+model <- lm(Denitrification ~ depth, df)
+df <- as.data.frame(anova(model))
+df <- data.frame(signif(df, 3), stars = gtools::stars.pval(df$`Pr(>F)`))
+colnames(df)[5:6] <- c("p-value", " ")
+knitr::kable(df, format = "pipe")
+```
+
+### Reduction
+
+```{r}
+#| echo: false
+#| results: asis
+df <- reshape2::melt(with(data, tapply(Reduction, list(depth, column), mean)), varnames = c("depth", "column"), value.name = "Reduction")
+model <- lm(Reduction ~ depth * as.factor(column), df)
+df <- as.data.frame(anova(model))
+df <- data.frame(signif(df, 3), stars = gtools::stars.pval(df$`Pr(>F)`))
+colnames(df)[5:6] <- c("p-value", " ")
+knitr::kable(df, format = "pipe")
+```
+
 The tabset panels below show all results, from column 1 to 12[^missing] and depths 7.5 cm, 30 cm, 60 cm, 90 cm and 120 cm.
 
 [^missing]: Note that due to missing measurements, column 6 couldn't be computed completely.
