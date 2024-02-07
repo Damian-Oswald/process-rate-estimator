@@ -111,6 +111,15 @@ f("Denitrification", "Reduction", "bottomright")
 text(x = c(-320,-320), y = c(55, 322), labels = c("B", "A"), xpd = NA, cex = 3, font = 2)
 dev.off()
 
+f <- function(c,d) {
+    X <- as.matrix(subset(data, column==c & depth==d, c("Nitrification", "Denitrification")))
+    norm(cov(X), type = "F")
+}
+sapply(1:12, function(c) sapply(getParameters()$depths, function(d) f(c,d))) |>
+    barplot(beside = TRUE, log = "y", las = 1, col = viridis::cividis(5, begin = 0.3, end = 0.9))
+grid(lwd = 0.5, col = 1, lty = 1)
+box()
+
 # table of coefficients
 # Nitrification <- step(lm(results[,1] ~ ., data = parameters))
 # Denitrification <- step(lm(results[,2] ~ ., data = parameters))
