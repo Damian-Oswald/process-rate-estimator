@@ -14,8 +14,8 @@ set.seed(42)
 
 COLUMNS = 1:12 # All the columns to compute 
 DEPTHS = PRE::getParameters()$depths # A vector of depths to compute
-SAMPLESIZE = 500 # How many samples should we draw from the parameter space?
-SAMPLEREPEAT = 15 # What should be `n` in the `longPRE` function call?
+SAMPLESIZE = 300 # How many samples should we draw from the parameter space?
+SAMPLEREPEAT = 5 # What should be `n` in the `longPRE` function call?
 
 # PREPARE WORKSPACE
 # =================
@@ -41,7 +41,7 @@ parameters <- data.frame(
     SP_denitrification = runif(n, -2.4, -0.9),
     d18O_denitrification = rnorm(n,11.1, 2),
     eta_SP_reduction = runif(n,-8,-2),
-    eta_18O_reduction = runif(n,-24,-6)
+    eta_18O_reduction = runif(n,-18,-12)
     )
 
 # visualize the sampled parameter space
