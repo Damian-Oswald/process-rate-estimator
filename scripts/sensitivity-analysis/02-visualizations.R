@@ -7,10 +7,22 @@
 # PREPARE WORKSPACE
 # =================
 
+blue <- "#0C6EFC"
+
 # add packages to search path
 library(PRE)
 library(sjPlot)
 library(lme4)
+
+# read data
+data <- read.csv(file.path("scripts","sensitivity-analysis","output","results-sensitivity-analysis.csv"))
+for (i in 2:3) {
+    data[,i] <- as.factor(data[,i])
+}
+
+# save processes and parameters as variable
+processes <- c("Nitrification","Denitrification","Reduction")
+parameters <- c("eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
 
 # define list of expressions
 expressions <- list(eta_SP_diffusion = expression(eta*"SP"[diffusion]),
@@ -22,66 +34,107 @@ expressions <- list(eta_SP_diffusion = expression(eta*"SP"[diffusion]),
                     eta_SP_reduction = expression(eta*"SP"[reduction]),
                     eta_18O_reduction = expression(eta^"18"*"O"[reduction]))
 
-# compute standardized regression coefficients
-SRC <- sapply(1:3, function(i) sensitivity::src(parameters, results[,i])[["SRC"]][,1])
 
-# plot pairwise linear relationship
-svg("sensitivity.svg", width = 12, height = 5)
-par(mfrow = c(3,8), mar = rep(0,4)+0.2, oma = c(4,4,0,0))
-for (j in 1:3) {
-    for (i in 1:8) {
-        x <- parameters[,i]
-        y <- results[,j]
-        plot(x = x, y = y, ylab = "", xlab = "", axes = FALSE, col = "transparent", xlim = c(min(parameters[,i]),max(parameters[,i])+diff(range(parameters[,i]))*0.1))
-        grid(lty = 1)
-        model <- lm(y ~ x)
-        xr <- seq(min(x),max(x),l=100)
-        yr <- predict(model, data.frame(x = xr), se.fit = TRUE)
-        polygon(c(xr,rev(xr)),c(yr$fit+yr$se.fit*1.96,rev(yr$fit-yr$se.fit*1.96)), col = adjustcolor("red", alpha.f = 0.3), border = FALSE)
-        lines(xr, yr$fit, lwd = 1.5, col = "red")
-        points(x, y, cex = 0.3, pch = 16)
-        w <- diff(par("usr"))[1]*0.04
-        m <- mean(par("usr")[3:4])
-        h <- 0.5*abs(SRC[i,j])*diff(par("usr")[3:4])
+# loop through all rows and columns
+for (d in getParameters()$depth) {
+    for (c in 1:12) {
         
-        polygon(x = c(max(xr)+2*w,max(xr)+w,max(xr)+w,max(xr)+2*w), y = c(m+h,m+h,m-h,m-h), col = par()$fg, border = FALSE)
-        box()
-        if(j==3) {
-            title(xlab = expressions[[colnames(parameters)[i]]], xpd = NA)
-            axis(1)
+        # make subset of current depth and column
+        subset <- subset(data, subset = depth==d & column==c)
+        
+        # compute standardized regression coefficients
+        SRC <- sapply(processes, function(i) sensitivity::src(subset[,parameters], subset[,i])[["SRC"]][,1])
+        
+        
+        # plot pairwise linear relationship
+        svg(file.path("scripts","sensitivity-analysis","output",sprintf("sensitivity-%s-%s.svg", c, d)), width = 12, height = 5)
+        par(mfrow = c(3,8), mar = rep(0,4)+0.2, oma = c(4,4,0,0))
+        for (j in 1:3) {
+            for (i in 1:8) {
+                x <- subset[,parameters][,i]
+                y <- subset[,processes][,j]
+                plot(x = x, y = y, ylab = "", xlab = "", axes = FALSE, col = "transparent", xlim = c(min(x),max(x)+diff(range(x))*0.1))
+                grid(lty = 1)
+                model <- lm(y ~ x)
+                xr <- seq(min(x),max(x),l=100)
+                yr <- predict(model, data.frame(x = xr), se.fit = TRUE)
+                polygon(c(xr,rev(xr)),c(yr$fit+yr$se.fit*1.96,rev(yr$fit-yr$se.fit*1.96)), col = adjustcolor("red", alpha.f = 0.3), border = FALSE)
+                lines(xr, yr$fit, lwd = 1.5, col = "red")
+                points(x, y, cex = 0.3, pch = 16)
+                w <- diff(par("usr"))[1]*0.04
+                m <- mean(par("usr")[3:4])
+                h <- 0.5*abs(SRC[i,j])*diff(par("usr")[3:4])
+                
+                polygon(x = c(max(xr)+2*w,max(xr)+w,max(xr)+w,max(xr)+2*w), y = c(m+h,m+h,m-h,m-h), col = par()$fg, border = FALSE)
+                box()
+                if(j==3) {
+                    title(xlab = expressions[[parameters[i]]], xpd = NA)
+                    axis(1)
+                }
+                if(i==1) {
+                    title(ylab = processes[j], xpd = NA)
+                    axis(2, las = 1)
+                }
+            }
         }
-        if(i==1) {
-            title(ylab = colnames(results)[j], xpd = NA)
-            axis(2, las = 1)
-        }
+        dev.off()
     }
 }
+
+# SCATTERPLOTS OF THE PROCESS RATES
+# =================================
+
+f <- function(x, y, pos = NULL, ...) {
+    plot(data[,c(x,y)], col = "transparent", ...)
+    colors <- viridis::cividis(5, alpha = 1, begin = 0.3, end = 0.9)
+    grid(col = 1, lty = 1, lwd = 0.5)
+    for (c in 1:12) {
+        for (d in PRE::getParameters()$depth) {
+            X <- subset(data, column==c & depth==d, c(x, y))
+            m <- mixtools::ellipse(mu = colMeans(X), sigma = cov(X), draw = FALSE)
+            polygon(m[,1], m[,2], col = adjustcolor(colors[PRE::getParameters()$depth%in%d], 0.4), border = FALSE)
+        }
+    }
+    box()
+    points(data[,c(x,y)], pch = 16, cex = 0.2, col = colors[data$depth])
+    if(!is.null(pos)) legend(pos, pch = 16, col = colors, pt.cex = 0.5, fill = adjustcolor(colors, 0.4), border = FALSE, legend = paste(PRE::getParameters()$depth, "cm"), title = "Depth", inset = c(0.02,0.02), bg = "white")
+}
+
+svg(file.path("scripts","sensitivity-analysis","output","pairs-processes.svg"), width = 9, height = 6)
+par(mfrow = c(2,3), mar = c(4,4,1,1)+0.1, oma = c(1,1,1,1))
+f("Denitrification", "Nitrification", ylim = c(-7,42), xlim = c(0,55), las = 1)
+f("Reduction", "Nitrification", ylim = c(-8,42), xlim = c(-30,50))
+f("Denitrification", "Reduction", xlim = c(0,60), ylim = c(-10,50))
+f("Denitrification", "Nitrification")
+f("Reduction", "Nitrification")
+f("Denitrification", "Reduction", "bottomright")
+text(x = c(-320,-320), y = c(55, 322), labels = c("B", "A"), xpd = NA, cex = 3, font = 2)
 dev.off()
 
 # table of coefficients
-Nitrification <- step(lm(results[,1] ~ ., data = parameters))
-Denitrification <- step(lm(results[,2] ~ ., data = parameters))
-Reduction <- step(lm(results[,3] ~ ., data = parameters))
-sink("tbl-sensitivity.txt")
-stargazer::stargazer(Nitrification, Denitrification, Reduction, type = "html", dep.var.labels = colnames(results))
-sink()
+# Nitrification <- step(lm(results[,1] ~ ., data = parameters))
+# Denitrification <- step(lm(results[,2] ~ ., data = parameters))
+# Reduction <- step(lm(results[,3] ~ ., data = parameters))
+# sink("tbl-sensitivity.txt")
+# stargazer::stargazer(Nitrification, Denitrification, Reduction, type = "html", dep.var.labels = colnames(results))
+# sink()
 
-coefficients <- lm(results ~ ., parameters)
-
-for (i in 0:5) {
-    model <- lm(results[1:50+i*50,1] ~ ., data = parameters[1:50+i*50,])
-    print(summary(model))
-}
-
-df <- sapply(1:5, function(i) coef(lm(results[1:50+i*50,1] ~ ., data = parameters[1:50+i*50,])))
-
-subset$group <- as.factor(paste("C",subset$column,"D",subset$depth,sep=""))
-
-m1 <- lmer(Nitrification ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Nitrification = results[,1], parameters, subset))
-m2 <- lmer(Denitrification ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Denitrification = results[,2], parameters, subset))
-m3 <- lmer(Reduction ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Reduction = results[,3], parameters, subset))
-
-tab_model(m1, m2, m3, show.ci = FALSE)
+# coefficients <- lm(results ~ ., parameters)
+# 
+# for (i in 0:5) {
+#     model <- lm(results[1:50+i*50,1] ~ ., data = parameters[1:50+i*50,])
+#     print(summary(model))
+# }
+# 
+# df <- sapply(1:5, function(i) coef(lm(results[1:50+i*50,1] ~ ., data = parameters[1:50+i*50,])))
+# 
+# subset$group <- as.factor(paste("C",subset$column,"D",subset$depth,sep=""))
+# 
+# m1 <- lmer(Nitrification ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Nitrification = results[,1], parameters, subset))
+# m2 <- lmer(Denitrification ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Denitrification = results[,2], parameters, subset))
+# m3 <- lmer(Reduction ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Reduction = results[,3], parameters, subset))
+# 
+# tab_model(m1, m2, m3, show.ci = FALSE)
 
 #Nitrification <- lme4::lmer(results[,1] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
 #Denitrification <- lme4::lmer(results[,2] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
