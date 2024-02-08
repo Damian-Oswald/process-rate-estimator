@@ -45,7 +45,6 @@ for (d in getParameters()$depth) {
         # compute standardized regression coefficients
         SRC <- sapply(processes, function(i) sensitivity::src(subset[,parameters], subset[,i])[["SRC"]][,1])
         
-        
         # plot pairwise linear relationship
         svg(file.path("scripts","sensitivity-analysis","output",sprintf("sensitivity-%s-%s.svg", c, d)), width = 12, height = 5)
         par(mfrow = c(3,8), mar = rep(0,4)+0.2, oma = c(4,4,0,0))
@@ -119,6 +118,20 @@ sapply(1:12, function(c) sapply(getParameters()$depths, function(d) f(c,d))) |>
     barplot(beside = TRUE, log = "y", las = 1, col = viridis::cividis(5, begin = 0.3, end = 0.9))
 grid(lwd = 0.5, col = 1, lty = 1)
 box()
+
+
+# COMPUTE R-SQUARED
+# =================
+
+f <- function(c,d,p){
+    subset <- subset(data, subset = depth==d & column==c)
+    summary(lm(subset[,processes][,p] ~ ., data = subset[,parameters]))$adj.r.squared
+}
+
+sapply(1:12, function(c) sapply(getParameters()$depth, function(d) f(c,d,"Nitrification"))) |> density() |> plot(main = "R-squared", xlim = c(0.5,1))
+sapply(1:12, function(c) sapply(getParameters()$depth, function(d) f(c,d,"Denitrification"))) |> density() |> lines(lty = 2)
+sapply(1:12, function(c) sapply(getParameters()$depth, function(d) f(c,d,"Reduction"))) |> density() |> lines(lty = 3)
+
 
 # table of coefficients
 # Nitrification <- step(lm(results[,1] ~ ., data = parameters))
