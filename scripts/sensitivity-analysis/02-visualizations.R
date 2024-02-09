@@ -119,20 +119,6 @@ sapply(1:12, function(c) sapply(getParameters()$depths, function(d) f(c,d))) |>
 grid(lwd = 0.5, col = 1, lty = 1)
 box()
 
-
-# COMPUTE R-SQUARED
-# =================
-
-f <- function(c,d,p){
-    subset <- subset(data, subset = depth==d & column==c)
-    summary(lm(subset[,processes][,p] ~ ., data = subset[,parameters]))$adj.r.squared
-}
-
-sapply(1:12, function(c) sapply(getParameters()$depth, function(d) f(c,d,"Nitrification"))) |> density() |> plot(main = "R-squared", xlim = c(0.5,1))
-sapply(1:12, function(c) sapply(getParameters()$depth, function(d) f(c,d,"Denitrification"))) |> density() |> lines(lty = 2)
-sapply(1:12, function(c) sapply(getParameters()$depth, function(d) f(c,d,"Reduction"))) |> density() |> lines(lty = 3)
-
-
 # table of coefficients
 # Nitrification <- step(lm(results[,1] ~ ., data = parameters))
 # Denitrification <- step(lm(results[,2] ~ ., data = parameters))

@@ -83,12 +83,9 @@ First, we might look at the pairwise correlations between columns of $\mathbf X$
 
 The table below shows the resulting coefficients of such a multiple linear regression model. We can directly interpret the regression coefficients without any further modifications, as all considered variables share the same unit (‰).
 
-```{r}
-#| echo: false
-#| eval: true
-#| results: asis
-cat(readLines("resources/tbl-sensitivity.txt"))
-```
+:::{.callout-important}
+Insert a table with the regression coefficients ($\boldsymbol \beta$) and the standardized regression coefficients ($\boldsymbol \beta^\ast$).
+:::
 
 Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.
 
@@ -100,6 +97,13 @@ $$
 \mathbf y = \mathbf X \boldsymbol \beta + \mathbf Z \boldsymbol \zeta  + \boldsymbol \varepsilon
 $${#eq-mem}
 In this notation, $\mathbf y$ is a known vector of obervations, where $\mathbb E (\mathbf y) = \mathbf X \boldsymbol \beta$. Unlike in the OLS model, the errors of this mixed effects model are derived from two sources: on one hand from the error vector $\boldsymbol \varepsilon$, but on the other hand also from the random effects $\mathbf Z \boldsymbol \zeta$, where we have both $\mathbb E (\boldsymbol \varepsilon) = \mathbf 0$ and $\mathbb E (\boldsymbol \zeta) = \mathbf 0$. So, generally, the expected error in the model is still zero. However, by use of the term $\mathbf Z \boldsymbol \zeta$, errors might be clustered into groups, where $\mathbf Z$ is a design matrix containing information about these groups.
+
+```{r}
+#| echo: false
+#| eval: true
+#| results: asis
+cat(readLines("resources/tbl-sensitivity.txt"))
+```
 
 *One interpretation of the fixed effects coefficients $\boldsymbol \beta$ is that they are the estimated population means of the coefficient distributions of the random effects coefficients* [@bates2014fitting].
 
