@@ -56,3 +56,23 @@ save(model, file = file.path("scripts","sensitivity-analysis","output","lmer.RDa
 sink(file = file.path("resources", "tbl-sensitivity.txt"))
 cat(model$knitr)
 sink()
+
+df <- as.data.frame(VarCorr(model_nit))[-1,c(2,4)]
+barplot(df[,2], names.arg = c(df[-9,1],"Residuals"), las = 2)
+dotchart(df[,2], labels = c(df[-9,1],"Residuals"), log = "x")
+
+
+
+
+model_nit = lme4::lmer(Nitrification ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +
+                           (eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction | column:depth),
+                       data = data,
+                       REML = TRUE,
+                       verbose = 1,
+                       #subset = sample(1:nrow(data),1000),
+                       control = lmerControl(
+                           optimizer = "Nelder_Mead",
+                           optCtrl = list(iprint = 1000, maxfun = 10000, xst = 0.1)
+                       ))
+tab_model(model_nit)
+
