@@ -117,5 +117,44 @@ For approximating the synthetic data within the scope of the sensitivity analysi
 
 Two things are striking when looking at the clusters in [figure @fig-pairs-processes]: Both the within-group variance as well as the total variance (i.e. the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier -- it's column 12 at 7.5 cm depth (@fig-pairs-processes **B**).
 
+## What effect does the bulk density have?
 
+First, we'll determine a range of bulk density to be searched.
 
+```r
+BD <- getParameters()$BD + seq(-0.15, 0.15, 0.05)
+```
+
+Next, we have to construct a function to return the process estimates for a give bulk density `x`.
+
+```r
+f <- function(x) {
+    parameters <- getParameters(BD = x)
+    data <- subset(measurements, column==1) |>
+        getN2ON(parameters = parameters) |>
+        getMissing() |>
+        calculateFluxes(parameters = parameters)
+    return(longPRE(data, 1, 7.5, n = 15)$processes)
+}
+```
+
+Finally, we'll apply said function to all bulk densities in the vector `BD`.
+
+```r
+result <- t(sapply(BD, f))
+```
+
+This process will return us the data to be analyzed.
+
+![Illustration to the sensitivity of estimated process rates to a change in prior bulk density.](scripts/sensitivity-analysis/output/bulk-density-sensitiviy.svg){#fig-BD width=100%}
+
+```{r}
+#| echo: false
+#| eval: true
+#| results: asis
+data <- read.csv(file.path("scripts","sensitivity-analysis","output","bulk-density-sensitiviy.csv"))
+m1 <- lm(Nitrification ~ BD, data)
+m2 <- lm(Denitrification ~ BD, data)
+m3 <- lm(Reduction ~ BD, data)
+stargazer::stargazer(m1, m2, m3, type = "html")
+```

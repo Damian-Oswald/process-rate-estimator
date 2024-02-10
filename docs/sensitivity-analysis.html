@@ -209,6 +209,7 @@ div.csl-indent {
   <li><a href="#parameter-priors" id="toc-parameter-priors" class="nav-link active" data-scroll-target="#parameter-priors"><span class="header-section-number">6.1</span> Parameter priors</a></li>
   <li><a href="#using-a-mixed-effects-model-as-an-emulator" id="toc-using-a-mixed-effects-model-as-an-emulator" class="nav-link" data-scroll-target="#using-a-mixed-effects-model-as-an-emulator"><span class="header-section-number">6.2</span> Using a mixed effects model as an emulator</a></li>
   <li><a href="#how-do-the-process-rates-correlate" id="toc-how-do-the-process-rates-correlate" class="nav-link" data-scroll-target="#how-do-the-process-rates-correlate"><span class="header-section-number">6.3</span> How do the process rates correlate?</a></li>
+  <li><a href="#what-effect-does-the-bulk-density-have" id="toc-what-effect-does-the-bulk-density-have" class="nav-link" data-scroll-target="#what-effect-does-the-bulk-density-have"><span class="header-section-number">6.4</span> What effect does the bulk density have?</a></li>
   </ul>
 </nav>
     </div>
@@ -681,6 +682,240 @@ Observations
 </div>
 </div>
 <p>Two things are striking when looking at the clusters in <a href="#fig-pairs-processes">figure&nbsp;<span>6.2</span></a>: Both the within-group variance as well as the total variance (i.e.&nbsp;the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier – it’s column 12 at 7.5 cm depth (<a href="#fig-pairs-processes">Figure&nbsp;<span>6.2</span></a> <strong>B</strong>).</p>
+</section>
+<section id="what-effect-does-the-bulk-density-have" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="what-effect-does-the-bulk-density-have"><span class="header-section-number">6.4</span> What effect does the bulk density have?</h2>
+<p>First, we’ll determine a range of bulk density to be searched.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>BD <span class="ot">&lt;-</span> <span class="fu">getParameters</span>()<span class="sc">$</span>BD <span class="sc">+</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.15</span>, <span class="fl">0.15</span>, <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Next, we have to construct a function to return the process estimates for a give bulk density <code>x</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="ot">&lt;-</span> <span class="fu">getParameters</span>(<span class="at">BD =</span> x)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">subset</span>(measurements, column<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">getN2ON</span>(<span class="at">parameters =</span> parameters) <span class="sc">|&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">getMissing</span>() <span class="sc">|&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">calculateFluxes</span>(<span class="at">parameters =</span> parameters)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">longPRE</span>(data, <span class="dv">1</span>, <span class="fl">7.5</span>, <span class="at">n =</span> <span class="dv">15</span>)<span class="sc">$</span>processes)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally, we’ll apply said function to all bulk densities in the vector <code>BD</code>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(BD, f))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>This process will return us the data to be analyzed.</p>
+<div id="fig-BD" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="scripts/sensitivity-analysis/output/bulk-density-sensitiviy.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;6.3: Illustration to the sensitivity of estimated process rates to a change in prior bulk density.</figcaption>
+</figure>
+</div>
+
+<table style="text-align:center">
+<tbody><tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="3">
+<em>Dependent variable:</em>
+</td>
+</tr>
+<tr>
+<td>
+</td>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+Nitrification
+</td>
+<td>
+Denitrification
+</td>
+<td>
+Reduction
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+<td>
+(3)
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+BD
+</td>
+<td>
+-20.907<sup>***</sup>
+</td>
+<td>
+-4.672<sup>***</sup>
+</td>
+<td>
+31.267<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.993)
+</td>
+<td>
+(0.619)
+</td>
+<td>
+(0.926)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+47.404<sup>***</sup>
+</td>
+<td>
+26.665<sup>***</sup>
+</td>
+<td>
+-27.614<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1.678)
+</td>
+<td>
+(1.045)
+</td>
+<td>
+(1.565)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Observations
+</td>
+<td>
+7
+</td>
+<td>
+7
+</td>
+<td>
+7
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.989
+</td>
+<td>
+0.919
+</td>
+<td>
+0.996
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.987
+</td>
+<td>
+0.903
+</td>
+<td>
+0.995
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error (df = 5)
+</td>
+<td>
+0.263
+</td>
+<td>
+0.164
+</td>
+<td>
+0.245
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic (df = 1; 5)
+</td>
+<td>
+442.914<sup>***</sup>
+</td>
+<td>
+57.032<sup>***</sup>
+</td>
+<td>
+1,139.130<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td colspan="4" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Note:</em>
+</td>
+<td colspan="3" style="text-align:right">
+<sup><em></em></sup><em>p&lt;0.1; <sup><strong></strong></sup><strong>p&lt;0.05; <sup></sup></strong></em>p&lt;0.01
+</td>
+</tr>
+
+</tbody></table>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">
