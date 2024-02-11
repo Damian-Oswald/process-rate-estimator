@@ -156,5 +156,6 @@ data <- read.csv(file.path("scripts","sensitivity-analysis","output","bulk-densi
 m1 <- lm(Nitrification ~ BD, data)
 m2 <- lm(Denitrification ~ BD, data)
 m3 <- lm(Reduction ~ BD, data)
-stargazer::stargazer(m1, m2, m3, type = "html")
+#table <- stargazer::stargazer(m1, m2, m3, type = "html")
+sjPlot::tab_model(m1, m2, m3, show.p = TRUE, digits = 1, show.ci = FALSE)
 ```

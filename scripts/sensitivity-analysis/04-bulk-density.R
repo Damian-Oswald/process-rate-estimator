@@ -1,4 +1,7 @@
 
+# attach packages to search path
+library(PRE)
+
 # determine a range of bulk density to be searched
 BD <- getParameters()$BD + seq(-0.15, 0.15, 0.05)
 
@@ -9,7 +12,8 @@ f <- function(x) {
         getN2ON(parameters = parameters) |>
         getMissing() |>
         calculateFluxes(parameters = parameters)
-    return(longPRE(data, 1, 7.5, n = 15)$processes)
+    result <- t(sapply(getParameters()$depth, function(d) longPRE(data, 1, d, n = 3)$processes))
+    return(data.frame(depth = getParameters()$depth, result))
 }
 
 # apply said function to all bulk densities
