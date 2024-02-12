@@ -148,14 +148,17 @@ This process will return us the data to be analyzed.
 
 ![Illustration to the sensitivity of estimated process rates to a change in prior bulk density.](scripts/sensitivity-analysis/output/bulk-density-sensitiviy.svg){#fig-BD width=100%}
 
+Once again, we can use the `lmer` function from the `lme4` package to model the process rates as a response of the bulk density as well as a random effect conditional on the depth [@bates2014fitting].
+
 ```{r}
 #| echo: false
 #| eval: true
 #| results: asis
+#| message: false
+#| warning: false
 data <- read.csv(file.path("scripts","sensitivity-analysis","output","bulk-density-sensitiviy.csv"))
-m1 <- lm(Nitrification ~ BD, data)
-m2 <- lm(Denitrification ~ BD, data)
-m3 <- lm(Reduction ~ BD, data)
-#table <- stargazer::stargazer(m1, m2, m3, type = "html")
-sjPlot::tab_model(m1, m2, m3, show.p = TRUE, digits = 1, show.ci = FALSE)
+m1 <- lme4::lmer(Nitrification ~ BD + (BD | depth), data)
+m2 <- lme4::lmer(Denitrification ~ BD + (BD | depth), data)
+m3 <- lme4::lmer(Reduction ~ BD + (BD | depth), data)
+sjPlot::tab_model(m1, m2, m3, show.ci = FALSE)
 ```
