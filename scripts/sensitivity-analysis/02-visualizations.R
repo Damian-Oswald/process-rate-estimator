@@ -42,6 +42,9 @@ for (d in getParameters()$depth) {
         # make subset of current depth and column
         subset <- subset(data, subset = depth==d & column==c)
         
+        # compute coefficients
+        B <- coef(lm(cbind(Nitrification, Denitrification, Reduction) ~ ., subset[,c(parameters,processes)]))[-1,]
+        
         # compute standardized regression coefficients
         SRC <- sapply(processes, function(i) sensitivity::src(subset[,parameters], subset[,i])[["SRC"]][,1])
         

@@ -24,6 +24,49 @@ for (i in 2:3) {
 processes <- c("Nitrification","Denitrification","Reduction")
 parameters <- c("eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
 
+# GENERATE TABLE SUMMARIES FROM MULTIPLE LINEAR MODELS
+# ====================================================
+
+# loop through all rows and columns
+results <- data.frame()
+for (d in getParameters()$depth) {
+    for (c in 1:12) {
+        
+        # make subset of current depth and column
+        subset <- subset(data, subset = depth==d & column==c)
+        
+        # compute coefficients
+        B <- coef(lm(cbind(Nitrification, Denitrification, Reduction) ~ ., subset[,c(parameters,processes)]))[-1,]
+        
+        # compute standardized regression coefficients
+        SRC <- sapply(processes, function(i) sensitivity::src(subset[,parameters], subset[,i])[["SRC"]][,1])
+
+        X <- data.frame(parameter = NA, depth = d, column = c, parameters, cbind(B,SRC)[,c(1,4,2,5,3,6)])
+        X[,1] <- rownames(X)
+        colnames(X) <- c("parameter", "depth", "column", "parameters", "Nitrification", "Nitrification_SRC", "Denitrification", "Denitrification_SRC", "Reduction", "Reduction_SRC")
+        results <- rbind(results, X)
+    }
+}
+
+results$parameter <- as.factor(results$parameter)
+boxplot(Nitrification ~ parameter, results, col = "coral", outline = FALSE, pch = 16, cex = 0.5, lty = 1, las = 1, ylab = "Standardized regression coefficients", at = 4*(1:8), boxwex = 1)
+boxplot(Denitrification ~ parameter, results, col = "blue", outline = FALSE, pch = 16, cex = 0.5, las = 1, lty = 1, add = TRUE, at = 4*(1:8)+1, boxwex = 1)
+grid(col=1)
+
+results$parameter <- as.factor(results$parameter)
+boxplot(Nitrification_SRC ~ parameter, results, col = "coral", pch = 16, cex = 0.5, lty = 1, ylim = c(-1,1), yaxs = "i", las = 1, ylab = "Standardized regression coefficients")
+grid(col=1)
+
+mu = with(results, tapply(Nitrification_SRC, parameters, mean))
+sigma = with(results, tapply(Nitrification_SRC, parameters, sd))
+dotchart(mu, xlim = c(-1,1))
+for (i in 1:8) {
+    lines(x = c(mu[i]+sigma[i],mu[i]-sigma[i]), y = c(i,i))
+    points(mu[i],i,pch=16)
+}
+
+
+
 # COMPUTE R-SQUARED
 # =================
 
