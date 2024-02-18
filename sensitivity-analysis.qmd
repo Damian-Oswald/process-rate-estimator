@@ -87,6 +87,58 @@ The table below shows the resulting coefficients of such a multiple linear regre
 Insert a table with the regression coefficients ($\boldsymbol \beta$) and the standardized regression coefficients ($\boldsymbol \beta^\ast$).
 :::
 
+```{r}
+#| label: tbl-src
+#| results: asis
+#| tbl-cap: Standardized regression coefficients ($\mu$ ± $\sigma$) for the models fit on combinations of depth and column.
+#| echo: false
+#| eval: true
+#| tbl-colwidths: [10,30,30,30]
+results <- read.csv("scripts/sensitivity-analysis/output/coefficients.csv")
+processes <- c("Nitrification","Denitrification","Reduction")
+parameters <- c("eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
+results$Process <- ordered(results$Process, levels = processes)
+results$Parameter <- ordered(results$Parameter, levels = parameters)
+f <- function(x) paste(signif(mean(x),2),"±",signif(sd(x),2))
+df <- with(results, tapply(SRC, list(Parameter, Process), f))
+df <- rbind(df, strrep("",3), adj.R2 = with(results, tapply(adjR2, Process, f)))
+df <- data.frame(c("$\\eta\\;\\text{SP}_{\\text{diffusion}}$",
+                   "$\\eta^{18}\\text{O}_\\text{diffusion}$",
+                   "$\\text{SP}_\\text{nitrification}$",
+                   "$\\delta\\;^18\\text{O}_\\text{nitrification}$",
+                   "$\\text{SP}_\\text{denitrification}$",
+                   "$\\delta\\;^18\\text{O}_\\text{denitrification}$",
+                   "$\\eta\\;\\text{SP}_{\\text{reduction}}$",
+                   "$\\eta^{18}\\text{O}_\\text{reduction}$",
+                   "",
+                   "adjusted R^2^"), df)
+colnames(df)[1] <- ""
+knitr::kable(df, align = "lrrr", row.names = FALSE)
+```
+
+```{r}
+#| label: tbl-coefficient
+#| results: asis
+#| tbl-cap: Coefficients ($\mu$ ± $\sigma$) for the models fit on combinations of depth and column.
+#| echo: false
+#| eval: true
+#| tbl-colwidths: [10,30,30,30]
+df <- with(results, tapply(Coefficient, list(Parameter, Process), f))
+df <- rbind(df, strrep("",3), adj.R2 = with(results, tapply(adjR2, Process, f)))
+df <- data.frame(c("$\\eta\\;\\text{SP}_{\\text{diffusion}}$",
+                   "$\\eta^{18}\\text{O}_\\text{diffusion}$",
+                   "$\\text{SP}_\\text{nitrification}$",
+                   "$\\delta\\;^18\\text{O}_\\text{nitrification}$",
+                   "$\\text{SP}_\\text{denitrification}$",
+                   "$\\delta\\;^18\\text{O}_\\text{denitrification}$",
+                   "$\\eta\\;\\text{SP}_{\\text{reduction}}$",
+                   "$\\eta^{18}\\text{O}_\\text{reduction}$",
+                   "",
+                   "adjusted R^2^"), df)
+colnames(df)[1] <- ""
+knitr::kable(df, align = "lrrr", row.names = FALSE)
+```
+
 :::{.column-page}
 ![Results of the standardized regression coefficients (SRC) for all processes and parameters. The mangitude of the SRC can be interpreted as the effect size of said parameter: by how much does its uncertainty contribute to the overall uncertainty?](scripts/sensitivity-analysis/output/SRC.svg){#fig-src width=100%}
 :::

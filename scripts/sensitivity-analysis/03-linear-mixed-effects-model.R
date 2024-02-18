@@ -45,24 +45,34 @@ for (d in getParameters()$depth) {
         # make subset of current depth and column
         subset <- subset(data, subset = depth==d & column==c)
         
+        # fit a linear model
+        model <- lm(cbind(Nitrification, Denitrification, Reduction) ~ ., subset[,c(parameters,processes)])
+        
         # compute coefficients
-        B <- coef(lm(cbind(Nitrification, Denitrification, Reduction) ~ ., subset[,c(parameters,processes)]))[-1,]
+        B <- coef(model)[-1,]
         
         # compute standardized regression coefficients
         SRC <- sapply(processes, function(i) sensitivity::src(subset[,parameters], subset[,i])[["SRC"]][,1])
 
-        # X <- data.frame(parameter = NA, depth = d, column = c, parameters, cbind(B,SRC)[,c(1,4,2,5,3,6)])
-        # X[,1] <- rownames(X)
-        # colnames(X) <- c("parameter", "depth", "column", "parameters", "Nitrification", "Nitrification_SRC", "Denitrification", "Denitrification_SRC", "Reduction", "Reduction_SRC")
-        # results <- rbind(results, X)
-        
+        # bind together the results        
         X <- data.frame(Depth = d,
                         Column = c,
                         reshape2::melt(B, value.name = "Coefficient", varnames = c("Parameter", "Process")),
                         SRC = reshape2::melt(SRC)[,3])
+        R2 <- sapply(X$Process, function(i) getElement(getElement(summary(model), paste("Response",i)), "r.squared"))
+        adjR2 <- sapply(X$Process, function(i) getElement(getElement(summary(model), paste("Response",i)), "adj.r.squared"))
+        X <- data.frame(X, R2 = R2, adjR2 = adjR2)
         results <- rbind(results, X)
+        
     }
 }
+
+# assign factor classes
+results$Process <- ordered(results$Process, levels = processes)
+results$Parameter <- ordered(results$Parameter, levels = parameters)
+
+# write table
+write.csv(results, file.path("scripts","sensitivity-analysis","output","coefficients.csv"), row.names = FALSE)
 
 
 # DRAW BOXPLOT
@@ -126,6 +136,14 @@ for (i in 1:3) {
     title(processes[i], line = 0)
 }
 dev.off()
+
+# COMPILE TABLE
+# =============
+
+f <- function(x) paste(signif(mean(x),2),"±",signif(sd(x),2), sep = "")
+df <- with(results, tapply(SRC, list(Parameter, Process), f))
+df <- rbind(df, R2 = with(results, tapply(R2, Process, f)), adj.R2 = with(results, tapply(adjR2, Process, f)))
+knitr::kable(df, align = "rrr")
 
 # COMPUTE R-SQUARED
 # =================
