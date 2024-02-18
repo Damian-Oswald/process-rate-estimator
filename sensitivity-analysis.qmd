@@ -97,6 +97,9 @@ Note that the coefficients of column, depth and their interactions are excluded 
 ![Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.](scripts/sensitivity-analysis/output/Coefficients.svg){#fig-src width=100%}
 :::
 
+
+![Share of the total SRC for each process. (1) eta_SP_diffusion, (2) eta_18O_diffusion, (3) SP_nitrification, (4) d18O_nitrification, (5) SP_denitrification, (6) d18O_denitrification, (7) eta_SP_reduction, (8) eta_18O_reduction.](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
+
 ## Using a mixed effects model as an emulator
 
 A mixed effects model is a statistical model containing both fixed effects and random effects. In matrix notation, a linear mixed effects model can be represented as follows.
