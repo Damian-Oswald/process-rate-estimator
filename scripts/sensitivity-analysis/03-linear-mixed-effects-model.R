@@ -24,6 +24,16 @@ for (i in 2:3) {
 processes <- c("Nitrification","Denitrification","Reduction")
 parameters <- c("eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
 
+# define list of expressions
+expressions <- list(eta_SP_diffusion = expression(eta*"SP"[diffusion]),
+                    eta_18O_diffusion = expression(eta^"18"*"O"[diffusion]),
+                    SP_nitrification = expression("SP"[nitrification]),
+                    d18O_nitrification = expression(delta^"18"*"O"[nitrification]),
+                    SP_denitrification = expression("SP"[denitrification]),
+                    d18O_denitrification = expression(delta^"18"*"O"[denitrification]),
+                    eta_SP_reduction = expression(eta*"SP"[reduction]),
+                    eta_18O_reduction = expression(eta^"18"*"O"[reduction]))
+
 # GENERATE TABLE SUMMARIES FROM MULTIPLE LINEAR MODELS
 # ====================================================
 
@@ -41,30 +51,54 @@ for (d in getParameters()$depth) {
         # compute standardized regression coefficients
         SRC <- sapply(processes, function(i) sensitivity::src(subset[,parameters], subset[,i])[["SRC"]][,1])
 
-        X <- data.frame(parameter = NA, depth = d, column = c, parameters, cbind(B,SRC)[,c(1,4,2,5,3,6)])
-        X[,1] <- rownames(X)
-        colnames(X) <- c("parameter", "depth", "column", "parameters", "Nitrification", "Nitrification_SRC", "Denitrification", "Denitrification_SRC", "Reduction", "Reduction_SRC")
+        # X <- data.frame(parameter = NA, depth = d, column = c, parameters, cbind(B,SRC)[,c(1,4,2,5,3,6)])
+        # X[,1] <- rownames(X)
+        # colnames(X) <- c("parameter", "depth", "column", "parameters", "Nitrification", "Nitrification_SRC", "Denitrification", "Denitrification_SRC", "Reduction", "Reduction_SRC")
+        # results <- rbind(results, X)
+        
+        X <- data.frame(Depth = d,
+                        Column = c,
+                        reshape2::melt(B, value.name = "Coefficient", varnames = c("Parameter", "Process")),
+                        SRC = reshape2::melt(SRC)[,3])
         results <- rbind(results, X)
     }
 }
 
-results$parameter <- as.factor(results$parameter)
-boxplot(Nitrification ~ parameter, results, col = "coral", outline = FALSE, pch = 16, cex = 0.5, lty = 1, las = 1, ylab = "Standardized regression coefficients", at = 4*(1:8), boxwex = 1)
-boxplot(Denitrification ~ parameter, results, col = "blue", outline = FALSE, pch = 16, cex = 0.5, las = 1, lty = 1, add = TRUE, at = 4*(1:8)+1, boxwex = 1)
-grid(col=1)
 
-results$parameter <- as.factor(results$parameter)
-boxplot(Nitrification_SRC ~ parameter, results, col = "coral", pch = 16, cex = 0.5, lty = 1, ylim = c(-1,1), yaxs = "i", las = 1, ylab = "Standardized regression coefficients")
-grid(col=1)
+# DRAW BOXPLOT
+# ============
 
-mu = with(results, tapply(Nitrification_SRC, parameters, mean))
-sigma = with(results, tapply(Nitrification_SRC, parameters, sd))
-dotchart(mu, xlim = c(-1,1))
-for (i in 1:8) {
-    lines(x = c(mu[i]+sigma[i],mu[i]-sigma[i]), y = c(i,i))
-    points(mu[i],i,pch=16)
-}
+# Coefficients
+svg(file.path("scripts","sensitivity-analysis","output","Coefficients.svg"), width = 10, height = 5)
+par(mar = c(2,4,2,0)+0.1)
+positions <- rep(5*(0:7), each = 3) + rep(1:3, 8)
+centers <- 0.5*(positions[c(diff(positions)==3, FALSE)] + positions[c(FALSE, diff(positions)==3)])
+boxplot(Coefficient ~ Process * Parameter, outline = FALSE, results, xlab = "", ylab = "Standardized Regression Coefficients", boxwex = 0.9, lty = 1, at = positions, col = viridis::cividis(3, begin = 0.2, end = 0.8, alpha = 0.8), cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE)
+abline(v = centers)
+abline(h = seq(-2,3,0.25), lty = 3, lwd = 0.5)
+abline(h = 0)
+axis(2, las = 1)
+box()
+boxplot(Coefficient ~ Process * Parameter, outline = FALSE, results, xlab = "", boxwex = 0.9, lty = 1, at = positions, col = viridis::cividis(3, begin = 0.2, end = 0.8, alpha = 0.8), cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1), add = TRUE)
+sapply(1:8, function(i) text(positions[(1:8)*3-1][i], par()$usr[3], expressions[[i]], xpd = NA, pos = 1))
+legend("top", horiz = TRUE, fill = viridis::cividis(3, begin = 0.2, end = 0.8, alpha = 0.8), legend = c("Nitrification", "Denitrification", "Reduction"), inset = c(0, -0.1), xpd = NA, bty = "n")
+dev.off()
 
+# Standardized regression coefficients
+svg(file.path("scripts","sensitivity-analysis","output","SRC.svg"), width = 10, height = 5)
+par(mar = c(2,4,2,0)+0.1)
+positions <- rep(5*(0:7), each = 3) + rep(1:3, 8)
+centers <- 0.5*(positions[c(diff(positions)==3, FALSE)] + positions[c(FALSE, diff(positions)==3)])
+boxplot(SRC ~ Process * Parameter, outline = FALSE, results, xlab = "", ylab = "Standardized Regression Coefficients", boxwex = 0.9, lty = 1, at = positions, col = viridis::cividis(3, begin = 0.2, end = 0.8, alpha = 0.8), cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1))
+abline(v = centers)
+abline(h = seq(-1,1,0.1), lty = 3, lwd = 0.5)
+abline(h = 0)
+axis(2, las = 1)
+box()
+boxplot(SRC ~ Process * Parameter, outline = FALSE, results, xlab = "", ylab = "Standardized Regression Coefficients", boxwex = 0.9, lty = 1, at = positions, col = viridis::cividis(3, begin = 0.2, end = 0.8, alpha = 0.8), cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1), add = TRUE)
+sapply(1:8, function(i) text(positions[(1:8)*3-1][i], par()$usr[3], expressions[[i]], xpd = NA, pos = 1))
+legend("top", horiz = TRUE, fill = viridis::cividis(3, begin = 0.2, end = 0.8, alpha = 0.8), legend = c("Nitrification", "Denitrification", "Reduction"), inset = c(0, -0.1), xpd = NA, bty = "n")
+dev.off()
 
 
 # COMPUTE R-SQUARED
