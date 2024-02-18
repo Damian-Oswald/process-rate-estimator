@@ -87,11 +87,15 @@ The table below shows the resulting coefficients of such a multiple linear regre
 Insert a table with the regression coefficients ($\boldsymbol \beta$) and the standardized regression coefficients ($\boldsymbol \beta^\ast$).
 :::
 
-![Results of the standardized regression coefficients (SRC) for all processes and parameters. The mangitude of the SRC can be interpreted as the effect size of said parameter: by how much does its uncertainty contribute to the overall uncertainty?](scripts/sensitivity-analysis/output/SRC.svg){#fig-src}
+:::{.column-page}
+![Results of the standardized regression coefficients (SRC) for all processes and parameters. The mangitude of the SRC can be interpreted as the effect size of said parameter: by how much does its uncertainty contribute to the overall uncertainty?](scripts/sensitivity-analysis/output/SRC.svg){#fig-src width=100%}
+:::
 
 Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.
 
-![Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.](scripts/sensitivity-analysis/output/Coefficients.svg){#fig-src}
+:::{.column-page}
+![Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.](scripts/sensitivity-analysis/output/Coefficients.svg){#fig-src width=100%}
+:::
 
 ## Using a mixed effects model as an emulator
 
