@@ -390,7 +390,19 @@ Important
 <p>Insert a table with the regression coefficients (<span class="math inline">\(\boldsymbol \beta\)</span>) and the standardized regression coefficients (<span class="math inline">\(\boldsymbol \beta^\ast\)</span>).</p>
 </div>
 </div>
+<div id="fig-src" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="scripts/sensitivity-analysis/output/SRC.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;6.2: Results of the standardized regression coefficients (SRC) for all processes and parameters. The mangitude of the SRC can be interpreted as the effect size of said parameter: by how much does its uncertainty contribute to the overall uncertainty?</figcaption>
+</figure>
+</div>
 <p>Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.</p>
+<div id="fig-src" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="scripts/sensitivity-analysis/output/Coefficients.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;6.3: Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.</figcaption>
+</figure>
+</div>
 </section>
 <section id="using-a-mixed-effects-model-as-an-emulator" class="level2" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="using-a-mixed-effects-model-as-an-emulator"><span class="header-section-number">6.2</span> Using a mixed effects model as an emulator</h2>
@@ -677,11 +689,11 @@ Observations
 <div id="fig-pairs-processes" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="scripts/sensitivity-analysis/output/pairs-processes.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;6.2: Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to <a href="#tbl-sensitivity">table&nbsp;<span>6.1</span></a>. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians (colored area). The scatterplots are drawn with constrained x- and y-axis limits (<strong>A</strong>) and unconstrained ones (<strong>B</strong>).</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;6.4: Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to <a href="#tbl-sensitivity">table&nbsp;<span>6.1</span></a>. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians (colored area). The scatterplots are drawn with constrained x- and y-axis limits (<strong>A</strong>) and unconstrained ones (<strong>B</strong>).</figcaption>
 </figure>
 </div>
 </div>
-<p>Two things are striking when looking at the clusters in <a href="#fig-pairs-processes">figure&nbsp;<span>6.2</span></a>: Both the within-group variance as well as the total variance (i.e.&nbsp;the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier – it’s column 12 at 7.5 cm depth (<a href="#fig-pairs-processes">Figure&nbsp;<span>6.2</span></a> <strong>B</strong>).</p>
+<p>Two things are striking when looking at the clusters in <a href="#fig-pairs-processes">figure&nbsp;<span>6.4</span></a>: Both the within-group variance as well as the total variance (i.e.&nbsp;the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier – it’s column 12 at 7.5 cm depth (<a href="#fig-pairs-processes">Figure&nbsp;<span>6.4</span></a> <strong>B</strong>).</p>
 </section>
 <section id="what-effect-does-the-bulk-density-have" class="level2" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="what-effect-does-the-bulk-density-have"><span class="header-section-number">6.4</span> What effect does the bulk density have?</h2>
@@ -702,7 +714,7 @@ Observations
 <div id="fig-BD" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="scripts/sensitivity-analysis/output/bulk-density-sensitiviy.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;6.3: Illustration to the sensitivity of estimated process rates to a change in prior bulk density.</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;6.5: Illustration to the sensitivity of estimated process rates to a change in prior bulk density.</figcaption>
 </figure>
 </div>
 <p>Once again, we can use the <code>lmer</code> function from the <code>lme4</code> package to model the process rates as a response of the bulk density as well as a random effect conditional on the depth <span class="citation" data-cites="bates2014fitting">(<a href="references.html#ref-bates2014fitting" role="doc-biblioref">Bates et al. 2014</a>)</span>.</p>
