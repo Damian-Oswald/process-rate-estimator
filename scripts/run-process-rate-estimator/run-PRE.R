@@ -15,10 +15,10 @@ library(PRE)
 # ===========================
 
 # number of samples of starting positions taken by the `BB::MultiStart` function
-SAMPLENUMBER <- 1000
+SAMPLENUMBER <- 15
 
 # columns to compute
-COLUMNS <- 1:12
+COLUMNS <- 1:1
 
 # depths to compute
 DEPTHS <- getParameters()$depths
@@ -70,7 +70,7 @@ for (column in COLUMNS) {
         try({
             par(mar = c(4,4,2,1)+0.1, oma = c(4,0,1,0)+0.1)
             layout(mat = matrix(c(1,2,3,4,5,6,4,5,6,4,5,6), nrow = 3, byrow = FALSE))
-            plot(x, col = "#0C6EFCB3", layout = TRUE, ylim.processes = list(Nitrification = c(-10,60), Denitrification = c(-10,60), Reduction = c(-10,60)))
+            plot(x, col = "#fc5d5e", layout = TRUE, ylim.processes = list(Nitrification = c(-10,60), Denitrification = c(-10,60), Reduction = c(-10,60)))
         })
         
         # close the writing process to SVG again

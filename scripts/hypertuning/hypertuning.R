@@ -23,9 +23,6 @@ results <- expand.grid(variable = variables,
                        bandwidth = bandwidths,
                        cost = NA)
 
-ss <- data[data$column==1 & data$depth==7.5,]
-plot(N2O ~ date, PRE::measurements)
-
 #' -----------------------------------------------------------------------------------------------------------
 #' Cross-validation of the curve smoothing
 #' -----------------------------------------------------------------------------------------------------------
@@ -106,7 +103,7 @@ dev.off()
 #' Explanatory GIF
 #' -----------------------------------------------------------------------------------------------------------
 
-color = "#0c6efc"
+color = "#fc5d5e"
 ani.options(ani.width = 1600, # setting width
             ani.height = 1000, # setting height
             interval = 0.05,
@@ -156,7 +153,7 @@ saveGIF(expr = {
 #' Hyperparameter bubble plot
 #' -----------------------------------------------------------------------------------------------------------
 
-palette <- colorRampPalette(c("red", color))
+palette <- colorRampPalette(c("#fc5d5e", color))
 variablenames <- c(expression("N"[2]*"O concentration"), "Site preference", expression(delta^{18}*"O"))
 for (v in 1:3) {
    svg(paste("graphics/hyperparameters-", v, ".svg", sep = ""), width = 7*1.2, height = 3.4*1.2)
@@ -169,7 +166,7 @@ for (v in 1:3) {
    for (i in 1:12) {
       for (j in 1:5) {
          points(x = i, y = j, cex = 1.33*log(hyperparameters[j,i,v+2]), pch = 21, bg = adjustcolor(color, alpha.f = .75)) # palette(31)[round(10*(log(hyperparameters))-15)[j,i,v]]
-         text(x = i, y = j, labels = signif(hyperparameters[j,i,v+2],1), col = "white", cex = 0.8)
+         text(x = i, y = j, labels = signif(hyperparameters[j,i,v+2],1), cex = 0.8)
       }
    }
    dev.off()
