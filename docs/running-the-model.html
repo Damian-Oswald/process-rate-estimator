@@ -76,11 +76,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 20,
   "language": {
     "search-no-results-text": "No results",
@@ -101,10 +101,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+        <div class="quarto-navbar-tools ms-auto">
+    <a href="https://github.com/damian-oswald/process-rate-estimator/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -120,14 +133,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Process Rate Estimator (<code>PRE</code>)</a> 
-    </div>
-      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -187,12 +195,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#state-function-set" id="toc-state-function-set" class="nav-link active" data-scroll-target="#state-function-set"><span class="header-section-number">4.0.1</span> State function set</a></li>
+  <li><a href="#state-function-set" id="toc-state-function-set" class="nav-link active" data-scroll-target="#state-function-set">State function set</a></li>
   <li><a href="#install-the-r-package-pre" id="toc-install-the-r-package-pre" class="nav-link" data-scroll-target="#install-the-r-package-pre"><span class="header-section-number">4.1</span> Install the R package <code>PRE</code></a></li>
   <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data"><span class="header-section-number">4.2</span> Prepare the data</a></li>
   <li><a href="#running-the-process-rate-estimator" id="toc-running-the-process-rate-estimator" class="nav-link" data-scroll-target="#running-the-process-rate-estimator"><span class="header-section-number">4.3</span> Running the process rate estimator</a></li>
   </ul>
-</nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/running-the-model.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -214,8 +222,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<section id="state-function-set" class="level3" data-number="4.0.1">
-<h3 data-number="4.0.1" class="anchored" data-anchor-id="state-function-set"><span class="header-section-number">4.0.1</span> State function set</h3>
+<section id="state-function-set" class="level3">
+<h3 class="anchored" data-anchor-id="state-function-set">State function set</h3>
 <p>The process rate estimator includes three-state functions, describing the change in N<sub>2</sub>O concentrations over time. The change in N<sub>2</sub>O concentrations in each depth increment over time <span class="math inline">\(\frac{\Delta}{\Delta t}[\ce{N2O}]\)</span> depends on the flux of N<sub>2</sub>O entering the depth increment from the top or the bottom through diffusion (<span class="math inline">\(\text F_\text{t,i}\)</span> and <span class="math inline">\(\text F_\text {b,i}\)</span>, respectively), the flux of N<sub>2</sub>O leaving the depth increment through diffusion (<span class="math inline">\(\text F_\text {out}\)</span>), the rate of N<sub>2</sub>O produced through nitrification (<code>N2Onit</code>), the rate of N<sub>2</sub>O produced through denitrification (<code>N2Oden</code>), and the rate of N<sub>2</sub>O reduced to N<sub>2</sub> (<code>N2Ored</code>).</p>
 <p><span id="eq-stateN2O"><span class="math display">\[\frac{\Delta[\ce{N2O}]}{\Delta t} = \text F_{\text{t,i}} + \text F_{\text{b,i}}  + \ce{N2O}_{\text{nit.}} + \ce{N2O}_{\text{den.}} + \ce{N2O}_{\text{red.}} \tag{4.1}\]</span></span></p>
 <p>For the equation of the change of site preference over time, we’ll use the substitutions <span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span> and <span class="math inline">\(A_3\)</span>, as the expression is rather long.</p>

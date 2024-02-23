@@ -12,13 +12,24 @@ book:
     - results.qmd
     - sensitivity-analysis.qmd
     - references.qmd
+  reader-mode: true
+  repo-url: https://github.com/damian-oswald/process-rate-estimator/
+  repo-actions: [source, issue]
+  navbar:
+    title: false
+    background: dark
+    foreground: light
+    search: true
 
 bibliography: resources/references.bib
 csl: resources/ecology.csl
 
 format:
   html:
-    theme: default
+    theme: resources/theme.scss
+    number-sections: true
+    number-depth: 2
+    reference-location: margin
 
 
 

@@ -1,0 +1,195 @@
+/*-- scss:defaults --*/
+
+//
+// Color system
+//
+
+$white:    #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #eee !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #aaa !default;
+$gray-600: #777 !default;
+$gray-700: #495057 !default;
+$gray-800: #333 !default;
+$gray-900: #222 !default;
+$black:    #000 !default;
+
+$blue:    #3D5A80 !default;
+$indigo:  #6610f2 !default;
+$purple:  #6f42c1 !default;
+$pink:    #e83e8c !default;
+$red:     #fc5d5e !default;
+$orange:  #fd7e14 !default;
+$yellow:  #f5e625 !default;
+$green:   #22b24c !default;
+$teal:    #20c997 !default;
+$cyan:    #369 !default;
+
+$primary:       $red !default; // for all the hyperlinks
+$secondary:     $gray-400 !default;
+$success:       $green !default;
+$info:          $cyan !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $gray-400 !default;
+$dark:          $gray-900 !default;
+$code-color:    $dark !default;     // for inline code
+$code-bg:       $gray-200 !default; // for inline code
+$body-color:    $dark !default;     // the color of the text
+$body-bg:       $white !default;
+$code-block-bg: $gray-200 !default;
+$figurecaption: $gray-600 !default;
+
+$min-contrast-ratio:   2 !default;
+
+// Fonts
+
+$headings-font-family:   "News Cycle", "Arial Narrow Bold", sans-serif !default;
+$headings-font-weight:    700 !default;
+$headings-line-height:    1.1 !default;
+
+// Modify h3 font size
+$h3-font-size: 1.25rem; // Set a smaller value than the default (1.75rem)
+$h3-font-color: $secondary;
+
+// Buttons
+
+$input-btn-padding-x:         1rem !default;
+
+// Navbar
+
+$navbar-light-color:                rgba($black, .7) !default;
+$navbar-light-hover-color:          $black !default;
+$navbar-light-active-color:         $black !default;
+
+// Pagination
+
+$pagination-hover-color:            $white !default;
+$pagination-hover-bg:               $primary !default;
+$pagination-hover-border-color:     $primary !default;
+
+// Extendables
+
+details {
+    //background-color: $light;
+    //border: 1px solid #aaa;
+    //border-radius: 4px;
+    padding: 0.5em 0.5em 0;
+}
+
+summary {
+    margin: -0.5em -0.5em 0;
+    padding: 0.5em;
+}
+
+details[open] {
+    padding: 0.5em;
+}
+
+details[open] summary {
+    //border-bottom: 1px solid #aaa;
+    margin-bottom: 0.5em;
+}
+
+/*-- scss:rules --*/
+
+// Figure caption
+
+.figure-caption {
+  font-size: 0.85em;
+  color: $figurecaption;
+}
+
+// Tables
+
+.table {
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.85em;
+    font-family: sans-serif;
+    min-width: 400px;
+}
+.table tbody tr:last-of-type {
+   border-bottom: 2px solid $dark;
+}
+.table thead tr:last-of-type {
+   border-top: 2px solid $dark;
+   border-bottom: 2px solid $dark;
+}
+.table tbody tr {
+    border-bottom: 1px solid $dark;
+}
+.table caption {
+   text-align: left;
+   font-size: 1.1em;
+   color: $figurecaption;
+   // font-style: italic;
+}
+
+// Variables
+
+$web-font-path: "https://fonts.googleapis.com/css2?family=News+Cycle:wght@400;700&display=swap" !default;
+@if $web-font-path {
+  @import url($web-font-path);
+}
+
+// Navbar
+
+.bg-dark {
+  background-color: $black !important;
+}
+
+.bg-light {
+  background-color: $white !important;
+  color: $black;
+  border: 1px solid $gray-200;
+
+  &.navbar-fixed-top {
+    border-width: 0 0 1px;
+  }
+
+  &.navbar-fixed-bottom {
+    border-width: 1px 0 0;
+  }
+}
+
+.navbar {
+  font-size: 18px;
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+}
+
+.navbar-brand {
+  padding-top: .5rem;
+  font-size: inherit;
+  font-weight: $headings-font-weight;
+  text-transform: uppercase;
+}
+
+// Buttons
+
+.btn {
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+
+  &-secondary,
+  &-warning {
+    color: $white;
+  }
+}
+
+// Navs
+
+.pagination {
+  a:hover {
+    text-decoration: none;
+  }
+}
+
+// Allow light or dark mode graphics
+
+.light-mode { display: block; }
+.dark-mode { display: none; }
+

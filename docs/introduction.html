@@ -76,11 +76,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
-  "location": "sidebar",
+  "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
-  "panel-placement": "start",
-  "type": "textbox",
+  "panel-placement": "end",
+  "type": "overlay",
   "limit": 20,
   "language": {
     "search-no-results-text": "No results",
@@ -101,10 +101,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-sidebar floating">
+<body class="nav-sidebar floating nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+        <div class="quarto-navbar-tools ms-auto">
+    <a href="https://github.com/damian-oswald/process-rate-estimator/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+</div>
+          <div id="quarto-search" class="" title="Search"></div>
+      </div> <!-- /container-fluid -->
+    </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -120,14 +133,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header">
-    <div class="sidebar-title mb-0 py-0">
-      <a href="./">Process Rate Estimator (<code>PRE</code>)</a> 
-    </div>
-      </div>
         <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
@@ -190,10 +198,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">2.1</span> Background</a></li>
   <li><a href="#installation-of-the-r-package-pre" id="toc-installation-of-the-r-package-pre" class="nav-link" data-scroll-target="#installation-of-the-r-package-pre"><span class="header-section-number">2.2</span> Installation of the R package PRE</a>
   <ul class="collapse">
-  <li><a href="#what-do-the-various-functions-do" id="toc-what-do-the-various-functions-do" class="nav-link" data-scroll-target="#what-do-the-various-functions-do"><span class="header-section-number">2.2.1</span> What do the various functions do?</a></li>
+  <li><a href="#what-do-the-various-functions-do" id="toc-what-do-the-various-functions-do" class="nav-link" data-scroll-target="#what-do-the-various-functions-do">What do the various functions do?</a></li>
   </ul></li>
   </ul>
-</nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/introduction.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -234,8 +242,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="what-do-the-various-functions-do" class="level3" data-number="2.2.1">
-<h3 data-number="2.2.1" class="anchored" data-anchor-id="what-do-the-various-functions-do"><span class="header-section-number">2.2.1</span> What do the various functions do?</h3>
+<section id="what-do-the-various-functions-do" class="level3">
+<h3 class="anchored" data-anchor-id="what-do-the-various-functions-do">What do the various functions do?</h3>
 <p>The R code shown on this project help page is extremely simplified. If you want want to understand what a specific function of the <code>PRE</code> package does, simple visit the corresponding R help page. For example, you could read on the function <code>crossValidate</code> by using one of the the following commands.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">"crossValidate"</span>, <span class="at">package =</span> <span class="st">"PRE"</span>)</span>
@@ -261,7 +269,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     }
     return(results)
 }
-&lt;bytecode: 0x7fd42c488790&gt;
+&lt;bytecode: 0x7ff3cc67b838&gt;
 &lt;environment: namespace:PRE&gt;</code></pre>
 </div>
 </div>
