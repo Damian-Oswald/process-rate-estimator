@@ -16,7 +16,7 @@ book:
   repo-url: https://github.com/damian-oswald/process-rate-estimator/
   repo-actions: [source, issue]
   navbar:
-    title: false
+    title: Process Rate Estimator
     background: dark
     foreground: light
     search: true
