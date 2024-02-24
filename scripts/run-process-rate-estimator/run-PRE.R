@@ -15,10 +15,10 @@ library(PRE)
 # ===========================
 
 # number of samples of starting positions taken by the `BB::MultiStart` function
-SAMPLENUMBER <- 15
+SAMPLENUMBER <- 1000
 
 # columns to compute
-COLUMNS <- 1:1
+COLUMNS <- 1:12
 
 # depths to compute
 DEPTHS <- getParameters()$depths
