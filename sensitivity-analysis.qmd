@@ -36,38 +36,75 @@ The first step is usually the hardest one, as it requires an extensive review of
 : Isotope end members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. @lewicka2017quantifying originally report $\delta \ce{^{18} O \text - N2O} (\ce{N2O}/\ce{H2O})$. When a range is indicated, a random number from the range was selected in each iteration. When an average and standard deviation is indicated, a random value was drawn from the normal distribution in each iteration. {#tbl-sensitivity tbl-colwidths="[15,10,10,20,15,20]"}
 :::
 
-To conduct the sensitivity analysis, a data frame with parameters sampled according to the distributions in @tbl-sensitivity is created. We'll have to specify how many times we want to do this --- in this example that's `n = 200`.
+## Running the sensitivity analysis
+
+The following section describes in detail how the sensitivity analysis is run. The script used to run the sensitivity analysis can be found in the respective GitHub repository. After successfully cloning the repository, the data for the sensitivity analysis can be reproduced simply by running
+
+```bash
+Rscript scripts/sensitivity-analysis/01-sensitivitiy-analysis.R
+```
 
 ```{r}
-n <- 200
-parameters <- data.frame(eta_SP_diffusion = rnorm(n, 1.55, 0.28),
-                         eta_18O_diffusion = rnorm(n, -7.79, 0.27),
-                         SP_nitrification = runif(n, 26.2, 34.6),
-                         d18O_nitrification = rnorm(n, 36.5, 2),
-                         SP_denitrification = runif(n, -2.4, -0.9),
-                         d18O_denitrification = rnorm(n,11.1, 2),
-                         eta_SP_reduction = runif(n,-8,-2),
-                         eta_18O_reduction = runif(n,-24,-6))
+COLUMNS = 1:12
+DEPTHS = PRE::getParameters()$depths
+SAMPLESIZE = 20
+SAMPLEREPEAT = 3
+n <- SAMPLESIZE * length(COLUMNS) * length(DEPTHS)
 ```
+
+To conduct the sensitivity analysis, a data frame with parameters sampled according to the distributions in @tbl-sensitivity is created. We draw `n` parameter sets in total, where `n` is calculated based on the columns, depth layers and the `SAMPLESIZE` variable.
+
+```{r}
+parameters <- data.frame(
+    expand.grid(repetition = 1:SAMPLESIZE,
+                column = COLUMNS,
+                depth = DEPTHS)[sample(1:n),-1],
+    BD = sort(rep(getParameters()$BD+seq(-0.1,0.1,l=11),l=n)),
+    eta_SP_diffusion = rnorm(n, 1.55, 0.28),
+    eta_18O_diffusion = rnorm(n, -7.79, 0.27),
+    SP_nitrification = runif(n, 32, 38.7),
+    d18O_nitrification = rnorm(n, 23.5, 3),
+    SP_denitrification = runif(n, -13.6, 3.7),
+    d18O_denitrification = rnorm(n, 11.1, 2),
+    eta_SP_reduction = runif(n,-8,-2),
+    eta_18O_reduction = runif(n,-18,-12)
+    )
+```
+
+Note that the experimental parameter grid (containing information about column and depth layer) is shuffled randomly. We do this to prevent columns or depths to correlate with the bulk density (`BD`). The bulk density parameter needs to be sorted, since it's not a parameter that's passed to the PRE model, but rather one that is used to prepare the data used in the model. In order to reduce the number of times needed to prepare said data, we'll sort `BD` and we'll only update the data if `BD` changes.
 
 Next, we write a function `f` that will run the process rate estimator for a specified column and depth with the parameters in the vector `p` --- which coincides to one row in the `parameters` data frame.
 
 ```{r}
-f <- function(p, data, column = 1, depth = 7.5) {
-    x <- longPRE(data = data,
-                 column = column,
-                 depth = depth,
-                 n = 3,
-                 parameters = do.call(getParameters, as.list(p)))
-    return(x[["processes"]])
+results <- data.frame(Nitrification = rep(NA, n),
+                      Denitrification = rep(NA, n),
+                      Reduction = rep(NA, n))
+BD <- 0
+for (i in 1:n) {
+    
+    if(!(parameters[i,"BD"]==BD)){ #<1>
+        BD <- parameters[i,"BD"]
+        P <- getParameters(BD = BD) #<2>
+        data <- PRE::measurements |>
+            getN2ON(P) |>
+            getMissing() |>
+            calculateFluxes(P, FALSE) #<2>
+    }
+    
+    P <- do.call(getParameters, as.list(parameters[i,-(1:3)]))
+    results[i,] <- longPRE(data = data,
+                           column = parameters[i,"column"],
+                           depth = parameters[i,"depth"],
+                           n = SAMPLEREPEAT,
+                           parameters = P,
+                           verbose = FALSE)[["processes"]]
+    
 }
 ```
+1. Check if the bulk density value `BD` has changed since the last iteration.
+2. Prepare the `measurements` data with a new bulk density value `BD`.
 
 That function makes it very straightforward to compute the data for the sensitivity analysis. We'll simply apply `f` to every single row in `parameters` using the `apply` function [@wickham2011split].
-
-```{r}
-results <- t(apply(parameters, 1, f, data = data, column = 1, depth = 7.5))
-```
 
 To conduct the sensitivity analysis, we now model the results based on the sampled parameters -- so we treat the sampled parameters as independent variables $\mathbf X$, and the computed process rates as dependent variables $\mathbf Y$.
 

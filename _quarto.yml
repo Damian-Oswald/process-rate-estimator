@@ -31,5 +31,7 @@ format:
     number-depth: 2
     reference-location: margin
 
-
+mermaid: 
+  theme: neutral
+code-annotations: hover
 
