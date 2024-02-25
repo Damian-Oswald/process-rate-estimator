@@ -122,24 +122,20 @@ par(mar = c(3,4,1,0)+0.2)
 set.seed(0)
 f <- function(c,d) {
     X <- as.matrix(subset(data, column==c & depth==d, c("Nitrification", "Denitrification")))
-    norm(cov(X), type = "F")
+    det(cov(X))
 }
 df <- t(sapply(1:12, function(c) sapply(getParameters()$depths, function(d) f(c,d))))
 b <- barplot(df, space = rep(c(1,rep(0.1,11)),5),
              beside = TRUE, log = "y",
-             las = 1, col = rev(palette(700))[round((log(as.numeric(df))+0.65)*100)],
-             ylim = c(0.1,1000), axes = FALSE,
+             las = 1, col = rep(palette(5),each=12),
+             ylim = c(0.05,50000), axes = FALSE,
              border = FALSE)
-abline(h = c(10^(0:2)), lwd = 0.5)
-abline(h = c(0.2*10^(0:3)), lwd = 0.5)
-abline(h = c(0.5*10^(0:3)), lwd = 0.5)
-axis(2, at = c(10^(-1:3)), labels = c(0.1,1,10,100,1000), las = 1)
-axis(2, at = c(0.2*10^(0:3)), labels = 0.2*c(1,10,100,1000), las = 1)
-axis(2, at = c(0.5*10^(0:3)), labels = 0.5*c(1,10,100,1000), las = 1)
+abline(h = c(10^(-1:4)), lwd = 0.5)
+axis(2, at = c(10^(-2:5)), labels = 10^(-2:5), las = 1)
 box()
-text(x = colMeans(b), y = 0.1, pos = 1, labels = paste(getParameters()$depth,"cm"), xpd = NA)
+text(x = colMeans(b), y = 0.05, pos = 1, labels = paste(getParameters()$depth,"cm"), xpd = NA)
 text(x = as.numeric(b), y = as.numeric(df), labels = 1:12, pos = 1, cex = 0.5, font = 2, col = "white")
-title(ylab = expression("Frobenius norm of the covariance matrix (‖"*Sigma*"‖"[F]*")"))
+title(ylab = expression("Determinant of the covariance matrix"))
 title(xlab = "Depth", line = 2)
 dev.off()
 
