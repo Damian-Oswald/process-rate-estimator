@@ -174,10 +174,12 @@ For approximating the synthetic data within the scope of the sensitivity analysi
 ## How do the process rates correlate?
 
 :::{.column-page}
-![Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to [table @tbl-sensitivity]. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians (colored area). The scatterplots are drawn with constrained x- and y-axis limits (**A**) and unconstrained ones (**B**). ](scripts/sensitivity-analysis/output/pairs-processes.svg){#fig-pairs-processes width=100%}
+![Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to [table @tbl-sensitivity]. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians, i.e. by their covariance matrix $\Sigma$ (colored area). The scatterplots are drawn with constrained x- and y-axis limits (**A**) and unconstrained ones (**B**). ](scripts/sensitivity-analysis/output/pairs-processes.svg){#fig-pairs-processes width=100%}
 :::
 
 Two things are striking when looking at the clusters in [figure @fig-pairs-processes]: Both the within-group variance as well as the total variance (i.e. the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier -- it's column 12 at 7.5 cm depth (@fig-pairs-processes **B**).
+
+![Barplot showing the Frobenius norm of the covariance matrix ($\| \Sigma \|_F$) of the estimated processes for all depth × column combinations.](scripts/sensitivity-analysis/output/covariance-norm.svg)
 
 ## What effect does the bulk density have?
 

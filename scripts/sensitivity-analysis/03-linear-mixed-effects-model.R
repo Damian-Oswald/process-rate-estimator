@@ -7,7 +7,10 @@
 # PREPARE WORKSPACE
 # =================
 
-blue <- "#0C6EFC"
+red <- "#fc5d5e"
+blue <- "#3D5A80"
+grey <- rgb(colorRamp(c("#3D5A80","white"))(0.5)/256)
+palette <- colorRampPalette(c(grey,red))
 
 # add packages to search path
 library(PRE)
@@ -78,15 +81,12 @@ write.csv(results, file.path("scripts","sensitivity-analysis","output","coeffici
 # DRAW BOXPLOT
 # ============
 
-# Color palette
-palette <- colorRampPalette(c("lightgrey","red"))
-
 # Coefficients
 svg(file.path("scripts","sensitivity-analysis","output","Coefficients.svg"), width = 12, height = 6)
 par(mar = c(2,4,1,0)+0.1)
 positions <- rep(5*(0:7), each = 3) + rep(1:3, 8)
 centers <- 0.5*(positions[c(diff(positions)==3, FALSE)] + positions[c(FALSE, diff(positions)==3)])
-b <- boxplot(Coefficient ~ Process * Parameter, outline = FALSE, results, xlab = "", ylab = "Standardized Regression Coefficients", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE)
+b <- boxplot(Coefficient ~ Process * Parameter, outline = FALSE, results, xlab = "", ylab = "Coefficients [‰]", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE)
 abline(v = centers)
 abline(h = seq(-2,3,0.25), lty = 3, lwd = 0.5)
 abline(h = 0)
@@ -128,6 +128,7 @@ sapply(1:8, function(i) text(positions[(1:8)*3-1][i], par()$usr[3], expressions[
 dev.off()
 
 # Pie charts of importances
+palette <- colorRampPalette(c(blue,red))
 svg(file.path("scripts","sensitivity-analysis","output","SRC-importances.svg"), width = 6, height = 2)
 par(mfrow = c(1,3), mar = c(0,0,2,0))
 for (i in 1:3) {
