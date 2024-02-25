@@ -228,13 +228,12 @@ div.csl-indent {
 <p>Two things are striking when looking at the clusters in <a href="#fig-pairs-processes">figure&nbsp;<span>7.1</span></a>: Both the within-group variance as well as the total variance (i.e.&nbsp;the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier – it’s column 12 at 7.5 cm depth (<a href="#fig-pairs-processes">Figure&nbsp;<span>7.1</span></a> <strong>B</strong>).</p>
 <section id="quantifying-uncertainty" class="level2" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="quantifying-uncertainty"><span class="header-section-number">7.1</span> Quantifying uncertainty</h2>
-<p>To quantify the uncertainty surrounding each parameter in the processes depicted, a method to summarize the set of estimated processes is needed. Since all distributions seem to be multivariate Gaussians, covariance matrices <span class="math inline">\(\Sigma\)</span> are well fit to describe them. Utilizing a matrix norm presents a viable approach to further reduce each covariance matrix <span class="math inline">\(\Sigma\)</span> to one number. We’ll use the Frobenius norm, a popular measure used to gauge the size of a matrix, representing the square root of the sum of the absolute squares of its elements (<a href="#eq-frobenius">Equation&nbsp;<span>7.1</span></a>).</p>
-<p><span id="eq-frobenius"><span class="math display">\[\|\Sigma\|_F = \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n} |\sigma_{ij}|^2} \tag{7.1}\]</span></span></p>
-<p>Here <span class="math inline">\(\sigma_{ij}\)</span> denotes the elements of matrix <span class="math inline">\(\Sigma\)</span>. The results are represented in <a href="#fig-frobenius">figure&nbsp;<span>7.2</span></a>.</p>
-<div id="fig-frobenius" class="quarto-figure quarto-figure-center anchored">
+<p>To quantify the uncertainty surrounding each parameter in the processes depicted, a method to summarize the set of estimated processes is needed. Since all distributions seem to be multivariate Gaussians, covariance matrices <span class="math inline">\(\Sigma\)</span> are well fit to describe them. Utilizing a matrix norm presents a viable approach to further reduce each covariance matrix <span class="math inline">\(\Sigma\)</span> to one number. For this, we’ll use the determinant (<span class="math inline">\(\det(\Sigma)\)</span>), which provides a measure of the total variance contained within the multivariate Gaussian distribution.</p>
+<p>The results are represented in <a href="#fig-determinant">figure&nbsp;<span>7.2</span></a>.</p>
+<div id="fig-determinant" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="scripts/sensitivity-analysis/output/covariance-norm.svg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Figure&nbsp;7.2: Barplot showing the Frobenius norm of the covariance matrix (<span class="math inline">\(\| \Sigma \|_F\)</span>) of the estimated processes for all depth × column combinations.</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;7.2: Barplot showing the determinant of the covariance matrix (<span class="math inline">\(\det(\Sigma)\)</span>) of the estimated processes for all depth × column combinations.</figcaption>
 </figure>
 </div>
 
