@@ -220,9 +220,13 @@ div.csl-indent {
    
   <ul>
   <li><a href="#parameter-priors" id="toc-parameter-priors" class="nav-link active" data-scroll-target="#parameter-priors"><span class="header-section-number">6.1</span> Parameter priors</a></li>
-  <li><a href="#running-the-sensitivity-analysis" id="toc-running-the-sensitivity-analysis" class="nav-link" data-scroll-target="#running-the-sensitivity-analysis"><span class="header-section-number">6.2</span> Running the sensitivity analysis</a></li>
+  <li><a href="#running-the-sensitivity-analysis" id="toc-running-the-sensitivity-analysis" class="nav-link" data-scroll-target="#running-the-sensitivity-analysis"><span class="header-section-number">6.2</span> Running the sensitivity analysis</a>
+  <ul class="collapse">
+  <li><a href="#looking-at-the-raw-coefficients" id="toc-looking-at-the-raw-coefficients" class="nav-link" data-scroll-target="#looking-at-the-raw-coefficients">Looking at the raw coefficients</a></li>
+  <li><a href="#standardized-regression-coefficients" id="toc-standardized-regression-coefficients" class="nav-link" data-scroll-target="#standardized-regression-coefficients">Standardized regression coefficients</a></li>
+  </ul></li>
   <li><a href="#using-a-mixed-effects-model-as-an-emulator" id="toc-using-a-mixed-effects-model-as-an-emulator" class="nav-link" data-scroll-target="#using-a-mixed-effects-model-as-an-emulator"><span class="header-section-number">6.3</span> Using a mixed effects model as an emulator</a></li>
-  <li><a href="#how-do-the-process-rates-correlate" id="toc-how-do-the-process-rates-correlate" class="nav-link" data-scroll-target="#how-do-the-process-rates-correlate"><span class="header-section-number">6.4</span> How do the process rates correlate?</a></li>
+  <li><a href="#uncertainty-analysis" id="toc-uncertainty-analysis" class="nav-link" data-scroll-target="#uncertainty-analysis"><span class="header-section-number">6.4</span> Uncertainty analysis</a></li>
   <li><a href="#what-effect-does-the-bulk-density-have" id="toc-what-effect-does-the-bulk-density-have" class="nav-link" data-scroll-target="#what-effect-does-the-bulk-density-have"><span class="header-section-number">6.5</span> What effect does the bulk density have?</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/sensitivity-analysis.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
@@ -258,6 +262,7 @@ div.csl-indent {
 <li>Use the emulator to calculate parameter contributions to the output variance.</li>
 </ol>
 <p>The first step is usually the hardest one, as it requires an extensive review of prior knowledge of the parameters.</p>
+<p>Global sensitivity analysis examines the allocation of output uncertainty in a model (whether numerical or not) to various input uncertainty sources. The term “global” is specifically used to distinguish it from the more commonly encountered local or one-factor-at-a-time analyses found in the literature, as highlighted by <span class="citation" data-cites="saltelli2004global">Saltelli (<a href="references.html#ref-saltelli2004global" role="doc-biblioref">2004</a>)</span>.</p>
 <section id="parameter-priors" class="level2 page-columns page-full" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="parameter-priors"><span class="header-section-number">6.1</span> Parameter priors</h2>
 <div class="column-page">
@@ -411,11 +416,11 @@ div.csl-indent {
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="7" data-code-annotation="1">Check if the bulk density value <code>BD</code> has changed since the last iteration.</span>
+<span data-code-annotation="1" data-code-cell="annotated-cell-4" data-code-lines="7">Check if the bulk density value <code>BD</code> has changed since the last iteration.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="9,13" data-code-annotation="2">Prepare the <code>measurements</code> data with a new bulk density value <code>BD</code>.</span>
+<span data-code-annotation="2" data-code-cell="annotated-cell-4" data-code-lines="9,13">Prepare the <code>measurements</code> data with a new bulk density value <code>BD</code>.</span>
 </dd>
 </dl>
 </div>
@@ -434,109 +439,14 @@ div.csl-indent {
 </div>
 <p><a href="#fig-sensitivity">Figure&nbsp;<span>6.1</span></a> already reveals quite a lot, but it would be better to construct a multiple linear regression model where we include all isotope end members at the same time.</p>
 <p>The table below shows the resulting coefficients of such a multiple linear regression model. We can directly interpret the regression coefficients without any further modifications, as all considered variables share the same unit (‰).</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Insert a table with the regression coefficients (<span class="math inline">\(\boldsymbol \beta\)</span>) and the standardized regression coefficients (<span class="math inline">\(\boldsymbol \beta^\ast\)</span>).</p>
-</div>
-</div>
-<div class="cell">
-<div class="cell-output-display">
-<div id="tbl-src" class="anchored">
-<table class="table table-sm table-striped small">
-<caption>Table&nbsp;6.2: Standardized regression coefficients (<span class="math inline">\(\mu\)</span> ± <span class="math inline">\(\sigma\)</span>) for the models fit on combinations of depth and column.</caption>
-<colgroup>
-<col style="width: 10%">
-<col style="width: 30%">
-<col style="width: 30%">
-<col style="width: 30%">
-</colgroup>
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">Nitrification</th>
-<th style="text-align: right;">Denitrification</th>
-<th style="text-align: right;">Reduction</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(\eta\;\text{SP}_{\text{diffusion}}\)</span></td>
-<td style="text-align: right;">0.12 ± 0.16</td>
-<td style="text-align: right;">-0.023 ± 0.042</td>
-<td style="text-align: right;">0.012 ± 0.11</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(\eta^{18}\text{O}_\text{diffusion}\)</span></td>
-<td style="text-align: right;">-0.018 ± 0.039</td>
-<td style="text-align: right;">-0.084 ± 0.12</td>
-<td style="text-align: right;">-0.0063 ± 0.13</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(\text{SP}_\text{nitrification}\)</span></td>
-<td style="text-align: right;">-0.25 ± 0.26</td>
-<td style="text-align: right;">0.22 ± 0.18</td>
-<td style="text-align: right;">0.33 ± 0.24</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(\delta\;^18\text{O}_\text{nitrification}\)</span></td>
-<td style="text-align: right;">0.086 ± 0.096</td>
-<td style="text-align: right;">0.11 ± 0.17</td>
-<td style="text-align: right;">-0.13 ± 0.21</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(\text{SP}_\text{denitrification}\)</span></td>
-<td style="text-align: right;">-0.13 ± 0.055</td>
-<td style="text-align: right;">0.031 ± 0.036</td>
-<td style="text-align: right;">-0.012 ± 0.065</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(\delta\;^18\text{O}_\text{denitrification}\)</span></td>
-<td style="text-align: right;">0.17 ± 0.095</td>
-<td style="text-align: right;">0.44 ± 0.17</td>
-<td style="text-align: right;">-0.22 ± 0.31</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><span class="math inline">\(\eta\;\text{SP}_{\text{reduction}}\)</span></td>
-<td style="text-align: right;">0.73 ± 0.36</td>
-<td style="text-align: right;">-0.24 ± 0.21</td>
-<td style="text-align: right;">0.0016 ± 0.35</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><span class="math inline">\(\eta^{18}\text{O}_\text{reduction}\)</span></td>
-<td style="text-align: right;">-0.24 ± 0.16</td>
-<td style="text-align: right;">-0.56 ± 0.39</td>
-<td style="text-align: right;">0.27 ± 0.44</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">adjusted R<sup>2</sup></td>
-<td style="text-align: right;">0.98 ± 0.016</td>
-<td style="text-align: right;">0.94 ± 0.077</td>
-<td style="text-align: right;">0.78 ± 0.15</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
+<section id="looking-at-the-raw-coefficients" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="looking-at-the-raw-coefficients">Looking at the raw coefficients</h3>
+<p>What do the coefficients <span class="math inline">\(\boldsymbol \beta\)</span> themselves mean? How can we interpret them?</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="tbl-coefficient" class="anchored">
 <table class="table table-sm table-striped small">
-<caption>Table&nbsp;6.3: Coefficients (<span class="math inline">\(\mu\)</span> ± <span class="math inline">\(\sigma\)</span>) for the models fit on combinations of depth and column.</caption>
+<caption>Table&nbsp;6.2: Coefficients (<span class="math inline">\(\mu\)</span> ± <span class="math inline">\(\sigma\)</span>) for the models fit on combinations of depth and column.</caption>
 <colgroup>
 <col style="width: 10%">
 <col style="width: 30%">
@@ -617,29 +527,119 @@ Important
 </div>
 </div>
 </div>
-<div class="column-page">
+<div class="column-screen-inset-right">
+<div id="fig-src" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="scripts/sensitivity-analysis/output/Coefficients.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;6.2: Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.</figcaption>
+</figure>
+</div>
+</div>
+</section>
+<section id="standardized-regression-coefficients" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="standardized-regression-coefficients">Standardized regression coefficients</h3>
+<p>What do SRC mean? How to interpret them? How to calculate <span class="math inline">\(\boldsymbol \beta^\ast\)</span>?</p>
+<div class="cell">
+<div class="cell-output-display">
+<div id="tbl-src" class="anchored">
+<table class="table table-sm table-striped small">
+<caption>Table&nbsp;6.3: Standardized regression coefficients (<span class="math inline">\(\mu\)</span> ± <span class="math inline">\(\sigma\)</span>) for the models fit on combinations of depth and column.</caption>
+<colgroup>
+<col style="width: 10%">
+<col style="width: 30%">
+<col style="width: 30%">
+<col style="width: 30%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Nitrification</th>
+<th style="text-align: right;">Denitrification</th>
+<th style="text-align: right;">Reduction</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\eta\;\text{SP}_{\text{diffusion}}\)</span></td>
+<td style="text-align: right;">0.12 ± 0.16</td>
+<td style="text-align: right;">-0.023 ± 0.042</td>
+<td style="text-align: right;">0.012 ± 0.11</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\eta^{18}\text{O}_\text{diffusion}\)</span></td>
+<td style="text-align: right;">-0.018 ± 0.039</td>
+<td style="text-align: right;">-0.084 ± 0.12</td>
+<td style="text-align: right;">-0.0063 ± 0.13</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\text{SP}_\text{nitrification}\)</span></td>
+<td style="text-align: right;">-0.25 ± 0.26</td>
+<td style="text-align: right;">0.22 ± 0.18</td>
+<td style="text-align: right;">0.33 ± 0.24</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\delta\;^18\text{O}_\text{nitrification}\)</span></td>
+<td style="text-align: right;">0.086 ± 0.096</td>
+<td style="text-align: right;">0.11 ± 0.17</td>
+<td style="text-align: right;">-0.13 ± 0.21</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\text{SP}_\text{denitrification}\)</span></td>
+<td style="text-align: right;">-0.13 ± 0.055</td>
+<td style="text-align: right;">0.031 ± 0.036</td>
+<td style="text-align: right;">-0.012 ± 0.065</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\delta\;^18\text{O}_\text{denitrification}\)</span></td>
+<td style="text-align: right;">0.17 ± 0.095</td>
+<td style="text-align: right;">0.44 ± 0.17</td>
+<td style="text-align: right;">-0.22 ± 0.31</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><span class="math inline">\(\eta\;\text{SP}_{\text{reduction}}\)</span></td>
+<td style="text-align: right;">0.73 ± 0.36</td>
+<td style="text-align: right;">-0.24 ± 0.21</td>
+<td style="text-align: right;">0.0016 ± 0.35</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><span class="math inline">\(\eta^{18}\text{O}_\text{reduction}\)</span></td>
+<td style="text-align: right;">-0.24 ± 0.16</td>
+<td style="text-align: right;">-0.56 ± 0.39</td>
+<td style="text-align: right;">0.27 ± 0.44</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">adjusted R<sup>2</sup></td>
+<td style="text-align: right;">0.98 ± 0.016</td>
+<td style="text-align: right;">0.94 ± 0.077</td>
+<td style="text-align: right;">0.78 ± 0.15</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="column-screen-inset-right">
 <div id="fig-src" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="scripts/sensitivity-analysis/output/SRC.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;6.2: Results of the standardized regression coefficients (SRC) for all processes and parameters. The mangitude of the SRC can be interpreted as the effect size of said parameter: by how much does its uncertainty contribute to the overall uncertainty?</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;6.3: Results of the standardized regression coefficients (SRC) for all processes and parameters. The mangitude of the SRC can be interpreted as the effect size of said parameter: by how much does its uncertainty contribute to the overall uncertainty?</figcaption>
 </figure>
 </div>
 </div>
 <p>Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.</p>
-<div class="column-page">
-<div id="fig-src" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="scripts/sensitivity-analysis/output/Coefficients.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;6.3: Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.</figcaption>
-</figure>
-</div>
-</div>
 <div id="fig-src" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="scripts/sensitivity-analysis/output/SRC-importances.svg" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption class="figure-caption">Figure&nbsp;6.4: Share of the total SRC for each process. (1) eta_SP_diffusion, (2) eta_18O_diffusion, (3) SP_nitrification, (4) d18O_nitrification, (5) SP_denitrification, (6) d18O_denitrification, (7) eta_SP_reduction, (8) eta_18O_reduction.</figcaption>
 </figure>
 </div>
+</section>
 </section>
 <section id="using-a-mixed-effects-model-as-an-emulator" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="using-a-mixed-effects-model-as-an-emulator"><span class="header-section-number">6.3</span> Using a mixed effects model as an emulator</h2>
@@ -920,13 +920,14 @@ Observations
 <p><em>One interpretation of the fixed effects coefficients <span class="math inline">\(\boldsymbol \beta\)</span> is that they are the estimated population means of the coefficient distributions of the random effects coefficients</em> <span class="citation" data-cites="bates2014fitting">(<a href="references.html#ref-bates2014fitting" role="doc-biblioref">Bates et al. 2014</a>)</span>.</p>
 <p>For approximating the synthetic data within the scope of the sensitivity analysis, we estimate three mixed effects models – one for Nitrification, Denitrification and Reduction, respectively – with random intercepts and random slopes. Thus, <span class="math inline">\(3 \cdot 12 \cdot 5 \cdot 2 \cdot 8 + 3 \cdot 2 \cdot 8 = 2928\)</span> parameters are estimated in total.</p>
 </section>
-<section id="how-do-the-process-rates-correlate" class="level2 page-columns page-full" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="how-do-the-process-rates-correlate"><span class="header-section-number">6.4</span> How do the process rates correlate?</h2>
+<section id="uncertainty-analysis" class="level2 page-columns page-full" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="uncertainty-analysis"><span class="header-section-number">6.4</span> Uncertainty analysis</h2>
+<p>Uncertainty analysis, akin to sensitivity analysis, is primarily concerned with assessing the uncertainty in the outcomes of a model. The ideal approach involves conducting both uncertainty and sensitivity analyses concurrently, usually initiating with the uncertainty analysis <span class="citation" data-cites="saltelli2008global">(<a href="references.html#ref-saltelli2008global" role="doc-biblioref">Saltelli et al. 2008</a>)</span>. For this purpose, the data acquired from the sensitivity analysis will be utilized to carry out the uncertainty analysis as well.</p>
 <div class="column-page">
 <div id="fig-pairs-processes" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="scripts/sensitivity-analysis/output/pairs-processes.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;6.5: Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to <a href="#tbl-sensitivity">table&nbsp;<span>6.1</span></a>. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians, i.e.&nbsp;by their covariance matrix <span class="math inline">\(\Sigma\)</span> (colored area). The scatterplots are drawn with constrained x- and y-axis limits (<strong>A</strong>) and unconstrained ones (<strong>B</strong>).</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;6.5: Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to <a href="#tbl-sensitivity">table&nbsp;<span>6.1</span></a>. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians, i.e.&nbsp;by their covariance matrix <span class="math inline">\(\Sigma\)</span> (colored area). The scatterplots are drawn with constrained x- and y-axis limits (<strong>A</strong>) and unconstrained ones (<strong>B</strong>). The shaded area indicates the (physically) impossible areas.</figcaption>
 </figure>
 </div>
 </div>
@@ -1067,6 +1068,12 @@ Denk, T. R., J. Mohn, C. Decock, D. Lewicka-Szczebak, E. Harris, K. Butterbach-B
 </div>
 <div id="ref-lewicka2017quantifying" class="csl-entry" role="listitem">
 Lewicka-Szczebak, D., J. Augustin, A. Giesemann, and R. Well. 2017. Quantifying N₂O reduction to N₂ based on N₂O isotopocules – validation with independent methods (helium incubation and ¹⁵N gas flux method). Biogeosciences 14:711–732.
+</div>
+<div id="ref-saltelli2004global" class="csl-entry" role="listitem">
+Saltelli, A. 2004. Global sensitivity analysis: An introduction. Page 43 Proc. 4th international conference on sensitivity analysis of model output (SAMO’04). Citeseer.
+</div>
+<div id="ref-saltelli2008global" class="csl-entry" role="listitem">
+Saltelli, A., M. Ratto, T. Andres, F. Campolongo, J. Cariboni, D. Gatelli, M. Saisana, and S. Tarantola. 2008. Global sensitivity analysis: The primer. John Wiley &amp; Sons.
 </div>
 <div id="ref-sobol1990sensitivity" class="csl-entry" role="listitem">
 Sobol’, I. M. 1990. On sensitivity estimation for nonlinear mathematical models. Matematicheskoe modelirovanie 2:112–118.

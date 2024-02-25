@@ -91,6 +91,7 @@ for (d in getParameters()$depth) {
 f <- function(x, y, pos = NULL, ...) {
     plot(data[,c(x,y)], col = "transparent", ...)
     colors <- palette(5)
+    polygon(x = c(0,10000,10000,-10000,-10000,0), y = c(0,0,-10000,-10000,10000,10000), col = "gray90")
     grid(col = 1, lty = 1, lwd = 0.5)
     for (c in 1:12) {
         for (d in PRE::getParameters()$depth) {
