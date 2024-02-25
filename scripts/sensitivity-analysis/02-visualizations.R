@@ -7,7 +7,9 @@
 # PREPARE WORKSPACE
 # =================
 
-blue <- "#0C6EFC"
+red <- "#fc5d5e"
+blue <- "#3D5A80"
+palette <- colorRampPalette(c(red,blue))
 
 # add packages to search path
 library(PRE)
@@ -60,8 +62,8 @@ for (d in getParameters()$depth) {
                 model <- lm(y ~ x)
                 xr <- seq(min(x),max(x),l=100)
                 yr <- predict(model, data.frame(x = xr), se.fit = TRUE)
-                polygon(c(xr,rev(xr)),c(yr$fit+yr$se.fit*1.96,rev(yr$fit-yr$se.fit*1.96)), col = adjustcolor("red", alpha.f = 0.3), border = FALSE)
-                lines(xr, yr$fit, lwd = 1.5, col = "red")
+                polygon(c(xr,rev(xr)),c(yr$fit+yr$se.fit*1.96,rev(yr$fit-yr$se.fit*1.96)), col = adjustcolor(red, alpha.f = 0.3), border = FALSE)
+                lines(xr, yr$fit, lwd = 1.5, col = red)
                 points(x, y, cex = 0.3, pch = 16)
                 w <- diff(par("usr"))[1]*0.04
                 m <- mean(par("usr")[3:4])
@@ -88,7 +90,7 @@ for (d in getParameters()$depth) {
 
 f <- function(x, y, pos = NULL, ...) {
     plot(data[,c(x,y)], col = "transparent", ...)
-    colors <- viridis::cividis(5, alpha = 1, begin = 0.3, end = 0.9)
+    colors <- palette(5)
     grid(col = 1, lty = 1, lwd = 0.5)
     for (c in 1:12) {
         for (d in PRE::getParameters()$depth) {
@@ -113,41 +115,38 @@ f("Denitrification", "Reduction", "bottomright")
 text(x = c(-320,-320), y = c(55, 322), labels = c("B", "A"), xpd = NA, cex = 3, font = 2)
 dev.off()
 
+# look at the magnitude of each covariance matrix
+svg(file.path("scripts","sensitivity-analysis","output","covariance-norm.svg"), width = 10, height = 5)
+par(mar = c(3,4,1,0)+0.2)
+set.seed(0)
 f <- function(c,d) {
     X <- as.matrix(subset(data, column==c & depth==d, c("Nitrification", "Denitrification")))
     norm(cov(X), type = "F")
 }
-sapply(1:12, function(c) sapply(getParameters()$depths, function(d) f(c,d))) |>
-    barplot(beside = TRUE, log = "y", las = 1, col = viridis::cividis(5, begin = 0.3, end = 0.9))
-grid(lwd = 0.5, col = 1, lty = 1)
+df <- t(sapply(1:12, function(c) sapply(getParameters()$depths, function(d) f(c,d))))
+b <- barplot(df, space = rep(c(1,rep(0.1,11)),5),
+             beside = TRUE, log = "y",
+             las = 1, col = rev(palette(700))[round((log(as.numeric(df))+0.65)*100)],
+             ylim = c(0.1,1000), axes = FALSE,
+             border = FALSE)
+abline(h = c(10^(0:2)), lwd = 0.5)
+abline(h = c(0.2*10^(0:3)), lwd = 0.5)
+abline(h = c(0.5*10^(0:3)), lwd = 0.5)
+axis(2, at = c(10^(-1:3)), labels = c(0.1,1,10,100,1000), las = 1)
+axis(2, at = c(0.2*10^(0:3)), labels = 0.2*c(1,10,100,1000), las = 1)
+axis(2, at = c(0.5*10^(0:3)), labels = 0.5*c(1,10,100,1000), las = 1)
 box()
+text(x = colMeans(b), y = 0.1, pos = 1, labels = paste(getParameters()$depth,"cm"), xpd = NA)
+text(x = as.numeric(b), y = as.numeric(df), labels = 1:12, pos = 1, cex = 0.5, font = 2, col = "white")
+title(ylab = expression("Frobenius norm of the covariance matrix (‖"*Sigma*"‖"[F]*")"))
+title(xlab = "Depth", line = 2)
+dev.off()
 
-# table of coefficients
-# Nitrification <- step(lm(results[,1] ~ ., data = parameters))
-# Denitrification <- step(lm(results[,2] ~ ., data = parameters))
-# Reduction <- step(lm(results[,3] ~ ., data = parameters))
-# sink("tbl-sensitivity.txt")
-# stargazer::stargazer(Nitrification, Denitrification, Reduction, type = "html", dep.var.labels = colnames(results))
-# sink()
-
-# coefficients <- lm(results ~ ., parameters)
-# 
-# for (i in 0:5) {
-#     model <- lm(results[1:50+i*50,1] ~ ., data = parameters[1:50+i*50,])
-#     print(summary(model))
-# }
-# 
-# df <- sapply(1:5, function(i) coef(lm(results[1:50+i*50,1] ~ ., data = parameters[1:50+i*50,])))
-# 
-# subset$group <- as.factor(paste("C",subset$column,"D",subset$depth,sep=""))
-# 
-# m1 <- lmer(Nitrification ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Nitrification = results[,1], parameters, subset))
-# m2 <- lmer(Denitrification ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Denitrification = results[,2], parameters, subset))
-# m3 <- lmer(Reduction ~ 0 + eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (1 | depth) * (1 | column), data = data.frame(Reduction = results[,3], parameters, subset))
-# 
-# tab_model(m1, m2, m3, show.ci = FALSE)
-
-#Nitrification <- lme4::lmer(results[,1] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
-#Denitrification <- lme4::lmer(results[,2] ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +  + (1 | column) * (1 | depth), data = parameters) |> summary()
-
-#Nitrification$coefficients[-1,1] |> dotchart()
+# visualize the sampled parameter space
+png(file.path("scripts","sensitivity-analysis","output","pairs-panel.png"),
+    width = 10,
+    height = 10,
+    unit = "in",
+    res = 300)
+pairs(data, pch = 16, cex = 0.5, col = adjustcolor(par("fg"), 0.1))
+dev.off()

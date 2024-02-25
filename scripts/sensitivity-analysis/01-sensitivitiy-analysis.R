@@ -14,8 +14,8 @@ set.seed(42)
 
 COLUMNS = 1:12 # All the columns to compute 
 DEPTHS = PRE::getParameters()$depths # A vector of depths to compute
-SAMPLESIZE = 300 # How many samples should we draw from the parameter space?
-SAMPLEREPEAT = 5 # What should be `n` in the `longPRE` function call?
+SAMPLESIZE = 20 # How many samples should we draw from the parameter space?
+SAMPLEREPEAT = 3 # What should be `n` in the `longPRE` function call?
 
 # PREPARE WORKSPACE
 # =================
@@ -23,56 +23,55 @@ SAMPLEREPEAT = 5 # What should be `n` in the `longPRE` function call?
 # add packages to search path
 library(PRE)
 
-# prepare PRE data
-data <- calculateFluxes()
-
-# subset of the data
-subset <- expand.grid(repetition = 1:SAMPLESIZE, column = COLUMNS, depth = DEPTHS)
-
 # define sample size
-n <- nrow(subset)
+n <- SAMPLESIZE * length(COLUMNS) * length(DEPTHS)
 
 # sample parameters
 parameters <- data.frame(
+    expand.grid(repetition = 1:SAMPLESIZE, column = COLUMNS, depth = DEPTHS)[sample(1:n),-1],
+    BD = sort(rep(getParameters()$BD+seq(-0.1,0.1,l=11),l=n)),
     eta_SP_diffusion = rnorm(n, 1.55, 0.28),
     eta_18O_diffusion = rnorm(n, -7.79, 0.27),
-    SP_nitrification = runif(n, 26.2, 34.6),
-    d18O_nitrification = rnorm(n, 36.5, 2),
-    SP_denitrification = runif(n, -2.4, -0.9),
-    d18O_denitrification = rnorm(n,11.1, 2),
+    SP_nitrification = runif(n, 32, 38.7),
+    d18O_nitrification = rnorm(n, 23.5, 3),
+    SP_denitrification = runif(n, -13.6, 3.7),
+    d18O_denitrification = rnorm(n, 11.1, 2),
     eta_SP_reduction = runif(n,-8,-2),
     eta_18O_reduction = runif(n,-18,-12)
     )
 
-# visualize the sampled parameter space
-png(file.path("scripts","sensitivity-analysis","output","pairs-panel.png"),
-    width = 10,
-    height = 10,
-    unit = "in",
-    res = 300)
-pairs(parameters, pch = 16, cex = 0.5, col = adjustcolor(par("fg"), 0.1))
-dev.off()
-
 # COMPUTE SENSITIVITY ANALYSIS DATA
 # =================================
 
-# function to take one row of `parameters` and run PRE with that
-f <- function(parameter, subset) {
-    x <- longPRE(data,
-                 column = subset[,"column"],
-                 depth = subset[,"depth"],
-                 n = SAMPLEREPEAT,
-                 parameters = do.call(getParameters, as.list(parameter)),
-                 verbose = FALSE)
-    cat("\n", paste(subset[1,], collapse = ", "), "   ")
-    return(x[["processes"]])
+# run f over all the sampled parameters
+results <- data.frame(Nitrification = rep(NA, n), Denitrification = rep(NA, n), Reduction = rep(NA, n))
+BD <- 0
+for (i in 1:n) {
+    
+    # check if we have to calculate fluxes with a new bulk density
+    if(!(parameters[i,"BD"]==BD)){
+        BD <- parameters[i,"BD"]
+        P <- getParameters(BD = BD)
+        data <- PRE::measurements |>
+            getN2ON(P) |>
+            getMissing() |>
+            calculateFluxes(P, FALSE)
+    }
+    
+    # run model for the specific parameter set
+    results[i,] <- longPRE(data = data,
+                           column = parameters[i,"column"],
+                           depth = parameters[i,"depth"],
+                           n = SAMPLEREPEAT,
+                           parameters = do.call(getParameters, as.list(parameters[i,-(1:3)])),
+                           verbose = FALSE)[["processes"]]
+    
+    # print out progress
+    PRE:::progressbar(i,n)
 }
 
-# apply `f` to all rows in `parameters`
-results <- t(sapply(1:nrow(parameters), function(i) f(parameters[i,], subset[i,])))
-
 # write the results as one CSV file
-write.csv(x = data.frame(subset, parameters, results),
+write.csv(x = data.frame(parameters, results),
           file = file.path("scripts",
                            "sensitivity-analysis",
                            "output",
