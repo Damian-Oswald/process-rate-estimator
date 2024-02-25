@@ -83,7 +83,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./uncertainty-analysis.html" rel="next">
 <link href="./results.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -205,6 +205,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="./uncertainty-analysis.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Uncertainty analysis</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="./references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
@@ -226,8 +232,7 @@ div.csl-indent {
   <li><a href="#standardized-regression-coefficients" id="toc-standardized-regression-coefficients" class="nav-link" data-scroll-target="#standardized-regression-coefficients">Standardized regression coefficients</a></li>
   </ul></li>
   <li><a href="#using-a-mixed-effects-model-as-an-emulator" id="toc-using-a-mixed-effects-model-as-an-emulator" class="nav-link" data-scroll-target="#using-a-mixed-effects-model-as-an-emulator"><span class="header-section-number">6.3</span> Using a mixed effects model as an emulator</a></li>
-  <li><a href="#uncertainty-analysis" id="toc-uncertainty-analysis" class="nav-link" data-scroll-target="#uncertainty-analysis"><span class="header-section-number">6.4</span> Uncertainty analysis</a></li>
-  <li><a href="#what-effect-does-the-bulk-density-have" id="toc-what-effect-does-the-bulk-density-have" class="nav-link" data-scroll-target="#what-effect-does-the-bulk-density-have"><span class="header-section-number">6.5</span> What effect does the bulk density have?</a></li>
+  <li><a href="#what-effect-does-the-bulk-density-have" id="toc-what-effect-does-the-bulk-density-have" class="nav-link" data-scroll-target="#what-effect-does-the-bulk-density-have"><span class="header-section-number">6.4</span> What effect does the bulk density have?</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/sensitivity-analysis.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -416,11 +421,11 @@ div.csl-indent {
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-4" data-code-lines="7">Check if the bulk density value <code>BD</code> has changed since the last iteration.</span>
+<span data-code-lines="7" data-code-annotation="1" data-code-cell="annotated-cell-4">Check if the bulk density value <code>BD</code> has changed since the last iteration.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-4" data-code-lines="9,13">Prepare the <code>measurements</code> data with a new bulk density value <code>BD</code>.</span>
+<span data-code-lines="9,13" data-code-annotation="2" data-code-cell="annotated-cell-4">Prepare the <code>measurements</code> data with a new bulk density value <code>BD</code>.</span>
 </dd>
 </dl>
 </div>
@@ -920,27 +925,8 @@ Observations
 <p><em>One interpretation of the fixed effects coefficients <span class="math inline">\(\boldsymbol \beta\)</span> is that they are the estimated population means of the coefficient distributions of the random effects coefficients</em> <span class="citation" data-cites="bates2014fitting">(<a href="references.html#ref-bates2014fitting" role="doc-biblioref">Bates et al. 2014</a>)</span>.</p>
 <p>For approximating the synthetic data within the scope of the sensitivity analysis, we estimate three mixed effects models – one for Nitrification, Denitrification and Reduction, respectively – with random intercepts and random slopes. Thus, <span class="math inline">\(3 \cdot 12 \cdot 5 \cdot 2 \cdot 8 + 3 \cdot 2 \cdot 8 = 2928\)</span> parameters are estimated in total.</p>
 </section>
-<section id="uncertainty-analysis" class="level2 page-columns page-full" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="uncertainty-analysis"><span class="header-section-number">6.4</span> Uncertainty analysis</h2>
-<p>Uncertainty analysis, akin to sensitivity analysis, is primarily concerned with assessing the uncertainty in the outcomes of a model. The ideal approach involves conducting both uncertainty and sensitivity analyses concurrently, usually initiating with the uncertainty analysis <span class="citation" data-cites="saltelli2008global">(<a href="references.html#ref-saltelli2008global" role="doc-biblioref">Saltelli et al. 2008</a>)</span>. For this purpose, the data acquired from the sensitivity analysis will be utilized to carry out the uncertainty analysis as well.</p>
-<div class="column-page">
-<div id="fig-pairs-processes" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="scripts/sensitivity-analysis/output/pairs-processes.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;6.5: Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to <a href="#tbl-sensitivity">table&nbsp;<span>6.1</span></a>. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians, i.e.&nbsp;by their covariance matrix <span class="math inline">\(\Sigma\)</span> (colored area). The scatterplots are drawn with constrained x- and y-axis limits (<strong>A</strong>) and unconstrained ones (<strong>B</strong>). The shaded area indicates the (physically) impossible areas.</figcaption>
-</figure>
-</div>
-</div>
-<p>Two things are striking when looking at the clusters in <a href="#fig-pairs-processes">figure&nbsp;<span>6.5</span></a>: Both the within-group variance as well as the total variance (i.e.&nbsp;the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier – it’s column 12 at 7.5 cm depth (<a href="#fig-pairs-processes">Figure&nbsp;<span>6.5</span></a> <strong>B</strong>).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="scripts/sensitivity-analysis/output/covariance-norm.svg" class="img-fluid figure-img"></p>
-<figcaption class="figure-caption">Barplot showing the Frobenius norm of the covariance matrix (<span class="math inline">\(\| \Sigma \|_F\)</span>) of the estimated processes for all depth × column combinations.</figcaption>
-</figure>
-</div>
-</section>
-<section id="what-effect-does-the-bulk-density-have" class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="what-effect-does-the-bulk-density-have"><span class="header-section-number">6.5</span> What effect does the bulk density have?</h2>
+<section id="what-effect-does-the-bulk-density-have" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="what-effect-does-the-bulk-density-have"><span class="header-section-number">6.4</span> What effect does the bulk density have?</h2>
 <p>First, we’ll determine a range of bulk density to be searched.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>BD <span class="ot">&lt;-</span> <span class="fu">getParameters</span>()<span class="sc">$</span>BD <span class="sc">+</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.15</span>, <span class="fl">0.15</span>, <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Next, we have to construct a function to return the process estimates for a give bulk density <code>x</code>.</p>
@@ -958,7 +944,7 @@ Observations
 <div id="fig-BD" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="scripts/sensitivity-analysis/output/bulk-density-sensitiviy.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;6.6: Illustration to the sensitivity of estimated process rates to a change in prior bulk density.</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;6.5: Illustration to the sensitivity of estimated process rates to a change in prior bulk density.</figcaption>
 </figure>
 </div>
 <p>Once again, we can use the <code>lmer</code> function from the <code>lme4</code> package to model the process rates as a response of the bulk density as well as a random effect conditional on the depth <span class="citation" data-cites="bates2014fitting">(<a href="references.html#ref-bates2014fitting" role="doc-biblioref">Bates et al. 2014</a>)</span>.</p>
@@ -1071,9 +1057,6 @@ Lewicka-Szczebak, D., J. Augustin, A. Giesemann, and R. Well. 2017. Quantifying 
 </div>
 <div id="ref-saltelli2004global" class="csl-entry" role="listitem">
 Saltelli, A. 2004. Global sensitivity analysis: An introduction. Page 43 Proc. 4th international conference on sensitivity analysis of model output (SAMO’04). Citeseer.
-</div>
-<div id="ref-saltelli2008global" class="csl-entry" role="listitem">
-Saltelli, A., M. Ratto, T. Andres, F. Campolongo, J. Cariboni, D. Gatelli, M. Saisana, and S. Tarantola. 2008. Global sensitivity analysis: The primer. John Wiley &amp; Sons.
 </div>
 <div id="ref-sobol1990sensitivity" class="csl-entry" role="listitem">
 Sobol’, I. M. 1990. On sensitivity estimation for nonlinear mathematical models. Matematicheskoe modelirovanie 2:112–118.
@@ -1393,8 +1376,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./uncertainty-analysis.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Uncertainty analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

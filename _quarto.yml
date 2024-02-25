@@ -11,6 +11,7 @@ book:
     - running-the-model.qmd
     - results.qmd
     - sensitivity-analysis.qmd
+    - uncertainty-analysis.qmd
     - references.qmd
   reader-mode: true
   repo-url: https://github.com/damian-oswald/process-rate-estimator/

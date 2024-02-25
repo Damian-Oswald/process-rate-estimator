@@ -1,0 +1,21 @@
+# Uncertainty analysis
+
+Uncertainty analysis, akin to sensitivity analysis, is primarily concerned with assessing the uncertainty in the outcomes of a model. The ideal approach involves conducting both uncertainty and sensitivity analyses concurrently, usually initiating with the uncertainty analysis [@saltelli2008global]. For this purpose, the data acquired from the sensitivity analysis will be utilized to carry out the uncertainty analysis as well.
+
+Running the process rate estimator repeatedly on sets of parameters drawn from their respective distributions of uncertainty yielded a data frame of estimated process rates. In the last chapter, we analyzed the relationship between the parameters and the estimated process rates. With the uncertainty analysis, we'll specifically investigate the process rates.
+
+:::{.column-page}
+![Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to [table @tbl-sensitivity]. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians, i.e. by their covariance matrix $\Sigma$ (colored area). The scatterplots are drawn with constrained x- and y-axis limits (**A**) and unconstrained ones (**B**). The shaded area indicates the (physically) impossible areas.](scripts/sensitivity-analysis/output/pairs-processes.svg){#fig-pairs-processes width=100%}
+:::
+
+Two things are striking when looking at the clusters in [figure @fig-pairs-processes]: Both the within-group variance as well as the total variance (i.e. the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier -- it's column 12 at 7.5 cm depth (@fig-pairs-processes **B**).
+
+## Quantifying uncertainty
+
+To quantify the uncertainty surrounding each parameter in the processes depicted, a method to summarize the set of estimated processes is needed. Since all distributions seem to be multivariate Gaussians, covariance matrices $\Sigma$ are well fit to describe them. Utilizing a matrix norm presents a viable approach to further reduce each covariance matrix $\Sigma$ to one number. We'll use the Frobenius norm, a popular measure used to gauge the size of a matrix, representing the square root of the sum of the absolute squares of its elements (@eq-frobenius).
+
+$$\|\Sigma\|_F = \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n} |\sigma_{ij}|^2}$${#eq-frobenius}
+
+Here $\sigma_{ij}$ denotes the elements of matrix $\Sigma$. The results are represented in [figure @fig-frobenius].
+
+![Barplot showing the Frobenius norm of the covariance matrix ($\| \Sigma \|_F$) of the estimated processes for all depth × column combinations.](scripts/sensitivity-analysis/output/covariance-norm.svg){#fig-frobenius}

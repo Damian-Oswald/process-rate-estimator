@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Process Rate Estimator (PRE)</title>
+<title>Process Rate Estimator (PRE) - 7&nbsp; Uncertainty analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -49,7 +49,8 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./introduction.html" rel="next">
+<link href="./references.html" rel="next">
+<link href="./sensitivity-analysis.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -80,6 +81,8 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -110,7 +113,7 @@ div.csl-indent {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./index.html"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./uncertainty-analysis.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Uncertainty analysis</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -132,7 +135,7 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
   </div>
 </li>
@@ -168,7 +171,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./uncertainty-analysis.html" class="sidebar-item-text sidebar-link">
+  <a href="./uncertainty-analysis.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Uncertainty analysis</span></span></a>
   </div>
 </li>
@@ -188,16 +191,16 @@ div.csl-indent {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface"><span class="header-section-number">1</span> Preface</a></li>
+  <li><a href="#quantifying-uncertainty" id="toc-quantifying-uncertainty" class="nav-link active" data-scroll-target="#quantifying-uncertainty"><span class="header-section-number">7.1</span> Quantifying uncertainty</a></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/index.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/uncertainty-analysis.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Process Rate Estimator (<code>PRE</code>)</h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Uncertainty analysis</span></h1>
 </div>
 
 
@@ -212,28 +215,33 @@ div.csl-indent {
 
 </header>
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This repo is still very much work in progress.</p>
+<p>Uncertainty analysis, akin to sensitivity analysis, is primarily concerned with assessing the uncertainty in the outcomes of a model. The ideal approach involves conducting both uncertainty and sensitivity analyses concurrently, usually initiating with the uncertainty analysis <span class="citation" data-cites="saltelli2008global">(<a href="references.html#ref-saltelli2008global" role="doc-biblioref">Saltelli et al. 2008</a>)</span>. For this purpose, the data acquired from the sensitivity analysis will be utilized to carry out the uncertainty analysis as well.</p>
+<p>Running the process rate estimator repeatedly on sets of parameters drawn from their respective distributions of uncertainty yielded a data frame of estimated process rates. In the last chapter, we analyzed the relationship between the parameters and the estimated process rates. With the uncertainty analysis, we’ll specifically investigate the process rates.</p>
+<div class="column-page">
+<div id="fig-pairs-processes" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="scripts/sensitivity-analysis/output/pairs-processes.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<figcaption class="figure-caption">Figure&nbsp;7.1: Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to <a href="sensitivity-analysis.html#tbl-sensitivity">table&nbsp;<span>6.1</span></a>. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians, i.e.&nbsp;by their covariance matrix <span class="math inline">\(\Sigma\)</span> (colored area). The scatterplots are drawn with constrained x- and y-axis limits (<strong>A</strong>) and unconstrained ones (<strong>B</strong>). The shaded area indicates the (physically) impossible areas.</figcaption>
+</figure>
 </div>
 </div>
-<section id="preface" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Preface</h1>
-<p>This site contains the documentation for the process rate estimator.</p>
-<p>For a detailed (scientific) description of the process rate estimator, see <span class="citation" data-cites="decock2022process">Decock et al. (<a href="references.html#ref-decock2022process" role="doc-biblioref">2022</a>)</span>.</p>
+<p>Two things are striking when looking at the clusters in <a href="#fig-pairs-processes">figure&nbsp;<span>7.1</span></a>: Both the within-group variance as well as the total variance (i.e.&nbsp;the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier – it’s column 12 at 7.5 cm depth (<a href="#fig-pairs-processes">Figure&nbsp;<span>7.1</span></a> <strong>B</strong>).</p>
+<section id="quantifying-uncertainty" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="quantifying-uncertainty"><span class="header-section-number">7.1</span> Quantifying uncertainty</h2>
+<p>To quantify the uncertainty surrounding each parameter in the processes depicted, a method to summarize the set of estimated processes is needed. Since all distributions seem to be multivariate Gaussians, covariance matrices <span class="math inline">\(\Sigma\)</span> are well fit to describe them. Utilizing a matrix norm presents a viable approach to further reduce each covariance matrix <span class="math inline">\(\Sigma\)</span> to one number. We’ll use the Frobenius norm, a popular measure used to gauge the size of a matrix, representing the square root of the sum of the absolute squares of its elements (<a href="#eq-frobenius">Equation&nbsp;<span>7.1</span></a>).</p>
+<p><span id="eq-frobenius"><span class="math display">\[\|\Sigma\|_F = \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n} |\sigma_{ij}|^2} \tag{7.1}\]</span></span></p>
+<p>Here <span class="math inline">\(\sigma_{ij}\)</span> denotes the elements of matrix <span class="math inline">\(\Sigma\)</span>. The results are represented in <a href="#fig-frobenius">figure&nbsp;<span>7.2</span></a>.</p>
+<div id="fig-frobenius" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="scripts/sensitivity-analysis/output/covariance-norm.svg" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption">Figure&nbsp;7.2: Barplot showing the Frobenius norm of the covariance matrix (<span class="math inline">\(\| \Sigma \|_F\)</span>) of the estimated processes for all depth × column combinations.</figcaption>
+</figure>
+</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">
-<div id="ref-decock2022process" class="csl-entry" role="listitem">
-Decock, C., J. Lee, M. Barthel, E. Verhoeven, F. Conen, and J. Six. 2022. Process rate estimator: A novel model to predict total denitrification using natural abundance stable isotopes of n 2 o. Biogeosciences Discussions 2022:1–29.
+<div id="ref-saltelli2008global" class="csl-entry" role="listitem">
+Saltelli, A., M. Ratto, T. Andres, F. Campolongo, J. Cariboni, D. Gatelli, M. Saisana, and S. Tarantola. 2008. Global sensitivity analysis: The primer. John Wiley &amp; Sons.
 </div>
 </div>
 </section>
@@ -539,10 +547,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./sensitivity-analysis.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sensitivity Analysis</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./introduction.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./references.html" class="pagination-link">
+        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
