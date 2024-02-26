@@ -105,7 +105,8 @@ f <- function(x, y, pos = NULL, ...) {
     if(!is.null(pos)) legend(pos, pch = 16, col = colors, pt.cex = 0.5, fill = adjustcolor(colors, 0.4), border = FALSE, legend = paste(PRE::getParameters()$depth, "cm"), title = "Depth", inset = c(0.02,0.02), bg = "white")
 }
 
-svg(file.path("scripts","sensitivity-analysis","output","pairs-processes.svg"), width = 9, height = 6)
+#svg(file.path("scripts","sensitivity-analysis","output","pairs-processes.svg"), width = 9, height = 6)
+png(file.path("scripts","sensitivity-analysis","output","pairs-processes.png"), width = 9, height = 6, unit = "in", res = 450)
 par(mfrow = c(2,3), mar = c(4,4,1,1)+0.1, oma = c(1,1,1,1))
 f("Denitrification", "Nitrification", ylim = c(-7,42), xlim = c(0,55), las = 1)
 f("Reduction", "Nitrification", ylim = c(-8,42), xlim = c(-30,50))
@@ -147,3 +148,5 @@ png(file.path("scripts","sensitivity-analysis","output","pairs-panel.png"),
     res = 300)
 pairs(data, pch = 16, cex = 0.5, col = adjustcolor(par("fg"), 0.1))
 dev.off()
+
+

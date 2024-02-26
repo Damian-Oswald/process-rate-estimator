@@ -86,7 +86,7 @@ div.csl-indent {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar floating nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -220,15 +220,18 @@ div.csl-indent {
 <div class="column-page">
 <div id="fig-pairs-processes" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
-<p><img src="scripts/sensitivity-analysis/output/pairs-processes.svg" class="img-fluid figure-img" style="width:100.0%"></p>
+<p><img src="scripts/sensitivity-analysis/output/pairs-processes.png" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption class="figure-caption">Figure&nbsp;7.1: Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to <a href="sensitivity-analysis.html#tbl-sensitivity">table&nbsp;<span>6.1</span></a>. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians, i.e.&nbsp;by their covariance matrix <span class="math inline">\(\Sigma\)</span> (colored area). The scatterplots are drawn with constrained x- and y-axis limits (<strong>A</strong>) and unconstrained ones (<strong>B</strong>). The shaded area indicates the (physically) impossible areas.</figcaption>
 </figure>
 </div>
 </div>
 <p>Two things are striking when looking at the clusters in <a href="#fig-pairs-processes">figure&nbsp;<span>7.1</span></a>: Both the within-group variance as well as the total variance (i.e.&nbsp;the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier – it’s column 12 at 7.5 cm depth (<a href="#fig-pairs-processes">Figure&nbsp;<span>7.1</span></a> <strong>B</strong>).</p>
-<section id="quantifying-uncertainty" class="level2" data-number="7.1">
+<section id="quantifying-uncertainty" class="level2 page-columns page-full" data-number="7.1">
 <h2 data-number="7.1" class="anchored" data-anchor-id="quantifying-uncertainty"><span class="header-section-number">7.1</span> Quantifying uncertainty</h2>
-<p>To quantify the uncertainty surrounding each parameter in the processes depicted, a method to summarize the set of estimated processes is needed. Since all distributions seem to be multivariate Gaussians, covariance matrices <span class="math inline">\(\Sigma\)</span> are well fit to describe them. Utilizing a matrix norm presents a viable approach to further reduce each covariance matrix <span class="math inline">\(\Sigma\)</span> to one number. For this, we’ll use the determinant (<span class="math inline">\(\det(\Sigma)\)</span>), which provides a measure of the total variance contained within the multivariate Gaussian distribution.</p>
+<div class="page-columns page-full"><p>To quantify the uncertainty surrounding each parameter in the processes depicted, a method to summarize the set of estimated processes is needed. Since all distributions seem to be multivariate Gaussians, covariance matrices <span class="math inline">\(\Sigma\)</span> are well fit to describe them. Utilizing a matrix norm presents a viable approach to further reduce each covariance matrix <span class="math inline">\(\Sigma\)</span> to one number. For this, we’ll use the determinant (<span class="math inline">\(\det(\Sigma)\)</span>), which provides a measure of the total variance contained within the multivariate Gaussian distribution.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Alternatives to reduce the covariance matrix <span class="math inline">\(\mathbf \Sigma\)</span> to a scalar would be the trance or the Frobenius norm.</p>
+<p>Although the trace of the covariance matrix <span class="math inline">\(\text{tr}(\mathbf \Sigma)\)</span> gives us a measure of the total variance, it does not take into account the correlation between variables.</p>
+<p>Similarly, the Frobenius norm is less effective than the determinant in measuring the “volume” of a <span class="math inline">\(\mathbf \Sigma\)</span> because it sums the squares of all matrix elements without capturing the multidimensional shape and scale interactions that the determinant reflects.</p></li></div></div>
+<p><span class="math display">\[\det{\mathbf \Sigma} = \det (\operatorname {cov} \mathbf X) = \det \left[{\frac {1}{n}}\left(\mathbf {X} \mathbf {X} ^{\top }-{\frac {1}{n}}\mathbf {X} \mathbf I \mathbf {X} ^{\top }\right) \right]\]</span></p>
 <p>The results are represented in <a href="#fig-determinant">figure&nbsp;<span>7.2</span></a>.</p>
 <div id="fig-determinant" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -244,6 +247,7 @@ Saltelli, A., M. Ratto, T. Andres, F. Campolongo, J. Cariboni, D. Gatelli, M. Sa
 </div>
 </div>
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
