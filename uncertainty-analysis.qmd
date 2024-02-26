@@ -5,23 +5,46 @@ Uncertainty analysis, akin to sensitivity analysis, is primarily concerned with 
 Running the process rate estimator repeatedly on sets of parameters drawn from their respective distributions of uncertainty yielded a data frame of estimated process rates. In the last chapter, we analyzed the relationship between the parameters and the estimated process rates. With the uncertainty analysis, we'll specifically investigate the process rates.
 
 :::{.column-page}
-![Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to [table @tbl-sensitivity]. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians, i.e. by their covariance matrix $\Sigma$ (colored area). The scatterplots are drawn with constrained x- and y-axis limits (**A**) and unconstrained ones (**B**). The shaded area indicates the (physically) impossible areas.](scripts/sensitivity-analysis/output/pairs-processes.png){#fig-pairs-processes width=100%}
+![Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth, column and set of randomly drawn parameters according to [table @tbl-sensitivity]. As to be seen, clusters are formed based on combinations of depth and column. The clusters themselves can each be well described as multivariate Gaussians, i.e. by their covariance matrix $\mathbf \Sigma$ (colored area). The scatterplots are drawn with constrained x- and y-axis limits (**A**) and unconstrained ones (**B**). The shaded area indicates the (physically) impossible areas.](scripts/sensitivity-analysis/output/pairs-processes.png){#fig-pairs-processes width=100%}
 :::
 
 Two things are striking when looking at the clusters in [figure @fig-pairs-processes]: Both the within-group variance as well as the total variance (i.e. the variance of the cluster location) seems to be lower for the deeper depths. Additionally, one of the cluster centers constitutes a massive outlier -- it's column 12 at 7.5 cm depth (@fig-pairs-processes **B**).
 
 ## Quantifying uncertainty
 
-To quantify the uncertainty surrounding each parameter in the processes depicted, a method to summarize the set of estimated processes is needed. Since all distributions seem to be multivariate Gaussians, covariance matrices $\Sigma$ are well fit to describe them. Utilizing a matrix norm presents a viable approach to further reduce each covariance matrix $\Sigma$ to one number. For this, we'll use the determinant ($\det(\Sigma)$), which provides a measure of the total variance contained within the multivariate Gaussian distribution.[^alternatives]
+To quantify the uncertainty surrounding each parameter in the processes depicted, a method to summarize the set of estimated processes is needed. Since all distributions seem to be multivariate Gaussians, covariance matrices $\mathbf\Sigma$ are well fit to describe them. Utilizing a matrix norm presents a viable approach to further reduce each covariance matrix $\mathbf\Sigma$ to one number. For this, we'll use the determinant $\det(\mathbf\Sigma)$, which provides a measure of the total variance contained within the multivariate Gaussian distribution.[^alternatives]
 
-[^alternatives]: Alternatives to reduce the covariance matrix $\mathbf \Sigma$ to a scalar would be the trance or the Frobenius norm.
+[^alternatives]: Alternatives to reduce the covariance matrix $\mathbf\Sigma$ to a scalar would be the trance or the Frobenius norm.
 
-    Although the trace of the covariance matrix $\text{tr}(\mathbf \Sigma)$ gives us a measure of the total variance, it does not take into account the correlation between variables.
+    Although the trace of the covariance matrix $\text{tr}(\mathbf\Sigma)$ gives us a measure of the total variance, it does not take into account the correlation between variables.
     
-    Similarly, the Frobenius norm is less effective than the determinant in measuring the "volume" of a $\mathbf \Sigma$ because it sums the squares of all matrix elements without capturing the multidimensional shape and scale interactions that the determinant reflects.
+    Similarly, the Frobenius norm is less effective than the determinant in measuring the "volume" of a $\mathbf\Sigma$ because it sums the squares of all matrix elements without capturing the multidimensional shape and scale interactions that the determinant reflects.
 
-$$\det{\mathbf \Sigma} = \det (\operatorname {cov} \mathbf X) = \det \left[{\frac {1}{n}}\left(\mathbf {X} \mathbf {X} ^{\top }-{\frac {1}{n}}\mathbf {X} \mathbf I \mathbf {X} ^{\top }\right) \right]$$
+$$\det{\mathbf \Sigma} = \det (\operatorname {cov} \mathbf X) = \det \left[{\frac {1}{n}}\left(\mathbf {X} \mathbf {X} ^{\top }-{\frac {1}{n}}\mathbf {X} \mathbf I \mathbf {X} ^{\top }\right) \right]$${#eq-determinant}
 
-The results are represented in [figure @fig-determinant].
+The determinants of each clusters covariance matrix $\mathbf \Sigma$ in [figure @fig-pairs-processes] are represented in [figure @fig-determinant]. Not surprisingly, it is by orders of magnitude larger for column 12 at 7.5 cm depth than for the other clusters.
 
 ![Barplot showing the determinant of the covariance matrix ($\det(\Sigma)$) of the estimated processes for all depth × column combinations.](scripts/sensitivity-analysis/output/covariance-norm.svg){#fig-determinant}
+
+## Process rate estimates with respective uncertainties
+
+:::{.column-page}
+
+```{r}
+#| label: tbl-uncertainty
+#| echo: false
+#| results: asis
+#| layout-ncol: 3
+#| tbl-cap: Estimate process rates with their respective uncertainties (μ ± σ) for each unique combination of depth, columns and the process. Note that each processes standard deviation is calculated on process at a time and thus ignores correlations among process rates.
+data <- read.csv("scripts/sensitivity-analysis/output/results-sensitivity-analysis.csv")
+f <- function(x) paste(signif(mean(x),2),"±",signif(sd(x),2))
+for (process in c("Nitrification","Denitrification","Reduction")) {
+    df <- tapply(data[,process], list(data[,"column"], data[,"depth"]), f)
+    colnames(df) <- paste(colnames(df), "cm")
+    print(knitr::kable(df, row.names = TRUE, caption = process, label = process))
+}
+```
+:::
+
+
+
