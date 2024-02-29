@@ -14,8 +14,8 @@ set.seed(42)
 
 COLUMNS = 1:12 # All the columns to compute 
 DEPTHS = PRE::getParameters()$depths # A vector of depths to compute
-SAMPLESIZE = 20 # How many samples should we draw from the parameter space?
-SAMPLEREPEAT = 3 # What should be `n` in the `longPRE` function call?
+SAMPLESIZE = 300 # How many samples should we draw from the parameter space?
+SAMPLEREPEAT = 5 # What should be `n` in the `longPRE` function call?
 
 # PREPARE WORKSPACE
 # =================
@@ -35,16 +35,17 @@ parameters <- data.frame(
     SP_nitrification = runif(n, 32, 38.7),
     d18O_nitrification = rnorm(n, 23.5, 3),
     SP_denitrification = runif(n, -13.6, 3.7),
-    d18O_denitrification = rnorm(n, 11.1, 2),
-    eta_SP_reduction = runif(n,-8,-2),
-    eta_18O_reduction = runif(n,-18,-12)
+    d18O_denitrification = runif(n, 2.5, 13.4),
+    eta_SP_reduction = runif(n,-8.2,-2.9),
+    eta_18O_reduction = runif(n,-25.1,-5.1)
     )
 
 # COMPUTE SENSITIVITY ANALYSIS DATA
 # =================================
 
 # run f over all the sampled parameters
-results <- data.frame(Nitrification = rep(NA, n), Denitrification = rep(NA, n), Reduction = rep(NA, n))
+nnresults <- results <- data.frame(Nitrification = rep(NA, n), Denitrification = rep(NA, n), Reduction = rep(NA, n))
+colnames(nnresults) <- paste0("nn",colnames(results))
 BD <- 0
 for (i in 1:n) {
     
@@ -59,19 +60,29 @@ for (i in 1:n) {
     }
     
     # run model for the specific parameter set
-    results[i,] <- longPRE(data = data,
-                           column = parameters[i,"column"],
-                           depth = parameters[i,"depth"],
-                           n = SAMPLEREPEAT,
-                           parameters = do.call(getParameters, as.list(parameters[i,-(1:3)])),
-                           verbose = FALSE)[["processes"]]
+    x <- longPRE(data = data,
+                 column = parameters[i,"column"],
+                 depth = parameters[i,"depth"],
+                 n = SAMPLEREPEAT,
+                 parameters = do.call(getParameters, as.list(parameters[i,-(1:3)])),
+                 verbose = FALSE)
     
+    # save results
+    try(
+      results[i,] <- x[["processes"]]
+    )
+    
+    # save non-negative results
+    try(
+      nnresults[i,] <- apply(x$data[,colnames(results)], 2, PRE::nonNegative)
+    )
+
     # print out progress
     PRE:::progressbar(i,n)
 }
 
 # write the results as one CSV file
-write.csv(x = data.frame(parameters, results),
+write.csv(x = data.frame(parameters, results, nnresults),
           file = file.path("scripts",
                            "sensitivity-analysis",
                            "output",

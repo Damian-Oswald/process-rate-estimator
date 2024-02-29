@@ -13,21 +13,22 @@ palette <- colorRampPalette(c(red,blue))
 
 # add packages to search path
 library(PRE)
-library(sjPlot)
-library(lme4)
+#library(sjPlot)
+#library(lme4)
 
 # read data
 data <- read.csv(file.path("scripts","sensitivity-analysis","output","results-sensitivity-analysis.csv"))
-for (i in 2:3) {
+for (i in 1:2) {
     data[,i] <- as.factor(data[,i])
 }
 
 # save processes and parameters as variable
 processes <- c("Nitrification","Denitrification","Reduction")
-parameters <- c("eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
+parameters <- c("BD", "eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
 
 # define list of expressions
-expressions <- list(eta_SP_diffusion = expression(eta*"SP"[diffusion]),
+expressions <- list(BD = "Bulk density",
+                    eta_SP_diffusion = expression(eta*"SP"[diffusion]),
                     eta_18O_diffusion = expression(eta^"18"*"O"[diffusion]),
                     SP_nitrification = expression("SP"[nitrification]),
                     d18O_nitrification = expression(delta^"18"*"O"[nitrification]),
@@ -52,9 +53,9 @@ for (d in getParameters()$depth) {
         
         # plot pairwise linear relationship
         svg(file.path("scripts","sensitivity-analysis","output",sprintf("sensitivity-%s-%s.svg", c, d)), width = 12, height = 5)
-        par(mfrow = c(3,8), mar = rep(0,4)+0.2, oma = c(4,4,0,0))
+        par(mfrow = c(3,9), mar = rep(0,4)+0.2, oma = c(4,4,0,0))
         for (j in 1:3) {
-            for (i in 1:8) {
+            for (i in 1:9) {
                 x <- subset[,parameters][,i]
                 y <- subset[,processes][,j]
                 plot(x = x, y = y, ylab = "", xlab = "", axes = FALSE, col = "transparent", xlim = c(min(x),max(x)+diff(range(x))*0.1))
