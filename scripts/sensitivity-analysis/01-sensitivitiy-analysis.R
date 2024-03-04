@@ -60,12 +60,14 @@ for (i in 1:n) {
     }
     
     # run model for the specific parameter set
-    x <- longPRE(data = data,
-                 column = parameters[i,"column"],
-                 depth = parameters[i,"depth"],
-                 n = SAMPLEREPEAT,
-                 parameters = do.call(getParameters, as.list(parameters[i,-(1:3)])),
-                 verbose = FALSE)
+    try(
+      x <- longPRE(data = data,
+                   column = parameters[i,"column"],
+                   depth = parameters[i,"depth"],
+                   n = SAMPLEREPEAT,
+                   parameters = do.call(getParameters, as.list(parameters[i,-(1:3)])),
+                   verbose = FALSE)
+    )
     
     # save results
     try(
