@@ -21,6 +21,7 @@ data <- read.csv(file.path("scripts","sensitivity-analysis","output","results-se
 for (i in 1:2) {
     data[,i] <- as.factor(data[,i])
 }
+data <- na.omit(data)
 
 # save processes and parameters as variable
 processes <- c("Nitrification","Denitrification","Reduction")
