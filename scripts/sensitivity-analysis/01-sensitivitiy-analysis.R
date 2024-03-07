@@ -15,7 +15,7 @@ set.seed(42)
 COLUMNS = 1:12 # All the columns to compute 
 DEPTHS = PRE::getParameters()$depths # A vector of depths to compute
 SAMPLESIZE = 300 # How many samples should we draw from the parameter space?
-SAMPLEREPEAT = 5 # What should be `n` in the `longPRE` function call?
+SAMPLEREPEAT = 15 # What should be `n` in the `longPRE` function call?
 
 # PREPARE WORKSPACE
 # =================
