@@ -53,7 +53,7 @@ for (d in getParameters()$depth) {
         SRC <- sapply(processes, function(i) sensitivity::src(subset[,parameters], subset[,i])[["SRC"]][,1])
         
         # plot pairwise linear relationship
-        svg(file.path("scripts","sensitivity-analysis","output",sprintf("sensitivity-%s-%s.svg", c, d)), width = 12, height = 5)
+        svg(file.path("scripts","sensitivity-analysis","output",sprintf("sensitivity-%s-%s.svg", c, d)), width = 13.5, height = 5)
         par(mfrow = c(3,9), mar = rep(0,4)+0.2, oma = c(4,4,0,0))
         for (j in 1:3) {
             for (i in 1:9) {
@@ -95,6 +95,7 @@ f <- function(x, y, pos = NULL, ...) {
     colors <- palette(5)
     polygon(x = c(0,10000,10000,-10000,-10000,0), y = c(0,0,-10000,-10000,10000,10000), col = "gray90")
     grid(col = 1, lty = 1, lwd = 0.5)
+    COLUMN <- 2
     for (c in 1:12) {
         for (d in PRE::getParameters()$depth) {
             X <- subset(data, column==c & depth==d, c(x, y))
@@ -116,10 +117,10 @@ f("Denitrification", "Reduction", xlim = c(0,60), ylim = c(-10,50))
 f("Denitrification", "Nitrification")
 f("Reduction", "Nitrification")
 f("Denitrification", "Reduction", "bottomright")
-text(x = c(-320,-320), y = c(55, 322), labels = c("B", "A"), xpd = NA, cex = 3, font = 2)
+text(x = c(-365,-365), y = c(78, 276), labels = c("B", "A"), xpd = NA, cex = 3, font = 2)
 dev.off()
 
-# look at the magnitude of each covariance matrix
+ # look at the magnitude of each covariance matrix
 svg(file.path("scripts","sensitivity-analysis","output","covariance-norm.svg"), width = 10, height = 5)
 par(mar = c(3,4,1,0)+0.2)
 set.seed(0)
