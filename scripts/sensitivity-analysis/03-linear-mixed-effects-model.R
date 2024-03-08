@@ -19,16 +19,17 @@ library(lme4)
 
 # read data
 data <- read.csv(file.path("scripts","sensitivity-analysis","output","results-sensitivity-analysis.csv"))
-for (i in 2:3) {
+for (i in 1:2) {
     data[,i] <- as.factor(data[,i])
 }
 
 # save processes and parameters as variable
 processes <- c("Nitrification","Denitrification","Reduction")
-parameters <- c("eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
+parameters <- c("BD", "eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
 
 # define list of expressions
-expressions <- list(eta_SP_diffusion = expression(eta*"SP"[diffusion]),
+expressions <- list(BD = "Bulk density",
+                    eta_SP_diffusion = expression(eta*"SP"[diffusion]),
                     eta_18O_diffusion = expression(eta^"18"*"O"[diffusion]),
                     SP_nitrification = expression("SP"[nitrification]),
                     d18O_nitrification = expression(delta^"18"*"O"[nitrification]),
@@ -86,7 +87,9 @@ svg(file.path("scripts","sensitivity-analysis","output","Coefficients.svg"), wid
 par(mar = c(2,4,1,0)+0.1)
 positions <- rep(5*(0:7), each = 3) + rep(1:3, 8)
 centers <- 0.5*(positions[c(diff(positions)==3, FALSE)] + positions[c(FALSE, diff(positions)==3)])
-b <- boxplot(Coefficient ~ Process * Parameter, outline = FALSE, results, xlab = "", ylab = "Coefficients [‰]", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE)
+df <- subset(results, Parameter!="BD")
+df$Parameter |> as.character() |> as.factor() -> df$Parameter
+b <- boxplot(Coefficient ~ Process * Parameter, df, outline = FALSE, xlab = "", ylab = "Coefficients [‰]", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE)
 abline(v = centers)
 abline(h = seq(-2,3,0.25), lty = 3, lwd = 0.5)
 abline(h = 0)
@@ -99,15 +102,15 @@ for (i in 1:3) {
         points(x = rep(positions[j*3+i-3], length(x))+runif(length(x), -0.25, 0.25), y = x, cex = 0.6, pch = 16, col = col[ceiling(abs(x)*255/2.5)])
     }
 }
-boxplot(Coefficient ~ Process * Parameter, outline = FALSE, results, xlab = "", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1), add = TRUE)
+boxplot(Coefficient ~ Process * Parameter, outline = FALSE, df, xlab = "", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1), add = TRUE)
 text(positions[1:3]+0.4, b$stats[1,1:3]-0.04, processes, srt = 90, pos = 2)
-sapply(1:8, function(i) text(positions[(1:8)*3-1][i], par()$usr[3], expressions[[i]], xpd = NA, pos = 1))
+sapply(1:8, function(i) text(positions[(1:8)*3-1][i], par()$usr[3], expressions[[i+1]], xpd = NA, pos = 1))
 dev.off()
 
 # Standardized regression coefficients
 svg(file.path("scripts","sensitivity-analysis","output","SRC.svg"), width = 12, height = 6)
 par(mar = c(2,4,1,0)+0.1)
-positions <- rep(5*(0:7), each = 3) + rep(1:3, 8)
+positions <- rep(5*(0:8), each = 3) + rep(1:3, 9)
 centers <- 0.5*(positions[c(diff(positions)==3, FALSE)] + positions[c(FALSE, diff(positions)==3)])
 b <- boxplot(SRC ~ Process * Parameter, outline = FALSE, results, xlab = "", ylab = "Standardized Regression Coefficients", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1))
 abline(v = centers)
@@ -116,15 +119,15 @@ abline(h = 0)
 axis(2, las = 1)
 box()
 for (i in 1:3) {
-    for (j in 1:8) {
+    for (j in 1:9) {
         x <- subset(results, Process==processes[i]&Parameter==parameters[j])[,"SRC"]
         col <- palette(256)
         points(x = rep(positions[j*3+i-3], length(x))+runif(length(x), -0.25, 0.25), y = x, cex = 0.6, pch = 16, col = col[ceiling(abs(x)*255)])
     }
 }
 boxplot(SRC ~ Process * Parameter, outline = FALSE, results, xlab = "", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1), add = TRUE)
-text(positions[1:3]+0.4, b$stats[1,1:3]-0.02, processes, srt = 90, pos = 2)
-sapply(1:8, function(i) text(positions[(1:8)*3-1][i], par()$usr[3], expressions[[i]], xpd = NA, pos = 1))
+text(positions[4:6]+0.4, b$stats[1,4:6]-0.02, processes, srt = 90, pos = 2)
+sapply(1:9, function(i) text(positions[(1:9)*3-1][i], par()$usr[3], expressions[[i]], xpd = NA, pos = 1))
 dev.off()
 
 # Pie charts of importances
@@ -132,8 +135,8 @@ palette <- colorRampPalette(c(blue,red))
 svg(file.path("scripts","sensitivity-analysis","output","SRC-importances.svg"), width = 6, height = 2)
 par(mfrow = c(1,3), mar = c(0,0,2,0))
 for (i in 1:3) {
-    df <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(abs(x))))
-    df[,i] |> pie(col = palette(256)[round(df[,i]*256)], labels = paste0("(",1:8,")"))
+    df <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(abs(x), na.rm = TRUE)))
+    df[,i] |> pie(col = palette(256)[round(df[,i]*256)], labels = paste0("(",1:9,")"))
     title(processes[i], line = 0)
 }
 dev.off()

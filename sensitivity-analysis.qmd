@@ -135,13 +135,14 @@ What do the coefficients $\boldsymbol \beta$ themselves mean? How can we interpr
 #| tbl-colwidths: [10,30,30,30]
 results <- read.csv("scripts/sensitivity-analysis/output/coefficients.csv")
 processes <- c("Nitrification","Denitrification","Reduction")
-parameters <- c("eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
+parameters <- c("BD", "eta_SP_diffusion", "eta_18O_diffusion", "SP_nitrification", "d18O_nitrification", "SP_denitrification", "d18O_denitrification", "eta_SP_reduction", "eta_18O_reduction")
 results$Process <- ordered(results$Process, levels = processes)
 results$Parameter <- ordered(results$Parameter, levels = parameters)
-f <- function(x) paste(signif(mean(x),2),"±",signif(sd(x),2))
+f <- function(x) paste(signif(mean(x, na.rm = TRUE),2),"±",signif(sd(x, na.rm = TRUE),2))
 df <- with(results, tapply(Coefficient, list(Parameter, Process), f))
 df <- rbind(df, strrep("",3), adj.R2 = with(results, tapply(adjR2, Process, f)))
-df <- data.frame(c("$\\eta\\;\\text{SP}_{\\text{diffusion}}$",
+df <- data.frame(c("Bulk density",
+                   "$\\eta\\;\\text{SP}_{\\text{diffusion}}$",
                    "$\\eta^{18}\\text{O}_\\text{diffusion}$",
                    "$\\text{SP}_\\text{nitrification}$",
                    "$\\delta\\;^18\\text{O}_\\text{nitrification}$",
@@ -172,7 +173,8 @@ What do SRC mean? How to interpret them? How to calculate $\boldsymbol \beta^\as
 #| tbl-colwidths: [10,30,30,30]
 df <- with(results, tapply(SRC, list(Parameter, Process), f))
 df <- rbind(df, strrep("",3), adj.R2 = with(results, tapply(adjR2, Process, f)))
-df <- data.frame(c("$\\eta\\;\\text{SP}_{\\text{diffusion}}$",
+df <- data.frame(c("Bulk density",
+                   "$\\eta\\;\\text{SP}_{\\text{diffusion}}$",
                    "$\\eta^{18}\\text{O}_\\text{diffusion}$",
                    "$\\text{SP}_\\text{nitrification}$",
                    "$\\delta\\;^18\\text{O}_\\text{nitrification}$",
