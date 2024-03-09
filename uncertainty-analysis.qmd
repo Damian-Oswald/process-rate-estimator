@@ -24,7 +24,7 @@ $$\det{\mathbf \Sigma} = \det (\operatorname {cov} \mathbf X) = \det \left[{\fra
 
 The determinants of each clusters covariance matrix $\mathbf \Sigma$ in [figure @fig-pairs-processes] are represented in [figure @fig-determinant]. Not surprisingly, it is by orders of magnitude larger for column 12 at 7.5 cm depth than for the other clusters.
 
-![Barplot showing the determinant of the covariance matrix ($\det(\Sigma)$) of the estimated processes for all depth × column combinations.](scripts/sensitivity-analysis/output/covariance-norm.svg){#fig-determinant}
+![Barplot showing the determinant of the covariance matrix ($\det(\Sigma)$) of the estimated processes for all depth × column combinations.](scripts/sensitivity-analysis/output/covariance-norm.svg){#fig-determinant width=100%}
 
 ## Process rate estimates with respective uncertainties
 
@@ -37,7 +37,7 @@ The determinants of each clusters covariance matrix $\mathbf \Sigma$ in [figure 
 #| layout-ncol: 3
 #| tbl-cap: Estimate process rates with their respective uncertainties (μ ± σ) for each unique combination of depth, columns and the process. Note that each processes standard deviation is calculated on process at a time and thus ignores correlations among process rates.
 data <- read.csv("scripts/sensitivity-analysis/output/results-sensitivity-analysis.csv")
-f <- function(x) paste(signif(mean(x),2),"±",signif(sd(x),2))
+f <- function(x) paste(signif(mean(x, na.rm = TRUE),2),"±",signif(sd(x, na.rm = TRUE),2))
 for (process in c("Nitrification","Denitrification","Reduction")) {
     df <- tapply(data[,process], list(data[,"column"], data[,"depth"]), f)
     colnames(df) <- paste(colnames(df), "cm")
