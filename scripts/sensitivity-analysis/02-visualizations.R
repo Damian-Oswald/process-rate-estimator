@@ -40,6 +40,15 @@ expressions <- list(BD = expression("Bulk density [g cm"^-3*"]"),
                     d18O_denitrification = expression(delta^"18"*"O"[denitrification]*" [‰]"),
                     eta_SP_reduction = expression(eta*"SP"[reduction]*" [‰]"),
                     eta_18O_reduction = expression(eta^"18"*"O"[reduction]*" [‰]"))
+expressions_unitless <- list(BD = expression("Bulk density"),
+                             eta_SP_diffusion = expression(eta*"SP"[diffusion]),
+                             eta_18O_diffusion = expression(eta^"18"*"O"[diffusion]),
+                             SP_nitrification = expression("SP"[nitrification]),
+                             d18O_nitrification = expression(delta^"18"*"O"[nitrification]),
+                             SP_denitrification = expression("SP"[denitrification]),
+                             d18O_denitrification = expression(delta^"18"*"O"[denitrification]),
+                             eta_SP_reduction = expression(eta*"SP"[reduction]),
+                             eta_18O_reduction = expression(eta^"18"*"O"[reduction]))
 processlabels <- list(Nitrification = expression("Nitrification [g N"[2]*"O-N]"),
                       Denitrification = expression("Denitrification [g N"[2]*"O-N]"),
                       Reduction = expression("Reduction [g N"[2]*"O-N]"))
@@ -214,8 +223,8 @@ par(mar = c(2,4,1,0)+0.1)
 positions <- rep(5*(0:7), each = 3) + rep(1:3, 8)
 centers <- 0.5*(positions[c(diff(positions)==3, FALSE)] + positions[c(FALSE, diff(positions)==3)])
 df <- subset(results, Parameter!="BD")
-df$Parameter |> as.character() |> as.factor() -> df$Parameter
-b <- boxplot(Coefficient ~ Process * Parameter, df, outline = FALSE, xlab = "", ylab = "Coefficients [‰]", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE)
+df$Parameter <- factor(df$Parameter, levels = parameters[-1])
+b <- boxplot(Coefficient ~ Process * Parameter, df, outline = FALSE, xlab = "", ylab = "Coefficients", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE)
 abline(v = centers)
 abline(h = seq(-2,3,0.25), lty = 3, lwd = 0.5)
 abline(h = 0)
@@ -223,14 +232,14 @@ axis(2, las = 1)
 box()
 for (i in 1:3) {
     for (j in 1:8) {
-        x <- subset(results, Process==processes[i]&Parameter==parameters[j])[,"Coefficient"]
+        x <- subset(df, Process==processes[i]&Parameter==parameters[j+1])[,"Coefficient"]
         col <- palette2(256)
-        points(x = rep(positions[j*3+i-3], length(x))+runif(length(x), -0.25, 0.25), y = x, cex = 0.6, pch = 16, col = col[ceiling(abs(x)*255/2.5)])
+        points(x = rep(positions[j*3+i-3], length(x)), y = x, cex = 0.6, pch = 16, col = col[ceiling(abs(x)*255/max(par("usr")[3:4]))]) # +runif(length(x), -0.25, 0.25)
     }
 }
 boxplot(Coefficient ~ Process * Parameter, outline = FALSE, df, xlab = "", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1), add = TRUE)
-text(positions[1:3]+0.4, b$stats[1,1:3]-0.04, processes, srt = 90, pos = 2)
-sapply(1:8, function(i) text(positions[(1:8)*3-1][i], par()$usr[3], expressions[[i+1]], xpd = NA, pos = 1))
+text(positions[7:9]+0.4, b$stats[1,7:9]-0.04, processes, srt = 90, pos = 2)
+sapply(1:8, function(i) text(positions[(1:8)*3-1][i], par()$usr[3], expressions_unitless[[i+1]], xpd = NA, pos = 1))
 dev.off()
 
 
@@ -256,7 +265,7 @@ for (i in 1:3) {
 }
 boxplot(SRC ~ Process * Parameter, outline = FALSE, results, xlab = "", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1), add = TRUE)
 text(positions[4:6]+0.4, b$stats[1,4:6]-0.02, processes, srt = 90, pos = 2)
-sapply(1:9, function(i) text(positions[(1:9)*3-1][i], par()$usr[3], expressions[[i]], xpd = NA, pos = 1))
+sapply(1:9, function(i) text(positions[(1:9)*3-1][i], par()$usr[3], expressions_unitless[[i]], xpd = NA, pos = 1))
 dev.off()
 
 
