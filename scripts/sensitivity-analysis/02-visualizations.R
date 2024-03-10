@@ -234,7 +234,7 @@ for (i in 1:3) {
     for (j in 1:8) {
         x <- subset(df, Process==processes[i]&Parameter==parameters[j+1])[,"Coefficient"]
         col <- palette2(256)
-        points(x = rep(positions[j*3+i-3], length(x)), y = x, cex = 0.6, pch = 16, col = col[ceiling(abs(x)*255/max(par("usr")[3:4]))]) # +runif(length(x), -0.25, 0.25)
+        points(x = rep(positions[j*3+i-3], length(x))+runif(length(x), -0.25, 0.25), y = x, cex = 0.6, pch = 16, col = col[ceiling(abs(x)*255/max(par("usr")[3:4]))])
     }
 }
 boxplot(Coefficient ~ Process * Parameter, outline = FALSE, df, xlab = "", boxwex = 0.9, lty = 1, at = positions, col = "transparent", cex = 0.5, pch = 16, xaxs = "i", xlim = range(positions), axes = FALSE, yaxs = "i", ylim = c(-1, 1), add = TRUE)
@@ -269,14 +269,84 @@ sapply(1:9, function(i) text(positions[(1:9)*3-1][i], par()$usr[3], expressions_
 dev.off()
 
 
-# FIGURE 6.4: SHARE OF THE TOTAL SRC FOR EACH PROCESS
-# ===================================================
+# FIGURE 6.4: OVERALL RESULTS OF THE SENSITIVITY ANALYSIS
+# =======================================================
 
-svg(file.path("scripts","sensitivity-analysis","output","SRC-importances.svg"), width = 6, height = 2)
-par(mfrow = c(1,3), mar = c(0,0,2,0))
+# open svg file
+svg(file.path("scripts","sensitivity-analysis","output","SRC-importances.svg"), width = 8, height = 8)
+
+# set graphical parameters
+par(mar = c(2,4,0,0)+0.1)
+
+# alternative: use bar plot
+plot.new()
+plot.window(xlim = c(0,1.2), ylim = c(0,1))
+
+# compute share of explained variance with SRC
+df <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(abs(x), na.rm = TRUE)))
+
+# standardize `df` such that each column adds up to the total explained variance
+R2 <- with(results, tapply(R2, Process, mean, na.rm = TRUE))
+for (i in 1:3) df[,i] <- df[,i]/(sum(df[,i])/R2[i])
+
+# define padding
+padding <- 0.02
+
+# define colors
+colors <- palette(9)[c(1,8,5,6,4,7,3,9,2)]
+
+# draw polygons
 for (i in 1:3) {
-    df <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(abs(x), na.rm = TRUE)))
-    df[,i] |> pie(col = palette(256)[round(df[,i]*256)], labels = paste0("(",1:9,")"))
-    title(processes[i], line = 0)
+    for (j in 1:9) {
+        left <- c(0,cumsum(df[,i]))[j]
+        right <- cumsum(df[,i])[j]
+        polygon(y = c(left, right, right, left),
+                x = c(i/3-padding,i/3-padding,i/3-1/3+padding,i/3-1/3+padding),
+                col = if(df[j,i]>0.08) {
+                    colors[j]
+                } else colors[j])
+        if(df[j,i]>0.08) {
+            text(y = (left+right)/2-0.01, x = (i/3-padding + i/3-1/3+padding)/2, labels = expressions_unitless[[j]], pos = 3)
+            text(y = (left+right)/2+0.01, x = (i/3-padding + i/3-1/3+padding)/2, labels = paste0(signif(df[j,i]*100,3),"%"), pos = 1)
+        } else if(df[j,i]>0.04) {
+            text(y = (left+right)/2, x = (i/3-padding + i/3-1/3+padding)/2, labels = paste0(signif(df[j,i]*100,3),"%"))
+        }
+    }
+    polygon(y = c(R2[i], 1, 1, R2[i]),
+            x = c(i/3-padding,i/3-padding,i/3-1/3+padding,i/3-1/3+padding),
+            density = 25)
 }
+
+# label the axes
+text(x = seq(0,1,l=7)[c(2,4,6)], y = c(-0.05), labels = processes, cex = 1.2, xpd = NA)
+axis(2, at = seq(0,1,0.1), labels = paste0(seq(0,100,10)), las = 1)
+title(ylab = "Variance explained [%]")
+
+# add labels for yet missing parameters
+f <- function(y0, y1 = y0, label) {
+    lines(x = c(0.99, 1.05), y = c(y0, y1))
+    text(1.05, y1, label = label, pos = 4)   
+}
+f(y0 = mean(c(1,R2[3])), label = expression("1 - R"^2))
+f(y0 = mean(c(cumsum(df[,3])[2], c(0,cumsum(df[,3]))[2])),
+  y1 = mean(c(cumsum(df[,3])[2], c(0,cumsum(df[,3]))[2]))-0.04,
+  label = expressions_unitless[[2]])
+f(y0 = mean(c(cumsum(df[,3])[3], c(0,cumsum(df[,3]))[3])),
+  y1 = mean(c(cumsum(df[,3])[3], c(0,cumsum(df[,3]))[3]))-0.02,
+  label = expressions_unitless[[3]])
+f(y0 = mean(c(cumsum(df[,3])[4], c(0,cumsum(df[,3]))[4])),
+  y1 = mean(c(cumsum(df[,3])[4], c(0,cumsum(df[,3]))[4])),
+  label = expressions_unitless[[4]])
+f(y0 = mean(c(cumsum(df[,3])[5], c(0,cumsum(df[,3]))[5])),
+  y1 = mean(c(cumsum(df[,3])[5], c(0,cumsum(df[,3]))[5]))+0.02,
+  label = expressions_unitless[[5]])
+f(y0 = mean(c(cumsum(df[,3])[6], c(0,cumsum(df[,3]))[6])),
+  y1 = mean(c(cumsum(df[,3])[6], c(0,cumsum(df[,3]))[6]))+0.04,
+  label = expressions_unitless[[6]])
+f(y0 = mean(c(cumsum(df[,3])[8], c(0,cumsum(df[,3]))[8])),
+  y1 = mean(c(cumsum(df[,3])[8], c(0,cumsum(df[,3]))[8])),
+  label = expressions_unitless[[8]])
+
+# close plotting
 dev.off()
+

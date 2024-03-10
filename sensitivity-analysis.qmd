@@ -194,7 +194,7 @@ knitr::kable(df, align = "lrrr", row.names = FALSE)
 
 Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.
 
-![Share of the total SRC for each process. (1) eta_SP_diffusion, (2) eta_18O_diffusion, (3) SP_nitrification, (4) d18O_nitrification, (5) SP_denitrification, (6) d18O_denitrification, (7) eta_SP_reduction, (8) eta_18O_reduction.](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
+![Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models, i.e. 1 - R^2^.](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
 
 ## Using a mixed effects model as an emulator
 
