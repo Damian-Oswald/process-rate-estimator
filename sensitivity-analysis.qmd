@@ -196,6 +196,8 @@ Note that the coefficients of column, depth and their interactions are excluded 
 
 ![Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models, i.e. 1 - R^2^.](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
 
+The results shown in [figure @fig-src] allow us to assign percentage-wise contributions to the variance explained to individual parameters tested in the sensitivity analysis. Averaged over all processes, $\eta\ce{^{18}O_\text{reduction}}$ contributes most to the variance in the processes (30.0%), followed by the bulk density (21.6%) and $\text{SP}_\text{denitrification}$ (15.1%).
+
 ## Using a mixed effects model as an emulator
 
 A mixed effects model is a statistical model containing both fixed effects and random effects. In matrix notation, a linear mixed effects model can be represented as follows.
