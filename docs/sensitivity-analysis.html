@@ -232,7 +232,6 @@ div.csl-indent {
   <li><a href="#standardized-regression-coefficients" id="toc-standardized-regression-coefficients" class="nav-link" data-scroll-target="#standardized-regression-coefficients">Standardized regression coefficients</a></li>
   </ul></li>
   <li><a href="#using-a-mixed-effects-model-as-an-emulator" id="toc-using-a-mixed-effects-model-as-an-emulator" class="nav-link" data-scroll-target="#using-a-mixed-effects-model-as-an-emulator"><span class="header-section-number">6.3</span> Using a mixed effects model as an emulator</a></li>
-  <li><a href="#what-effect-does-the-bulk-density-have" id="toc-what-effect-does-the-bulk-density-have" class="nav-link" data-scroll-target="#what-effect-does-the-bulk-density-have"><span class="header-section-number">6.4</span> What effect does the bulk density have?</a></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/sensitivity-analysis.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -421,11 +420,11 @@ div.csl-indent {
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="7" data-code-annotation="1" data-code-cell="annotated-cell-4">Check if the bulk density value <code>BD</code> has changed since the last iteration.</span>
+<span data-code-lines="7" data-code-cell="annotated-cell-4" data-code-annotation="1">Check if the bulk density value <code>BD</code> has changed since the last iteration.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="9,13" data-code-annotation="2" data-code-cell="annotated-cell-4">Prepare the <code>measurements</code> data with a new bulk density value <code>BD</code>.</span>
+<span data-code-lines="9,13" data-code-cell="annotated-cell-4" data-code-annotation="2">Prepare the <code>measurements</code> data with a new bulk density value <code>BD</code>.</span>
 </dd>
 </dl>
 </div>
@@ -449,7 +448,7 @@ div.csl-indent {
 <p>What do the coefficients <span class="math inline">\(\boldsymbol \beta\)</span> themselves mean? How can we interpret them?</p>
 <div class="cell">
 <div class="cell-output-display">
-<div id="tbl-coefficient" class="anchored">
+<div id="tbl-coefficients" class="anchored">
 <table class="table table-sm table-striped small">
 <caption>Table&nbsp;6.2: Coefficients (<span class="math inline">\(\mu\)</span> ± <span class="math inline">\(\sigma\)</span>) for the models fit on combinations of depth and column.</caption>
 <colgroup>
@@ -539,7 +538,7 @@ div.csl-indent {
 </div>
 </div>
 <div class="column-screen-inset-right">
-<div id="fig-src" class="quarto-figure quarto-figure-center anchored">
+<div id="fig-coefficients" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="scripts/sensitivity-analysis/output/Coefficients.svg" class="img-fluid figure-img" style="width:100.0%"></p>
 <figcaption class="figure-caption">Figure&nbsp;6.2: Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.</figcaption>
@@ -549,7 +548,12 @@ div.csl-indent {
 </section>
 <section id="standardized-regression-coefficients" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="standardized-regression-coefficients">Standardized regression coefficients</h3>
-<p>What do SRC mean? How to interpret them? How to calculate <span class="math inline">\(\boldsymbol \beta^\ast\)</span>?</p>
+<p>The standardized regression coefficient (SRC, <span class="math inline">\(\beta^\ast\)</span>), often referred to as beta coefficient in statistical models, measures the strength and direction of the relationship between an independent variable and the dependent variable in a regression model, with all variables being standardized. The SRC can also be simply calculated as:</p>
+<p><span id="eq-src"><span class="math display">\[\beta^\ast_i = \frac{\sigma_{x_i}}{\sigma_y} \beta_i \tag{6.1}\]</span></span></p>
+<p>where <span class="math inline">\(\beta_i\)</span> is the estimated coefficient of a predictor <span class="math inline">\(x_i\)</span> in a linear model, <span class="math inline">\(\sigma_{x_i}\)</span> is the predictor’s standard deviation, while <span class="math inline">\(\sigma_{y}\)</span> is the response’s standard deviation. A consequence of standardizing the coefficients is that they all fall into the range between -1 and 1.</p>
+<p>The key advantage of using standardized coefficients is that it allows for direct comparison of the relative importance or impact of each independent variable on the dependent variable across different studies or models, even when the variables are measured on different scales. This facilitates a clearer understanding of which variables have the most significant influence on the outcome, making it a useful tool in many fields where interpreting the magnitude of predictive relationships is critical.</p>
+<p>Standardized regression coefficients are especially useful for sensitivity analyses because they provide a scale-independent measure of the relative importance of each predictor variable in the model. Sensitivity analysis aims to understand how changes in input variables affect the output of a model. They facilitate this by quantifying the effect size of each variable in a comparable way.</p>
+<p>Since the coefficients are standardized, they remove the unit dependence that can obscure the interpretation of the coefficients in models involving variables measured on different scales or units. This standardization allows researchers to directly compare the influence of each variable, making it clearer which variables are more sensitive or have a greater impact on the outcome variable (<a href="#tbl-src">Table&nbsp;<span>6.3</span></a>).</p>
 <div class="cell">
 <div class="cell-output-display">
 <div id="tbl-src" class="anchored">
@@ -641,6 +645,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
+<p>Standardizing the coefficients changes the results seen in <a href="#tbl-coefficients">table&nbsp;<span>6.2</span></a> and <a href="#fig-coefficients">figure&nbsp;<span>6.2</span></a>.</p>
 <div class="column-screen-inset-right">
 <div id="fig-src" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -650,20 +655,24 @@ div.csl-indent {
 </div>
 </div>
 <p>Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.</p>
+<p><span class="math display">\[
+\frac{1}{p} \sum_{i=1}^p \mid \beta^\ast_p \mid
+\]</span></p>
 <div id="fig-src" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="scripts/sensitivity-analysis/output/SRC-importances.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;6.4: Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models, i.e.&nbsp;1 - R<sup>2</sup>.</figcaption>
+<figcaption class="figure-caption">Figure&nbsp;6.4: Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the absolute standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models, i.e.&nbsp;1 - R<sup>2</sup>.</figcaption>
 </figure>
 </div>
 <p>The results shown in <a href="#fig-src">figure&nbsp;<span>6.4</span></a> allow us to assign percentage-wise contributions to the variance explained to individual parameters tested in the sensitivity analysis. Averaged over all processes, <span class="math inline">\(\eta\ce{^{18}O_\text{reduction}}\)</span> contributes most to the variance in the processes (30.0%), followed by the bulk density (21.6%) and <span class="math inline">\(\text{SP}_\text{denitrification}\)</span> (15.1%).</p>
+<p>However, not every parameter explains the variance in the process rate estimates equally well for different processes. For example, the variance in the estimated reduction rates are reasonably well explained (64.6%) only by bulk density and <span class="math inline">\(\eta\ce{^{18}O_\text{reduction}}\)</span> alone. Bulk density seems much less capable in explaining the variance in the estimated nitrification and denitrification rates, on the other hand. For these two processes, <span class="math inline">\(\text{SP}_\text{denitrification}\)</span> and <span class="math inline">\(\eta\;\text{SP}_\text{reduction}\)</span> seem to be the bigger driving factors.</p>
 </section>
 </section>
 <section id="using-a-mixed-effects-model-as-an-emulator" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="using-a-mixed-effects-model-as-an-emulator"><span class="header-section-number">6.3</span> Using a mixed effects model as an emulator</h2>
 <p>A mixed effects model is a statistical model containing both fixed effects and random effects. In matrix notation, a linear mixed effects model can be represented as follows. <span id="eq-mem"><span class="math display">\[
 \mathbf y = \mathbf X \boldsymbol \beta + \mathbf Z \boldsymbol \zeta  + \boldsymbol \varepsilon
-\tag{6.1}\]</span></span> In this notation, <span class="math inline">\(\mathbf y\)</span> is a known vector of obervations, where <span class="math inline">\(\mathbb E (\mathbf y) = \mathbf X \boldsymbol \beta\)</span>. Unlike in the OLS model, the errors of this mixed effects model are derived from two sources: on one hand from the error vector <span class="math inline">\(\boldsymbol \varepsilon\)</span>, but on the other hand also from the random effects <span class="math inline">\(\mathbf Z \boldsymbol \zeta\)</span>, where we have both <span class="math inline">\(\mathbb E (\boldsymbol \varepsilon) = \mathbf 0\)</span> and <span class="math inline">\(\mathbb E (\boldsymbol \zeta) = \mathbf 0\)</span>. So, generally, the expected error in the model is still zero. However, by use of the term <span class="math inline">\(\mathbf Z \boldsymbol \zeta\)</span>, errors might be clustered into groups, where <span class="math inline">\(\mathbf Z\)</span> is a design matrix containing information about these groups.</p>
+\tag{6.2}\]</span></span> In this notation, <span class="math inline">\(\mathbf y\)</span> is a known vector of obervations, where <span class="math inline">\(\mathbb E (\mathbf y) = \mathbf X \boldsymbol \beta\)</span>. Unlike in the OLS model, the errors of this mixed effects model are derived from two sources: on one hand from the error vector <span class="math inline">\(\boldsymbol \varepsilon\)</span>, but on the other hand also from the random effects <span class="math inline">\(\mathbf Z \boldsymbol \zeta\)</span>, where we have both <span class="math inline">\(\mathbb E (\boldsymbol \varepsilon) = \mathbf 0\)</span> and <span class="math inline">\(\mathbb E (\boldsymbol \zeta) = \mathbf 0\)</span>. So, generally, the expected error in the model is still zero. However, by use of the term <span class="math inline">\(\mathbf Z \boldsymbol \zeta\)</span>, errors might be clustered into groups, where <span class="math inline">\(\mathbf Z\)</span> is a design matrix containing information about these groups.</p>
 
 <table style="border-collapse:collapse; border:none;">
 <tbody><tr>
@@ -937,122 +946,6 @@ Observations
 
 <p><em>One interpretation of the fixed effects coefficients <span class="math inline">\(\boldsymbol \beta\)</span> is that they are the estimated population means of the coefficient distributions of the random effects coefficients</em> <span class="citation" data-cites="bates2014fitting">(<a href="references.html#ref-bates2014fitting" role="doc-biblioref">Bates et al. 2014</a>)</span>.</p>
 <p>For approximating the synthetic data within the scope of the sensitivity analysis, we estimate three mixed effects models – one for Nitrification, Denitrification and Reduction, respectively – with random intercepts and random slopes. Thus, <span class="math inline">\(3 \cdot 12 \cdot 5 \cdot 2 \cdot 8 + 3 \cdot 2 \cdot 8 = 2928\)</span> parameters are estimated in total.</p>
-</section>
-<section id="what-effect-does-the-bulk-density-have" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="what-effect-does-the-bulk-density-have"><span class="header-section-number">6.4</span> What effect does the bulk density have?</h2>
-<p>First, we’ll determine a range of bulk density to be searched.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>BD <span class="ot">&lt;-</span> <span class="fu">getParameters</span>()<span class="sc">$</span>BD <span class="sc">+</span> <span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.15</span>, <span class="fl">0.15</span>, <span class="fl">0.05</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Next, we have to construct a function to return the process estimates for a give bulk density <code>x</code>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>f <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    parameters <span class="ot">&lt;-</span> <span class="fu">getParameters</span>(<span class="at">BD =</span> x)</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    data <span class="ot">&lt;-</span> <span class="fu">subset</span>(measurements, column<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">getN2ON</span>(<span class="at">parameters =</span> parameters) <span class="sc">|&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">getMissing</span>() <span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="fu">calculateFluxes</span>(<span class="at">parameters =</span> parameters)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">longPRE</span>(data, <span class="dv">1</span>, <span class="fl">7.5</span>, <span class="at">n =</span> <span class="dv">15</span>)<span class="sc">$</span>processes)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Finally, we’ll apply said function to all bulk densities in the vector <code>BD</code>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> <span class="fu">t</span>(<span class="fu">sapply</span>(BD, f))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>This process will return us the data to be analyzed.</p>
-<div id="fig-BD" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="scripts/sensitivity-analysis/output/bulk-density-sensitiviy.svg" class="img-fluid figure-img" style="width:100.0%"></p>
-<figcaption class="figure-caption">Figure&nbsp;6.5: Illustration to the sensitivity of estimated process rates to a change in prior bulk density.</figcaption>
-</figure>
-</div>
-<p>Once again, we can use the <code>lmer</code> function from the <code>lme4</code> package to model the process rates as a response of the bulk density as well as a random effect conditional on the depth <span class="citation" data-cites="bates2014fitting">(<a href="references.html#ref-bates2014fitting" role="doc-biblioref">Bates et al. 2014</a>)</span>.</p>
-<div class="cell-output-display">
-
-<table style="border-collapse:collapse; border:none;">
-<tbody><tr>
-<th style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm;  text-align:left; ">&nbsp;</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Nitrification</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Denitrification</th>
-<th colspan="2" style="border-top: double; text-align:center; font-style:normal; font-weight:bold; padding:0.2cm; ">Reduction</th>
-</tr>
-<tr>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  text-align:left; ">Predictors</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">p</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  ">Estimates</td>
-<td style=" text-align:center; border-bottom:1px solid; font-style:italic; font-weight:normal;  col7">p</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">(Intercept)</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">22.78</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.008</strong></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-2.57</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.854</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-53.85</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>0.005</strong></td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; ">BD</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">-11.61</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  "><strong>0.002</strong></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">10.94</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">0.162</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  ">48.79</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:center;  col7"><strong>&lt;0.001</strong></td>
-</tr>
-<tr>
-<td colspan="7" style="font-weight:bold; text-align:left; padding-top:.8em;">Random Effects</td>
-</tr>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">σ<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.02</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.03</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.10</td>
-</tr>
-
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>00</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">295.98 <sub>depth</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">947.98 <sub>depth</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">1430.21 <sub>depth</sub></td>
-
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">τ<sub>11</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">51.58 <sub>depth.BD</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">280.97 <sub>depth.BD</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">481.50 <sub>depth.BD</sub></td>
-
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ρ<sub>01</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">-0.99 <sub>depth</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">-1.00 <sub>depth</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">-1.00 <sub>depth</sub></td>
-
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">ICC</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">1.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">1.00</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.99</td>
-
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">N</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">5 <sub>depth</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">5 <sub>depth</sub></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">5 <sub>depth</sub></td>
-</tr><tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm; border-top:1px solid;">Observations</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">25</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">25</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left; border-top:1px solid;" colspan="2">25</td>
-</tr>
-<tr>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; text-align:left; padding-top:0.1cm; padding-bottom:0.1cm;">Marginal R<sup>2</sup> / Conditional R<sup>2</sup></td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.023 / 0.999</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.067 / 0.996</td>
-<td style=" padding:0.2cm; text-align:left; vertical-align:top; padding-top:0.1cm; padding-bottom:0.1cm; text-align:left;" colspan="2">0.502 / 0.996</td>
-</tr>
-
-</tbody></table>
-
-</div>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="list" style="display: none">

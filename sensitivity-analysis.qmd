@@ -127,7 +127,7 @@ The table below shows the resulting coefficients of such a multiple linear regre
 What do the coefficients $\boldsymbol \beta$ themselves mean? How can we interpret them?
 
 ```{r}
-#| label: tbl-coefficient
+#| label: tbl-coefficients
 #| results: asis
 #| tbl-cap: Coefficients ($\mu$ ± $\sigma$) for the models fit on combinations of depth and column.
 #| echo: false
@@ -157,12 +157,25 @@ knitr::kable(df, align = "lrrr", row.names = FALSE)
 ```
 
 :::{.column-screen-inset-right}
-![Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.](scripts/sensitivity-analysis/output/Coefficients.svg){#fig-src width=100%}
+![Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.](scripts/sensitivity-analysis/output/Coefficients.svg){#fig-coefficients width=100%}
 :::
 
 ### Standardized regression coefficients
 
-What do SRC mean? How to interpret them? How to calculate $\boldsymbol \beta^\ast$?
+The standardized regression coefficient (SRC, $\beta^\ast$), often referred to as beta coefficient in statistical models, measures the strength and direction of the relationship between an independent variable and the dependent variable in a regression model, with all variables being standardized. The SRC can also be simply calculated as:
+
+$$\beta^\ast_i = \frac{\sigma_{x_i}}{\sigma_y} \beta_i$${#eq-src}
+
+where $\beta_i$ is the estimated coefficient of a predictor $x_i$ in a linear model, $\sigma_{x_i}$ is the predictor's standard deviation, while $\sigma_{y}$ is the response's standard deviation.
+A consequence of standardizing the coefficients is that they all fall into the range between -1 and 1.
+
+The key advantage of using standardized coefficients is that it allows for direct comparison of the relative importance or impact of each independent variable on the dependent variable across different studies or models, even when the variables are measured on different scales.
+This facilitates a clearer understanding of which variables have the most significant influence on the outcome, making it a useful tool in many fields where interpreting the magnitude of predictive relationships is critical.
+
+Standardized regression coefficients are especially useful for sensitivity analyses because they provide a scale-independent measure of the relative importance of each predictor variable in the model. Sensitivity analysis aims to understand how changes in input variables affect the output of a model.
+They facilitate this by quantifying the effect size of each variable in a comparable way.
+
+Since the coefficients are standardized, they remove the unit dependence that can obscure the interpretation of the coefficients in models involving variables measured on different scales or units. This standardization allows researchers to directly compare the influence of each variable, making it clearer which variables are more sensitive or have a greater impact on the outcome variable (@tbl-src).
 
 ```{r}
 #| label: tbl-src
@@ -171,6 +184,7 @@ What do SRC mean? How to interpret them? How to calculate $\boldsymbol \beta^\as
 #| echo: false
 #| eval: true
 #| tbl-colwidths: [10,30,30,30]
+f <- function(x) paste(signif(mean(x, na.rm = TRUE),2),"±",signif(sd(x, na.rm = TRUE),2))
 df <- with(results, tapply(SRC, list(Parameter, Process), f))
 df <- rbind(df, strrep("",3), adj.R2 = with(results, tapply(adjR2, Process, f)))
 df <- data.frame(c("Bulk density",
@@ -188,15 +202,23 @@ colnames(df)[1] <- ""
 knitr::kable(df, align = "lrrr", row.names = FALSE)
 ```
 
+Standardizing the coefficients changes the results seen in [table @tbl-coefficients] and [figure @fig-coefficients].
+
 :::{.column-screen-inset-right}
 ![Results of the standardized regression coefficients (SRC) for all processes and parameters. The mangitude of the SRC can be interpreted as the effect size of said parameter: by how much does its uncertainty contribute to the overall uncertainty?](scripts/sensitivity-analysis/output/SRC.svg){#fig-src width=100%}
 :::
 
 Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.
 
-![Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models, i.e. 1 - R^2^.](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
+$$
+\frac{1}{p} \sum_{i=1}^p \mid \beta^\ast_p \mid
+$$
+
+![Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the absolute standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models, i.e. 1 - R^2^.](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
 
 The results shown in [figure @fig-src] allow us to assign percentage-wise contributions to the variance explained to individual parameters tested in the sensitivity analysis. Averaged over all processes, $\eta\ce{^{18}O_\text{reduction}}$ contributes most to the variance in the processes (30.0%), followed by the bulk density (21.6%) and $\text{SP}_\text{denitrification}$ (15.1%).
+
+However, not every parameter explains the variance in the process rate estimates equally well for different processes. For example, the variance in the estimated reduction rates are reasonably well explained (64.6%) only by bulk density and $\eta\ce{^{18}O_\text{reduction}}$ alone. Bulk density seems much less capable in explaining the variance in the estimated nitrification and denitrification rates, on the other hand. For these two processes, $\text{SP}_\text{denitrification}$ and $\eta\;\text{SP}_\text{reduction}$ seem to be the bigger driving factors.
 
 ## Using a mixed effects model as an emulator
 
@@ -216,49 +238,3 @@ cat(readLines("resources/tbl-sensitivity.txt"))
 *One interpretation of the fixed effects coefficients $\boldsymbol \beta$ is that they are the estimated population means of the coefficient distributions of the random effects coefficients* [@bates2014fitting].
 
 For approximating the synthetic data within the scope of the sensitivity analysis, we estimate three mixed effects models -- one for Nitrification, Denitrification and Reduction, respectively -- with random intercepts and random slopes. Thus, $3 \cdot 12 \cdot 5 \cdot 2 \cdot 8 + 3 \cdot 2 \cdot 8 = 2928$ parameters are estimated in total.
-
-## What effect does the bulk density have?
-
-First, we'll determine a range of bulk density to be searched.
-
-```r
-BD <- getParameters()$BD + seq(-0.15, 0.15, 0.05)
-```
-
-Next, we have to construct a function to return the process estimates for a give bulk density `x`.
-
-```r
-f <- function(x) {
-    parameters <- getParameters(BD = x)
-    data <- subset(measurements, column==1) |>
-        getN2ON(parameters = parameters) |>
-        getMissing() |>
-        calculateFluxes(parameters = parameters)
-    return(longPRE(data, 1, 7.5, n = 15)$processes)
-}
-```
-
-Finally, we'll apply said function to all bulk densities in the vector `BD`.
-
-```r
-result <- t(sapply(BD, f))
-```
-
-This process will return us the data to be analyzed.
-
-![Illustration to the sensitivity of estimated process rates to a change in prior bulk density.](scripts/sensitivity-analysis/output/bulk-density-sensitiviy.svg){#fig-BD width=100%}
-
-Once again, we can use the `lmer` function from the `lme4` package to model the process rates as a response of the bulk density as well as a random effect conditional on the depth [@bates2014fitting].
-
-```{r}
-#| echo: false
-#| eval: true
-#| results: asis
-#| message: false
-#| warning: false
-data <- read.csv(file.path("scripts","sensitivity-analysis","output","bulk-density-sensitiviy.csv"))
-m1 <- lme4::lmer(Nitrification ~ BD + (BD | depth), data)
-m2 <- lme4::lmer(Denitrification ~ BD + (BD | depth), data)
-m3 <- lme4::lmer(Reduction ~ BD + (BD | depth), data)
-sjPlot::tab_model(m1, m2, m3, show.ci = FALSE)
-```
