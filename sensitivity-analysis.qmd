@@ -186,11 +186,11 @@ Since the coefficients are standardized, they remove the unit dependence that ca
 #| tbl-colwidths: [10,30,30,30]
 df <- with(results, tapply(SRC, list(Parameter, Process), f))
 
-VarExplained <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(abs(x), na.rm = TRUE)))
+VarExplained <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(x, na.rm = TRUE)^2))
 R2 <- with(results, tapply(R2, Process, mean, na.rm = TRUE))
 for (i in 1:3) VarExplained[,i] <- VarExplained[,i]/(sum(VarExplained[,i])/R2[i])
 
-g <- function(x) paste0("(",round(x*100,1),"%)")
+g <- function(x) paste0("(",signif(x*100,2),"%)")
 df <- cbind(df[,1], g(VarExplained[,1]), df[,2], g(VarExplained[,2]), df[,3], g(VarExplained[,3]))
 df <- rbind(df, strrep("",6), adj.R2 = c(with(results, tapply(adjR2, Process, f)),"")[c(1,4,2,4,3,4)])
 
