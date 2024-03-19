@@ -5,6 +5,8 @@
 ```{r}
 #| echo: false
 data <- read.csv(file.path("scripts","run-process-rate-estimator","output","estimated-process-rates.csv"))
+Nitrification <- 0.001 * with(data, tapply(Nitrification, list(variety, depth, column), sum))
+Denitrification <- 0.001 * with(data, tapply(Denitrification, list(variety, depth, column), sum))
 df <- reshape2::melt(with(data, tapply(Nitrification, list(variety, depth), sum))*0.001)
 df <- df[order(df[,"Var1"]),]
 colnames(df) <- c("Variety", "Depth [cm]", "Nitrification")
