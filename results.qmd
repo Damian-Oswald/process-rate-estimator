@@ -13,7 +13,7 @@ data <- read.csv(file.path("scripts","run-process-rate-estimator","output","esti
 
 # compute the sum of process rates over entire time
 for (x in c("Nitrification", "Denitrification", "Reduction")) {
-    assign(x, 0.001 * tapply(data[,x], with(data, list(variety, depth, column)), sum))
+    assign(x, 0.001 * tapply(data[,x], with(data, list(variety, depth, column)), PRE::nonNegative, f = sum))
 }
 
 # compute total produced nitrogen
