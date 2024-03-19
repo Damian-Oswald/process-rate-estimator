@@ -4,15 +4,66 @@
 
 ```{r}
 #| echo: false
+#| tbl-colwidths: [22,14,16,16,16,16]
+#| label: tbl-by-depth-and-variety
+#| tbl-cap: "Overall results of the process rate estimator (μ ±  σ) by depth layer and variety. N~2~O~nit~ is the sum of the nitrification rate over the entire estimated period, while N~2~O~den~ is the sum of the denitrification rate. For reference, this table also displays N~2~O~produced~, which is simply N~2~O~nit~ + N~2~O~den~, as well as N~2~O~consumed~, which is the sum of the reduction rate."
+
+# read the results
 data <- read.csv(file.path("scripts","run-process-rate-estimator","output","estimated-process-rates.csv"))
-Nitrification <- 0.001 * with(data, tapply(Nitrification, list(variety, depth, column), sum))
-Denitrification <- 0.001 * with(data, tapply(Denitrification, list(variety, depth, column), sum))
-df <- reshape2::melt(with(data, tapply(Nitrification, list(variety, depth), sum))*0.001)
+
+# compute the sum of process rates over entire time
+for (x in c("Nitrification", "Denitrification", "Reduction")) {
+    assign(x, 0.001 * tapply(data[,x], with(data, list(variety, depth, column)), sum))
+}
+
+# compute total produced nitrogen
+Production <- Nitrification + Denitrification
+
+# write function to paste mean ± sd
+f <- function(x) paste(signif(mean(x, na.rm = TRUE), 2), "±", signif(sd(x, na.rm = TRUE), 2))
+
+# bind results to data frame
+df <- cbind(reshape2::melt(apply(Nitrification, 1:2, f)),
+            pod = reshape2::melt(apply(Denitrification, 1:2, f))[,3],
+            red = reshape2::melt(apply(Production, 1:2, f))[,3],
+            den = reshape2::melt(apply(Reduction, 1:2, f))[,3])
 df <- df[order(df[,"Var1"]),]
-colnames(df) <- c("Variety", "Depth [cm]", "Nitrification")
+colnames(df) <- c("Variety", "Depth [cm]", "N~2~O~nit~", "N~2~O~den~", "N~2~O~produced~", "N~2~O~consumed~")
 df[,1] <- as.character(df[,1])
 df[((1:nrow(df))[-c((0:4)*5+1)]),1] <- ""
-knitr::kable(df, row.names = FALSE)
+knitr::kable(df, row.names = FALSE, align = "llrrrr")
+```
+
+```{r}
+#| echo: false
+#| tbl-colwidths: [36,16,16,16,16]
+#| label: tbl-by-variety
+#| tbl-cap: "Values in @tbl-by-depth-and-variety aggregated by variety."
+
+# bind results to data frame
+df <- cbind(nit = reshape2::melt(apply(Nitrification, 1, f)),
+            pod = reshape2::melt(apply(Denitrification, 1, f)),
+            red = reshape2::melt(apply(Production, 1, f)),
+            den = reshape2::melt(apply(Reduction, 1, f)))
+df <- data.frame(rownames(df), df)
+colnames(df) <- c("Variety", "N~2~O~nit~", "N~2~O~den~", "N~2~O~produced~", "N~2~O~consumed~")
+knitr::kable(df, row.names = FALSE, align = "lrrrr")
+```
+
+```{r}
+#| echo: false
+#| tbl-colwidths: [22,14,16,16,16,16]
+#| label: tbl-by-depth
+#| tbl-cap: "Values in @tbl-by-depth-and-variety aggregated by depth layer."
+
+# bind results to data frame
+df <- cbind(nit = reshape2::melt(apply(Nitrification, 2, f)),
+            pod = reshape2::melt(apply(Denitrification, 2, f)),
+            red = reshape2::melt(apply(Production, 2, f)),
+            den = reshape2::melt(apply(Reduction, 2, f)))
+df <- data.frame(x = rep("",5), d = rownames(df), df)
+colnames(df) <- c("", "Depth [cm]", "N~2~O~nit~", "N~2~O~den~", "N~2~O~produced~", "N~2~O~consumed~")
+knitr::kable(df, row.names = FALSE, align = "llrrrr")
 ```
 
 ## Processes over time
