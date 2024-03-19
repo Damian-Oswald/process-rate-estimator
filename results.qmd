@@ -1,5 +1,55 @@
 # Results
 
+## Summary table
+
+```{r}
+#| echo: false
+data <- read.csv(file.path("scripts","run-process-rate-estimator","output","estimated-process-rates.csv"))
+df <- reshape2::melt(with(data, tapply(Nitrification, list(variety, depth), sum))*0.001)
+df <- df[order(df[,"Var1"]),]
+colnames(df) <- c("Variety", "Depth [cm]", "Nitrification")
+df[,1] <- as.character(df[,1])
+df[((1:nrow(df))[-c((0:4)*5+1)]),1] <- ""
+knitr::kable(df, row.names = FALSE)
+```
+
+## Processes over time
+
+The tabset panels below show all results, from column 1 to 12[^missing] and depths 7.5 cm, 30 cm, 60 cm, 90 cm and 120 cm.
+
+[^missing]: Note that due to missing measurements, column 6 couldn't be computed completely.
+
+```{r}
+#| eval: true
+#| echo: false
+#| results: asis
+cat("::: {.panel-tabset}\n\n")
+for (column in 1:12) {
+    
+    if(column==1) {
+        cat("## Column 1\n\n")
+    } else {
+        cat("##", column, "\n\n")
+    }
+    
+    cat("::: {.panel-tabset}\n\n")
+    
+    for (depth in PRE::getParameters()$depths) {
+        
+        if(depth==7.5) {
+            cat("## Depth =", depth, "cm\n\n")
+        } else {
+            cat("##", depth, "cm\n\n")
+        }
+        
+        cat(sprintf("![](scripts/run-process-rate-estimator/output/visualized-process-rates-C%s-D%s.svg){width=\"100%%\"}\n\n", column, depth))
+    }
+    cat(":::\n\n")
+}
+
+cat(":::\n\n")
+```
+
 ## Analysis of variance
 
 ### Nitrification
@@ -41,39 +91,4 @@ df <- as.data.frame(anova(model))
 df <- data.frame(signif(df, 3), stars = gtools::stars.pval(df$`Pr(>F)`))
 colnames(df)[5:6] <- c("p-value", " ")
 knitr::kable(df, format = "pipe")
-```
-
-The tabset panels below show all results, from column 1 to 12[^missing] and depths 7.5 cm, 30 cm, 60 cm, 90 cm and 120 cm.
-
-[^missing]: Note that due to missing measurements, column 6 couldn't be computed completely.
-
-```{r}
-#| eval: true
-#| echo: false
-#| results: asis
-cat("::: {.panel-tabset}\n\n")
-for (column in 1:12) {
-    
-    if(column==1) {
-        cat("## Column 1\n\n")
-    } else {
-        cat("##", column, "\n\n")
-    }
-    
-    cat("::: {.panel-tabset}\n\n")
-    
-    for (depth in PRE::getParameters()$depths) {
-        
-        if(depth==7.5) {
-            cat("## Depth =", depth, "cm\n\n")
-        } else {
-            cat("##", depth, "cm\n\n")
-        }
-        
-        cat(sprintf("![](scripts/run-process-rate-estimator/output/visualized-process-rates-C%s-D%s.svg){width=\"100%%\"}\n\n", column, depth))
-    }
-    cat(":::\n\n")
-}
-
-cat(":::\n\n")
 ```

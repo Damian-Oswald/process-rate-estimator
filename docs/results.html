@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.450">
+<meta name="generator" content="quarto-1.4.551">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -47,7 +47,13 @@ ul.task-list li input[type="checkbox"] {
   "collapse-after": 3,
   "panel-placement": "end",
   "type": "overlay",
-  "limit": 20,
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
   "language": {
     "search-no-results-text": "No results",
     "search-matching-documents-text": "matching documents",
@@ -56,6 +62,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-match-text": "more match in this document",
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
     "search-detached-cancel-button-title": "Cancel",
     "search-submit-button-title": "Submit",
     "search-label": "Search"
@@ -69,15 +76,15 @@ ul.task-list li input[type="checkbox"] {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-    <nav class="navbar navbar-expand-lg navbar-dark ">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
-      <div class="navbar-brand-container">
+      <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Process Rate Estimator</span>
     </a>
   </div>
-        <div class="quarto-navbar-tools ms-auto">
-    <a href="https://github.com/damian-oswald/process-rate-estimator/" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+        <div class="quarto-navbar-tools tools-end">
+    <a href="https://github.com/damian-oswald/process-rate-estimator/" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
   <a href="" class="quarto-reader-toggle quarto-navigation-tool px-1" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
   <div class="quarto-reader-toggle-btn">
   <i class="bi"></i>
@@ -89,27 +96,19 @@ ul.task-list li input[type="checkbox"] {
     </nav>
   <nav class="quarto-secondary-nav">
     <div class="container-fluid d-flex">
-      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./results.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Results</span></a></li></ol></nav>
-      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
-      </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
-        <i class="bi bi-search"></i>
-      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./results.html"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Results</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
     </div>
   </nav>
 </header>
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
-        <div class="mt-2 flex-shrink-0 align-items-center">
-        <div class="sidebar-search">
-        <div id="quarto-search" class="" title="Search"></div>
-        </div>
-        </div>
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
@@ -163,21 +162,23 @@ ul.task-list li input[type="checkbox"] {
     </ul>
     </div>
 </nav>
-<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#analysis-of-variance" id="toc-analysis-of-variance" class="nav-link active" data-scroll-target="#analysis-of-variance"><span class="header-section-number">5.1</span> Analysis of variance</a>
+  <li><a href="#summary-table" id="toc-summary-table" class="nav-link active" data-scroll-target="#summary-table"><span class="header-section-number">5.1</span> Summary table</a></li>
+  <li><a href="#processes-over-time" id="toc-processes-over-time" class="nav-link" data-scroll-target="#processes-over-time"><span class="header-section-number">5.2</span> Processes over time</a></li>
+  <li><a href="#analysis-of-variance" id="toc-analysis-of-variance" class="nav-link" data-scroll-target="#analysis-of-variance"><span class="header-section-number">5.3</span> Analysis of variance</a>
   <ul class="collapse">
   <li><a href="#nitrification" id="toc-nitrification" class="nav-link" data-scroll-target="#nitrification">Nitrification</a></li>
   <li><a href="#denitrification" id="toc-denitrification" class="nav-link" data-scroll-target="#denitrification">Denitrification</a></li>
   <li><a href="#reduction" id="toc-reduction" class="nav-link" data-scroll-target="#reduction">Reduction</a></li>
   </ul></li>
   </ul>
-<div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/results.qmd" class="toc-action">View source</a></p><p><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/results.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -197,161 +198,132 @@ ul.task-list li input[type="checkbox"] {
   </div>
   
 
+
 </header>
 
-<section id="analysis-of-variance" class="level2 page-columns page-full" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="analysis-of-variance"><span class="header-section-number">5.1</span> Analysis of variance</h2>
-<section id="nitrification" class="level3">
-<h3 class="anchored" data-anchor-id="nitrification">Nitrification</h3>
+
+<section id="summary-table" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="summary-table"><span class="header-section-number">5.1</span> Summary table</h2>
+<div class="cell">
 <div class="cell-output-display">
-<table class="table">
+<table class="table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">Df</th>
-<th style="text-align: right;">Sum.Sq</th>
-<th style="text-align: right;">Mean.Sq</th>
-<th style="text-align: right;">F.value</th>
-<th style="text-align: right;">p-value</th>
-<th style="text-align: left;"></th>
+<th style="text-align: left;">Variety</th>
+<th style="text-align: right;">Depth [cm]</th>
+<th style="text-align: right;">Nitrification</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">depth</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1870</td>
-<td style="text-align: right;">1870.0</td>
-<td style="text-align: right;">22.60</td>
-<td style="text-align: right;">3.23e-05</td>
-<td style="text-align: left;">***</td>
+<td style="text-align: left;">CH Claro</td>
+<td style="text-align: right;">7.5</td>
+<td style="text-align: right;">3.4610579</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">as.factor(column)</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">2030</td>
-<td style="text-align: right;">184.0</td>
-<td style="text-align: right;">2.22</td>
-<td style="text-align: right;">3.51e-02</td>
-<td style="text-align: left;">*</td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;">30.0</td>
+<td style="text-align: right;">2.5322557</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">depth:as.factor(column)</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">3080</td>
-<td style="text-align: right;">280.0</td>
-<td style="text-align: right;">3.38</td>
-<td style="text-align: right;">2.78e-03</td>
-<td style="text-align: left;">**</td>
+<td style="text-align: left;"></td>
+<td style="text-align: right;">60.0</td>
+<td style="text-align: right;">1.0997769</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Residuals</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">2990</td>
-<td style="text-align: right;">82.9</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
 <td style="text-align: left;"></td>
+<td style="text-align: right;">90.0</td>
+<td style="text-align: right;">0.9110600</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">120.0</td>
+<td style="text-align: right;">0.5292349</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Monte Calme 268</td>
+<td style="text-align: right;">7.5</td>
+<td style="text-align: right;">17.3911069</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">30.0</td>
+<td style="text-align: right;">6.2165506</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">60.0</td>
+<td style="text-align: right;">3.0846524</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">90.0</td>
+<td style="text-align: right;">1.1954854</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">120.0</td>
+<td style="text-align: right;">-0.1666100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Probus</td>
+<td style="text-align: right;">7.5</td>
+<td style="text-align: right;">5.3323842</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">30.0</td>
+<td style="text-align: right;">5.8931905</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">60.0</td>
+<td style="text-align: right;">1.6474781</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">90.0</td>
+<td style="text-align: right;">1.1852445</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">120.0</td>
+<td style="text-align: right;">-0.3489530</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Zinal</td>
+<td style="text-align: right;">7.5</td>
+<td style="text-align: right;">5.2116245</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">30.0</td>
+<td style="text-align: right;">2.5126367</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">60.0</td>
+<td style="text-align: right;">0.3442306</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">90.0</td>
+<td style="text-align: right;">-0.4295785</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;">120.0</td>
+<td style="text-align: right;">-0.1910690</td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
 </section>
-<section id="denitrification" class="level3">
-<h3 class="anchored" data-anchor-id="denitrification">Denitrification</h3>
-<div class="cell-output-display">
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">Df</th>
-<th style="text-align: right;">Sum.Sq</th>
-<th style="text-align: right;">Mean.Sq</th>
-<th style="text-align: right;">F.value</th>
-<th style="text-align: right;">p-value</th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">depth</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">126</td>
-<td style="text-align: right;">126.0</td>
-<td style="text-align: right;">2.3</td>
-<td style="text-align: right;">0.135</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Residuals</td>
-<td style="text-align: right;">58</td>
-<td style="text-align: right;">3180</td>
-<td style="text-align: right;">54.9</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</div>
-</section>
-<section id="reduction" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="reduction">Reduction</h3>
-<div class="cell-output-display">
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">Df</th>
-<th style="text-align: right;">Sum.Sq</th>
-<th style="text-align: right;">Mean.Sq</th>
-<th style="text-align: right;">F.value</th>
-<th style="text-align: right;">p-value</th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">depth</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">51.4</td>
-<td style="text-align: right;">51.4</td>
-<td style="text-align: right;">0.548</td>
-<td style="text-align: right;">0.464000</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">as.factor(column)</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">5380.0</td>
-<td style="text-align: right;">489.0</td>
-<td style="text-align: right;">5.210</td>
-<td style="text-align: right;">0.000075</td>
-<td style="text-align: left;">***</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">depth:as.factor(column)</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">1880.0</td>
-<td style="text-align: right;">171.0</td>
-<td style="text-align: right;">1.820</td>
-<td style="text-align: right;">0.086500</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Residuals</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">3380.0</td>
-<td style="text-align: right;">93.9</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</div>
-<div class="page-columns page-full"><p>The tabset panels below show all results, from column 1 to 12<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> and depths 7.5 cm, 30 cm, 60 cm, 90 cm and 120 cm.</p><div class="no-row-height column-margin column-container"><li id="fn1"><p><sup>1</sup>&nbsp;Note that due to missing measurements, column 6 couldn’t be computed completely.</p></li></div></div>
-<div class="tabset-margin-container"></div><div class="panel-tabset">
+<section id="processes-over-time" class="level2 page-columns page-full" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="processes-over-time"><span class="header-section-number">5.2</span> Processes over time</h2>
+<p>The tabset panels below show all results, from column 1 to 12<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> and depths 7.5 cm, 30 cm, 60 cm, 90 cm and 120 cm.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;Note that due to missing measurements, column 6 couldn’t be computed completely.</p></div></div><div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-13-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-1" role="tab" aria-controls="tabset-13-1" aria-selected="true">Column 1</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-2" role="tab" aria-controls="tabset-13-2" aria-selected="false">2</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-3" role="tab" aria-controls="tabset-13-3" aria-selected="false">3</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-4" role="tab" aria-controls="tabset-13-4" aria-selected="false">4</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-5" role="tab" aria-controls="tabset-13-5" aria-selected="false">5</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-6" role="tab" aria-controls="tabset-13-6" aria-selected="false">6</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-7" role="tab" aria-controls="tabset-13-7" aria-selected="false">7</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-8" role="tab" aria-controls="tabset-13-8" aria-selected="false">8</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-9" role="tab" aria-controls="tabset-13-9" aria-selected="false">9</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-10-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-10" role="tab" aria-controls="tabset-13-10" aria-selected="false">10</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-11-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-11" role="tab" aria-controls="tabset-13-11" aria-selected="false">11</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-13-12-tab" data-bs-toggle="tab" data-bs-target="#tabset-13-12" role="tab" aria-controls="tabset-13-12" aria-selected="false">12</a></li></ul>
 <div class="tab-content">
 <div id="tabset-13-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-13-1-tab">
@@ -620,6 +592,152 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 </div>
+</section>
+<section id="analysis-of-variance" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="analysis-of-variance"><span class="header-section-number">5.3</span> Analysis of variance</h2>
+<section id="nitrification" class="level3">
+<h3 class="anchored" data-anchor-id="nitrification">Nitrification</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Df</th>
+<th style="text-align: right;">Sum.Sq</th>
+<th style="text-align: right;">Mean.Sq</th>
+<th style="text-align: right;">F.value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">depth</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">1870</td>
+<td style="text-align: right;">1870.0</td>
+<td style="text-align: right;">22.60</td>
+<td style="text-align: right;">3.23e-05</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">as.factor(column)</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">2030</td>
+<td style="text-align: right;">184.0</td>
+<td style="text-align: right;">2.22</td>
+<td style="text-align: right;">3.51e-02</td>
+<td style="text-align: left;">*</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">depth:as.factor(column)</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">3080</td>
+<td style="text-align: right;">280.0</td>
+<td style="text-align: right;">3.38</td>
+<td style="text-align: right;">2.78e-03</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residuals</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">2990</td>
+<td style="text-align: right;">82.9</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="denitrification" class="level3">
+<h3 class="anchored" data-anchor-id="denitrification">Denitrification</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Df</th>
+<th style="text-align: right;">Sum.Sq</th>
+<th style="text-align: right;">Mean.Sq</th>
+<th style="text-align: right;">F.value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">depth</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">126</td>
+<td style="text-align: right;">126.0</td>
+<td style="text-align: right;">2.3</td>
+<td style="text-align: right;">0.135</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residuals</td>
+<td style="text-align: right;">58</td>
+<td style="text-align: right;">3180</td>
+<td style="text-align: right;">54.9</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="reduction" class="level3">
+<h3 class="anchored" data-anchor-id="reduction">Reduction</h3>
+<table class="table">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">Df</th>
+<th style="text-align: right;">Sum.Sq</th>
+<th style="text-align: right;">Mean.Sq</th>
+<th style="text-align: right;">F.value</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">depth</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">51.4</td>
+<td style="text-align: right;">51.4</td>
+<td style="text-align: right;">0.548</td>
+<td style="text-align: right;">0.464000</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">as.factor(column)</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">5380.0</td>
+<td style="text-align: right;">489.0</td>
+<td style="text-align: right;">5.210</td>
+<td style="text-align: right;">0.000075</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">depth:as.factor(column)</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: right;">1880.0</td>
+<td style="text-align: right;">171.0</td>
+<td style="text-align: right;">1.820</td>
+<td style="text-align: right;">0.086500</td>
+<td style="text-align: left;">.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Residuals</td>
+<td style="text-align: right;">36</td>
+<td style="text-align: right;">3380.0</td>
+<td style="text-align: right;">93.9</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
 
 
 </section>
@@ -706,10 +824,27 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     // clear code selection
     e.clearSelection();
   });
-  function tippyHover(el, contentFn) {
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
     const config = {
       allowHTML: true,
-      content: contentFn,
       maxWidth: 500,
       delay: 100,
       arrow: false,
@@ -719,8 +854,17 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       interactive: true,
       interactiveBorder: 10,
       theme: 'quarto',
-      placement: 'bottom-start'
+      placement: 'bottom-start',
     };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
     window.tippy(el, config); 
   }
   const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
@@ -732,7 +876,130 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       try { href = new URL(href).hash; } catch {}
       const id = href.replace(/^#\/?/, "");
       const note = window.document.getElementById(id);
-      return note.innerHTML;
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
     });
   }
       let selectedAnnoteEl;
@@ -776,6 +1043,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             }
             div.style.top = top - 2 + "px";
             div.style.height = height + 4 + "px";
+            div.style.left = 0;
             let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
             if (gutterDiv === null) {
               gutterDiv = window.document.createElement("div");
@@ -801,8 +1069,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
         });
         selectedAnnoteEl = undefined;
       };
-      // Handle positioning of the toggle
-      window.addEventListener(
+        // Handle positioning of the toggle
+    window.addEventListener(
       "resize",
       throttle(() => {
         elRect = undefined;
@@ -810,23 +1078,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
           selectCodeLines(selectedAnnoteEl);
         }
       }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
               fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
       const annoteTargets = window.document.querySelectorAll('.code-annotation-anchor');
       for (let i=0; i<annoteTargets.length; i++) {
         const annoteTarget = annoteTargets[i];
@@ -871,7 +1139,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
               options: {
                 flipVariations: false, // true by default
                 allowedAutoPlacements: ['right'],
-                fallbackPlacements: ['right', 'top', 'top-start', 'top-end'],
+                fallbackPlacements: ['right', 'top', 'top-start', 'top-end', 'bottom', 'bottom-start', 'bottom-end', 'left'],
               },
             },
             {
@@ -927,12 +1195,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./running-the-model.html" class="pagination-link">
+      <a href="./running-the-model.html" class="pagination-link" aria-label="Running the process rate estimator">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Running the process rate estimator</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./sensitivity-analysis.html" class="pagination-link">
+      <a href="./sensitivity-analysis.html" class="pagination-link" aria-label="Sensitivity Analysis">
         <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Sensitivity Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
@@ -941,4 +1209,5 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-</body></html>
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/results.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
