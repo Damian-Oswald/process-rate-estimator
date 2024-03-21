@@ -20,7 +20,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -399,6 +419,8 @@ Table&nbsp;5.1: Overall results of the process rate estimator (μ ± σ) by dept
 </figure>
 </div>
 </div>
+<p>Owing to all processes’ significant divergence of the linear model’s residuals from a normal distribution, as determined by the Shapiro-Wilk normality test, the Kruskal-Wallis Rank Sum Test was employed to examine group variation among the varieties. These respective tests were performed utilizing the relevant functions – <code>shapiro.test</code> and <code>kruskal.test</code>, from the <code>stats</code> package, as referred to in <span class="citation" data-cites="r2023language">(<a href="references.html#ref-r2023language" role="doc-biblioref">R Core Team 2023</a>)</span>.</p>
+<p>Among the different varieties, there were no significant group differences detected for neither N<sub>2</sub>O<sub>nit</sub> nor N<sub>2</sub>O<sub>den</sub>, and hence also not for N<sub>2</sub>O<sub>produced</sub>. However, significant differences among the varieties for N<sub>2</sub>O<sub>consumed</sub> were detected (p = 0.01098).</p>
 <div class="cell" data-tbl-colwidths="[36,16,16,16,16]">
 <div id="tbl-by-variety" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -460,6 +482,7 @@ Table&nbsp;5.2: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref
 </figure>
 </div>
 </div>
+<p>Conversely, N<sub>2</sub>O<sub>consumed</sub> did not show any significant group differences with respect to the depth layers. However, all other processes did: N<sub>2</sub>O<sub>nit</sub> (p = 1.005e-07) nor N<sub>2</sub>O<sub>den</sub> (p = 0.001029), and hence also for N<sub>2</sub>O<sub>produced</sub> (p = 3.883e-08).</p>
 <div class="cell" data-tbl-colwidths="[22,14,16,16,16,16]">
 <div id="tbl-by-depth" class="cell quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -956,6 +979,11 @@ Table&nbsp;5.3: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref
 </table>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-r2023language" class="csl-entry" role="listitem">
+R Core Team. 2023. <a href="https://www.R-project.org/">R: A language and environment for statistical computing</a>. R Foundation for Statistical Computing, Vienna, Austria.
+</div>
+</div>
 </section>
 </section>
 

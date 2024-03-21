@@ -15,9 +15,21 @@ data <- read.csv(file.path("scripts","run-process-rate-estimator","output","esti
 for (x in c("Nitrification", "Denitrification", "Reduction")) {
     assign(x, 0.001 * tapply(data[,x], with(data, list(variety, depth, column)), PRE::nonNegative, f = sum))
 }
+names(dimnames(Nitrification)) <- names(dimnames(Denitrification)) <- names(dimnames(Reduction)) <- c("Variety", "Depth", "Column")
 
 # compute total produced nitrogen
 Production <- Nitrification + Denitrification
+
+# # STATISTICAL TESTS:
+# # ==================
+# for (j in c("Nitrification", "Denitrification", "Production", "Reduction")) {
+#     df <- na.omit(reshape2::melt(get(j), value.name = "Process"))
+#     for (i in c("Variety", "Depth")) df[,i] <- as.factor(df[,i])
+#     model <- lm(Process ~ Depth, data = df)
+#     cat(paste0(j,":\n",strrep("=",nchar(j)+1),"\n"))
+#     print(kruskal.test(Process ~ Variety, data = df))
+#     print(kruskal.test(Process ~ Depth, data = df))
+# }
 
 # write function to paste mean ± sd
 f <- function(x) paste(signif(mean(x, na.rm = TRUE), 2), "±", signif(sd(x, na.rm = TRUE), 2))
@@ -27,12 +39,16 @@ df <- cbind(reshape2::melt(apply(Nitrification, 1:2, f)),
             pod = reshape2::melt(apply(Denitrification, 1:2, f))[,3],
             red = reshape2::melt(apply(Production, 1:2, f))[,3],
             den = reshape2::melt(apply(Reduction, 1:2, f))[,3])
-df <- df[order(df[,"Var1"]),]
+df <- df[order(df[,"Variety"]),]
 colnames(df) <- c("Variety", "Depth [cm]", "N~2~O~nit~", "N~2~O~den~", "N~2~O~produced~", "N~2~O~consumed~")
 df[,1] <- as.character(df[,1])
 df[((1:nrow(df))[-c((0:4)*5+1)]),1] <- ""
 knitr::kable(df, row.names = FALSE, align = "llrrrr")
 ```
+
+Owing to all processes' significant divergence of the linear model's residuals from a normal distribution, as determined by the Shapiro-Wilk normality test, the Kruskal-Wallis Rank Sum Test was employed to examine group variation among the varieties. These respective tests were performed utilizing the relevant functions -- `shapiro.test` and `kruskal.test`, from the `stats` package, as referred to in [@r2023language].
+
+Among the different varieties, there were no significant group differences detected for neither N~2~O~nit~ nor N~2~O~den~, and hence also not for N~2~O~produced~. However, significant differences among the varieties for N~2~O~consumed~ were detected (p = 0.01098).
 
 ```{r}
 #| echo: false
@@ -49,6 +65,8 @@ df <- data.frame(rownames(df), df)
 colnames(df) <- c("Variety", "N~2~O~nit~", "N~2~O~den~", "N~2~O~produced~", "N~2~O~consumed~")
 knitr::kable(df, row.names = FALSE, align = "lrrrr")
 ```
+
+Conversely, N~2~O~consumed~ did not show any significant group differences with respect to the depth layers. However, all other processes did: N~2~O~nit~ (p = 1.005e-07) nor N~2~O~den~ (p = 0.001029), and hence also for N~2~O~produced~ (p = 3.883e-08).
 
 ```{r}
 #| echo: false
