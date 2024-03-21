@@ -20,17 +20,6 @@ names(dimnames(Nitrification)) <- names(dimnames(Denitrification)) <- names(dimn
 # compute total produced nitrogen
 Production <- Nitrification + Denitrification
 
-# # STATISTICAL TESTS:
-# # ==================
-# for (j in c("Nitrification", "Denitrification", "Production", "Reduction")) {
-#     df <- na.omit(reshape2::melt(get(j), value.name = "Process"))
-#     for (i in c("Variety", "Depth")) df[,i] <- as.factor(df[,i])
-#     model <- lm(Process ~ Depth, data = df)
-#     cat(paste0(j,":\n",strrep("=",nchar(j)+1),"\n"))
-#     print(kruskal.test(Process ~ Variety, data = df))
-#     print(kruskal.test(Process ~ Depth, data = df))
-# }
-
 # write function to paste mean ± sd
 f <- function(x) paste(signif(mean(x, na.rm = TRUE), 2), "±", signif(sd(x, na.rm = TRUE), 2))
 
@@ -54,7 +43,31 @@ Among the different varieties, there were no significant group differences detec
 #| echo: false
 #| tbl-colwidths: [36,16,16,16,16]
 #| label: tbl-by-variety
-#| tbl-cap: "Values in @tbl-by-depth-and-variety aggregated by variety."
+#| tbl-cap: "Values in @tbl-by-depth-and-variety aggregated by variety. The superscript compact letter display (CLD) indicates significant differences among groups based on Dunn's Kruskal-Wallis multiple comparison (α = 0.05)."
+
+# STATISTICAL TESTS:
+# ==================
+cld <- function(formula, data, order) {
+    PT <- FSA::dunnTest(formula, data = data)
+    CLD <- rcompanion::cldList(comparison = PT$res$Comparison,
+                        p.value = PT$res$P.adj,
+                        threshold = 0.05)
+    CLD[order,]
+}
+DEPTH <- VARIETY <- data.frame()
+for (j in c("Nitrification", "Denitrification", "Production", "Reduction")) {
+    df <- na.omit(reshape2::melt(get(j), value.name = "Process"))
+    for (i in c("Variety", "Depth")) df[,i] <- as.factor(df[,i])
+    model <- lm(Process ~ Depth, data = df)
+    PT <- FSA::dunnTest(Process ~ Depth, data = df)
+    CLD <- rcompanion::cldList(comparison = PT$res$Comparison,
+                        p.value = PT$res$P.adj,
+                        threshold = 0.05)
+    CLD <- CLD[c(4,2,3,5,1),]
+    VARIETY <- rbind(VARIETY, data.frame(Process = j, cld(Process ~ Variety, df, 1:4)))
+    DEPTH <- rbind(DEPTH, data.frame(Process = j, cld(Process ~ Depth, df, c(4,2,3,5,1))))
+}
+processes <- c("Nitrification", "Denitrification", "Production", "Reduction")
 
 # bind results to data frame
 df <- cbind(nit = reshape2::melt(apply(Nitrification, 1, f)),
@@ -62,6 +75,10 @@ df <- cbind(nit = reshape2::melt(apply(Nitrification, 1, f)),
             red = reshape2::melt(apply(Production, 1, f)),
             den = reshape2::melt(apply(Reduction, 1, f)))
 df <- data.frame(rownames(df), df)
+for (i in 1:4) {
+    CLD <- unlist(subset(VARIETY, subset = Process==processes[i], select = Letter))
+    if(length(unique(CLD))>1) df[,i+1] <- paste0(df[,i+1], " ^", CLD,"^")
+}
 colnames(df) <- c("Variety", "N~2~O~nit~", "N~2~O~den~", "N~2~O~produced~", "N~2~O~consumed~")
 knitr::kable(df, row.names = FALSE, align = "lrrrr")
 ```
@@ -72,7 +89,7 @@ Conversely, N~2~O~consumed~ did not show any significant group differences with 
 #| echo: false
 #| tbl-colwidths: [22,14,16,16,16,16]
 #| label: tbl-by-depth
-#| tbl-cap: "Values in @tbl-by-depth-and-variety aggregated by depth layer."
+#| tbl-cap: "Values in @tbl-by-depth-and-variety aggregated by depth layer. The superscript compact letter display (CLD) indicates significant differences among groups based on Dunn's Kruskal-Wallis multiple comparison (α = 0.05)."
 
 # bind results to data frame
 df <- cbind(nit = reshape2::melt(apply(Nitrification, 2, f)),
@@ -81,6 +98,10 @@ df <- cbind(nit = reshape2::melt(apply(Nitrification, 2, f)),
             den = reshape2::melt(apply(Reduction, 2, f)))
 df <- data.frame(x = rep("",5), d = rownames(df), df)
 colnames(df) <- c("", "Depth [cm]", "N~2~O~nit~", "N~2~O~den~", "N~2~O~produced~", "N~2~O~consumed~")
+for (i in 1:4) {
+    CLD <- unlist(subset(DEPTH, subset = Process==processes[i], select = Letter))
+    if(length(unique(CLD))>1) df[,i+2] <- paste0(df[,i+2], " ^", CLD,"^")
+}
 knitr::kable(df, row.names = FALSE, align = "llrrrr")
 ```
 
