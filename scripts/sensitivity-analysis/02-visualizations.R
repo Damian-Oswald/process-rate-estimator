@@ -199,8 +199,11 @@ for (d in getParameters()$depth) {
                         Column = c,
                         reshape2::melt(B, value.name = "Coefficient", varnames = c("Parameter", "Process")),
                         SRC = reshape2::melt(SRC)[,3])
+        
+        # compute (adjusted) coefficient of determination
         R2 <- sapply(X$Process, function(i) getElement(getElement(summary(model), paste("Response",i)), "r.squared"))
         adjR2 <- sapply(X$Process, function(i) getElement(getElement(summary(model), paste("Response",i)), "adj.r.squared"))
+        
         X <- data.frame(X, R2 = R2, adjR2 = adjR2)
         results <- rbind(results, X)
         
@@ -269,6 +272,47 @@ sapply(1:9, function(i) text(positions[(1:9)*3-1][i], par()$usr[3], expressions_
 dev.off()
 
 
+# VARIANCE DECOMPOSITION USING ANOVA
+# ==================================
+
+relativeSumOfSquares <- data.frame()
+for (d in getParameters()$depth) {
+  for (c in 1:12) {
+    
+    # make subset of current depth and column
+    subset <- subset(data, subset = depth==d & column==c)
+    
+    # compute anova for each process
+    for (process in processes) {
+      
+      # fit linear model
+      model <- lm(subset[,process] ~ ., data = subset[,parameters])
+      
+      # save sum of squares
+      SS <- anova(model)[["Sum Sq"]]
+      
+      # save results
+      relativeSumOfSquares <- rbind(relativeSumOfSquares,
+                                    data.frame(Depth = d,
+                                               Column = c,
+                                               Process = process,
+                                               Source = rownames(anova(model)["Sum Sq"]), # save name of the source of sum of squares
+                                               SS = SS,
+                                               Relative_SS = SS/sum(SS))) # compute relative sum of squares
+    }
+  }
+}
+
+# compute the mean sum of squares over 12 * 5 anova
+df <- sapply(processes, function(x) with(subset(relativeSumOfSquares, subset = Process==x),
+                                         tapply(Relative_SS, Source, mean)))[rownames(anova(model)["Sum Sq"]),]
+
+# compute R2 from results
+R2 <- with(results, tapply(R2, Process, mean, na.rm = TRUE))
+
+# check that the method of variance decomposition matches with the `lm` R2 method
+print(apply(df[-10,], 2, sum) - R2)
+
 # FIGURE 6.4: OVERALL RESULTS OF THE SENSITIVITY ANALYSIS
 # =======================================================
 
@@ -282,12 +326,15 @@ par(mar = c(2,4,0,0)+0.1)
 plot.new()
 plot.window(xlim = c(0,1.2), ylim = c(0,1))
 
-# compute share of explained variance with SRC
-df <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(abs(x), na.rm = TRUE)))
+# # compute share of explained variance with SRC
+# df <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(abs(x), na.rm = TRUE)))
+# 
+# # standardize `df` such that each column adds up to the total explained variance
+# for (i in 1:3) df[,i] <- df[,i]/(sum(df[,i])/R2[i])
 
-# standardize `df` such that each column adds up to the total explained variance
-R2 <- with(results, tapply(R2, Process, mean, na.rm = TRUE))
-for (i in 1:3) df[,i] <- df[,i]/(sum(df[,i])/R2[i])
+# compute share of explained variance using the anova sum of squares
+df <- sapply(processes, function(x) with(subset(relativeSumOfSquares, subset = Process==x),
+                                         tapply(Relative_SS, Source, mean)))[rownames(anova(model)["Sum Sq"]),]
 
 # define padding
 padding <- 0.02
@@ -329,24 +376,26 @@ f <- function(y0, y1 = y0, label) {
 }
 f(y0 = mean(c(1,R2[3])), label = expression("1 - R"^2))
 f(y0 = mean(c(cumsum(df[,3])[2], c(0,cumsum(df[,3]))[2])),
-  y1 = mean(c(cumsum(df[,3])[2], c(0,cumsum(df[,3]))[2]))-0.04,
+  y1 = mean(c(cumsum(df[,3])[2], c(0,cumsum(df[,3]))[2]))-0.09,
   label = expressions_unitless[[2]])
 f(y0 = mean(c(cumsum(df[,3])[3], c(0,cumsum(df[,3]))[3])),
-  y1 = mean(c(cumsum(df[,3])[3], c(0,cumsum(df[,3]))[3]))-0.02,
+  y1 = mean(c(cumsum(df[,3])[3], c(0,cumsum(df[,3]))[3]))-0.06,
   label = expressions_unitless[[3]])
 f(y0 = mean(c(cumsum(df[,3])[4], c(0,cumsum(df[,3]))[4])),
-  y1 = mean(c(cumsum(df[,3])[4], c(0,cumsum(df[,3]))[4])),
+  y1 = mean(c(cumsum(df[,3])[4], c(0,cumsum(df[,3]))[4]))-0.03,
   label = expressions_unitless[[4]])
 f(y0 = mean(c(cumsum(df[,3])[5], c(0,cumsum(df[,3]))[5])),
-  y1 = mean(c(cumsum(df[,3])[5], c(0,cumsum(df[,3]))[5]))+0.02,
+  y1 = mean(c(cumsum(df[,3])[5], c(0,cumsum(df[,3]))[5])),
   label = expressions_unitless[[5]])
 f(y0 = mean(c(cumsum(df[,3])[6], c(0,cumsum(df[,3]))[6])),
-  y1 = mean(c(cumsum(df[,3])[6], c(0,cumsum(df[,3]))[6]))+0.04,
+  y1 = mean(c(cumsum(df[,3])[6], c(0,cumsum(df[,3]))[6]))+0.03,
   label = expressions_unitless[[6]])
+f(y0 = mean(c(cumsum(df[,3])[7], c(0,cumsum(df[,3]))[7])),
+  y1 = mean(c(cumsum(df[,3])[7], c(0,cumsum(df[,3]))[7]))+0.06,
+  label = expressions_unitless[[7]])
 f(y0 = mean(c(cumsum(df[,3])[8], c(0,cumsum(df[,3]))[8])),
-  y1 = mean(c(cumsum(df[,3])[8], c(0,cumsum(df[,3]))[8])),
+  y1 = mean(c(cumsum(df[,3])[8], c(0,cumsum(df[,3]))[8]))+0.09,
   label = expressions_unitless[[8]])
 
 # close plotting
 dev.off()
-
