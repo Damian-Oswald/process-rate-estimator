@@ -3,7 +3,7 @@ execute:
   eval: false
 ---
 
-# Sensitivity Analysis
+# Sensitivity analysis
 
 Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions.
 
@@ -11,17 +11,17 @@ By systematically varying key parameters, sensitivity analysis helps in identify
 
 A sensitivity analysis is conducted in five steps:
 
-1. Define parameter distribution.
-2. Sample from parameter space.
-3. Calculate model output of interest.
-4. Approximate the model output based on inputs with an emulator.
-5. Use the emulator to calculate parameter contributions to the output variance.
+1. [Define parameter distribution](sensitivity-analysis.qmd#sec-prior).
+2. [Sample from parameter space](sensitivity-analysis.qmd#sec-sampling).
+3. [Calculate model output of interest](sensitivity-analysis.qmd#sec-calculating).
+4. [Approximate the model](sensitivity-analysis.qmd#sec-emulator) output based on inputs with an emulator.
+5. Use the emulator to [estimate parameter contributions](sensitivity-analysis.qmd#sec-contributions) to the output variance.
 
 The first step is usually the hardest one, as it requires an extensive review of prior knowledge of the parameters.
 
 Global sensitivity analysis examines the allocation of output uncertainty in a model (whether numerical or not) to various input uncertainty sources. The term "global" is specifically used to distinguish it from the more commonly encountered local or one-factor-at-a-time analyses found in the literature, as highlighted by @saltelli2004global.
 
-## Parameter priors
+## Defining the prior parameter distribution {#sec-prior}
 
 :::{.column-page}
 | End Member             |                                 | Value [‰] | Value reference         | Sampling                         | Range reference   |
@@ -38,7 +38,7 @@ Global sensitivity analysis examines the allocation of output uncertainty in a m
 : Isotope end members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. @lewicka2017quantifying originally report $\delta \ce{^{18} O \text - N2O} (\ce{N2O}/\ce{H2O})$. When a range is indicated, a random number from the range was selected in each iteration. When an average and standard deviation is indicated, a random value was drawn from the normal distribution in each iteration. {#tbl-sensitivity tbl-colwidths="[15,10,10,20,15,20]"}
 :::
 
-## Running the sensitivity analysis
+## Sampling from the parameter space {#sec-sampling}
 
 The following section describes in detail how the sensitivity analysis is run. The script used to run the sensitivity analysis can be found in the respective GitHub repository. After successfully cloning the repository, the data for the sensitivity analysis can be reproduced simply by running
 
@@ -75,6 +75,8 @@ parameters <- data.frame(
 
 Note that the experimental parameter grid (containing information about column and depth layer) is shuffled randomly. We do this to prevent columns or depths to correlate with the bulk density (`BD`). The bulk density parameter needs to be sorted, since it's not a parameter that's passed to the PRE model, but rather one that is used to prepare the data used in the model. In order to reduce the number of times needed to prepare said data, we'll sort `BD` and we'll only update the data if `BD` changes.
 
+## Calculating the model output of interest {#sec-calculating}
+
 Next, we write a function `f` that will run the process rate estimator for a specified column and depth with the parameters in the vector `p` --- which coincides to one row in the `parameters` data frame.
 
 ```{r}
@@ -108,6 +110,8 @@ for (i in 1:n) {
 
 That function makes it very straightforward to compute the data for the sensitivity analysis. We'll simply apply `f` to every single row in `parameters` using the `apply` function [@wickham2011split].
 
+## Emulation of the model outputs {#sec-emulator}
+
 To conduct the sensitivity analysis, we now model the results based on the sampled parameters -- so we treat the sampled parameters as independent variables $\mathbf X$, and the computed process rates as dependent variables $\mathbf Y$.
 
 A commonly applied method of sensitivity analysis is Sobol's method, which decomposes the total variance and assigns it to individual parameters specific interactions [@sobol1990sensitivity]. However, Sobol's method require's a large number of resampling, and is thus unfit for this application. Instead, a linear regression model is used as an emulator. Often, this works fine enough because even though the reponse might not be linear overall, it can be approximated by a linear model well enough on a specific parameter interval.
@@ -121,6 +125,8 @@ First, we might look at the pairwise correlations between columns of $\mathbf X$
 @fig-sensitivity already reveals quite a lot, but it would be better to construct a multiple linear regression model where we include all isotope end members at the same time.
 
 The table below shows the resulting coefficients of such a multiple linear regression model. We can directly interpret the regression coefficients without any further modifications, as all considered variables share the same unit (‰).
+
+## Estimate parameter contributions to the output variance {#sec-contributions}
 
 ### Looking at the raw coefficients
 
@@ -217,31 +223,29 @@ Standardizing the coefficients changes the results seen in [table @tbl-coefficie
 
 Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.
 
-$$
-\frac{1}{p} \sum_{i=1}^p \mid \beta^\ast_p \mid
-$$
+### Variance decomposition
 
-![Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the absolute standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models, i.e. 1 - R^2^.](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
+![Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the absolute standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models computed as the residual relative sum of squares (1 - R^2^).](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
 
 The results shown in [figure @fig-src] allow us to assign percentage-wise contributions to the variance explained to individual parameters tested in the sensitivity analysis. Averaged over all processes, $\eta\ce{^{18}O_\text{reduction}}$ contributes most to the variance in the processes (30.0%), followed by the bulk density (21.6%) and $\text{SP}_\text{denitrification}$ (15.1%).
 
 However, not every parameter explains the variance in the process rate estimates equally well for different processes. For example, the variance in the estimated reduction rates are reasonably well explained (64.6%) only by bulk density and $\eta\ce{^{18}O_\text{reduction}}$ alone. Bulk density seems much less capable in explaining the variance in the estimated nitrification and denitrification rates, on the other hand. For these two processes, $\text{SP}_\text{denitrification}$ and $\eta\;\text{SP}_\text{reduction}$ seem to be the bigger driving factors.
 
-## Using a mixed effects model as an emulator
+<!-- ## Using a mixed effects model as an emulator -->
 
-A mixed effects model is a statistical model containing both fixed effects and random effects. In matrix notation, a linear mixed effects model can be represented as follows.
-$$
-\mathbf y = \mathbf X \boldsymbol \beta + \mathbf Z \boldsymbol \zeta  + \boldsymbol \varepsilon
-$${#eq-mem}
-In this notation, $\mathbf y$ is a known vector of obervations, where $\mathbb E (\mathbf y) = \mathbf X \boldsymbol \beta$. Unlike in the OLS model, the errors of this mixed effects model are derived from two sources: on one hand from the error vector $\boldsymbol \varepsilon$, but on the other hand also from the random effects $\mathbf Z \boldsymbol \zeta$, where we have both $\mathbb E (\boldsymbol \varepsilon) = \mathbf 0$ and $\mathbb E (\boldsymbol \zeta) = \mathbf 0$. So, generally, the expected error in the model is still zero. However, by use of the term $\mathbf Z \boldsymbol \zeta$, errors might be clustered into groups, where $\mathbf Z$ is a design matrix containing information about these groups.
+<!-- A mixed effects model is a statistical model containing both fixed effects and random effects. In matrix notation, a linear mixed effects model can be represented as follows. -->
+<!-- $$ -->
+<!-- \mathbf y = \mathbf X \boldsymbol \beta + \mathbf Z \boldsymbol \zeta  + \boldsymbol \varepsilon -->
+<!-- $${#eq-mem} -->
+<!-- In this notation, $\mathbf y$ is a known vector of obervations, where $\mathbb E (\mathbf y) = \mathbf X \boldsymbol \beta$. Unlike in the OLS model, the errors of this mixed effects model are derived from two sources: on one hand from the error vector $\boldsymbol \varepsilon$, but on the other hand also from the random effects $\mathbf Z \boldsymbol \zeta$, where we have both $\mathbb E (\boldsymbol \varepsilon) = \mathbf 0$ and $\mathbb E (\boldsymbol \zeta) = \mathbf 0$. So, generally, the expected error in the model is still zero. However, by use of the term $\mathbf Z \boldsymbol \zeta$, errors might be clustered into groups, where $\mathbf Z$ is a design matrix containing information about these groups. -->
 
-```{r}
-#| echo: false
-#| eval: true
-#| results: asis
-cat(readLines("resources/tbl-sensitivity.txt"))
-```
+<!-- ```{r} -->
+<!-- #| echo: false -->
+<!-- #| eval: true -->
+<!-- #| results: asis -->
+<!-- cat(readLines("resources/tbl-sensitivity.txt")) -->
+<!-- ``` -->
 
-*One interpretation of the fixed effects coefficients $\boldsymbol \beta$ is that they are the estimated population means of the coefficient distributions of the random effects coefficients* [@bates2014fitting].
+<!-- *One interpretation of the fixed effects coefficients $\boldsymbol \beta$ is that they are the estimated population means of the coefficient distributions of the random effects coefficients* [@bates2014fitting]. -->
 
-For approximating the synthetic data within the scope of the sensitivity analysis, we estimate three mixed effects models -- one for Nitrification, Denitrification and Reduction, respectively -- with random intercepts and random slopes. Thus, $3 \cdot 12 \cdot 5 \cdot 2 \cdot 8 + 3 \cdot 2 \cdot 8 = 2928$ parameters are estimated in total.
+<!-- For approximating the synthetic data within the scope of the sensitivity analysis, we estimate three mixed effects models -- one for Nitrification, Denitrification and Reduction, respectively -- with random intercepts and random slopes. Thus, $3 \cdot 12 \cdot 5 \cdot 2 \cdot 8 + 3 \cdot 2 \cdot 8 = 2928$ parameters are estimated in total. -->
