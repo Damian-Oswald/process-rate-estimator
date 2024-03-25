@@ -8,41 +8,46 @@ This chapter describes the data used for the process rate estimator as well as h
 
 ## Description of the measurements
 
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-data <- PRE::measurements
-data |>
-    gtExtras::select(moisture, N2O, SP, d18O) |>
-    gtExtras::gt_plt_summary() |>
-    gt::tab_options(table.width = gt::pct(100)) |>
-    #gtExtras::gt_theme_538() |>
-    gt::tab_source_note(source_note = gt::md("**Source:** This data was measured in Zürich for the Process Rate Estimator.")) |>
-    gt::tab_header(
-        title = ""
-    )
-```
-
 The study uses data collected from a mesocosm experiment -- i.e. an outdoor experiment that examines the natural environment under controlled conditions. The experiment was set up as a randomized complete block design, with 4 varieties and 3 replicates, using 12 non-weighted lysimeters. A non-weighted lysimeter is a device to measure the amount of water that drains through soil, and to determine the types and amounts of dissolved nutrients or contaminants in the water. Each lysimeter had five sampling ports with soil moisture probes and custom-built pore gas sample, at depths of 7.5, 30, 60, 90 and 120 cm below soil surface.
 
 $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 
 @eq-dimension shows how many observations we should expect to have. In reality, some observations are missing. Hence, the `measurements` data frame only includes 9558 rows, with 9 variables. @tbl-measurements gives an overview of those variables.
 
-:::{.column-page-right}
+:::{.column-page}
 
-| Code        | Name                        | Description                                                       | Class       | Missing |
-|:------------|:----------------------------|:------------------------------------------------------------------|:------------|--------:|
-| `date`      | Date (`YYYY-MM-DD`)         |                                                                   | `"Date"`    | 0%      |
-| `column`    | Column                      | One out of twelve experimental units.                             | `"ordered"` | 0%      |
-| `depth`     | Measurement depth           | Depth of the measurement, either 7.5, 30, 60, 90, or 120 cm.      | `"numeric"` | 0%      |
-| `increment` | Height of a specific layer  |                                                                   | `"integer"` | 0%      |
-| `variety`   | Wheat variety               | Either `CH Claro`, `Monte Calme 268`, `Probus`, or `Zinal`.       | `"factor"`  | 0%      |
-| `moisture`  | Soil moisture               |                                                                   | `"numeric"` | 0%      |
-| `N2O`       | Corrected N~2~O conc.       |                                                                   | `"numeric"` | 86.9%   |
-| `SP`        | Site preference             | Site preference values for N~2~O                                  | `"numeric"` | 86.3%   |
-| `d18O`      | Stable isotope ratio        | Ratio of stable isotopes oxygen-18 (^18^O) and oxygen-16 (^16^O). | `"numeric"` | 86.3%   |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
+| Code        | Name              | Description                | Class       | Missing | Distribution                                 |
++=============+===================+============================+=============+=========+==============================================+
+| `date`      | Date              |                            | `"Date"`    | 0%      |                                              |
+|             | (`YYYY-MM-DD`)    |                            |             |         |                                              |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
+| `column`    | Column            | One out of twelve          | `"ordered"` | 0%      |                                              |
+|             |                   | experimental units.        |             |         |                                              |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
+| `depth`     | Measurement depth | Depth of the measurement,  | `"numeric"` | 0%      |                                              |
+|             |                   | either 7.5, 30, 60, 90, or |             |         |                                              |
+|             |                   | 120 cm.                    |             |         |                                              |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
+| `increment` | Height of a       |                            | `"integer"` | 0%      |                                              |
+|             | specific layer    |                            |             |         |                                              |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
+| `variety`   | Wheat variety     | Either `CH Claro`,         | `"factor"`  | 0%      |                                              |
+|             |                   | `Monte Calme 268`,         |             |         |                                              |
+|             |                   | `Probus`, or `Zinal`.      |             |         |                                              |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
+| `moisture`  | Soil moisture     |                            | `"numeric"` | 0%      | ![](graphics/hist-moisture.png){width=300px} |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
+| `N2O`       | Corrected         |                            | `"numeric"` | 86.9%   | ![](graphics/hist-N2O.png){width=300px}      |
+|             | N~2~O conc.       |                            |             |         |                                              |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
+| `SP`        | Site preference   | Site preference values     | `"numeric"` | 86.3%   | ![](graphics/hist-SP.png){width=300px}       |
+|             |                   | for N~2~O                  |             |         |                                              |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
+| `d18O`      | Stable isotope    | Ratio of stable isotopes   | `"numeric"` | 86.3%   | ![](graphics/hist-d18O.png){width=300px}     |
+|             | ratio             | oxygen-18 (^18^O) and      |             |         |                                              |
+|             |                   | oxygen-16 (^16^O).         |             |         |                                              |
++-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
 
 : Overview of the variables included in the `measurements` data as included in the R package `PRE`. {#tbl-measurements}
 
