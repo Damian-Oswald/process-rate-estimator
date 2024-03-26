@@ -78,12 +78,11 @@ measurements <- newdata[,c("date", "column", "depth", "increment", "variety", "m
 #' Save `measurements` data frame for the R package `PRE`
 # usethis::use_data(measurements, overwrite = TRUE)
 
-
 f <- function(i, xlim = NULL) {
     x <- na.omit(PRE::measurements[,i])
     if(is.null(xlim)) xlim <- range(x, na.rm = TRUE)
     png(file.path("graphics",paste0("hist-",i,".png")), width = 8*0.8, height = 2*0.8, res = 300, unit = "in")
-    par(mar = c(1.5,.5,0,.5))
+    par(mar = c(1.4,.5,0,.5))
     h = hist(x, col = "#fc5d5e", border = FALSE, axes = FALSE, main = "", xlab = "", ylab = "", breaks = 50, probability = TRUE, xlim = xlim)
     axis(1, line = -.5, font = 2, lwd = 0, lwd.ticks = 3)
     lines(x = c(median(x),median(x)), y = c(0,max(h$density)), lwd = 3)
@@ -95,4 +94,3 @@ f("moisture")
 f("N2O", xlim = c(0,12))
 f("SP")
 f("d18O")
-

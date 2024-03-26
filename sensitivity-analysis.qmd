@@ -5,10 +5,8 @@ execute:
 
 # Sensitivity analysis
 
-Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions.
-
+Sensitivity analysis is a method used to determine how different values of model parameters impact a particular model output value under a given set of assumptions [@trucano2006calibration].
 By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.
-
 A sensitivity analysis is conducted in five steps:
 
 1. [Define parameter distribution](sensitivity-analysis.qmd#sec-prior).
@@ -18,10 +16,11 @@ A sensitivity analysis is conducted in five steps:
 5. Use the emulator to [estimate parameter contributions](sensitivity-analysis.qmd#sec-contributions) to the output variance.
 
 The first step is usually the hardest one, as it requires an extensive review of prior knowledge of the parameters.
-
 Global sensitivity analysis examines the allocation of output uncertainty in a model (whether numerical or not) to various input uncertainty sources. The term "global" is specifically used to distinguish it from the more commonly encountered local or one-factor-at-a-time analyses found in the literature, as highlighted by @saltelli2004global.
 
 ## Defining the prior parameter distribution {#sec-prior}
+
+The prior distribution of the parameters was informed by the relevant literature and displayed in [table @tbl-sensitivity].
 
 :::{.column-page}
 | End Member             |                                 | Value [‰] | Value reference         | Sampling                         | Range reference   |
@@ -225,11 +224,18 @@ Note that the coefficients of column, depth and their interactions are excluded 
 
 ### Variance decomposition
 
+The final variance decomposition is computed from a classical multi-way analysis of variance (ANOVA) which was developed and formally described by Ronald A. Fisher [@fisher1926arrangement; @fisher1966design].
+
+:::{.callout-note}
+Why were the SRC not used for variance decomposition? SRC, when squared, could also be used for variance decomposition. However, the sum of squared SRC do not match with the R^2^ with the models; thus, the ANOVA was used as a method of variance decomposition. Variance decomposition and SRC^2^ are almost perfectly correlated in the absence of collinearity.
+:::
+
 ![Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the absolute standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models computed as the residual relative sum of squares (1 - R^2^).](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
 
-The results shown in [figure @fig-src] allow us to assign percentage-wise contributions to the variance explained to individual parameters tested in the sensitivity analysis. Averaged over all processes, $\eta\ce{^{18}O_\text{reduction}}$ contributes most to the variance in the processes (30.0%), followed by the bulk density (21.6%) and $\text{SP}_\text{denitrification}$ (15.1%).
+The results shown in [figure @fig-src] allow us to assign percentage-wise contributions to the variance explained to individual parameters tested in the sensitivity analysis. Averaged over all processes, $\eta\ce{^{18}O_\text{reduction}}$ contributes most to the variance in the processes (40.9%), followed by the bulk density (26.3%) and $\text{SP}_\text{denitrification}$ (14.3%). All other parameters combined explain less variance than that (12.2%).
 
-However, not every parameter explains the variance in the process rate estimates equally well for different processes. For example, the variance in the estimated reduction rates are reasonably well explained (64.6%) only by bulk density and $\eta\ce{^{18}O_\text{reduction}}$ alone. Bulk density seems much less capable in explaining the variance in the estimated nitrification and denitrification rates, on the other hand. For these two processes, $\text{SP}_\text{denitrification}$ and $\eta\;\text{SP}_\text{reduction}$ seem to be the bigger driving factors.
+However, not every parameter explains the variance in the process rate estimates equally well for different processes. For example, the variance in the estimated reduction rates are reasonably well explained (83.7%) only by bulk density and $\eta\ce{^{18}O_\text{reduction}}$ alone. Bulk density seems much less capable in explaining the variance in the estimated nitrification and denitrification rates, on the other hand. For these two processes, $\text{SP}_\text{denitrification}$ and $\eta\;\text{SP}_\text{reduction}$ seem to be the bigger driving factors.
+
 
 <!-- ## Using a mixed effects model as an emulator -->
 

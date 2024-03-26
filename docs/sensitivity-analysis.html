@@ -287,9 +287,7 @@ window.Quarto = {
 </header>
 
 
-<p>Sensitivity analysis is a method used to determine how different values of an independent variable impact a particular dependent variable under a given set of assumptions.</p>
-<p>By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.</p>
-<p>A sensitivity analysis is conducted in five steps:</p>
+<p>Sensitivity analysis is a method used to determine how different values of model parameters impact a particular model output value under a given set of assumptions <span class="citation" data-cites="trucano2006calibration">(<a href="references.html#ref-trucano2006calibration" role="doc-biblioref">Trucano et al. 2006</a>)</span>. By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment. A sensitivity analysis is conducted in five steps:</p>
 <ol type="1">
 <li><a href="./sensitivity-analysis.html#sec-prior">Define parameter distribution</a>.</li>
 <li><a href="./sensitivity-analysis.html#sec-sampling">Sample from parameter space</a>.</li>
@@ -297,10 +295,10 @@ window.Quarto = {
 <li><a href="./sensitivity-analysis.html#sec-emulator">Approximate the model</a> output based on inputs with an emulator.</li>
 <li>Use the emulator to <a href="./sensitivity-analysis.html#sec-contributions">estimate parameter contributions</a> to the output variance.</li>
 </ol>
-<p>The first step is usually the hardest one, as it requires an extensive review of prior knowledge of the parameters.</p>
-<p>Global sensitivity analysis examines the allocation of output uncertainty in a model (whether numerical or not) to various input uncertainty sources. The term “global” is specifically used to distinguish it from the more commonly encountered local or one-factor-at-a-time analyses found in the literature, as highlighted by <span class="citation" data-cites="saltelli2004global">Saltelli (<a href="references.html#ref-saltelli2004global" role="doc-biblioref">2004</a>)</span>.</p>
+<p>The first step is usually the hardest one, as it requires an extensive review of prior knowledge of the parameters. Global sensitivity analysis examines the allocation of output uncertainty in a model (whether numerical or not) to various input uncertainty sources. The term “global” is specifically used to distinguish it from the more commonly encountered local or one-factor-at-a-time analyses found in the literature, as highlighted by <span class="citation" data-cites="saltelli2004global">Saltelli (<a href="references.html#ref-saltelli2004global" role="doc-biblioref">2004</a>)</span>.</p>
 <section id="sec-prior" class="level2 page-columns page-full" data-number="6.1">
 <h2 data-number="6.1" class="anchored" data-anchor-id="sec-prior"><span class="header-section-number">6.1</span> Defining the prior parameter distribution</h2>
+<p>The prior distribution of the parameters was informed by the relevant literature and displayed in <a href="#tbl-sensitivity" class="quarto-xref">table&nbsp;<span>6.1</span></a>.</p>
 <div class="column-page">
 <div id="tbl-sensitivity" class="quarto-float anchored">
 <figure class="quarto-float quarto-float-tbl figure">
@@ -760,6 +758,20 @@ Figure&nbsp;6.3: Results of the standardized regression coefficients (SRC) for a
 </section>
 <section id="variance-decomposition" class="level3">
 <h3 class="anchored" data-anchor-id="variance-decomposition">Variance decomposition</h3>
+<p>The final variance decomposition is computed from a classical multi-way analysis of variance (ANOVA) which was developed and formally described by Ronald A. Fisher <span class="citation" data-cites="fisher1926arrangement fisher1966design">(<a href="references.html#ref-fisher1926arrangement" role="doc-biblioref">Fisher 1926</a>, <a href="references.html#ref-fisher1966design" role="doc-biblioref">Fisher 1966</a>)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Why were the SRC not used for variance decomposition? SRC, when squared, could also be used for variance decomposition. However, the sum of squared SRC do not match with the R<sup>2</sup> with the models; thus, the ANOVA was used as a method of variance decomposition. Variance decomposition and SRC<sup>2</sup> are almost perfectly correlated in the absence of collinearity.</p>
+</div>
+</div>
 <div id="fig-src" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-src-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -770,8 +782,8 @@ Figure&nbsp;6.4: Overall results of the sensitivity analysis. The three show the
 </figcaption>
 </figure>
 </div>
-<p>The results shown in <a href="#fig-src" class="quarto-xref">figure&nbsp;<span>6.4</span></a> allow us to assign percentage-wise contributions to the variance explained to individual parameters tested in the sensitivity analysis. Averaged over all processes, <span class="math inline">\(\eta\ce{^{18}O_\text{reduction}}\)</span> contributes most to the variance in the processes (30.0%), followed by the bulk density (21.6%) and <span class="math inline">\(\text{SP}_\text{denitrification}\)</span> (15.1%).</p>
-<p>However, not every parameter explains the variance in the process rate estimates equally well for different processes. For example, the variance in the estimated reduction rates are reasonably well explained (64.6%) only by bulk density and <span class="math inline">\(\eta\ce{^{18}O_\text{reduction}}\)</span> alone. Bulk density seems much less capable in explaining the variance in the estimated nitrification and denitrification rates, on the other hand. For these two processes, <span class="math inline">\(\text{SP}_\text{denitrification}\)</span> and <span class="math inline">\(\eta\;\text{SP}_\text{reduction}\)</span> seem to be the bigger driving factors.</p>
+<p>The results shown in <a href="#fig-src" class="quarto-xref">figure&nbsp;<span>6.4</span></a> allow us to assign percentage-wise contributions to the variance explained to individual parameters tested in the sensitivity analysis. Averaged over all processes, <span class="math inline">\(\eta\ce{^{18}O_\text{reduction}}\)</span> contributes most to the variance in the processes (40.9%), followed by the bulk density (26.3%) and <span class="math inline">\(\text{SP}_\text{denitrification}\)</span> (14.3%). All other parameters combined explain less variance than that (12.2%).</p>
+<p>However, not every parameter explains the variance in the process rate estimates equally well for different processes. For example, the variance in the estimated reduction rates are reasonably well explained (83.7%) only by bulk density and <span class="math inline">\(\eta\ce{^{18}O_\text{reduction}}\)</span> alone. Bulk density seems much less capable in explaining the variance in the estimated nitrification and denitrification rates, on the other hand. For these two processes, <span class="math inline">\(\text{SP}_\text{denitrification}\)</span> and <span class="math inline">\(\eta\;\text{SP}_\text{reduction}\)</span> seem to be the bigger driving factors.</p>
 <!-- ## Using a mixed effects model as an emulator -->
 <!-- A mixed effects model is a statistical model containing both fixed effects and random effects. In matrix notation, a linear mixed effects model can be represented as follows. -->
 <!-- $$ -->
@@ -795,6 +807,12 @@ Decock, C., and J. Six. 2013. On the potential of <span class="math inline">\(\d
 <div id="ref-denk2017nitrogen" class="csl-entry" role="listitem">
 Denk, T. R., J. Mohn, C. Decock, D. Lewicka-Szczebak, E. Harris, K. Butterbach-Bahl, R. Kiese, and B. Wolf. 2017. The nitrogen cycle: A review of isotope effects and isotope modeling approaches. Soil Biology and Biochemistry 105:121–137.
 </div>
+<div id="ref-fisher1926arrangement" class="csl-entry" role="listitem">
+Fisher, R. A. 1926. The arrangement of field experiments.
+</div>
+<div id="ref-fisher1966design" class="csl-entry" role="listitem">
+Fisher, R. A. 1966. The design of experiments. Oliver; Boyd Edinburgh.
+</div>
 <div id="ref-lewicka2017quantifying" class="csl-entry" role="listitem">
 Lewicka-Szczebak, D., J. Augustin, A. Giesemann, and R. Well. 2017. Quantifying N₂O reduction to N₂ based on N₂O isotopocules – validation with independent methods (helium incubation and ¹⁵N gas flux method). Biogeosciences 14:711–732.
 </div>
@@ -803,6 +821,9 @@ Saltelli, A. 2004. Global sensitivity analysis: An introduction. Page 43 Proc. 4
 </div>
 <div id="ref-sobol1990sensitivity" class="csl-entry" role="listitem">
 Sobol’, I. M. 1990. On sensitivity estimation for nonlinear mathematical models. Matematicheskoe modelirovanie 2:112–118.
+</div>
+<div id="ref-trucano2006calibration" class="csl-entry" role="listitem">
+Trucano, T. G., L. P. Swiler, T. Igusa, W. L. Oberkampf, and M. Pilch. 2006. Calibration, validation, and sensitivity analysis: What’s what. Reliability Engineering &amp; System Safety 91:1331–1357.
 </div>
 <div id="ref-well2008isotope" class="csl-entry" role="listitem">
 Well, R., and H. Flessa. 2008. Isotope fractionation factors of N₂O diffusion. Rapid Communications in Mass Spectrometry: An International Journal Devoted to the Rapid Dissemination of Up-to-the-Minute Research in Mass Spectrometry 22:2621–2628.
