@@ -238,7 +238,12 @@ Calculate mean moisture between depth increments:
 
 $$
 \theta_{w} = \frac{1}{2}(m_d + m_{d+1})
-$$
+$${#eq-theta-w}
 
 Where $m$ is the moisture and $d$ is the depth index.
 
+All the computations described in [equations @eq-frick] [-@eq-Ds], [-@eq-H], [-@eq-Dfa], [-@eq-Dfw] and [-@eq-theta-w] are performed by calling the following function from the R package `PRE`.
+
+```{r}
+data <- calculateFluxes(data = data, parameters = getParameters())
+```
