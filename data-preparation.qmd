@@ -19,37 +19,46 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
 | Code        | Name              | Description                | Class       | Missing | Distribution                                 |
 +=============+===================+============================+=============+=========+==============================================+
-| `date`      | Date              |                            | `"Date"`    | 0%      |                                              |
-|             | (`YYYY-MM-DD`)    |                            |             |         |                                              |
+| `date`      | Date              | Date of a measurement in   | `"Date"`    | 0%      |                                              |
+|             |                   | the `"Date"` format        |             |         |                                              |
+|             |                   | (`YYYY-MM-DD`), ranging    |             |         |                                              |
+|             |                   | from August 27 2015 to     |             |         |                                              |
+|             |                   | February 3 2016.           |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `column`    | Column            | One out of twelve          | `"ordered"` | 0%      |                                              |
+| `column`    | Column            | Factor variable indicating | `"ordered"` | 0%      |                                              |
+|             |                   | one out of twelve          |             |         |                                              |
 |             |                   | experimental units.        |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
 | `depth`     | Measurement depth | Depth of the measurement,  | `"numeric"` | 0%      |                                              |
 |             |                   | either 7.5, 30, 60, 90, or |             |         |                                              |
 |             |                   | 120 cm.                    |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `increment` | Height of a       |                            | `"integer"` | 0%      |                                              |
-|             | specific layer    |                            |             |         |                                              |
+| `increment` | Depth increment   | Height of a soil layer     | `"integer"` | 0%      |                                              |
+|             |                   | from lower to upper        |             |         |                                              |
+|             |                   | boundary.                  |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
 | `variety`   | Wheat variety     | Either `CH Claro`,         | `"factor"`  | 0%      |                                              |
 |             |                   | `Monte Calme 268`,         |             |         |                                              |
 |             |                   | `Probus`, or `Zinal`.      |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `moisture`  | Soil moisture     |                            | `"numeric"` | 0%      | ![](graphics/hist-moisture.png){width=300px} |
+| `moisture`  | Soil moisture     | The moisture is expressed  | `"numeric"` | 0%      | ![](graphics/hist-moisture.png){width=300px} |
+|             |                   | as volumetric water        |             |         |                                              |
+|             |                   | content in cubic meters of |             |         |                                              |
+|             |                   | water per cubic meters of  |             |         |                                              |
+|             |                   | soil [$\frac{m^3}{m^3}$].  |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `N2O`       | Corrected         |                            | `"numeric"` | 86.9%   | ![](graphics/hist-N2O.png){width=300px}      |
-|             | N~2~O conc.       |                            |             |         |                                              |
+| `N2O`       | Corrected N~2~O   |                            | `"numeric"` | 86.9%   | ![](graphics/hist-N2O.png){width=300px}      |
+|             | concentration     |                            |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
 | `SP`        | Site preference   | Site preference values     | `"numeric"` | 86.3%   | ![](graphics/hist-SP.png){width=300px}       |
 |             |                   | for N~2~O                  |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `d18O`      | Stable isotope    | Ratio of stable isotopes   | `"numeric"` | 86.3%   | ![](graphics/hist-d18O.png){width=300px}     |
-|             | ratio             | oxygen-18 (^18^O) and      |             |         |                                              |
-|             |                   | oxygen-16 (^16^O).         |             |         |                                              |
+| `d18O`      | $\delta^{18}\ce O$| Ratio of stable isotopes   | `"numeric"` | 86.3%   | ![](graphics/hist-d18O.png){width=300px}     |
+|             | stable isotope    | oxygen-18 (^18^O) and      |             |         |                                              |
+|             | ratio             | oxygen-16 (^16^O).         |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
 
-: Overview of the variables included in the `measurements` data as included in the R package `PRE`. {#tbl-measurements tbl-colwidths="[9,15,32,8,8,23]"}
+: Overview of the variables included in the `measurements` data as included in the R package `PRE`. For the continuous variables, a histogram shows the measurements distribution. {#tbl-measurements tbl-colwidths="[9,15,32,8,8,23]"}
 
 :::
 
@@ -71,7 +80,24 @@ You can see an interactive overview of the `measurements` data in the column bel
 ```{r}
 #| eval: true
 #| echo: false
-reactable::reactable(PRE::measurements)
+library(reactable)
+data <- PRE::measurements
+rownames(data) <- NULL
+data$moisture <- round(data$moisture * 100, 1)
+reactable(data,
+          defaultPageSize = 8,
+          columns = list(
+              date = colDef(name = "Date", filterable = TRUE),
+              column = colDef(name = "Column", filterable = TRUE),
+              depth = colDef(name = "Depth [cm]", filterable = TRUE, align = "left"),
+              increment = colDef(name = "Increment [cm]", filterable = TRUE, align = "left"),
+              variety = colDef(name = "Variety", filterable = TRUE),
+              moisture = colDef(name = "Moisture [%]"),
+              N2O = colDef(name = " N₂O conc."),
+              SP = colDef(name = "Site preference"),
+              d18O = colDef(name = "δ18O")
+                     )
+)
 ```
 
 ---

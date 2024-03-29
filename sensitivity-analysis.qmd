@@ -222,6 +222,8 @@ Standardizing the coefficients changes the results seen in [table @tbl-coefficie
 
 Note that the coefficients of column, depth and their interactions are excluded from this table, even though they are more explanatory than the isotope end members.
 
+The interpretation of standard regression coefficients is not quite straightforward -- remember; standard deviations are not cumulative, only variance is. So, to indicate proportional share of explained variance, the squared SRC would need to be compared.
+
 ### Variance decomposition
 
 The final variance decomposition is computed from a classical multi-way analysis of variance (ANOVA) which was developed and formally described by Ronald A. Fisher [@fisher1926arrangement; @fisher1966design].
