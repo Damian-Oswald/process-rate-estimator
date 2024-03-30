@@ -84,6 +84,7 @@ library(reactable)
 data <- PRE::measurements
 rownames(data) <- NULL
 data$moisture <- round(data$moisture * 100, 1)
+data$N2O <- round(data$N2O,2)
 reactable(data,
           defaultPageSize = 8,
           columns = list(
