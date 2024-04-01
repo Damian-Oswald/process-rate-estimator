@@ -287,11 +287,13 @@ window.Quarto = {
 </header>
 
 
-<p>Sensitivity analysis is a method used to determine how different values of model parameters impact a particular model output value under a given set of assumptions <span class="citation" data-cites="trucano2006calibration">(<a href="references.html#ref-trucano2006calibration" role="doc-biblioref">Trucano et al. 2006</a>)</span>. By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment. A sensitivity analysis is conducted in five steps:</p>
+<p>Sensitivity analysis is a method used to determine how different values of model parameters impact a particular model output value under a given set of assumptions <span class="citation" data-cites="trucano2006calibration">(<a href="references.html#ref-trucano2006calibration" role="doc-biblioref">Trucano et al. 2006</a>)</span>. Sometimes, sensitivity analyses are also described as investigating the models sensitivity to its inputs and not its parameters <span class="citation" data-cites="borgonovo2016sensitivity">(<a href="references.html#ref-borgonovo2016sensitivity" role="doc-biblioref">Borgonovo and Plischke 2016</a>)</span>. For the process rate estimator, the sensitivity of the PRE to changes to the most important parameters such as the isotope end members or the bulk density are investigated – however, the model inputs, i.e.&nbsp;the moisture, N<sub>2</sub>O, SP and δ<sup>18</sup>O measurements are assumed to be true.</p>
+<!-- [FOOTNOTE]: Of course, one could start including more and more model parameters or pre-processing variables to the sensitivity analysis, such as physical parameters used in the pre-processing, the bandwith parameter used for the smoothing, *et cetera*. -->
+<p>By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment. Generally, sensitivity analyses are conducted in five steps:</p>
 <ol type="1">
-<li><a href="./sensitivity-analysis.html#sec-prior">Define parameter distribution</a>.</li>
-<li><a href="./sensitivity-analysis.html#sec-sampling">Sample from parameter space</a>.</li>
-<li><a href="./sensitivity-analysis.html#sec-calculating">Calculate model output of interest</a>.</li>
+<li><a href="./sensitivity-analysis.html#sec-prior">Defining the parameter distribution</a>, ideally reflecting the uncertainty around each parameter.</li>
+<li><a href="./sensitivity-analysis.html#sec-sampling">Sampling from the parameter space</a>, i.e.&nbsp;from each parameter distribution.</li>
+<li><a href="./sensitivity-analysis.html#sec-calculating">Calculating the model output of interest</a> by running the model for each sampled set of parameters.</li>
 <li><a href="./sensitivity-analysis.html#sec-emulator">Approximate the model</a> output based on inputs with an emulator.</li>
 <li>Use the emulator to <a href="./sensitivity-analysis.html#sec-contributions">estimate parameter contributions</a> to the output variance.</li>
 </ol>
@@ -802,6 +804,9 @@ Figure&nbsp;6.4: Overall results of the sensitivity analysis. The three show the
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-borgonovo2016sensitivity" class="csl-entry" role="listitem">
+Borgonovo, E., and E. Plischke. 2016. Sensitivity analysis: A review of recent advances. European Journal of Operational Research 248:869–887.
+</div>
 <div id="ref-decock2013potential" class="csl-entry" role="listitem">
 Decock, C., and J. Six. 2013. On the potential of <span class="math inline">\(\delta\)</span> 18O and <span class="math inline">\(\delta\)</span> 15N to assess N2O reduction to N2 in soil. European journal of soil science 64:610–620.
 </div>
