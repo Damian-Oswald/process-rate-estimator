@@ -5,9 +5,9 @@ execute:
 
 # Sensitivity analysis
 
-Sensitivity analysis is a method used to determine how different values of model parameters impact a particular model output value under a given set of assumptions [@trucano2006calibration]. Sometimes, sensitivity analyses are also described as investigating the models sensitivity to its inputs and not its parameters [@borgonovo2016sensitivity]. For the process rate estimator, the sensitivity of the PRE to changes to the most important parameters such as the isotope end members or the bulk density are investigated -- however, the model inputs, i.e. the moisture, N~2~O, SP and δ^18^O measurements are assumed to be true.
+Sensitivity analysis is a method used to determine how different values of model parameters impact a particular model output value under a given set of assumptions [@trucano2006calibration]. Alternatively, this method is viewed as assessing a model's sensitivity to its inputs rather than its parameters [@borgonovo2016sensitivity].
 
-<!-- [FOOTNOTE]: Of course, one could start including more and more model parameters or pre-processing variables to the sensitivity analysis, such as physical parameters used in the pre-processing, the bandwith parameter used for the smoothing, *et cetera*. -->
+In the context of the process rate estimator (PRE), the sensitivity analysis delves into how the PRE sensitivity is affected by alterations to the least certain model parameters like isotope end members or bulk density. The model inputs such as moisture, N~2~O, SP, and δ^18^O measurements on the other hand are taken for granted. It would be conceivable to extend the sensitivity analysis to encompass model input variables, additional model parameters or pre-processing variables, including physical parameters involved in pre-processing and the bandwidth parameter utilized for data smoothing, among others. However, such an extension would be computationally unfeasible and was thus not performed.
 
 By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.
 Generally, sensitivity analyses are conducted in five steps:
