@@ -126,7 +126,7 @@ f <- function(x, y, pos = NULL, ...) {
     if(!is.null(pos)) legend(pos, pch = 16, col = colors, pt.cex = 0.5, fill = adjustcolor(colors, 0.4), border = FALSE, legend = paste(PRE::getParameters()$depth, "cm"), title = "Depth", inset = c(0.02,0.02), bg = "white")
 }
 
-#svg(file.path("scripts","sensitivity-analysis","output","pairs-processes.svg"), width = 9, height = 6)
+# write a PNG because of the many overlapping points (SVG becomes too large)
 png(file.path("scripts","sensitivity-analysis","output","pairs-processes.png"), width = 9, height = 6, unit = "in", res = 450)
 par(mfrow = c(2,3), mar = c(4,4,1,1)+0.1, oma = c(1,1,1,1))
 f("Denitrification", "Nitrification", ylim = c(-7,42), xlim = c(0,55), las = 1)
@@ -399,3 +399,4 @@ f(y0 = mean(c(cumsum(df[,3])[8], c(0,cumsum(df[,3]))[8])),
 
 # close plotting
 dev.off()
+
