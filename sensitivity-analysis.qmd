@@ -23,22 +23,22 @@ Global sensitivity analysis examines the allocation of output uncertainty in a m
 
 ## Defining the prior parameter distribution {#sec-prior}
 
-The prior distribution of the parameters was informed by the relevant literature and displayed in [table @tbl-sensitivity].
+The prior distribution of the parameters is displayed in [table @tbl-sensitivity]. It is adopted from @yu2020can, but in turn also based on research from @well2008isotope, @decock2013potential, @lewicka2017quantifying and @denk2017nitrogen.
 
-:::{.column-page}
-| End Member             |                                 | Value [‰] | Value reference         | Sampling                         | Range reference   |
-|------------------------|---------------------------------|-----------|-------------------------|----------------------------------|-------------------|
-| `eta_SP_diffusion`     | $\eta\: \text{SP}_\text{diff.}$ | 1.55      | @well2008isotope        | $\sim \mathcal{N}(1.55, 0.28^2)$ | @well2008isotope  |
-| `eta_18O_diffusion`    | $\eta\ce{^{18}O}_\text{diff.}$  | -7.79     | @well2008isotope        | $\sim \mathcal{N}(-7.79, 0.27^2)$| @well2008isotope  |
-| `SP_nitrification`     | $\text{SP}_\text{nit.}$         | 35        | @decock2013potential    | $\sim \mathcal{U}(32, 38.7)$     | @denk2017nitrogen |
-| `d18O_nitrification`   | $\delta\ce{^{18}O_\text{nit.}}$ | 23.5      | @lewicka2017quantifying | $\sim \mathcal{N}(23.5, 3^2)$    |                   |
-| `SP_denitrification`   | $\text{SP}_\text{den.}$         | -4.85     | @decock2013potential    | $\sim \mathcal{U}(-13.6, 3.7)$   | @denk2017nitrogen |
-| `d18O_denitrification` | $\delta\ce{^{18}O_\text{den.}}$ | 9.3       | @lewicka2017quantifying | $\sim \mathcal{U}(2.5, 13.4)$    |                   |
-| `eta_SP_reduction`     | $\eta\:\text{SP}_\text{red.}$   | -5.9      | @denk2017nitrogen       | $\sim \mathcal{U}(-8.2, -2.9)$   | @denk2017nitrogen |
-| `eta_18O_reduction`    | $\eta\ce{^{18}O_\text{red.}}$   | -15.4     | @lewicka2017quantifying | $\sim \mathcal{U}(-25.1, -5.1)$  |                   |
+| End Member             |                                 | Value [‰] | Parameter uncertainty            |
+|------------------------|---------------------------------|-----------|----------------------------------|
+| `eta_SP_diffusion`     | $\eta\: \text{SP}_\text{diff.}$ | 1.55      | $\sim \mathcal{N}(1.55, 0.28^2)$ |
+| `eta_18O_diffusion`    | $\eta\ce{^{18}O}_\text{diff.}$  | -7.79     | $\sim \mathcal{N}(-7.79, 0.27^2)$|
+| `SP_nitrification`     | $\text{SP}_\text{nit.}$         | 35        | $\sim \mathcal{U}(32, 38.7)$     |
+| `d18O_nitrification`   | $\delta\ce{^{18}O_\text{nit.}}$ | 23.5      | $\sim \mathcal{N}(23.5, 3^2)$    |
+| `SP_denitrification`   | $\text{SP}_\text{den.}$         | -4.85     | $\sim \mathcal{U}(-13.6, 3.7)$   |
+| `d18O_denitrification` | $\delta\ce{^{18}O_\text{den.}}$ | 9.3       | $\sim \mathcal{U}(2.5, 13.4)$    |
+| `eta_SP_reduction`     | $\eta\:\text{SP}_\text{red.}$   | -5.9      | $\sim \mathcal{U}(-8.2, -2.9)$   |
+| `eta_18O_reduction`    | $\eta\ce{^{18}O_\text{red.}}$   | -15.4     | $\sim \mathcal{U}(-25.1, -5.1)$  |
 
-: Isotope end members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. @lewicka2017quantifying originally report $\delta \ce{^{18} O \text - N2O} (\ce{N2O}/\ce{H2O})$. When a range is indicated, a random number from the range was selected in each iteration. When an average and standard deviation is indicated, a random value was drawn from the normal distribution in each iteration. {#tbl-sensitivity tbl-colwidths="[15,10,10,20,15,20]"}
-:::
+: Isotope end-members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. End-members are adopted from @yu2020can. For propagating the parameter uncertainty in the sensitivity and uncertainty analysis, parameters are randomly sampled either from a Gaussian $\mathcal N(\mu, \sigma^2)$ or a uniform $\mathcal U (a,b)$ distribution. {#tbl-sensitivity tbl-colwidths="[30,20,20,30]"}
+
+Parameters are either drawn from a Gaussian distribution specified by its mean $\mu$ and variance $\sigma^2$ or from a uniform distribution specified by a lower bound $a$ and upper bound $b$.
 
 ## Sampling from the parameter space {#sec-sampling}
 
