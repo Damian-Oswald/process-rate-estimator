@@ -326,16 +326,9 @@ par(mar = c(2,4,0,0)+0.1)
 plot.new()
 plot.window(xlim = c(0,1.2), ylim = c(0,1))
 
-# # compute share of explained variance with SRC
-# df <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(abs(x), na.rm = TRUE)))
-# 
-# # standardize `df` such that each column adds up to the total explained variance
-# for (i in 1:3) df[,i] <- df[,i]/(sum(df[,i])/R2[i])
-
 # compute share of explained variance using the anova sum of squares
 df <- sapply(processes, function(x) with(subset(relativeSumOfSquares, subset = Process==x),
                                          tapply(Relative_SS, Source, mean)))[rownames(anova(model)["Sum Sq"]),]
-
 # define padding
 padding <- 0.02
 
@@ -371,8 +364,8 @@ title(ylab = "Variance explained [%]")
 
 # add labels for yet missing parameters
 f <- function(y0, y1 = y0, label) {
-    lines(x = c(0.99, 1.05), y = c(y0, y1))
-    text(1.05, y1, label = label, pos = 4)   
+    lines(x = c(0.99, 1.035), y = c(y0, y1))
+    text(1.035, y1, label = label, pos = 4)   
 }
 f(y0 = mean(c(1,R2[3])), label = expression("1 - R"^2))
 f(y0 = mean(c(cumsum(df[,3])[2], c(0,cumsum(df[,3]))[2])),

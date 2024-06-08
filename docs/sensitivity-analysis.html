@@ -155,7 +155,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating nav-fixed">
+<body class="nav-sidebar floating nav-fixed slimcontent">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -252,7 +252,7 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-prior" id="toc-sec-prior" class="nav-link active" data-scroll-target="#sec-prior"><span class="header-section-number">6.1</span> Defining the prior parameter distribution</a></li>
+  <li><a href="#sec-prior" id="toc-sec-prior" class="nav-link active" data-scroll-target="#sec-prior"><span class="header-section-number">6.1</span> Defining the parameter distribution</a></li>
   <li><a href="#sec-sampling" id="toc-sec-sampling" class="nav-link" data-scroll-target="#sec-sampling"><span class="header-section-number">6.2</span> Sampling from the parameter space</a></li>
   <li><a href="#sec-calculating" id="toc-sec-calculating" class="nav-link" data-scroll-target="#sec-calculating"><span class="header-section-number">6.3</span> Calculating the model output of interest</a></li>
   <li><a href="#sec-emulator" id="toc-sec-emulator" class="nav-link" data-scroll-target="#sec-emulator"><span class="header-section-number">6.4</span> Emulation of the model outputs</a></li>
@@ -288,8 +288,8 @@ window.Quarto = {
 
 
 <p>Sensitivity analysis is a method used to determine how different values of model parameters impact a particular model output value under a given set of assumptions <span class="citation" data-cites="trucano2006calibration">(<a href="references.html#ref-trucano2006calibration" role="doc-biblioref">Trucano et al. 2006</a>)</span>. Alternatively, this method is viewed as assessing a model’s sensitivity to its inputs rather than its parameters <span class="citation" data-cites="borgonovo2016sensitivity">(<a href="references.html#ref-borgonovo2016sensitivity" role="doc-biblioref">Borgonovo and Plischke 2016</a>)</span>.</p>
-<p>In the context of the process rate estimator (PRE), the sensitivity analysis delves into how the PRE sensitivity is affected by alterations to the least certain model parameters like isotope end members or bulk density. The model inputs such as moisture, N<sub>2</sub>O, SP, and δ<sup>18</sup>O measurements on the other hand are taken for granted. It would be conceivable to extend the sensitivity analysis to encompass model input variables, additional model parameters or pre-processing variables, including physical parameters involved in pre-processing and the bandwidth parameter utilized for data smoothing, among others. However, such an extension would be computationally unfeasible and was thus not performed.</p>
-<p>By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment. Generally, sensitivity analyses are conducted in five steps:</p>
+<p>In the context of the process rate estimator (PRE), the sensitivity analysis aims to quantify by how much the estimated process rates are affected by alterations to the least certain model parameters like isotope end members or bulk density. Since process rates are repeatedly estimated over time, the mean process rates over the entire time span are used for the sensitivity analysis. Any model inputs such as moisture, N<sub>2</sub>O, SP, and δ<sup>18</sup>O measurements on the other hand are taken for granted. It would be conceivable to extend the sensitivity analysis to encompass model input variables, additional model parameters or pre-processing variables, including physical parameters involved in pre-processing and the bandwidth parameter utilized for data smoothing, among others. However, such an extension would be extremely computationally expensive and was thus not performed.</p>
+<p>By systematically varying key parameters, a sensitivity analysis helps in identifying which variables impact the outcome the most. Generally, sensitivity analyses are conducted in five steps:</p>
 <ol type="1">
 <li><a href="./sensitivity-analysis.html#sec-prior">Defining the parameter distribution</a>, ideally reflecting the uncertainty around each parameter.</li>
 <li><a href="./sensitivity-analysis.html#sec-sampling">Sampling from the parameter space</a>, i.e.&nbsp;from each parameter distribution.</li>
@@ -299,9 +299,9 @@ window.Quarto = {
 </ol>
 <p>The first step is usually the hardest one, as it requires an extensive review of prior knowledge of the parameters. Global sensitivity analysis examines the allocation of output uncertainty in a model (whether numerical or not) to various input uncertainty sources. The term “global” is specifically used to distinguish it from the more commonly encountered local or one-factor-at-a-time analyses found in the literature, as highlighted by <span class="citation" data-cites="saltelli2004global">Saltelli (<a href="references.html#ref-saltelli2004global" role="doc-biblioref">2004</a>)</span>.</p>
 <section id="sec-prior" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="sec-prior"><span class="header-section-number">6.1</span> Defining the prior parameter distribution</h2>
-<p>The prior distribution of the parameters is displayed in <a href="#tbl-sensitivity" class="quarto-xref">table&nbsp;<span>6.1</span></a>. It is adopted from <span class="citation" data-cites="yu2020can">Yu et al. (<a href="references.html#ref-yu2020can" role="doc-biblioref">2020</a>)</span>, but in turn also based on research from <span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="decock2013potential">Decock and Six (<a href="references.html#ref-decock2013potential" role="doc-biblioref">2013</a>)</span>, <span class="citation" data-cites="lewicka2017quantifying">Lewicka-Szczebak et al. (<a href="references.html#ref-lewicka2017quantifying" role="doc-biblioref">2017</a>)</span> and <span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span>.</p>
-<div id="tbl-sensitivity" class="quarto-float anchored" data-tbl-colwidths="[30,20,20,30]">
+<h2 data-number="6.1" class="anchored" data-anchor-id="sec-prior"><span class="header-section-number">6.1</span> Defining the parameter distribution</h2>
+<p>The first step of the sensitivity analysis incorporates expressing the known uncertainty of each parameter as a distribution. The chosen distribution of the parameters is displayed in <a href="#tbl-sensitivity" class="quarto-xref">table&nbsp;<span>6.1</span></a>. It is adopted from <span class="citation" data-cites="yu2020can">Yu et al. (<a href="references.html#ref-yu2020can" role="doc-biblioref">2020</a>)</span>, but in turn also based on research from <span class="citation" data-cites="well2008isotope">Well and Flessa (<a href="references.html#ref-well2008isotope" role="doc-biblioref">2008</a>)</span>, <span class="citation" data-cites="decock2013potential">Decock and Six (<a href="references.html#ref-decock2013potential" role="doc-biblioref">2013</a>)</span>, <span class="citation" data-cites="lewicka2017quantifying">Lewicka-Szczebak et al. (<a href="references.html#ref-lewicka2017quantifying" role="doc-biblioref">2017</a>)</span> and <span class="citation" data-cites="denk2017nitrogen">Denk et al. (<a href="references.html#ref-denk2017nitrogen" role="doc-biblioref">2017</a>)</span>.</p>
+<div id="tbl-sensitivity" class="quarto-float anchored" data-tbl-colwidths="[28,18,18,36]">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sensitivity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;6.1: Isotope end-members values used for modeling gross nitrification derived N<sub>2</sub>O production, gross denitrification derived N<sub>2</sub>O production, and gross N<sub>2</sub>O reduction. End-members are adopted from <span class="citation" data-cites="yu2020can">Yu et al. (<a href="references.html#ref-yu2020can" role="doc-biblioref">2020</a>)</span>. For propagating the parameter uncertainty in the sensitivity and uncertainty analysis, parameters are randomly sampled either from a Gaussian <span class="math inline">\(\mathcal N(\mu, \sigma^2)\)</span> or a uniform <span class="math inline">\(\mathcal U (a,b)\)</span> distribution.
@@ -309,14 +309,14 @@ Table&nbsp;6.1: Isotope end-members values used for modeling gross nitrification
 <div aria-describedby="tbl-sensitivity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <table class="table">
 <colgroup>
-<col style="width: 30%">
-<col style="width: 20%">
-<col style="width: 20%">
-<col style="width: 30%">
+<col style="width: 28%">
+<col style="width: 18%">
+<col style="width: 18%">
+<col style="width: 36%">
 </colgroup>
 <thead>
 <tr class="header">
-<th>End Member</th>
+<th>Parameter</th>
 <th></th>
 <th>Value [‰]</th>
 <th>Parameter uncertainty</th>
@@ -324,48 +324,54 @@ Table&nbsp;6.1: Isotope end-members values used for modeling gross nitrification
 </thead>
 <tbody>
 <tr class="odd">
+<td><code>BD</code></td>
+<td>Bulk density</td>
+<td>1.686</td>
+<td><span class="math inline">\(\sim \mathcal{U} (\left\{1.59, 1.61, ..., 1.77, 1.79\right\})\)</span></td>
+</tr>
+<tr class="even">
 <td><code>eta_SP_diffusion</code></td>
 <td><span class="math inline">\(\eta\: \text{SP}_\text{diff.}\)</span></td>
 <td>1.55</td>
 <td><span class="math inline">\(\sim \mathcal{N}(1.55, 0.28^2)\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>eta_18O_diffusion</code></td>
 <td><span class="math inline">\(\eta\ce{^{18}O}_\text{diff.}\)</span></td>
 <td>-7.79</td>
 <td><span class="math inline">\(\sim \mathcal{N}(-7.79, 0.27^2)\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>SP_nitrification</code></td>
 <td><span class="math inline">\(\text{SP}_\text{nit.}\)</span></td>
 <td>35</td>
 <td><span class="math inline">\(\sim \mathcal{U}(32, 38.7)\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>d18O_nitrification</code></td>
 <td><span class="math inline">\(\delta\ce{^{18}O_\text{nit.}}\)</span></td>
 <td>23.5</td>
 <td><span class="math inline">\(\sim \mathcal{N}(23.5, 3^2)\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>SP_denitrification</code></td>
 <td><span class="math inline">\(\text{SP}_\text{den.}\)</span></td>
 <td>-4.85</td>
 <td><span class="math inline">\(\sim \mathcal{U}(-13.6, 3.7)\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>d18O_denitrification</code></td>
 <td><span class="math inline">\(\delta\ce{^{18}O_\text{den.}}\)</span></td>
 <td>9.3</td>
 <td><span class="math inline">\(\sim \mathcal{U}(2.5, 13.4)\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>eta_SP_reduction</code></td>
 <td><span class="math inline">\(\eta\:\text{SP}_\text{red.}\)</span></td>
 <td>-5.9</td>
 <td><span class="math inline">\(\sim \mathcal{U}(-8.2, -2.9)\)</span></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>eta_18O_reduction</code></td>
 <td><span class="math inline">\(\eta\ce{^{18}O_\text{red.}}\)</span></td>
 <td>-15.4</td>
@@ -376,86 +382,101 @@ Table&nbsp;6.1: Isotope end-members values used for modeling gross nitrification
 </div>
 </figure>
 </div>
-<p>Parameters are either drawn from a Gaussian distribution specified by its mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> or from a uniform distribution specified by a lower bound <span class="math inline">\(a\)</span> and upper bound <span class="math inline">\(b\)</span>.</p>
+<p>As noted in the table, parameters are either drawn from a Gaussian distribution specified by its mean and variance <span class="math inline">\(\mathcal N(\mu, \sigma^2)\)</span> or from a uniform distribution specified by a lower and upper bound <span class="math inline">\(\mathcal U (a,b)\)</span>. There’s one exception to this: the bulk density is sampled from a predefined set of values. This procedure allowed to re-use the same prepared data (as described in chapter 3) for multiple parameter sets and thus made the sensitivity less computationally intensive.</p>
 </section>
-<section id="sec-sampling" class="level2" data-number="6.2">
+<section id="sec-sampling" class="level2 page-columns page-full" data-number="6.2">
 <h2 data-number="6.2" class="anchored" data-anchor-id="sec-sampling"><span class="header-section-number">6.2</span> Sampling from the parameter space</h2>
-<p>The following section describes in detail how the sensitivity analysis is run. The script used to run the sensitivity analysis can be found in the respective GitHub repository. After successfully cloning the repository, the data for the sensitivity analysis can be reproduced simply by running the following command in the terminal.</p>
+<p>The next step of the sensitivity analysis involves sampling specific instances from the specified parameter space. This step, as well as the following ones, are performed by an R script. The script used to run the sensitivity analysis can be found in the <a href="https://github.com/Damian-Oswald/process-rate-estimator">respective GitHub repository</a>. After successfully cloning the repository, the results of the sensitivity analysis can be reproduced simply by running the following command in the terminal.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/sensitivity-analysis/01-sensitivitiy-analysis.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>For documentation purposes, some snippets of that script are highlighted in this section. The following code defines that the sensitivity analysis ought to be applied on all combinations of columns and depths. Here, we are choosing a sample size of 300, which means that for every distinct combination of depth and column, we will be sampling 300 sets of parameters.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>COLUMNS <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>DEPTHS <span class="ot">=</span> PRE<span class="sc">::</span><span class="fu">getParameters</span>()<span class="sc">$</span>depths</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>SAMPLESIZE <span class="ot">=</span> <span class="dv">20</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>SAMPLEREPEAT <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>SAMPLESIZE <span class="ot">=</span> <span class="dv">300</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>SAMPLEREPEAT <span class="ot">=</span> <span class="dv">15</span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> SAMPLESIZE <span class="sc">*</span> <span class="fu">length</span>(COLUMNS) <span class="sc">*</span> <span class="fu">length</span>(DEPTHS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To conduct the sensitivity analysis, a data frame with parameters sampled according to the distributions in <a href="#tbl-sensitivity" class="quarto-xref">Table&nbsp;<span>6.1</span></a> is created. We draw <code>n</code> parameter sets in total, where <code>n</code> is calculated based on the columns, depth layers and the <code>SAMPLESIZE</code> variable.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expand.grid</span>(<span class="at">repetition =</span> <span class="dv">1</span><span class="sc">:</span>SAMPLESIZE,</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">column =</span> COLUMNS,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">depth =</span> DEPTHS)[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n),<span class="sc">-</span><span class="dv">1</span>],</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">BD =</span> <span class="fu">sort</span>(<span class="fu">rep</span>(<span class="fu">getParameters</span>()<span class="sc">$</span>BD<span class="sc">+</span><span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="at">l=</span><span class="dv">11</span>),<span class="at">l=</span>n)),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">eta_SP_diffusion =</span> <span class="fu">rnorm</span>(n, <span class="fl">1.55</span>, <span class="fl">0.28</span>),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">eta_18O_diffusion =</span> <span class="fu">rnorm</span>(n, <span class="sc">-</span><span class="fl">7.79</span>, <span class="fl">0.27</span>),</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">SP_nitrification =</span> <span class="fu">runif</span>(n, <span class="dv">32</span>, <span class="fl">38.7</span>),</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">d18O_nitrification =</span> <span class="fu">rnorm</span>(n, <span class="fl">23.5</span>, <span class="dv">3</span>),</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">SP_denitrification =</span> <span class="fu">runif</span>(n, <span class="sc">-</span><span class="fl">13.6</span>, <span class="fl">3.7</span>),</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">d18O_denitrification =</span> <span class="fu">rnorm</span>(n, <span class="fl">11.1</span>, <span class="dv">2</span>),</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">eta_SP_reduction =</span> <span class="fu">runif</span>(n,<span class="sc">-</span><span class="dv">8</span>,<span class="sc">-</span><span class="dv">2</span>),</span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">eta_18O_reduction =</span> <span class="fu">runif</span>(n,<span class="sc">-</span><span class="dv">18</span>,<span class="sc">-</span><span class="dv">12</span>)</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>To conduct the sensitivity analysis, a data frame with parameters sampled according to the distributions in <a href="#tbl-sensitivity" class="quarto-xref">Table&nbsp;<span>6.1</span></a> is created. We draw <code>n</code> parameter sets in total, where <code>n</code> is calculated based on the columns, depth layers and the <code>SAMPLESIZE</code> variable – in the script set to be 300. Note that in order to boost the sensitivity analysis, we only run the process rate estimator with 15 samples<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> for the <code>BB::multiStart</code> solver for every day.</p>
+<div class="no-row-height column-margin column-container"><div id="fn1"><p><sup>1</sup>&nbsp;In the <code>longPRE</code> function from the package <code>PRE</code>, this number is passed via the argument <code>n</code>.</p></div></div><div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>parameters <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1">1</button><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">expand.grid</span>(<span class="at">repetition =</span> <span class="dv">1</span><span class="sc">:</span>SAMPLESIZE,</span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>                <span class="at">column =</span> COLUMNS,</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">depth =</span> DEPTHS)[<span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span>n),<span class="sc">-</span><span class="dv">1</span>],</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2">2</button><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">BD =</span> <span class="fu">sort</span>(<span class="fu">rep</span>(PRE<span class="sc">::</span><span class="fu">getParameters</span>()<span class="sc">$</span>BD<span class="sc">+</span><span class="fu">seq</span>(<span class="sc">-</span><span class="fl">0.1</span>,<span class="fl">0.1</span>,<span class="at">l=</span><span class="dv">11</span>),<span class="at">l=</span>n)),</span>
+<span id="annotated-cell-3-6"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">eta_SP_diffusion =</span> <span class="fu">rnorm</span>(n, <span class="fl">1.55</span>, <span class="fl">0.28</span>),</span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">eta_18O_diffusion =</span> <span class="fu">rnorm</span>(n, <span class="sc">-</span><span class="fl">7.79</span>, <span class="fl">0.27</span>),</span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">SP_nitrification =</span> <span class="fu">runif</span>(n, <span class="dv">32</span>, <span class="fl">38.7</span>),</span>
+<span id="annotated-cell-3-9"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">d18O_nitrification =</span> <span class="fu">rnorm</span>(n, <span class="fl">23.5</span>, <span class="dv">3</span>),</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">SP_denitrification =</span> <span class="fu">runif</span>(n, <span class="sc">-</span><span class="fl">13.6</span>, <span class="fl">3.7</span>),</span>
+<span id="annotated-cell-3-11"><a href="#annotated-cell-3-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">d18O_denitrification =</span> <span class="fu">runif</span>(n, <span class="fl">2.5</span>, <span class="fl">13.4</span>),</span>
+<span id="annotated-cell-3-12"><a href="#annotated-cell-3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">eta_SP_reduction =</span> <span class="fu">runif</span>(n,<span class="sc">-</span><span class="fl">8.2</span>,<span class="sc">-</span><span class="fl">2.9</span>),</span>
+<span id="annotated-cell-3-13"><a href="#annotated-cell-3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">eta_18O_reduction =</span> <span class="fu">runif</span>(n,<span class="sc">-</span><span class="fl">25.1</span>,<span class="sc">-</span><span class="fl">5.1</span>)</span>
+<span id="annotated-cell-3-14"><a href="#annotated-cell-3-14" aria-hidden="true" tabindex="-1"></a>    )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-hidden code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="2,4" data-code-annotation="1">Randomly re-order the variables for repetition, column and depth.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="2">Sort the generated parameter values for bulk density.</span>
+</dd>
+</dl>
+</div>
 </div>
 <p>Note that the experimental parameter grid (containing information about column and depth layer) is shuffled randomly. We do this to prevent columns or depths to correlate with the bulk density (<code>BD</code>). The bulk density parameter needs to be sorted, since it’s not a parameter that’s passed to the PRE model, but rather one that is used to prepare the data used in the model. In order to reduce the number of times needed to prepare said data, we’ll sort <code>BD</code> and we’ll only update the data if <code>BD</code> changes.</p>
 </section>
 <section id="sec-calculating" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="sec-calculating"><span class="header-section-number">6.3</span> Calculating the model output of interest</h2>
-<p>Next, we write a function <code>f</code> that will run the process rate estimator for a specified column and depth with the parameters in the vector <code>p</code> — which coincides to one row in the <code>parameters</code> data frame.</p>
+<p>Next, we’ll loop over every row in the newly created <code>parameters</code> data frame. Each row contains a set of unique parameters to re-run the process rate estimator on. The results will be saved in a corresponding data frame – this constitutes the data to be analyzed for the sensitivity analysis.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>results <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">Nitrification =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n),</span>
 <span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Denitrification =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n),</span>
 <span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">Reduction =</span> <span class="fu">rep</span>(<span class="cn">NA</span>, n))</span>
 <span id="annotated-cell-4-4"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>BD <span class="ot">&lt;-</span> <span class="dv">0</span></span>
 <span id="annotated-cell-4-5"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n) {</span>
-<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>    </span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span>(parameters[i,<span class="st">"BD"</span>]<span class="sc">==</span>BD)){</span>
-<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>        BD <span class="ot">&lt;-</span> parameters[i,<span class="st">"BD"</span>]</span>
-<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-9" class="code-annotation-target"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>        P <span class="ot">&lt;-</span> <span class="fu">getParameters</span>(<span class="at">BD =</span> BD)</span>
-<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>        data <span class="ot">&lt;-</span> PRE<span class="sc">::</span>measurements <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">getN2ON</span>(P) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">getMissing</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>            <span class="fu">calculateFluxes</span>(P, <span class="cn">FALSE</span>)</span>
-<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a>    P <span class="ot">&lt;-</span> <span class="fu">do.call</span>(getParameters, <span class="fu">as.list</span>(parameters[i,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)]))</span>
-<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a>    results[i,] <span class="ot">&lt;-</span> <span class="fu">longPRE</span>(<span class="at">data =</span> data,</span>
-<span id="annotated-cell-4-18"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>                           <span class="at">column =</span> parameters[i,<span class="st">"column"</span>],</span>
-<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a>                           <span class="at">depth =</span> parameters[i,<span class="st">"depth"</span>],</span>
-<span id="annotated-cell-4-20"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a>                           <span class="at">n =</span> SAMPLEREPEAT,</span>
-<span id="annotated-cell-4-21"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a>                           <span class="at">parameters =</span> P,</span>
-<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a>                           <span class="at">verbose =</span> <span class="cn">FALSE</span>)[[<span class="st">"processes"</span>]]</span>
-<span id="annotated-cell-4-23"><a href="#annotated-cell-4-23" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="annotated-cell-4-24"><a href="#annotated-cell-4-24" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1">1</button><span id="annotated-cell-4-6" class="code-annotation-target"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span>(parameters[i,<span class="st">"BD"</span>]<span class="sc">==</span>BD)){</span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>        BD <span class="ot">&lt;-</span> parameters[i,<span class="st">"BD"</span>]</span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>        P <span class="ot">&lt;-</span> <span class="fu">getParameters</span>(<span class="at">BD =</span> BD)</span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>        data <span class="ot">&lt;-</span> PRE<span class="sc">::</span>measurements <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-10"><a href="#annotated-cell-4-10" aria-hidden="true" tabindex="-1"></a>            <span class="fu">getN2ON</span>(P) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-11"><a href="#annotated-cell-4-11" aria-hidden="true" tabindex="-1"></a>            <span class="fu">getMissing</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-12"><a href="#annotated-cell-4-12" aria-hidden="true" tabindex="-1"></a>            <span class="fu">calculateFluxes</span>(P, <span class="cn">FALSE</span>)</span>
+<span id="annotated-cell-4-13"><a href="#annotated-cell-4-13" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="annotated-cell-4-14"><a href="#annotated-cell-4-14" aria-hidden="true" tabindex="-1"></a>    x <span class="ot">&lt;-</span> <span class="fu">longPRE</span>(<span class="at">data =</span> data,</span>
+<span id="annotated-cell-4-15"><a href="#annotated-cell-4-15" aria-hidden="true" tabindex="-1"></a>                 <span class="at">column =</span> parameters[i,<span class="st">"column"</span>],</span>
+<span id="annotated-cell-4-16"><a href="#annotated-cell-4-16" aria-hidden="true" tabindex="-1"></a>                 <span class="at">depth =</span> parameters[i,<span class="st">"depth"</span>],</span>
+<span id="annotated-cell-4-17"><a href="#annotated-cell-4-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">n =</span> SAMPLEREPEAT,</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2">2</button><span id="annotated-cell-4-18" class="code-annotation-target"><a href="#annotated-cell-4-18" aria-hidden="true" tabindex="-1"></a>                 <span class="at">parameters =</span> <span class="fu">do.call</span>(PRE<span class="sc">::</span>getParameters,</span>
+<span id="annotated-cell-4-19"><a href="#annotated-cell-4-19" aria-hidden="true" tabindex="-1"></a>                                      <span class="fu">as.list</span>(parameters[i,<span class="sc">-</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>)])),</span>
+<span id="annotated-cell-4-20"><a href="#annotated-cell-4-20" aria-hidden="true" tabindex="-1"></a>                 <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span>
+<button class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3">3</button><span id="annotated-cell-4-21" class="code-annotation-target"><a href="#annotated-cell-4-21" aria-hidden="true" tabindex="-1"></a>    results[i,] <span class="ot">&lt;-</span> x[[<span class="st">"processes"</span>]]</span>
+<span id="annotated-cell-4-22"><a href="#annotated-cell-4-22" aria-hidden="true" tabindex="-1"></a>}</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-hidden code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="7" data-code-annotation="1">Check if the bulk density value <code>BD</code> has changed since the last iteration.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="6,13" data-code-annotation="1">Check if the bulk density value <code>BD</code> has changed since the last iteration. If not, there is no need to repeat the data preparation process.</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="9,13" data-code-annotation="2">Prepare the <code>measurements</code> data with a new bulk density value <code>BD</code>.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="18,19" data-code-annotation="2">Use the <code>PRE::getParameters</code> function to swap all relevant parameters for the process rate estimator with the current set of sampled parameters.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="21" data-code-annotation="3">Save the results <code>x</code> in a table called <code>results</code>.</span>
 </dd>
 </dl>
 </div>
 </div>
-<p>That function makes it very straightforward to compute the data for the sensitivity analysis. We’ll simply apply <code>f</code> to every single row in <code>parameters</code> using the <code>apply</code> function <span class="citation" data-cites="wickham2011split">(<a href="references.html#ref-wickham2011split" role="doc-biblioref">Wickham 2011</a>)</span>.</p>
+<p>Note that running this entire script may take a few days as many resource intensive computations are repeated thousands of times.</p>
 </section>
 <section id="sec-emulator" class="level2 page-columns page-full" data-number="6.4">
 <h2 data-number="6.4" class="anchored" data-anchor-id="sec-emulator"><span class="header-section-number">6.4</span> Emulation of the model outputs</h2>
-<p>To conduct the sensitivity analysis, we now model the results based on the sampled parameters – so we treat the sampled parameters as independent variables <span class="math inline">\(\mathbf X\)</span>, and the computed process rates as dependent variables <span class="math inline">\(\mathbf Y\)</span>.</p>
-<p>A commonly applied method of sensitivity analysis is Sobol’s method, which decomposes the total variance and assigns it to individual parameters specific interactions <span class="citation" data-cites="sobol1990sensitivity">(<a href="references.html#ref-sobol1990sensitivity" role="doc-biblioref">Sobol’ 1990</a>)</span>. However, Sobol’s method require’s a large number of resampling, and is thus unfit for this application. Instead, a linear regression model is used as an emulator. Often, this works fine enough because even though the reponse might not be linear overall, it can be approximated by a linear model well enough on a specific parameter interval.</p>
-<p>First, we might look at the pairwise correlations between columns of <span class="math inline">\(\mathbf X\)</span> and <span class="math inline">\(\mathbf Y\)</span>, i.e.&nbsp;all combinations of process rates as well as isotope end members (<a href="#fig-sensitivity" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>).</p>
+<p>To conduct the sensitivity analysis, we now model the results based on the sampled parameters – so we treat the sampled parameters as independent variables <span class="math inline">\(\mathbf X\)</span>, and the computed mean process rates over time as dependent variables <span class="math inline">\(\mathbf Y\)</span>.</p>
+<p>A commonly applied method of sensitivity analysis is Sobol’s method, which decomposes the total variance and assigns it to individual parameters specific interactions <span class="citation" data-cites="sobol1990sensitivity">(<a href="references.html#ref-sobol1990sensitivity" role="doc-biblioref">Sobol’ 1990</a>)</span>. However, Sobol’s method requires a large number of resampling, and is thus unfit for this application, because every model run is rather expensive. Instead, a linear regression model is used as an emulator. Often, this works fine enough because even though the response might not be linear overall, it can be approximated well enough by a linear model on a specific parameter interval.</p>
+<p>First, we might look at the pairwise correlations between columns of <span class="math inline">\(\mathbf X\)</span> and <span class="math inline">\(\mathbf Y\)</span>, i.e.&nbsp;all combinations of process rates as well as bulk density and isotope end members (<a href="#fig-sensitivity" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>).</p>
 <div class="page-columns page-full">
 <div id="fig-sensitivity" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
 <figure class="quarto-float quarto-float-fig figure page-columns page-full">
@@ -463,17 +484,19 @@ Table&nbsp;6.1: Isotope end-members values used for modeling gross nitrification
 <img src="scripts/sensitivity-analysis/output/sensitivity-1-7.5.svg" class="img-fluid figure-img column-screen-inset" style="width:100.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sensitivity-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.1: Pairwise results of the process rates (y-axis) and the isotope end members (x-axis) for column 1 at 7.5 cm depth. The red lines indicate the respective linear models with their 95% conficence intervals. The black bar to the right of each plot represents the magnitude of the absolute standardized regression coefficient (SRC). The absolute SRC can range from 0 to 1, where an SRC of 1 would range the entire plot plane. As such, these bars represent the importance of a given parameter for emulating the respective process.
+Figure&nbsp;6.1: Pairwise results of the process rates (y-axis) and the isotope end members (x-axis) for column 1 at 7.5 cm depth. To evaluate the results of other depth-column combinations, visit the <a href="https://github.com/Damian-Oswald/process-rate-estimator/tree/main/scripts/sensitivity-analysis/output">respective GitHub repository site</a>. The red lines indicate the respective linear models with their 95% conficence intervals. The black bar to the right of each plot represents the magnitude of the absolute standardized regression coefficient (SRC). The absolute SRC can range from 0 to 1, where an SRC of 1 would range the entire plot plane. As such, these bars represent the importance of a given parameter for emulating the respective process.
 </figcaption>
 </figure>
 </div>
 </div>
-<p><a href="#fig-sensitivity" class="quarto-xref">Figure&nbsp;<span>6.1</span></a> already reveals quite a lot, but it would be better to construct a multiple linear regression model where we include all isotope end members at the same time.</p>
-<p>The table below shows the resulting coefficients of such a multiple linear regression model. We can directly interpret the regression coefficients without any further modifications, as all considered variables share the same unit (‰).</p>
+<p><a href="#fig-sensitivity" class="quarto-xref">Figure&nbsp;<span>6.1</span></a> already reveals quite a lot, but in order to quantify the individual effects, it would be better to construct a multivariate linear regression model where we include all isotope end members at the same time.</p>
+<p><span id="eq-lm"><span class="math display">\[\mathbf Y = \mathbf X \mathbf B + \mathbf U \tag{6.1}\]</span></span></p>
+<p>For further analysis, we are interested in the coefficients <span class="math inline">\(\mathbf B\)</span> of this multivariate linear model, not its predictions. Individual coefficients will be referred to as <span class="math inline">\(\beta_i\)</span>. Note that ever though an intercept <span class="math inline">\(\beta_0\)</span> is included in these models, it is not interesting and thus will be excluded from further analyses.</p>
+<p>A model as specified in <a href="#eq-lm" class="quarto-xref">Equation&nbsp;<span>6.1</span></a> is fit for every combination of depth and column separately. Thus, this leads to repeated coefficient estimates for each parameter (or variable, in this context).</p>
 </section>
 <section id="sec-contributions" class="level2 page-columns page-full" data-number="6.5">
 <h2 data-number="6.5" class="anchored" data-anchor-id="sec-contributions"><span class="header-section-number">6.5</span> Estimate parameter contributions to the output variance</h2>
-<p>In this section, the focus is on interpreting the raw coefficients <span class="math inline">\(\boldsymbol \beta\)</span> derived from the set of linear regression models that were fit in the last section. These coefficients provide a numerical representation of the influence each parameter has on the model’s predictions.</p>
+<p>In this section, the focus is on interpreting the raw coefficients <span class="math inline">\(\boldsymbol \beta\)</span> derived from the set of linear regression models that were fit in the last section. These coefficients provide a numerical representation of the influence each parameter has on the process rate estimates.</p>
 <section id="looking-at-the-raw-coefficients" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="looking-at-the-raw-coefficients">Looking at the raw coefficients</h3>
 <p>Each coefficient <span class="math inline">\(\beta_i\)</span> represents the change in the output variable for a one-unit change in the parameter, holding all other parameters constant. This allows us to directly assess the sensitivity of the model to changes in each specific parameter.</p>
@@ -584,16 +607,14 @@ Figure&nbsp;6.2: Results of the coefficients for all processes and parameters. T
 </figure>
 </div>
 </div>
-<p>This means that while a coefficient can indicate how much the output will change with a one-unit change in the parameter, it doesn’t reflect uncertain that parameter might be in real-world scenarios. The parameter variability or uncertainty however massively influences its importance. In order to consider the actual contribution of parameters to the model outcome variability, looking at the standardized regression coefficient is more appropriate.</p>
+<p>This means that while a coefficient can indicate how much the output will change with a one-unit change in the parameter, it doesn’t take into account the uncertainty of the parameter itself, which is also a driver of the overall contribution to the model sensitivity. In order to consider the actual contribution of parameters to the model outcome variability, looking at the standardized regression coefficient is more appropriate.</p>
 </section>
 <section id="standardized-regression-coefficients" class="level3 page-columns page-full">
 <h3 class="anchored" data-anchor-id="standardized-regression-coefficients">Standardized regression coefficients</h3>
-<p>The standardized regression coefficient (SRC, <span class="math inline">\(\beta^\ast\)</span>), often referred to as beta coefficient in statistical models, measures the strength and direction of the relationship between an independent variable and the dependent variable in a regression model, with all variables being standardized. The SRC can also be simply calculated as:</p>
-<p><span id="eq-src"><span class="math display">\[\beta^\ast_i = \frac{\sigma_{x_i}}{\sigma_y} \beta_i \tag{6.1}\]</span></span></p>
+<p>The standardized regression coefficient (SRC, <span class="math inline">\(\beta^\ast\)</span>), often referred to as beta coefficient in statistical models, measures the strength and direction of the relationship between an independent variable and the dependent variable in a regression model, with all variables being standardized. The SRC can be calculated as:</p>
+<p><span id="eq-src"><span class="math display">\[\beta^\ast_i = \frac{\sigma_{x_i}}{\sigma_y} \beta_i \tag{6.2}\]</span></span></p>
 <p>where <span class="math inline">\(\beta_i\)</span> is the estimated coefficient of a predictor <span class="math inline">\(x_i\)</span> in a linear model, <span class="math inline">\(\sigma_{x_i}\)</span> is the predictor’s standard deviation, while <span class="math inline">\(\sigma_{y}\)</span> is the response’s standard deviation. A consequence of standardizing the coefficients is that they all fall into the range between -1 and 1.</p>
-<p>The key advantage of using standardized coefficients is that it allows for direct comparison of the relative importance or impact of each independent variable on the dependent variable across different studies or models, even when the variables are measured on different scales. This facilitates a clearer understanding of which variables have the most significant influence on the outcome, making it a useful tool in many fields where interpreting the magnitude of predictive relationships is critical.</p>
-<p>Standardized regression coefficients are especially useful for sensitivity analyses because they provide a scale-independent measure of the relative importance of each predictor variable in the model. Sensitivity analysis aims to understand how changes in input variables affect the output of a model. They facilitate this by quantifying the effect size of each variable in a comparable way.</p>
-<p>Since the coefficients are standardized, they remove the unit dependence that can obscure the interpretation of the coefficients in models involving variables measured on different scales or units. This standardization allows researchers to directly compare the influence of each variable, making it clearer which variables are more sensitive or have a greater impact on the outcome variable (<a href="#tbl-src" class="quarto-xref">Table&nbsp;<span>6.3</span></a>).</p>
+<p>The key advantage of using standardized regression coefficients is that it allows for direct comparison of the relative importance or impact of each independent variable on the dependent variable across different studies or models, even when the variables are measured on different scales. This enables a clearer understanding of which variables have the most significant influence on the outcome, making it a useful tool for a sensitivity analysis. Now, the value assigned to each parameter represents its relative importance (<a href="#tbl-src" class="quarto-xref">Table&nbsp;<span>6.3</span></a>).</p>
 <div id="tbl-src" class="cell quarto-float anchored" data-tbl-colwidths="[10,30,30,30]">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-src-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -743,20 +764,7 @@ Figure&nbsp;6.3: Results of the standardized regression coefficients (SRC) for a
 </section>
 <section id="variance-decomposition" class="level3">
 <h3 class="anchored" data-anchor-id="variance-decomposition">Variance decomposition</h3>
-<p>The final variance decomposition is computed from a classical multi-way analysis of variance (ANOVA) which was developed and formally described by Ronald A. Fisher <span class="citation" data-cites="fisher1926arrangement fisher1966design">(<a href="references.html#ref-fisher1926arrangement" role="doc-biblioref">Fisher 1926</a>, <a href="references.html#ref-fisher1966design" role="doc-biblioref">Fisher 1966</a>)</span>.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Why were the SRC not used for variance decomposition? SRC, when squared, could also be used for variance decomposition. However, the sum of squared SRC do not match with the R<sup>2</sup> with the models; thus, the ANOVA was used as a method of variance decomposition. Variance decomposition and SRC<sup>2</sup> are almost perfectly correlated in the absence of collinearity.</p>
-</div>
-</div>
+<p>The squared SRC is related to the variance decomposition performed by the analysis of variance (ANOVA), which was developed and formally described by Ronald A. Fisher <span class="citation" data-cites="fisher1926arrangement fisher1966design">(<a href="references.html#ref-fisher1926arrangement" role="doc-biblioref">Fisher 1926</a>, <a href="references.html#ref-fisher1966design" role="doc-biblioref">Fisher 1966</a>)</span>. In the absence of multicollinearity, the expected values of both the ANOVA relative sum of squares and the squared SRC are the same <span class="citation" data-cites="novak2015partial">(<a href="references.html#ref-novak2015partial" role="doc-biblioref">Novak 2015</a>)</span>. However, the ANOVA has the nice property that the assigned variance explained matches the overall goodness of fit (R<sup>2</sup>) of the models perfectly. Thus, the final variance decomposition is computed from a classical multi-way ANOVA.</p>
 <div id="fig-src" class="quarto-figure quarto-figure-center quarto-float anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-src-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -790,6 +798,9 @@ Fisher, R. A. 1966. The design of experiments. Oliver; Boyd Edinburgh.
 <div id="ref-lewicka2017quantifying" class="csl-entry" role="listitem">
 Lewicka-Szczebak, D., J. Augustin, A. Giesemann, and R. Well. 2017. Quantifying N₂O reduction to N₂ based on N₂O isotopocules – validation with independent methods (helium incubation and ¹⁵N gas flux method). Biogeosciences 14:711–732.
 </div>
+<div id="ref-novak2015partial" class="csl-entry" role="listitem">
+Novak, C. 2015. <a href="https://stats.stackexchange.com/questions/64010/importance-of-predictors-in-multiple-regression-partial-r2-vs-standardized">Importance of predictors in multiple regression: Partial R2 vs. Standardized coefficients</a>. Online.
+</div>
 <div id="ref-saltelli2004global" class="csl-entry" role="listitem">
 Saltelli, A. 2004. Global sensitivity analysis: An introduction. Page 43 Proc. 4th international conference on sensitivity analysis of model output (SAMO’04). Citeseer.
 </div>
@@ -802,15 +813,13 @@ Trucano, T. G., L. P. Swiler, T. Igusa, W. L. Oberkampf, and M. Pilch. 2006. Cal
 <div id="ref-well2008isotope" class="csl-entry" role="listitem">
 Well, R., and H. Flessa. 2008. Isotope fractionation factors of N₂O diffusion. Rapid Communications in Mass Spectrometry: An International Journal Devoted to the Rapid Dissemination of Up-to-the-Minute Research in Mass Spectrometry 22:2621–2628.
 </div>
-<div id="ref-wickham2011split" class="csl-entry" role="listitem">
-Wickham, H. 2011. The split-apply-combine strategy for data analysis. Journal of statistical software 40:1–29.
-</div>
 <div id="ref-yu2020can" class="csl-entry" role="listitem">
 Yu, L., E. Harris, D. Lewicka-Szczebak, M. Barthel, M. R. Blomberg, S. J. Harris, M. S. Johnson, M. F. Lehmann, J. Liisberg, C. Müller, and others. 2020. What can we learn from N2O isotope data?–analytics, processes and modelling. Rapid Communications in Mass Spectrometry 34:e8858.
 </div>
 </div>
 </section>
 </section>
+
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

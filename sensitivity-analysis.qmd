@@ -7,9 +7,13 @@ execute:
 
 Sensitivity analysis is a method used to determine how different values of model parameters impact a particular model output value under a given set of assumptions [@trucano2006calibration]. Alternatively, this method is viewed as assessing a model's sensitivity to its inputs rather than its parameters [@borgonovo2016sensitivity].
 
-In the context of the process rate estimator (PRE), the sensitivity analysis delves into how the PRE sensitivity is affected by alterations to the least certain model parameters like isotope end members or bulk density. The model inputs such as moisture, N~2~O, SP, and δ^18^O measurements on the other hand are taken for granted. It would be conceivable to extend the sensitivity analysis to encompass model input variables, additional model parameters or pre-processing variables, including physical parameters involved in pre-processing and the bandwidth parameter utilized for data smoothing, among others. However, such an extension would be computationally unfeasible and was thus not performed.
+In the context of the process rate estimator (PRE), the sensitivity analysis aims to quantify by how much the estimated process rates are affected by alterations to the least certain model parameters like isotope end members or bulk density.
+Since process rates are repeatedly estimated over time, the mean process rates over the entire time span are used for the sensitivity analysis.
+Any model inputs such as moisture, N~2~O, SP, and δ^18^O measurements on the other hand are taken for granted.
+It would be conceivable to extend the sensitivity analysis to encompass model input variables, additional model parameters or pre-processing variables, including physical parameters involved in pre-processing and the bandwidth parameter utilized for data smoothing, among others.
+However, such an extension would be extremely computationally expensive and was thus not performed.
 
-By systematically varying key parameters, sensitivity analysis helps in identifying which variables have the most significant impact on the outcome, aiding in decision-making and risk assessment.
+By systematically varying key parameters, a sensitivity analysis helps in identifying which variables impact the outcome the most.
 Generally, sensitivity analyses are conducted in five steps:
 
 1. [Defining the parameter distribution](sensitivity-analysis.qmd#sec-prior), ideally reflecting the uncertainty around each parameter.
@@ -21,12 +25,13 @@ Generally, sensitivity analyses are conducted in five steps:
 The first step is usually the hardest one, as it requires an extensive review of prior knowledge of the parameters.
 Global sensitivity analysis examines the allocation of output uncertainty in a model (whether numerical or not) to various input uncertainty sources. The term "global" is specifically used to distinguish it from the more commonly encountered local or one-factor-at-a-time analyses found in the literature, as highlighted by @saltelli2004global.
 
-## Defining the prior parameter distribution {#sec-prior}
+## Defining the parameter distribution {#sec-prior}
 
-The prior distribution of the parameters is displayed in [table @tbl-sensitivity]. It is adopted from @yu2020can, but in turn also based on research from @well2008isotope, @decock2013potential, @lewicka2017quantifying and @denk2017nitrogen.
+The first step of the sensitivity analysis incorporates expressing the known uncertainty of each parameter as a distribution. The chosen distribution of the parameters is displayed in [table @tbl-sensitivity]. It is adopted from @yu2020can, but in turn also based on research from @well2008isotope, @decock2013potential, @lewicka2017quantifying and @denk2017nitrogen.
 
-| End Member             |                                 | Value [‰] | Parameter uncertainty            |
+| Parameter              |                                 | Value [‰] | Parameter uncertainty            |
 |------------------------|---------------------------------|-----------|----------------------------------|
+| `BD`                   | Bulk density                    | 1.686     | $\sim \mathcal{U} (\left\{1.59, 1.61, ..., 1.77, 1.79\right\})$  |
 | `eta_SP_diffusion`     | $\eta\: \text{SP}_\text{diff.}$ | 1.55      | $\sim \mathcal{N}(1.55, 0.28^2)$ |
 | `eta_18O_diffusion`    | $\eta\ce{^{18}O}_\text{diff.}$  | -7.79     | $\sim \mathcal{N}(-7.79, 0.27^2)$|
 | `SP_nitrification`     | $\text{SP}_\text{nit.}$         | 35        | $\sim \mathcal{U}(32, 38.7)$     |
@@ -36,52 +41,58 @@ The prior distribution of the parameters is displayed in [table @tbl-sensitivity
 | `eta_SP_reduction`     | $\eta\:\text{SP}_\text{red.}$   | -5.9      | $\sim \mathcal{U}(-8.2, -2.9)$   |
 | `eta_18O_reduction`    | $\eta\ce{^{18}O_\text{red.}}$   | -15.4     | $\sim \mathcal{U}(-25.1, -5.1)$  |
 
-: Isotope end-members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. End-members are adopted from @yu2020can. For propagating the parameter uncertainty in the sensitivity and uncertainty analysis, parameters are randomly sampled either from a Gaussian $\mathcal N(\mu, \sigma^2)$ or a uniform $\mathcal U (a,b)$ distribution. {#tbl-sensitivity tbl-colwidths="[30,20,20,30]"}
+: Isotope end-members values used for modeling gross nitrification derived N~2~O production, gross denitrification derived N~2~O production, and gross N~2~O reduction. End-members are adopted from @yu2020can. For propagating the parameter uncertainty in the sensitivity and uncertainty analysis, parameters are randomly sampled either from a Gaussian $\mathcal N(\mu, \sigma^2)$ or a uniform $\mathcal U (a,b)$ distribution. {#tbl-sensitivity tbl-colwidths="[28,18,18,36]"}
 
-Parameters are either drawn from a Gaussian distribution specified by its mean $\mu$ and variance $\sigma^2$ or from a uniform distribution specified by a lower bound $a$ and upper bound $b$.
+As noted in the table, parameters are either drawn from a Gaussian distribution specified by its mean and variance $\mathcal N(\mu, \sigma^2)$ or from a uniform distribution specified by a lower and upper bound $\mathcal U (a,b)$. There's one exception to this: the bulk density is sampled from a predefined set of values. This procedure allowed to re-use the same prepared data (as described in chapter 3) for multiple parameter sets and thus made the sensitivity less computationally intensive.
 
 ## Sampling from the parameter space {#sec-sampling}
 
-The following section describes in detail how the sensitivity analysis is run. The script used to run the sensitivity analysis can be found in the respective GitHub repository. After successfully cloning the repository, the data for the sensitivity analysis can be reproduced simply by running the following command in the terminal.
+The next step of the sensitivity analysis involves sampling specific instances from the specified parameter space. This step, as well as the following ones, are performed by an R script.
+The script used to run the sensitivity analysis can be found in the [respective GitHub repository](https://github.com/Damian-Oswald/process-rate-estimator).
+After successfully cloning the repository, the results of the sensitivity analysis can be reproduced simply by running the following command in the terminal.
 
 ```bash
 Rscript scripts/sensitivity-analysis/01-sensitivitiy-analysis.R
 ```
 
-
+For documentation purposes, some snippets of that script are highlighted in this section. The following code defines that the sensitivity analysis ought to be applied on all combinations of columns and depths. Here, we are choosing a sample size of 300, which means that for every distinct combination of depth and column, we will be sampling 300 sets of parameters.
 
 ```{r}
 COLUMNS = 1:12
 DEPTHS = PRE::getParameters()$depths
-SAMPLESIZE = 20
-SAMPLEREPEAT = 3
+SAMPLESIZE = 300
+SAMPLEREPEAT = 15
 n <- SAMPLESIZE * length(COLUMNS) * length(DEPTHS)
 ```
 
-To conduct the sensitivity analysis, a data frame with parameters sampled according to the distributions in @tbl-sensitivity is created. We draw `n` parameter sets in total, where `n` is calculated based on the columns, depth layers and the `SAMPLESIZE` variable.
+To conduct the sensitivity analysis, a data frame with parameters sampled according to the distributions in @tbl-sensitivity is created. We draw `n` parameter sets in total, where `n` is calculated based on the columns, depth layers and the `SAMPLESIZE` variable -- in the script set to be 300. Note that in order to boost the sensitivity analysis, we only run the process rate estimator with 15 samples[^n] for the `BB::multiStart` solver for every day.
+
+[^n]: In the `longPRE` function from the package `PRE`, this number is passed via the argument `n`.
 
 ```{r}
 parameters <- data.frame(
-    expand.grid(repetition = 1:SAMPLESIZE,
+    expand.grid(repetition = 1:SAMPLESIZE, #<1>
                 column = COLUMNS,
-                depth = DEPTHS)[sample(1:n),-1],
-    BD = sort(rep(getParameters()$BD+seq(-0.1,0.1,l=11),l=n)),
+                depth = DEPTHS)[sample(1:n),-1], #<1>
+    BD = sort(rep(PRE::getParameters()$BD+seq(-0.1,0.1,l=11),l=n)), #<2>
     eta_SP_diffusion = rnorm(n, 1.55, 0.28),
     eta_18O_diffusion = rnorm(n, -7.79, 0.27),
     SP_nitrification = runif(n, 32, 38.7),
     d18O_nitrification = rnorm(n, 23.5, 3),
     SP_denitrification = runif(n, -13.6, 3.7),
-    d18O_denitrification = rnorm(n, 11.1, 2),
-    eta_SP_reduction = runif(n,-8,-2),
-    eta_18O_reduction = runif(n,-18,-12)
+    d18O_denitrification = runif(n, 2.5, 13.4),
+    eta_SP_reduction = runif(n,-8.2,-2.9),
+    eta_18O_reduction = runif(n,-25.1,-5.1)
     )
 ```
+1. Randomly re-order the variables for repetition, column and depth.
+2. Sort the generated parameter values for bulk density.
 
 Note that the experimental parameter grid (containing information about column and depth layer) is shuffled randomly. We do this to prevent columns or depths to correlate with the bulk density (`BD`). The bulk density parameter needs to be sorted, since it's not a parameter that's passed to the PRE model, but rather one that is used to prepare the data used in the model. In order to reduce the number of times needed to prepare said data, we'll sort `BD` and we'll only update the data if `BD` changes.
 
 ## Calculating the model output of interest {#sec-calculating}
 
-Next, we write a function `f` that will run the process rate estimator for a specified column and depth with the parameters in the vector `p` --- which coincides to one row in the `parameters` data frame.
+Next, we'll loop over every row in the newly created `parameters` data frame. Each row contains a set of unique parameters to re-run the process rate estimator on. The results will be saved in a corresponding data frame -- this constitutes the data to be analyzed for the sensitivity analysis.
 
 ```{r}
 results <- data.frame(Nitrification = rep(NA, n),
@@ -89,50 +100,53 @@ results <- data.frame(Nitrification = rep(NA, n),
                       Reduction = rep(NA, n))
 BD <- 0
 for (i in 1:n) {
-    
     if(!(parameters[i,"BD"]==BD)){ #<1>
         BD <- parameters[i,"BD"]
-        P <- getParameters(BD = BD) #<2>
+        P <- getParameters(BD = BD)
         data <- PRE::measurements |>
             getN2ON(P) |>
             getMissing() |>
-            calculateFluxes(P, FALSE) #<2>
-    }
-    
-    P <- do.call(getParameters, as.list(parameters[i,-(1:3)]))
-    results[i,] <- longPRE(data = data,
-                           column = parameters[i,"column"],
-                           depth = parameters[i,"depth"],
-                           n = SAMPLEREPEAT,
-                           parameters = P,
-                           verbose = FALSE)[["processes"]]
-    
+            calculateFluxes(P, FALSE)
+    } #<1>
+    x <- longPRE(data = data,
+                 column = parameters[i,"column"],
+                 depth = parameters[i,"depth"],
+                 n = SAMPLEREPEAT,
+                 parameters = do.call(PRE::getParameters, #<2>
+                                      as.list(parameters[i,-(1:3)])), #<2>
+                 verbose = FALSE)
+    results[i,] <- x[["processes"]] #<3>
 }
 ```
-1. Check if the bulk density value `BD` has changed since the last iteration.
-2. Prepare the `measurements` data with a new bulk density value `BD`.
+1. Check if the bulk density value `BD` has changed since the last iteration. If not, there is no need to repeat the data preparation process.
+2. Use the `PRE::getParameters` function to swap all relevant parameters for the process rate estimator with the current set of sampled parameters.
+3. Save the results `x` in a table called `results`.
 
-That function makes it very straightforward to compute the data for the sensitivity analysis. We'll simply apply `f` to every single row in `parameters` using the `apply` function [@wickham2011split].
+Note that running this entire script may take a few days as many resource intensive computations are repeated thousands of times.
 
 ## Emulation of the model outputs {#sec-emulator}
 
-To conduct the sensitivity analysis, we now model the results based on the sampled parameters -- so we treat the sampled parameters as independent variables $\mathbf X$, and the computed process rates as dependent variables $\mathbf Y$.
+To conduct the sensitivity analysis, we now model the results based on the sampled parameters -- so we treat the sampled parameters as independent variables $\mathbf X$, and the computed mean process rates over time as dependent variables $\mathbf Y$.
 
-A commonly applied method of sensitivity analysis is Sobol's method, which decomposes the total variance and assigns it to individual parameters specific interactions [@sobol1990sensitivity]. However, Sobol's method require's a large number of resampling, and is thus unfit for this application. Instead, a linear regression model is used as an emulator. Often, this works fine enough because even though the reponse might not be linear overall, it can be approximated by a linear model well enough on a specific parameter interval.
+A commonly applied method of sensitivity analysis is Sobol's method, which decomposes the total variance and assigns it to individual parameters specific interactions [@sobol1990sensitivity]. However, Sobol's method requires a large number of resampling, and is thus unfit for this application, because every model run is rather expensive. Instead, a linear regression model is used as an emulator. Often, this works fine enough because even though the response might not be linear overall, it can be approximated well enough by a linear model on a specific parameter interval.
 
-First, we might look at the pairwise correlations between columns of $\mathbf X$ and $\mathbf Y$, i.e. all combinations of process rates as well as isotope end members (@fig-sensitivity).
+First, we might look at the pairwise correlations between columns of $\mathbf X$ and $\mathbf Y$, i.e. all combinations of process rates as well as bulk density and isotope end members (@fig-sensitivity).
 
 :::{.column-screen-inset}
-![Pairwise results of the process rates (y-axis) and the isotope end members (x-axis) for column 1 at 7.5 cm depth. The red lines indicate the respective linear models with their 95% conficence intervals. The black bar to the right of each plot represents the magnitude of the absolute standardized regression coefficient (SRC). The absolute SRC can range from 0 to 1, where an SRC of 1 would range the entire plot plane. As such, these bars represent the importance of a given parameter for emulating the respective process.](scripts/sensitivity-analysis/output/sensitivity-1-7.5.svg){#fig-sensitivity width=100%}
+![Pairwise results of the process rates (y-axis) and the isotope end members (x-axis) for column 1 at 7.5 cm depth. To evaluate the results of other depth-column combinations, visit the [respective GitHub repository site](https://github.com/Damian-Oswald/process-rate-estimator/tree/main/scripts/sensitivity-analysis/output). The red lines indicate the respective linear models with their 95% conficence intervals. The black bar to the right of each plot represents the magnitude of the absolute standardized regression coefficient (SRC). The absolute SRC can range from 0 to 1, where an SRC of 1 would range the entire plot plane. As such, these bars represent the importance of a given parameter for emulating the respective process.](scripts/sensitivity-analysis/output/sensitivity-1-7.5.svg){#fig-sensitivity width=100%}
 :::
 
-@fig-sensitivity already reveals quite a lot, but it would be better to construct a multiple linear regression model where we include all isotope end members at the same time.
+@fig-sensitivity already reveals quite a lot, but in order to quantify the individual effects, it would be better to construct a multivariate linear regression model where we include all isotope end members at the same time.
 
-The table below shows the resulting coefficients of such a multiple linear regression model. We can directly interpret the regression coefficients without any further modifications, as all considered variables share the same unit (‰).
+$$\mathbf Y = \mathbf X \mathbf B + \mathbf U$${#eq-lm}
+
+For further analysis, we are interested in the coefficients $\mathbf B$ of this multivariate linear model, not its predictions. Individual coefficients will be referred to as $\beta_i$. Note that ever though an intercept $\beta_0$ is included in these models, it is not interesting and thus will be excluded from further analyses.
+
+A model as specified in @eq-lm is fit for every combination of depth and column separately. Thus, this leads to repeated coefficient estimates for each parameter (or variable, in this context).
 
 ## Estimate parameter contributions to the output variance {#sec-contributions}
 
-In this section, the focus is on interpreting the raw coefficients $\boldsymbol \beta$ derived from the set of linear regression models that were fit in the last section. These coefficients provide a numerical representation of the influence each parameter has on the model's predictions.
+In this section, the focus is on interpreting the raw coefficients $\boldsymbol \beta$ derived from the set of linear regression models that were fit in the last section. These coefficients provide a numerical representation of the influence each parameter has on the process rate estimates.
 
 ### Looking at the raw coefficients
 
@@ -176,26 +190,20 @@ When interpreting the raw coefficients $\boldsymbol \beta$ in the regression mod
 ![Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.](scripts/sensitivity-analysis/output/Coefficients.svg){#fig-coefficients width=100%}
 :::
 
-This means that while a coefficient can indicate how much the output will change with a one-unit change in the parameter, it doesn't reflect uncertain that parameter might be in real-world scenarios.
-The parameter variability or uncertainty however massively influences its importance.
+This means that while a coefficient can indicate how much the output will change with a one-unit change in the parameter, it doesn't take into account the uncertainty of the parameter itself, which is also a driver of the overall contribution to the model sensitivity.
 In order to consider the actual contribution of parameters to the model outcome variability, looking at the standardized regression coefficient is more appropriate.
 
 ### Standardized regression coefficients
 
-The standardized regression coefficient (SRC, $\beta^\ast$), often referred to as beta coefficient in statistical models, measures the strength and direction of the relationship between an independent variable and the dependent variable in a regression model, with all variables being standardized. The SRC can also be simply calculated as:
+The standardized regression coefficient (SRC, $\beta^\ast$), often referred to as beta coefficient in statistical models, measures the strength and direction of the relationship between an independent variable and the dependent variable in a regression model, with all variables being standardized. The SRC can be calculated as:
 
 $$\beta^\ast_i = \frac{\sigma_{x_i}}{\sigma_y} \beta_i$${#eq-src}
 
 where $\beta_i$ is the estimated coefficient of a predictor $x_i$ in a linear model, $\sigma_{x_i}$ is the predictor's standard deviation, while $\sigma_{y}$ is the response's standard deviation.
 A consequence of standardizing the coefficients is that they all fall into the range between -1 and 1.
 
-The key advantage of using standardized coefficients is that it allows for direct comparison of the relative importance or impact of each independent variable on the dependent variable across different studies or models, even when the variables are measured on different scales.
-This facilitates a clearer understanding of which variables have the most significant influence on the outcome, making it a useful tool in many fields where interpreting the magnitude of predictive relationships is critical.
-
-Standardized regression coefficients are especially useful for sensitivity analyses because they provide a scale-independent measure of the relative importance of each predictor variable in the model. Sensitivity analysis aims to understand how changes in input variables affect the output of a model.
-They facilitate this by quantifying the effect size of each variable in a comparable way.
-
-Since the coefficients are standardized, they remove the unit dependence that can obscure the interpretation of the coefficients in models involving variables measured on different scales or units. This standardization allows researchers to directly compare the influence of each variable, making it clearer which variables are more sensitive or have a greater impact on the outcome variable (@tbl-src).
+The key advantage of using standardized regression coefficients is that it allows for direct comparison of the relative importance or impact of each independent variable on the dependent variable across different studies or models, even when the variables are measured on different scales.
+This enables a clearer understanding of which variables have the most significant influence on the outcome, making it a useful tool for a sensitivity analysis. Now, the value assigned to each parameter represents its relative importance (@tbl-src).
 
 ```{r}
 #| label: tbl-src
@@ -239,11 +247,7 @@ The interpretation of standard regression coefficients is not quite straightforw
 
 ### Variance decomposition
 
-The final variance decomposition is computed from a classical multi-way analysis of variance (ANOVA) which was developed and formally described by Ronald A. Fisher [@fisher1926arrangement; @fisher1966design].
-
-:::{.callout-note}
-Why were the SRC not used for variance decomposition? SRC, when squared, could also be used for variance decomposition. However, the sum of squared SRC do not match with the R^2^ with the models; thus, the ANOVA was used as a method of variance decomposition. Variance decomposition and SRC^2^ are almost perfectly correlated in the absence of collinearity.
-:::
+The squared SRC is related to the variance decomposition performed by the analysis of variance (ANOVA), which was developed and formally described by Ronald A. Fisher [@fisher1926arrangement; @fisher1966design]. In the absence of multicollinearity, the expected values of both the ANOVA relative sum of squares and the squared SRC are the same [@novak2015partial]. However, the ANOVA has the nice property that the assigned variance explained matches the overall goodness of fit (R^2^) of the models perfectly. Thus, the final variance decomposition is computed from a classical multi-way ANOVA.
 
 ![Overall results of the sensitivity analysis. The three show the share of variance explained by each parameter, calculated from the absolute standardized regression coefficients. Note that linear models did not explain the variance equally well for all three processes. The hatched area represents the variance unexplained by the linear models computed as the residual relative sum of squares (1 - R^2^).](scripts/sensitivity-analysis/output/SRC-importances.svg){#fig-src width=100%}
 

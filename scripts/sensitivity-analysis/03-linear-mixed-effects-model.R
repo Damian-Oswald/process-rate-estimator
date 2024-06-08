@@ -130,17 +130,6 @@ text(positions[4:6]+0.4, b$stats[1,4:6]-0.02, processes, srt = 90, pos = 2)
 sapply(1:9, function(i) text(positions[(1:9)*3-1][i], par()$usr[3], expressions[[i]], xpd = NA, pos = 1))
 dev.off()
 
-# Pie charts of importances
-palette <- colorRampPalette(c(blue,red))
-svg(file.path("scripts","sensitivity-analysis","output","SRC-importances.svg"), width = 6, height = 2)
-par(mfrow = c(1,3), mar = c(0,0,2,0))
-for (i in 1:3) {
-    df <- with(results, tapply(SRC, list(Parameter, Process), function(x) mean(abs(x), na.rm = TRUE)))
-    df[,i] |> pie(col = palette(256)[round(df[,i]*256)], labels = paste0("(",1:9,")"))
-    title(processes[i], line = 0)
-}
-dev.off()
-
 # COMPILE TABLE
 # =============
 
@@ -160,44 +149,3 @@ f <- function(c,d,p){
 sapply(1:12, function(c) sapply(getParameters()$depth, function(d) f(c,d,"Nitrification"))) |> density() |> plot(main = "R-squared", xlim = c(0.5,1))
 sapply(1:12, function(c) sapply(getParameters()$depth, function(d) f(c,d,"Denitrification"))) |> density() |> lines(lty = 2)
 sapply(1:12, function(c) sapply(getParameters()$depth, function(d) f(c,d,"Reduction"))) |> density() |> lines(lty = 3)
-
-
-# FIT LINEAR MIXED EFFECTS MODEL
-# ==============================
-
-# paste(parameters, collapse = " + ")
-# 
-# model_nit = lme4::lmer(Nitrification ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction || column:depth), data = data)
-# model_den = lme4::lmer(Denitrification ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction || column:depth), data = data)
-# model_red = lme4::lmer(Reduction ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction + (eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction || column:depth), data = data)
-# 
-# model <- tab_model(model_nit, model_den, model_red,
-#                    show.ci = FALSE, show.p = TRUE, p.style = "numeric_stars",
-#                    terms = parameters)
-# 
-# 
-# save(model, file = file.path("scripts","sensitivity-analysis","output","lmer.RData"))
-# 
-# sink(file = file.path("resources", "tbl-sensitivity.txt"))
-# cat(model$knitr)
-# sink()
-# 
-# df <- as.data.frame(VarCorr(model_nit))[-1,c(2,4)]
-# barplot(df[,2], names.arg = c(df[-9,1],"Residuals"), las = 2)
-# dotchart(df[,2], labels = c(df[-9,1],"Residuals"), log = "x")
-# 
-# 
-# 
-# 
-# model_nit = lme4::lmer(Nitrification ~ eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction +
-#                            (eta_SP_diffusion + eta_18O_diffusion + SP_nitrification + d18O_nitrification + SP_denitrification + d18O_denitrification + eta_SP_reduction + eta_18O_reduction | column:depth),
-#                        data = data,
-#                        REML = TRUE,
-#                        verbose = 1,
-#                        #subset = sample(1:nrow(data),1000),
-#                        control = lmerControl(
-#                            optimizer = "Nelder_Mead",
-#                            optCtrl = list(iprint = 1000, maxfun = 10000, xst = 0.1)
-#                        ))
-# tab_model(model_nit)
-
