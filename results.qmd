@@ -111,6 +111,7 @@ The tabset panels below show all results, from column 1 to 12[^missing] and dept
 
 [^missing]: Note that due to missing measurements, column 6 couldn't be computed completely.
 
+::: {.column-screen-inset-right}
 ```{r}
 #| eval: true
 #| echo: false
@@ -141,6 +142,7 @@ for (column in 1:12) {
 
 cat(":::\n\n")
 ```
+:::
 
 ## Analysis of variance
 
