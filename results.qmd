@@ -35,6 +35,14 @@ df[((1:nrow(df))[-c((0:4)*5+1)]),1] <- ""
 knitr::kable(df, row.names = FALSE, align = "llrrrr")
 ```
 
+```{r}
+#| eval: false
+#| echo: false
+df <- na.omit(reshape2::melt(Production))
+model <- lm(log(value) ~ as.factor(Depth) + as.factor(Variety), df)
+anova(model)
+```
+
 Owing to all processes' significant divergence of the linear model's residuals from a normal distribution, as determined by the Shapiro-Wilk normality test, the Kruskal-Wallis Rank Sum Test was employed to examine group variation among the varieties. These respective tests were performed utilizing the relevant functions -- `shapiro.test` and `kruskal.test`, from the `stats` package, as referred to in [@r2023language].
 
 Among the different varieties, there were no significant group differences detected for neither N~2~O~nit~ nor N~2~O~den~, and hence also not for N~2~O~produced~. However, significant differences among the varieties for N~2~O~consumed~ were detected (p = 0.01098).
@@ -77,7 +85,7 @@ df <- cbind(nit = reshape2::melt(apply(Nitrification, 1, f)),
 df <- data.frame(rownames(df), df)
 for (i in 1:4) {
     CLD <- unlist(subset(VARIETY, subset = Process==processes[i], select = Letter))
-    if(length(unique(CLD))>1) df[,i+1] <- paste0(df[,i+1], " ^", CLD,"^")
+    if(length(unique(CLD))>1) df[,i+1] <- paste0(df[,i+1], " ^*", CLD,"*^")
 }
 colnames(df) <- c("Variety", "N~2~O~nit~", "N~2~O~den~", "N~2~O~produced~", "N~2~O~consumed~")
 knitr::kable(df, row.names = FALSE, align = "lrrrr")
@@ -100,7 +108,7 @@ df <- data.frame(x = rep("",5), d = rownames(df), df)
 colnames(df) <- c("", "Depth [cm]", "N~2~O~nit~", "N~2~O~den~", "N~2~O~produced~", "N~2~O~consumed~")
 for (i in 1:4) {
     CLD <- unlist(subset(DEPTH, subset = Process==processes[i], select = Letter))
-    if(length(unique(CLD))>1) df[,i+2] <- paste0(df[,i+2], " ^", CLD,"^")
+    if(length(unique(CLD))>1) df[,i+2] <- paste0(df[,i+2], " ^*", CLD,"*^")
 }
 knitr::kable(df, row.names = FALSE, align = "llrrrr")
 ```
