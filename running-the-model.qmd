@@ -49,19 +49,19 @@ library(PRE)
 In a first step, we can calculate the N~2~O-N from the original measurements.
 
 ```{r}
-original <- getN2ON(data = measurements, parameters = parameters)
+data <- getN2ON(data = PRE::measurements, parameters = PRE::getParameters())
 ```
 
 Next, the data are interpolated. This process uses kernel regression to interpolate between the measured values of N~2~O-N, SP and d18O.
 
 ```{r}
-data <- getMissing(data = data, hyperparameters = hyperparameters)
+data <- getMissing(data = data, hyperparameters = PRE::hyperparameters)
 ```
 
 With all of these steps done, we can calculate the Fluxes according to equations 1, 2, 3.
 
 ```{r}
-data <- calculateFluxes(data = data, parameters = parameters)
+data <- calculateFluxes(data = data, parameters = PRE::getParameters())
 ```
 
 Now, everything is ready to run the PRE.
@@ -70,7 +70,7 @@ Now, everything is ready to run the PRE.
 
 ```{r}
 # run the solver once
-x <- PRE(data = data, column = 1, depth = 7.5, date = "2016-01-01", n = 200)
+x <- PRE(data = data, column = 1, depth = 7.5, date = "2016-01-01", n = 1000)
 
 # print out information
 print(x)
@@ -81,3 +81,18 @@ plot(x)
 # pairs panel
 pairs(x)
 ```
+
+Run the process rate estimator over the entire time span.
+
+```{r}
+x = longPRE(data, column = 1, depth = 7.5, n = 15)
+```
+
+Run the estimation of process rates for the entire project, i.e. applying the `longPRE` function to all combinations of depths and columns.
+For very robust results, `n = 1000` is used in the corresponding R script.
+
+```zsh
+Rscript scripts/run-process-rate-estimator/run-PRE.R
+```
+
+The results will be written as `estimated-process-rates.csv` into the `output` directory.

@@ -2,6 +2,12 @@
 
 ## Summary table
 
+The results presented in @tbl-by-depth-and-variety shows the cumulative nitrification, denitrification, consumption, and production. The N~2~O production is hereby defined as:
+
+$$\ce{N2O}_{\text{production}} = \ce{N2O}_{\text{nit}} + \ce{N2O}_{\text{den}}$${#eq-N2O-produced}
+
+Meanwhile, the consumption is simply the cumulative N~2~O reduction.
+
 ```{r}
 #| echo: false
 #| tbl-colwidths: [22,14,16,16,16,16]
@@ -38,8 +44,8 @@ knitr::kable(df, row.names = FALSE, align = "llrrrr")
 ```{r}
 #| eval: false
 #| echo: false
-df <- na.omit(reshape2::melt(Production))
-model <- lm(log(value) ~ as.factor(Depth) + as.factor(Variety), df)
+df <- na.omit(reshape2::melt(Reduction))
+model <- lm(value ~ as.factor(Depth) + as.factor(Column), df)
 anova(model)
 ```
 

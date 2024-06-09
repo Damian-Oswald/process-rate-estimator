@@ -295,15 +295,15 @@ B_3 = - \eta\: ^{18}\text{O}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_
 <h2 data-number="4.2" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">4.2</span> Prepare the data</h2>
 <p>In a first step, we can calculate the N<sub>2</sub>O-N from the original measurements.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>original <span class="ot">&lt;-</span> <span class="fu">getN2ON</span>(<span class="at">data =</span> measurements, <span class="at">parameters =</span> parameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">getN2ON</span>(<span class="at">data =</span> PRE<span class="sc">::</span>measurements, <span class="at">parameters =</span> PRE<span class="sc">::</span><span class="fu">getParameters</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, the data are interpolated. This process uses kernel regression to interpolate between the measured values of N<sub>2</sub>O-N, SP and d18O.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">getMissing</span>(<span class="at">data =</span> data, <span class="at">hyperparameters =</span> hyperparameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">getMissing</span>(<span class="at">data =</span> data, <span class="at">hyperparameters =</span> PRE<span class="sc">::</span>hyperparameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With all of these steps done, we can calculate the Fluxes according to equations 1, 2, 3.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">calculateFluxes</span>(<span class="at">data =</span> data, <span class="at">parameters =</span> parameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">calculateFluxes</span>(<span class="at">data =</span> data, <span class="at">parameters =</span> PRE<span class="sc">::</span><span class="fu">getParameters</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, everything is ready to run the PRE.</p>
 </section>
@@ -311,7 +311,7 @@ B_3 = - \eta\: ^{18}\text{O}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_
 <h2 data-number="4.3" class="anchored" data-anchor-id="running-the-process-rate-estimator"><span class="header-section-number">4.3</span> Running the process rate estimator</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the solver once</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">PRE</span>(<span class="at">data =</span> data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>, <span class="at">date =</span> <span class="st">"2016-01-01"</span>, <span class="at">n =</span> <span class="dv">200</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">PRE</span>(<span class="at">data =</span> data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>, <span class="at">date =</span> <span class="st">"2016-01-01"</span>, <span class="at">n =</span> <span class="dv">1000</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># print out information</span></span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
@@ -322,6 +322,13 @@ B_3 = - \eta\: ^{18}\text{O}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># pairs panel</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>Run the process rate estimator over the entire time span.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">longPRE</span>(data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>, <span class="at">n =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Run the estimation of process rates for the entire project, i.e.&nbsp;applying the <code>longPRE</code> function to all combinations of depths and columns. For very robust results, <code>n = 1000</code> is used in the corresponding R script.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/run-process-rate-estimator/run-PRE.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The results will be written as <code>estimated-process-rates.csv</code> into the <code>output</code> directory.</p>
 
 
 </section>

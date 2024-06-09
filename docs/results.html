@@ -89,6 +89,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -224,6 +253,9 @@ div.csl-indent {
 
 <section id="summary-table" class="level2" data-number="5.1">
 <h2 data-number="5.1" class="anchored" data-anchor-id="summary-table"><span class="header-section-number">5.1</span> Summary table</h2>
+<p>The results presented in <a href="#tbl-by-depth-and-variety" class="quarto-xref">Table&nbsp;<span>5.1</span></a> shows the cumulative nitrification, denitrification, consumption, and production. The N<sub>2</sub>O production is hereby defined as:</p>
+<p><span id="eq-N2O-produced"><span class="math display">\[\ce{N2O}_{\text{production}} = \ce{N2O}_{\text{nit}} + \ce{N2O}_{\text{den}} \tag{5.1}\]</span></span></p>
+<p>Meanwhile, the consumption is simply the cumulative N<sub>2</sub>O reduction.</p>
 <div class="cell" data-tbl-colwidths="[22,14,16,16,16,16]">
 <div id="tbl-by-depth-and-variety" class="cell quarto-float anchored" data-tbl-colwidths="[22,14,16,16,16,16]">
 <figure class="quarto-float quarto-float-tbl figure">
