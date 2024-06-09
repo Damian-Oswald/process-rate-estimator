@@ -143,7 +143,7 @@ dev.off()
 
 # look at the magnitude of each covariance matrix
 svg(file.path("scripts","sensitivity-analysis","output","covariance-norm.svg"), width = 8, height = 4)
-par(mar = c(3,4.5,1,0)+0.2)
+par(mar = c(2.7,4.5,0.5,0)+0.2)
 set.seed(0)
 f <- function(c,d) {
     X <- as.matrix(subset(data, column==c & depth==d, c("Nitrification", "Denitrification")))
@@ -154,12 +154,13 @@ b <- barplot(df, space = rep(c(1,rep(0.1,11)),5),
              beside = TRUE, log = "y",
              las = 1, col = rep(palette(5),each=12),
              ylim = c(20,20000), axes = FALSE,
-             border = FALSE)
-abline(h = c(10^(1:5), 2*10^(1:5), 5*10^(1:5)), lwd = 0.5)
+             border = FALSE,
+             xlim = c(0,71.5), xaxs = "i")
+abline(h = c(10^(1:5), 2*10^(1:5), 5*10^(1:5)), lwd = 0.5, lty = 3)
 axis(2, at = c(10^(1:5), 2*10^(1:5), 5*10^(1:5)), labels = c(10^(1:5), 2*10^(1:5), 5*10^(1:5)), las = 1)
 box()
 text(x = colMeans(b), y = 20, pos = 1, labels = paste(getParameters()$depth,"cm"), xpd = NA)
-text(x = as.numeric(b), y = as.numeric(df), labels = 1:12, pos = 1, cex = 0.5, font = 2, col = "white")
+text(x = as.numeric(b), y = as.numeric(df)*0.85, labels = 1:12, pos = 3, cex = 0.65, font = 2, col = rep(palette(5),each=12))
 title(ylab = expression("Determinant of the covariance matrix"), line = 3.5)
 title(xlab = "Depth", line = 2)
 dev.off()
