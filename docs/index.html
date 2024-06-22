@@ -88,6 +88,35 @@ div.csl-indent {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -235,7 +264,7 @@ Note
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
 <div id="ref-decock2022process" class="csl-entry" role="listitem">
-Decock, C., J. Lee, M. Barthel, E. Verhoeven, F. Conen, and J. Six. 2022. Process rate estimator: A novel model to predict total denitrification using natural abundance stable isotopes of n 2 o. Biogeosciences Discussions 2022:1–29.
+Decock, C., J. Lee, M. Barthel, E. Verhoeven, F. Conen, and J. Six. 2022. <a href="https://doi.org/10.5194/bg-2022-221">Process rate estimator: A novel model to predict total denitrification using natural abundance stable isotopes of <span><span class="math inline">\(\text{N}_2\text{O}\)</span></span></a>. Biogeosciences Discussions 2022:1–29.
 </div>
 </div>
 </section>
