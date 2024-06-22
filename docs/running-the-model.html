@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Process Rate Estimator (`PRE`) – 4&nbsp; Running the process rate estimator</title>
+<title>Process Rate Estimator (`PRE`) – 4&nbsp; Process rate estimation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -162,7 +162,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./running-the-model.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Running the process rate estimator</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./running-the-model.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Process rate estimation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -195,7 +195,7 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./running-the-model.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Running the process rate estimator</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Process rate estimation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -232,10 +232,12 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#state-function-set" id="toc-state-function-set" class="nav-link active" data-scroll-target="#state-function-set">State function set</a></li>
-  <li><a href="#install-the-r-package-pre" id="toc-install-the-r-package-pre" class="nav-link" data-scroll-target="#install-the-r-package-pre"><span class="header-section-number">4.1</span> Install the R package <code>PRE</code></a></li>
-  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data"><span class="header-section-number">4.2</span> Prepare the data</a></li>
-  <li><a href="#running-the-process-rate-estimator" id="toc-running-the-process-rate-estimator" class="nav-link" data-scroll-target="#running-the-process-rate-estimator"><span class="header-section-number">4.3</span> Running the process rate estimator</a></li>
+  <li><a href="#state-function-set" id="toc-state-function-set" class="nav-link active" data-scroll-target="#state-function-set"><span class="header-section-number">4.1</span> State function set</a></li>
+  <li><a href="#how-to-run-the-process-rate-estimator-in-r" id="toc-how-to-run-the-process-rate-estimator-in-r" class="nav-link" data-scroll-target="#how-to-run-the-process-rate-estimator-in-r"><span class="header-section-number">4.2</span> How to run the process rate estimator in R</a>
+  <ul class="collapse">
+  <li><a href="#prepare-the-data" id="toc-prepare-the-data" class="nav-link" data-scroll-target="#prepare-the-data">Prepare the data</a></li>
+  <li><a href="#running-the-process-rate-estimator" id="toc-running-the-process-rate-estimator" class="nav-link" data-scroll-target="#running-the-process-rate-estimator">Running the process rate estimator</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/running-the-model.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -244,7 +246,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Running the process rate estimator</span></h1>
+<h1 class="title"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Process rate estimation</span></h1>
 </div>
 
 
@@ -261,8 +263,8 @@ window.Quarto = {
 </header>
 
 
-<section id="state-function-set" class="level3">
-<h3 class="anchored" data-anchor-id="state-function-set">State function set</h3>
+<section id="state-function-set" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="state-function-set"><span class="header-section-number">4.1</span> State function set</h2>
 <p>The process rate estimator includes three-state functions, describing the change in N<sub>2</sub>O concentrations over time. The change in N<sub>2</sub>O concentrations in each depth increment over time <span class="math inline">\(\frac{\Delta}{\Delta t}[\ce{N2O}]\)</span> depends on the flux of N<sub>2</sub>O entering the depth increment from the top or the bottom through diffusion (<span class="math inline">\(\text F_\text{t,i}\)</span> and <span class="math inline">\(\text F_\text {b,i}\)</span>, respectively), the flux of N<sub>2</sub>O leaving the depth increment through diffusion (<span class="math inline">\(\text F_\text {out}\)</span>), the rate of N<sub>2</sub>O produced through nitrification (<code>N2Onit</code>), the rate of N<sub>2</sub>O produced through denitrification (<code>N2Oden</code>), and the rate of N<sub>2</sub>O reduced to N<sub>2</sub> (<code>N2Ored</code>).</p>
 <p><span id="eq-stateN2O"><span class="math display">\[\frac{\Delta[\ce{N2O}]}{\Delta t} = \text F_{\text{t,i}} + \text F_{\text{b,i}}  + \ce{N2O}_{\text{nit.}} + \ce{N2O}_{\text{den.}} + \ce{N2O}_{\text{red.}} \tag{4.1}\]</span></span></p>
 <p>For the equation of the change of site preference over time, we’ll use the substitutions <span class="math inline">\(A_1\)</span>, <span class="math inline">\(A_2\)</span> and <span class="math inline">\(A_3\)</span>, as the expression is rather long.</p>
@@ -279,58 +281,53 @@ B_2 = \ce{N2O}_{\text{nit.}}(\delta^{18}\text{O}_\text{nit.} - \delta^{18}\text{
 B_3 = - \eta\: ^{18}\text{O}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_\text{red.}} \ce{N2O}_{\text{red.}}
 \end{gathered} \tag{4.3}\]</span></span></p>
 </section>
-<section id="install-the-r-package-pre" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="install-the-r-package-pre"><span class="header-section-number">4.1</span> Install the R package <code>PRE</code></h2>
-<p>You can directly install this R package from GitHub. The package itself already contains all data and parameters necessary to run the process rate estimator.</p>
+<section id="how-to-run-the-process-rate-estimator-in-r" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="how-to-run-the-process-rate-estimator-in-r"><span class="header-section-number">4.2</span> How to run the process rate estimator in R</h2>
+<p>To run the process rate estimator in R, you’ll first have to install the package <code>PRE</code> as described <a href="https://damian-oswald.github.io/process-rate-estimator/introduction.html#installation-of-the-r-package-pre">in the introduction</a>. Once installed, add the package to the search path.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"https://github.com/Damian-Oswald/PRE"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Once installed, add the package to the search path.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="prepare-the-data" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="prepare-the-data"><span class="header-section-number">4.2</span> Prepare the data</h2>
+<section id="prepare-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="prepare-the-data">Prepare the data</h3>
 <p>In a first step, we can calculate the N<sub>2</sub>O-N from the original measurements.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">getN2ON</span>(<span class="at">data =</span> PRE<span class="sc">::</span>measurements, <span class="at">parameters =</span> PRE<span class="sc">::</span><span class="fu">getParameters</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">getN2ON</span>(<span class="at">data =</span> PRE<span class="sc">::</span>measurements, <span class="at">parameters =</span> PRE<span class="sc">::</span><span class="fu">getParameters</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Next, the data are interpolated. This process uses kernel regression to interpolate between the measured values of N<sub>2</sub>O-N, SP and d18O.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">getMissing</span>(<span class="at">data =</span> data, <span class="at">hyperparameters =</span> PRE<span class="sc">::</span>hyperparameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">getMissing</span>(<span class="at">data =</span> data, <span class="at">hyperparameters =</span> PRE<span class="sc">::</span>hyperparameters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>With all of these steps done, we can calculate the Fluxes according to equations 1, 2, 3.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">calculateFluxes</span>(<span class="at">data =</span> data, <span class="at">parameters =</span> PRE<span class="sc">::</span><span class="fu">getParameters</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">calculateFluxes</span>(<span class="at">data =</span> data, <span class="at">parameters =</span> PRE<span class="sc">::</span><span class="fu">getParameters</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, everything is ready to run the PRE.</p>
 </section>
-<section id="running-the-process-rate-estimator" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="running-the-process-rate-estimator"><span class="header-section-number">4.3</span> Running the process rate estimator</h2>
+<section id="running-the-process-rate-estimator" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-process-rate-estimator">Running the process rate estimator</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the solver once</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">PRE</span>(<span class="at">data =</span> data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>, <span class="at">date =</span> <span class="st">"2016-01-01"</span>, <span class="at">n =</span> <span class="dv">1000</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># print out information</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"># pairs panel</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># run the solver once</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">PRE</span>(<span class="at">data =</span> data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>, <span class="at">date =</span> <span class="st">"2016-01-01"</span>, <span class="at">n =</span> <span class="dv">1000</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># print out information</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(x)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plot</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(x)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co"># pairs panel</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">pairs</span>(x)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Run the process rate estimator over the entire time span.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">longPRE</span>(data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>, <span class="at">n =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">=</span> <span class="fu">longPRE</span>(data, <span class="at">column =</span> <span class="dv">1</span>, <span class="at">depth =</span> <span class="fl">7.5</span>, <span class="at">n =</span> <span class="dv">15</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Run the estimation of process rates for the entire project, i.e.&nbsp;applying the <code>longPRE</code> function to all combinations of depths and columns. For very robust results, <code>n = 1000</code> is used in the corresponding R script.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/run-process-rate-estimator/run-PRE.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode zsh code-with-copy"><code class="sourceCode zsh"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">Rscript</span> scripts/run-process-rate-estimator/run-PRE.R</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The results will be written as <code>estimated-process-rates.csv</code> into the <code>output</code> directory.</p>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

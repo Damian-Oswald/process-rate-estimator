@@ -1,8 +1,117 @@
 # Results
 
-## Summary table
+This chapter presents the results of the process rate estimator run over all the available dates, depths and columns. Once the process rate estimator is run as instructed in the previous chapter, the results can be found in the sub-directory `scripts/run-process-rate-estimator/output`, or [in the corresponding sub-directory of the GitHub repository](https://github.com/Damian-Oswald/process-rate-estimator/blob/main/scripts/run-process-rate-estimator/output/estimated-process-rates.csv).
 
-The results presented in @tbl-by-depth-and-variety shows the cumulative nitrification, denitrification, consumption, and production. The N~2~O production is hereby defined as:
+## Looking at the process rates over time
+
+@fig-process-rates-tabset show all results, from column 1 to 12 and depths 7.5 cm, 30 cm, 60 cm, 90 cm and 120 cm.
+Note that while the measurements are certainly correlated over time and among depth layers, the process rate estimates are performed independently -- the estimates of one day do not influence the estimates of another day *per se*.
+
+::: {#fig-process-rates-tabset}
+::: {.column-screen-inset-right}
+```{r}
+#| eval: true
+#| echo: false
+#| results: asis
+cat("::: {.panel-tabset}\n\n")
+for (column in 1:12) {
+    
+    if(column==1) {
+        cat("## Column 1\n\n")
+    } else {
+        cat("##", column, "\n\n")
+    }
+    
+    cat("::: {.panel-tabset}\n\n")
+    
+    for (depth in PRE::getParameters()$depths) {
+        
+        if(depth==7.5) {
+            cat("## Depth =", depth, "cm\n\n")
+        } else {
+            cat("##", depth, "cm\n\n")
+        }
+        
+        cat(sprintf("![](scripts/run-process-rate-estimator/output/visualized-process-rates-C%s-D%s.svg){width=\"100%%\"}\n\n", column, depth))
+    }
+    cat(":::\n\n")
+}
+
+cat(":::\n\n")
+```
+:::
+
+Estimated process rates over time for all columns and depths. *Click on the column or depth buttons on the top of the tab set to navigate between the visualizations.*
+
+:::
+
+Notably, looking though all the results, we can observe quite a few cases where the estimations for the process rates are negative -- which we know to be impossible. An overview of the processes, columns and depth layers affected by negative process rate estimates is provided in [table @tbl-uncertainty].
+
+:::{.column-page}
+
+```{r}
+#| label: tbl-uncertainty
+#| echo: false
+#| layout-ncol: 3
+#| tbl-cap: Percentage of negative process rate estimates (number of days with negative rates divided by total number of days) for each column, depth and process. Instances of 0% are left blank in this table.
+library(magrittr)
+library(knitr)
+library(kableExtra)
+options(knitr.kable.NA = '')
+
+data <- read.csv(file.path("scripts","run-process-rate-estimator","output","estimated-process-rates.csv"))
+
+process <- "Nitrification"
+df <- with(data, tapply(get(process)<0, list(column, depth), mean)) * 100
+df2 <- round(df)
+colnames(df2) <- paste(colnames(df2), "cm")
+for (i in 1:5) df2[,i] <- paste0(df2[,i],"%")
+df2[df2=="0%"] <- NA
+df2 %>%
+    kbl(row.names = TRUE, caption = process, label = process, align = c("rrrrr")) %>%
+    column_spec(2, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,1])+1]) %>%
+    column_spec(3, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,2])+1]) %>%
+    column_spec(4, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,3])+1]) %>%
+    column_spec(5, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,4])+1]) %>%
+    column_spec(6, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,5])+1])
+
+process <- "Denitrification"
+df <- with(data, tapply(get(process)<0, list(column, depth), mean)) * 100
+df2 <- round(df)
+colnames(df2) <- paste(colnames(df2), "cm")
+for (i in 1:5) df2[,i] <- paste0(df2[,i],"%")
+df2[df2=="0%"] <- NA
+df2 %>%
+    kbl(row.names = TRUE, caption = process, label = process, align = c("rrrrr")) %>%
+    column_spec(2, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,1])+1]) %>%
+    column_spec(3, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,2])+1]) %>%
+    column_spec(4, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,3])+1]) %>%
+    column_spec(5, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,4])+1]) %>%
+    column_spec(6, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,5])+1])
+
+process <- "Reduction"
+df <- with(data, tapply(get(process)<0, list(column, depth), mean)) * 100
+df2 <- round(df)
+colnames(df2) <- paste(colnames(df2), "cm")
+for (i in 1:5) df2[,i] <- paste0(df2[,i],"%")
+df2[df2=="0%"] <- NA
+df2 %>%
+    kbl(row.names = TRUE, caption = process, label = process, align = c("rrrrr")) %>%
+    column_spec(2, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,1])+1]) %>%
+    column_spec(3, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,2])+1]) %>%
+    column_spec(4, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,3])+1]) %>%
+    column_spec(5, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,4])+1]) %>%
+    column_spec(6, background = colorRampPalette(c("white","#fc5d5e"))(101)[round(df[,5])+1])
+
+```
+
+:::
+
+@tbl-uncertainty shows that nitrification rates are particularly affected by this phenomenon -- especially at lower depths -- with five cases where negative estimates were made for every single day. Denitrification and reduction rates are much less affected.
+
+## Results of the cumulative process rates
+
+The results presented in [table @tbl-by-depth-and-variety] shows the cumulative nitrous oxide nitrification ($\ce{N2O}_{\text{nit}}$), denitrification ($\ce{N2O}_{\text{den}}$), consumption ($\ce{N2O}_{\text{consumed}}$), and production ($\ce{N2O}_{\text{produced}}$). The N~2~O production is hereby defined as:
 
 $$\ce{N2O}_{\text{production}} = \ce{N2O}_{\text{nit}} + \ce{N2O}_{\text{den}}$${#eq-N2O-produced}
 
@@ -118,45 +227,6 @@ for (i in 1:4) {
 }
 knitr::kable(df, row.names = FALSE, align = "llrrrr")
 ```
-
-## Processes over time
-
-The tabset panels below show all results, from column 1 to 12[^missing] and depths 7.5 cm, 30 cm, 60 cm, 90 cm and 120 cm.
-
-[^missing]: Note that due to missing measurements, column 6 couldn't be computed completely.
-
-::: {.column-screen-inset-right}
-```{r}
-#| eval: true
-#| echo: false
-#| results: asis
-cat("::: {.panel-tabset}\n\n")
-for (column in 1:12) {
-    
-    if(column==1) {
-        cat("## Column 1\n\n")
-    } else {
-        cat("##", column, "\n\n")
-    }
-    
-    cat("::: {.panel-tabset}\n\n")
-    
-    for (depth in PRE::getParameters()$depths) {
-        
-        if(depth==7.5) {
-            cat("## Depth =", depth, "cm\n\n")
-        } else {
-            cat("##", depth, "cm\n\n")
-        }
-        
-        cat(sprintf("![](scripts/run-process-rate-estimator/output/visualized-process-rates-C%s-D%s.svg){width=\"100%%\"}\n\n", column, depth))
-    }
-    cat(":::\n\n")
-}
-
-cat(":::\n\n")
-```
-:::
 
 ## Analysis of variance
 

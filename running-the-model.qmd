@@ -1,11 +1,11 @@
 ---
-title: Running the process rate estimator
+title: Process rate estimation
 execute: 
   eval: false
   echo: true
 ---
 
-### State function set
+## State function set
 
 The process rate estimator includes three-state functions, describing the change in N~2~O concentrations over time.
 The change in N~2~O concentrations in each depth increment over time $\frac{\Delta}{\Delta t}[\ce{N2O}]$ depends on the flux of N~2~O entering the depth increment from the top or the bottom through diffusion ($\text F_\text{t,i}$ and $\text F_\text {b,i}$, respectively), the flux of N~2~O leaving the depth increment through diffusion ($\text F_\text {out}$), the rate of N~2~O produced through nitrification (`N2Onit`), the rate of N~2~O produced through denitrification (`N2Oden`), and the rate of N~2~O reduced to N~2~ (`N2Ored`).
@@ -29,22 +29,16 @@ B_2 = \ce{N2O}_{\text{nit.}}(\delta^{18}\text{O}_\text{nit.} - \delta^{18}\text{
 B_3 = - \eta\: ^{18}\text{O}_\text{diff.} \text F_{\text{out}} - \eta\ce{^{18}O_\text{red.}} \ce{N2O}_{\text{red.}}
 \end{gathered}$${#eq-stated18O}
 
-## Install the R package `PRE`
+## How to run the process rate estimator in R
 
-You can directly install this R package from GitHub. The package itself already contains all data and parameters necessary to run the process rate estimator.
-
-```{r}
-install.packages("remotes")
-remotes::install_github("https://github.com/Damian-Oswald/PRE")
-```
-
+To run the process rate estimator in R, you'll first have to install the package `PRE` as described [in the introduction](https://damian-oswald.github.io/process-rate-estimator/introduction.html#installation-of-the-r-package-pre).
 Once installed, add the package to the search path.
 
 ```{r}
 library(PRE)
 ```
 
-## Prepare the data
+### Prepare the data
 
 In a first step, we can calculate the N~2~O-N from the original measurements.
 
@@ -66,7 +60,7 @@ data <- calculateFluxes(data = data, parameters = PRE::getParameters())
 
 Now, everything is ready to run the PRE.
 
-## Running the process rate estimator
+### Running the process rate estimator
 
 ```{r}
 # run the solver once
