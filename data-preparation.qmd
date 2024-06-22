@@ -19,25 +19,25 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
 | Code        | Name              | Description                | Class       | Missing | Distribution                                 |
 +=============+===================+============================+=============+=========+==============================================+
-| `date`      | Date              | Date of a measurement in   | `"Date"`    | 0%      |                                              |
+| `date`      | Date              | Date of a measurement in   | `"Date"`    | 0%      | ![](graphics/date.png){width=300px}          |
 |             |                   | the `"Date"` format        |             |         |                                              |
 |             |                   | (`YYYY-MM-DD`), ranging    |             |         |                                              |
 |             |                   | from August 27 2015 to     |             |         |                                              |
 |             |                   | February 3 2016.           |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `column`    | Column            | Factor variable indicating | `"ordered"` | 0%      |                                              |
+| `column`    | Column            | Factor variable indicating | `"ordered"` | 0%      | ![](graphics/column.png){width=300px}        |
 |             |                   | one out of twelve          |             |         |                                              |
 |             |                   | experimental units.        |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `depth`     | Measurement depth | Depth of the measurement,  | `"numeric"` | 0%      |                                              |
+| `depth`     | Measurement depth | Depth of the measurement,  | `"numeric"` | 0%      | ![](graphics/depth.png){width=300px}         |
 |             |                   | either 7.5, 30, 60, 90, or |             |         |                                              |
 |             |                   | 120 cm.                    |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `increment` | Depth increment   | Height of a soil layer     | `"integer"` | 0%      |                                              |
+| `increment` | Depth increment   | Height of a soil layer     | `"integer"` | 0%      | ![](graphics/increment.png){width=300px}     |
 |             |                   | from lower to upper        |             |         |                                              |
 |             |                   | boundary.                  |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `variety`   | Wheat variety     | Either `CH Claro`,         | `"factor"`  | 0%      |                                              |
+| `variety`   | Wheat variety     | Either `CH Claro`,         | `"factor"`  | 0%      | ![](graphics/variety.png){width=300px}       |
 |             |                   | `Monte Calme 268`,         |             |         |                                              |
 |             |                   | `Probus`, or `Zinal`.      |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+

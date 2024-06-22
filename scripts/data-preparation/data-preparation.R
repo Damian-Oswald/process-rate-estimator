@@ -94,3 +94,34 @@ f("moisture")
 f("N2O", xlim = c(0,12))
 f("SP")
 f("d18O")
+
+# Date visualization
+png(file.path("graphics","date.png"), width = 8*0.8, height = 2*0.8, res = 300, unit = "in")
+par(mar = c(1.4,.5,0,.5))
+plot(x = sort(unique(PRE::measurements$date)), y = rep(1, 161), axes = FALSE, lwd = 4, type = "l", col = "#fc5d5e")
+points(x = range(sort(unique(PRE::measurements$date))), y = rep(1,2), pch = 16, cex = 1.5, col = "#fc5d5e")
+axis(1, line = -.5, font = 2, lwd = 0, lwd.ticks = 3,
+     at = c(16679,16740,16801),
+     labels = c("Sep 2015","Nov 2015","Jan 2016"))
+abline(h = par("usr")[3], lwd = 3)
+dev.off()
+
+# Depth, Column, Increment and Variety visualization
+f <- function(x, labels = levels(PRE::measurements[,x]), xlim = c(0,length(table(PRE::measurements[,x]))+1)) {
+    png(file.path("graphics",paste0(x,".png")), width = 8*0.8, height = 2*0.8, res = 300, unit = "in")
+    Y = table(PRE::measurements[,x])
+    par(mar = c(1.4,.5,0,.5))
+    plot(NA, xlim = xlim, ylim = c(0,max(Y)), axes = FALSE, xlab = "", ylab = "")
+    for (i in 1:length(Y)) {
+        polygon(x = c(i+0.4,i-0.4,i-0.4,i+0.4), y = c(0,0,Y[i],Y[i]), col = "#fc5d5e", border = FALSE)
+    }
+    axis(1, line = -.5, font = 2, lwd = 0, lwd.ticks = 3,
+         at = 1:length(Y),
+         labels = labels)
+    abline(h = 0, lwd = 3)
+    dev.off()
+}
+f("column")
+f("depth", labels = paste(PRE::getParameters()$depth,"cm"))
+f("variety", xlim = c(0.5, 4.5))
+f("increment", labels = c("15 cm", "30 cm"))
