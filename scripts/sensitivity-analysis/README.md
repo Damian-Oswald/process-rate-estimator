@@ -1,7 +1,0 @@
-What is the effect of the `SAMPLEREPEAT` parameter set in the script `01-sensitivitiy-analysis.R`?
-
-For `SAMPLEREPEAT = 5`, the following numbers were calculated.
-|                            | Nitrification | Denitrification | Reduction ||:---------------------------|--------------:|----------------:|----------:|| Mean                       |        13.784 |          14.172 |    26.633 || Standard deviation         |         0.129 |           0.198 |     0.584 || Coefficient of variation   |         0.94% |           1.40% |     2.19% |For `SAMPLEREPEAT = 15`, the following numbers were calculated.
-|                            | Nitrification | Denitrification | Reduction ||:---------------------------|--------------:|----------------:|----------:|| Mean                       |        13.818 |          14.234 |    26.821 || Standard deviation         |         0.063 |           0.094 |     0.279 || Coefficient of variation   |         0.46% |           0.66% |     1.04% |
-
-As to be seen by this small experiment, increasing the `SAMPLEREPEAT` function argument only decreases the standard deviation of the results by 50%, give or take. This is to be expected following the law of large numbers. Consequentially, reducing the last bit of noise becomes increasingly computationally expensive.
