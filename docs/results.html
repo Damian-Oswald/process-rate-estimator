@@ -222,12 +222,8 @@ window.Quarto = {
   <ul>
   <li><a href="#looking-at-the-process-rates-over-time" id="toc-looking-at-the-process-rates-over-time" class="nav-link active" data-scroll-target="#looking-at-the-process-rates-over-time"><span class="header-section-number">5.1</span> Looking at the process rates over time</a></li>
   <li><a href="#results-of-the-cumulative-process-rates" id="toc-results-of-the-cumulative-process-rates" class="nav-link" data-scroll-target="#results-of-the-cumulative-process-rates"><span class="header-section-number">5.2</span> Results of the cumulative process rates</a></li>
-  <li><a href="#analysis-of-variance" id="toc-analysis-of-variance" class="nav-link" data-scroll-target="#analysis-of-variance"><span class="header-section-number">5.3</span> Analysis of variance</a>
-  <ul class="collapse">
-  <li><a href="#nitrification" id="toc-nitrification" class="nav-link" data-scroll-target="#nitrification">Nitrification</a></li>
-  <li><a href="#denitrification" id="toc-denitrification" class="nav-link" data-scroll-target="#denitrification">Denitrification</a></li>
-  <li><a href="#reduction" id="toc-reduction" class="nav-link" data-scroll-target="#reduction">Reduction</a></li>
-  </ul></li>
+  <li><a href="#testing-for-variety-effects" id="toc-testing-for-variety-effects" class="nav-link" data-scroll-target="#testing-for-variety-effects"><span class="header-section-number">5.3</span> Testing for variety effects</a></li>
+  <li><a href="#testing-for-depth-effects" id="toc-testing-for-depth-effects" class="nav-link" data-scroll-target="#testing-for-depth-effects"><span class="header-section-number">5.4</span> Testing for depth effects</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/results.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -537,14 +533,14 @@ Figure&nbsp;5.1: Estimated process rates over time for all columns and depths. <
 </figcaption>
 </figure>
 </div>
-<p>Notably, looking though all the results, we can observe quite a few cases where the estimations for the process rates are negative – which we know to be impossible. An overview of the processes, columns and depth layers affected by negative process rate estimates is provided in <a href="uncertainty-analysis.html#tbl-uncertainty" class="quarto-xref">table&nbsp;<span>7.1</span></a>.</p>
+<p>Notably, looking though all the results, we can observe quite a few cases where the estimations for the process rates are negative – which we know to be impossible. An overview of the processes, columns and depth layers affected by negative process rate estimates is provided in <a href="#tbl-negative" class="quarto-xref">table&nbsp;<span>5.1</span></a>.</p>
 <div class="page-columns page-full">
-<div id="tbl-uncertainty" class="quarto-layout-panel anchored page-columns page-full">
+<div id="tbl-negative" class="quarto-layout-panel anchored page-columns page-full">
 <figure class="quarto-float quarto-float-tbl figure page-columns page-full">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-uncertainty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-negative-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;5.1: Percentage of negative process rate estimates (number of days with negative rates divided by total number of days) for each column, depth and process. Instances of 0% are left blank in this table.
 </figcaption>
-<div aria-describedby="tbl-uncertainty-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<div aria-describedby="tbl-negative-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
 <div class="quarto-layout-row column-page">
 <div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: center;">
 <table class="do-not-create-environment cell table" data-quarto-postprocess="true">
@@ -896,7 +892,23 @@ Table&nbsp;5.1: Percentage of negative process rate estimates (number of days wi
 </figure>
 </div>
 </div>
-<p><a href="uncertainty-analysis.html#tbl-uncertainty" class="quarto-xref">Table&nbsp;<span>7.1</span></a> shows that nitrification rates are particularly affected by this phenomenon – especially at lower depths – with five cases where negative estimates were made for every single day. Denitrification and reduction rates are much less affected.</p>
+<p><a href="#tbl-negative" class="quarto-xref">Table&nbsp;<span>5.1</span></a> shows that nitrification rates are particularly affected by this phenomenon – especially at lower depths – with five cases where negative estimates were made for every single day. Denitrification and reduction rates are much less affected.</p>
+<div class="page-columns page-full">
+<div class="cell page-columns page-full">
+<div class="cell-output-display page-columns page-full">
+<div id="fig-scatterplot" class="quarto-figure quarto-figure-center quarto-float anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-scatterplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<img src="results_files/figure-html/fig-scatterplot-1.svg" class="img-fluid figure-img column-page" style="width:100.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-scatterplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.2: Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth and column. For some estimates, the column is indicated on the top. The grey area represents the physically impossible space.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="results-of-the-cumulative-process-rates" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="results-of-the-cumulative-process-rates"><span class="header-section-number">5.2</span> Results of the cumulative process rates</h2>
@@ -934,10 +946,10 @@ Table&nbsp;5.2: Overall results of the process rate estimator (μ ± σ) by dept
 <tr class="odd">
 <td style="text-align: left;">CH Claro</td>
 <td style="text-align: left;">7.5</td>
-<td style="text-align: right;">1.2 ± 0.34</td>
+<td style="text-align: right;">1.2 ± 0.33</td>
 <td style="text-align: right;">2.5 ± 0.17</td>
-<td style="text-align: right;">3.7 ± 0.49</td>
-<td style="text-align: right;">5.1 ± 0.42</td>
+<td style="text-align: right;">3.7 ± 0.48</td>
+<td style="text-align: right;">4.9 ± 0.79</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -950,23 +962,23 @@ Table&nbsp;5.2: Overall results of the process rate estimator (μ ± σ) by dept
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">60.0</td>
-<td style="text-align: right;">0.41 ± 0.022</td>
+<td style="text-align: right;">0.37 ± 0.048</td>
 <td style="text-align: right;">2.9 ± 0.39</td>
-<td style="text-align: right;">3.3 ± 0.39</td>
+<td style="text-align: right;">3.3 ± 0.43</td>
 <td style="text-align: right;">5.3 ± 0.41</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">90.0</td>
-<td style="text-align: right;">0.35 ± 0.22</td>
+<td style="text-align: right;">0.3 ± 0.27</td>
 <td style="text-align: right;">2.5 ± 0.23</td>
-<td style="text-align: right;">2.9 ± 0.2</td>
-<td style="text-align: right;">5.1 ± 0.49</td>
+<td style="text-align: right;">2.8 ± 0.19</td>
+<td style="text-align: right;">5.1 ± 0.53</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">120.0</td>
-<td style="text-align: right;">0.19 ± 0.25</td>
+<td style="text-align: right;">0.18 ± 0.27</td>
 <td style="text-align: right;">2.5 ± 0.3</td>
 <td style="text-align: right;">2.7 ± 0.36</td>
 <td style="text-align: right;">5.2 ± 0.52</td>
@@ -974,49 +986,49 @@ Table&nbsp;5.2: Overall results of the process rate estimator (μ ± σ) by dept
 <tr class="even">
 <td style="text-align: left;">Monte Calme 268</td>
 <td style="text-align: left;">7.5</td>
-<td style="text-align: right;">5.8 ± 8.3</td>
-<td style="text-align: right;">1.9 ± 1</td>
-<td style="text-align: right;">7.7 ± 7.4</td>
-<td style="text-align: right;">3.7 ± 2.8</td>
+<td style="text-align: right;">5.8 ± 8.4</td>
+<td style="text-align: right;">1.2 ± 2.1</td>
+<td style="text-align: right;">7 ± 6.2</td>
+<td style="text-align: right;">2.3 ± 5.3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">30.0</td>
-<td style="text-align: right;">2.2 ± 1.2</td>
+<td style="text-align: right;">2.1 ± 1.4</td>
 <td style="text-align: right;">3.9 ± 0.57</td>
-<td style="text-align: right;">6.1 ± 1.8</td>
-<td style="text-align: right;">4.2 ± 1.9</td>
+<td style="text-align: right;">5.9 ± 2</td>
+<td style="text-align: right;">3.3 ± 3.5</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">60.0</td>
-<td style="text-align: right;">1.1 ± 0.41</td>
-<td style="text-align: right;">2.1 ± 0.45</td>
-<td style="text-align: right;">3.2 ± 0.55</td>
-<td style="text-align: right;">2.7 ± 0.73</td>
+<td style="text-align: right;">1 ± 0.42</td>
+<td style="text-align: right;">2.1 ± 0.43</td>
+<td style="text-align: right;">3.2 ± 0.51</td>
+<td style="text-align: right;">1.8 ± 1.3</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">90.0</td>
-<td style="text-align: right;">0.41 ± 0.11</td>
-<td style="text-align: right;">1.4 ± 0.6</td>
-<td style="text-align: right;">1.8 ± 0.51</td>
-<td style="text-align: right;">2.8 ± 1.7</td>
+<td style="text-align: right;">0.4 ± 0.084</td>
+<td style="text-align: right;">1.1 ± 0.86</td>
+<td style="text-align: right;">1.5 ± 0.79</td>
+<td style="text-align: right;">1.6 ± 2.8</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">120.0</td>
-<td style="text-align: right;">0.083 ± 0.13</td>
+<td style="text-align: right;">-0.056 ± 0.28</td>
 <td style="text-align: right;">1.8 ± 0.18</td>
-<td style="text-align: right;">1.9 ± 0.29</td>
+<td style="text-align: right;">1.8 ± 0.45</td>
 <td style="text-align: right;">4.1 ± 0.58</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Probus</td>
 <td style="text-align: left;">7.5</td>
 <td style="text-align: right;">1.8 ± 1.4</td>
-<td style="text-align: right;">2.1 ± 0.48</td>
-<td style="text-align: right;">3.9 ± 0.95</td>
+<td style="text-align: right;">2.1 ± 0.49</td>
+<td style="text-align: right;">3.9 ± 0.94</td>
 <td style="text-align: right;">5 ± 0.58</td>
 </tr>
 <tr class="even">
@@ -1030,65 +1042,65 @@ Table&nbsp;5.2: Overall results of the process rate estimator (μ ± σ) by dept
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">60.0</td>
-<td style="text-align: right;">0.61 ± 0.61</td>
+<td style="text-align: right;">0.55 ± 0.5</td>
 <td style="text-align: right;">3.9 ± 2.6</td>
-<td style="text-align: right;">4.5 ± 3.1</td>
+<td style="text-align: right;">4.5 ± 3</td>
 <td style="text-align: right;">5 ± 1.7</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">90.0</td>
-<td style="text-align: right;">0.43 ± 0.72</td>
-<td style="text-align: right;">1.8 ± 1</td>
-<td style="text-align: right;">2.2 ± 0.41</td>
-<td style="text-align: right;">3.4 ± 2.7</td>
+<td style="text-align: right;">0.4 ± 0.75</td>
+<td style="text-align: right;">1.6 ± 1.2</td>
+<td style="text-align: right;">2 ± 0.54</td>
+<td style="text-align: right;">1.7 ± 5.5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">120.0</td>
-<td style="text-align: right;">0.049 ± 0.085</td>
-<td style="text-align: right;">2 ± 0.68</td>
-<td style="text-align: right;">2 ± 0.61</td>
-<td style="text-align: right;">4 ± 1.7</td>
+<td style="text-align: right;">-0.12 ± 0.05</td>
+<td style="text-align: right;">2 ± 0.72</td>
+<td style="text-align: right;">1.8 ± 0.7</td>
+<td style="text-align: right;">3.8 ± 2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Zinal</td>
 <td style="text-align: left;">7.5</td>
-<td style="text-align: right;">1.8 ± 1.1</td>
+<td style="text-align: right;">1.7 ± 1.2</td>
 <td style="text-align: right;">2.2 ± 0.79</td>
-<td style="text-align: right;">4 ± 0.36</td>
+<td style="text-align: right;">4 ± 0.44</td>
 <td style="text-align: right;">4.9 ± 0.29</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">30.0</td>
-<td style="text-align: right;">0.88 ± 0.29</td>
+<td style="text-align: right;">0.84 ± 0.35</td>
 <td style="text-align: right;">3 ± 0.58</td>
-<td style="text-align: right;">3.9 ± 0.73</td>
+<td style="text-align: right;">3.9 ± 0.78</td>
 <td style="text-align: right;">4.7 ± 1.1</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">60.0</td>
-<td style="text-align: right;">0.22 ± 0.27</td>
+<td style="text-align: right;">0.11 ± 0.41</td>
 <td style="text-align: right;">2.2 ± 0.25</td>
-<td style="text-align: right;">2.5 ± 0.21</td>
-<td style="text-align: right;">3.9 ± 0.44</td>
+<td style="text-align: right;">2.3 ± 0.23</td>
+<td style="text-align: right;">3.8 ± 0.5</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">90.0</td>
-<td style="text-align: right;">0.064 ± 0.1</td>
+<td style="text-align: right;">-0.14 ± 0.29</td>
 <td style="text-align: right;">2.2 ± 0.18</td>
-<td style="text-align: right;">2.3 ± 0.27</td>
+<td style="text-align: right;">2.1 ± 0.47</td>
 <td style="text-align: right;">4.6 ± 0.81</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">120.0</td>
-<td style="text-align: right;">0.11 ± 0.16</td>
+<td style="text-align: right;">-0.064 ± 0.32</td>
 <td style="text-align: right;">2.1 ± 0.43</td>
-<td style="text-align: right;">2.2 ± 0.59</td>
+<td style="text-align: right;">2 ± 0.75</td>
 <td style="text-align: right;">4.5 ± 1.3</td>
 </tr>
 </tbody>
@@ -1098,13 +1110,70 @@ Table&nbsp;5.2: Overall results of the process rate estimator (μ ± σ) by dept
 </figure>
 </div>
 </div>
-<p>Owing to all processes’ significant divergence of the linear model’s residuals from a normal distribution, as determined by the Shapiro-Wilk normality test, the Kruskal-Wallis Rank Sum Test was employed to examine group variation among the varieties. These respective tests were performed utilizing the relevant functions – <code>shapiro.test</code> and <code>kruskal.test</code>, from the <code>stats</code> package, as referred to in <span class="citation" data-cites="r2023language">(<a href="references.html#ref-r2023language" role="doc-biblioref">R Core Team 2023</a>)</span>.</p>
-<p>Among the different varieties, there were no significant group differences detected for neither N<sub>2</sub>O<sub>nit</sub> nor N<sub>2</sub>O<sub>den</sub>, and hence also not for N<sub>2</sub>O<sub>produced</sub>. However, significant differences among the varieties for N<sub>2</sub>O<sub>consumed</sub> were detected (p = 0.01098).</p>
+</section>
+<section id="testing-for-variety-effects" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="testing-for-variety-effects"><span class="header-section-number">5.3</span> Testing for variety effects</h2>
+<p>Owing to all processes’ significant divergence of the linear model’s residuals from a normal distribution, as determined by the Shapiro-Wilk normality test, the Kruskal-Wallis rank sum test was employed to examine group variation among the varieties. These respective tests were performed utilizing the relevant functions – <code>shapiro.test</code> and <code>kruskal.test</code>, from the <code>stats</code> package, as referred to in <span class="citation" data-cites="r2023language">(<a href="references.html#ref-r2023language" role="doc-biblioref">R Core Team 2023</a>)</span>.</p>
+<div class="cell" data-tbl-colwidths="[20,25,30,20,5]">
+<div id="tbl-kruskal-wallis-variety" class="cell quarto-float anchored" data-tbl-colwidths="[20,25,30,20,5]">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-kruskal-wallis-variety-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.3: Results of the Kruskal-Wallis rank sum test inspecting the effects of variety on the cumulative process rates over all days.
+</figcaption>
+<div aria-describedby="tbl-kruskal-wallis-variety-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 30%">
+<col style="width: 20%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Process</th>
+<th style="text-align: right;">Kruskal-Wallis χ²</th>
+<th style="text-align: right;">degrees of freedom</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Nitrification</td>
+<td style="text-align: right;">2.85</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.42</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Denitrification</td>
+<td style="text-align: right;">5.34</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.15</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reduction</td>
+<td style="text-align: right;">10.57</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: left;">*</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Among the different varieties, there were no significant group differences detected for neither N<sub>2</sub>O<sub>nit</sub> nor N<sub>2</sub>O<sub>den</sub>, and hence also not for N<sub>2</sub>O<sub>produced</sub> (<a href="#tbl-by-variety" class="quarto-xref">Table&nbsp;<span>5.4</span></a>). However, significant differences among the varieties for N<sub>2</sub>O<sub>consumed</sub> were detected (p = 0.01098). The group means and standard deviations for each variety are showcased in <a href="#tbl-by-variety" class="quarto-xref">table&nbsp;<span>5.4</span></a>.</p>
 <div class="cell" data-tbl-colwidths="[36,16,16,16,16]">
 <div id="tbl-by-variety" class="cell quarto-float anchored" data-tbl-colwidths="[36,16,16,16,16]">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-by-variety-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.3: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref">Table&nbsp;<span>5.2</span></a> aggregated by variety. The superscript compact letter display (CLD) indicates significant differences among groups based on Dunn’s Kruskal-Wallis multiple comparison (α = 0.05).
+Table&nbsp;5.4: Values from <a href="#tbl-by-depth-and-variety" class="quarto-xref">table&nbsp;<span>5.2</span></a> aggregated by variety. The superscript compact letter display indicates significant differences among groups based on Dunn’s Kruskal-Wallis multiple comparison (α = 0.05).
 </figcaption>
 <div aria-describedby="tbl-by-variety-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1128,31 +1197,31 @@ Table&nbsp;5.3: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">CH Claro</td>
-<td style="text-align: right;">0.59 ± 0.42</td>
+<td style="text-align: right;">0.57 ± 0.43</td>
 <td style="text-align: right;">2.6 ± 0.28</td>
-<td style="text-align: right;">3.2 ± 0.51</td>
-<td style="text-align: right;">5.2 ± 0.37 <sup><em>a</em></sup></td>
+<td style="text-align: right;">3.2 ± 0.52</td>
+<td style="text-align: right;">5.1 ± 0.47 <sup><em>a</em></sup></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Monte Calme 268</td>
-<td style="text-align: right;">1.9 ± 3.8</td>
-<td style="text-align: right;">2.2 ± 1</td>
-<td style="text-align: right;">4.1 ± 3.8</td>
-<td style="text-align: right;">3.5 ± 1.6 <sup><em>b</em></sup></td>
+<td style="text-align: right;">1.8 ± 3.9</td>
+<td style="text-align: right;">2 ± 1.4</td>
+<td style="text-align: right;">3.9 ± 3.4</td>
+<td style="text-align: right;">2.6 ± 2.8 <sup><em>b</em></sup></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Probus</td>
-<td style="text-align: right;">0.97 ± 1.1</td>
-<td style="text-align: right;">2.8 ± 1.8</td>
-<td style="text-align: right;">3.8 ± 2.4</td>
-<td style="text-align: right;">4.5 ± 1.5 <sup><em>ab</em></sup></td>
+<td style="text-align: right;">0.91 ± 1.1</td>
+<td style="text-align: right;">2.8 ± 1.9</td>
+<td style="text-align: right;">3.7 ± 2.5</td>
+<td style="text-align: right;">4.1 ± 2.7 <sup><em>ab</em></sup></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Zinal</td>
-<td style="text-align: right;">0.61 ± 0.82</td>
+<td style="text-align: right;">0.5 ± 0.9</td>
 <td style="text-align: right;">2.4 ± 0.55</td>
-<td style="text-align: right;">3 ± 0.94</td>
-<td style="text-align: right;">4.5 ± 0.81 <sup><em>ab</em></sup></td>
+<td style="text-align: right;">2.9 ± 1</td>
+<td style="text-align: right;">4.5 ± 0.82 <sup><em>ab</em></sup></td>
 </tr>
 </tbody>
 </table>
@@ -1161,12 +1230,69 @@ Table&nbsp;5.3: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref
 </figure>
 </div>
 </div>
+</section>
+<section id="testing-for-depth-effects" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="testing-for-depth-effects"><span class="header-section-number">5.4</span> Testing for depth effects</h2>
 <p>Conversely, N<sub>2</sub>O<sub>consumed</sub> did not show any significant group differences with respect to the depth layers. However, all other processes did: N<sub>2</sub>O<sub>nit</sub> (p = 1.005e-07) nor N<sub>2</sub>O<sub>den</sub> (p = 0.001029), and hence also for N<sub>2</sub>O<sub>produced</sub> (p = 3.883e-08).</p>
+<div class="cell" data-tbl-colwidths="[20,25,30,20,5]">
+<div id="tbl-kruskal-wallis-depth" class="cell quarto-float anchored" data-tbl-colwidths="[20,25,30,20,5]">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-kruskal-wallis-depth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5.5: Results of the Kruskal-Wallis rank sum test inspecting the effects of depth layer on the cumulative process rates over all days.
+</figcaption>
+<div aria-describedby="tbl-kruskal-wallis-depth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="cell table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 25%">
+<col style="width: 30%">
+<col style="width: 20%">
+<col style="width: 5%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Process</th>
+<th style="text-align: right;">Kruskal-Wallis χ²</th>
+<th style="text-align: right;">degrees of freedom</th>
+<th style="text-align: right;">p-value</th>
+<th style="text-align: left;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Nitrification</td>
+<td style="text-align: right;">36.46</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">p &lt; 0.001</td>
+<td style="text-align: left;">***</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Denitrification</td>
+<td style="text-align: right;">18.33</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.0011</td>
+<td style="text-align: left;">**</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Reduction</td>
+<td style="text-align: right;">2.83</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">0.59</td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
 <div class="cell" data-tbl-colwidths="[22,14,16,16,16,16]">
 <div id="tbl-by-depth" class="cell quarto-float anchored" data-tbl-colwidths="[22,14,16,16,16,16]">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-by-depth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.4: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref">Table&nbsp;<span>5.2</span></a> aggregated by depth layer. The superscript compact letter display (CLD) indicates significant differences among groups based on Dunn’s Kruskal-Wallis multiple comparison (α = 0.05).
+Table&nbsp;5.6: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref">Table&nbsp;<span>5.2</span></a> aggregated by depth layer. The superscript compact letter display indicates significant differences among groups based on Dunn’s Kruskal-Wallis multiple comparison (α = 0.05).
 </figcaption>
 <div aria-describedby="tbl-by-depth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1194,41 +1320,41 @@ Table&nbsp;5.4: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref
 <td style="text-align: left;"></td>
 <td style="text-align: left;">7.5</td>
 <td style="text-align: right;">2.6 ± 4.1 <sup><em>b</em></sup></td>
-<td style="text-align: right;">2.2 ± 0.63 <sup><em>a</em></sup></td>
-<td style="text-align: right;">4.8 ± 3.6 <sup><em>b</em></sup></td>
-<td style="text-align: right;">4.7 ± 1.4</td>
+<td style="text-align: right;">2 ± 1.1 <sup><em>a</em></sup></td>
+<td style="text-align: right;">4.7 ± 3.1 <sup><em>b</em></sup></td>
+<td style="text-align: right;">4.3 ± 2.6</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">30</td>
-<td style="text-align: right;">1.5 ± 0.9 <sup><em>b</em></sup></td>
+<td style="text-align: right;">1.4 ± 0.93 <sup><em>b</em></sup></td>
 <td style="text-align: right;">3.5 ± 1.4 <sup><em>b</em></sup></td>
 <td style="text-align: right;">4.9 ± 2.1 <sup><em>b</em></sup></td>
-<td style="text-align: right;">4.8 ± 1</td>
+<td style="text-align: right;">4.5 ± 1.7</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">60</td>
-<td style="text-align: right;">0.58 ± 0.46 <sup><em>ab</em></sup></td>
+<td style="text-align: right;">0.51 ± 0.48 <sup><em>ab</em></sup></td>
 <td style="text-align: right;">2.8 ± 1.4 <sup><em>ab</em></sup></td>
-<td style="text-align: right;">3.4 ± 1.6 <sup><em>ab</em></sup></td>
-<td style="text-align: right;">4.2 ± 1.4</td>
+<td style="text-align: right;">3.3 ± 1.5 <sup><em>ab</em></sup></td>
+<td style="text-align: right;">4 ± 1.7</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">90</td>
-<td style="text-align: right;">0.31 ± 0.36 <sup><em>a</em></sup></td>
-<td style="text-align: right;">2 ± 0.69 <sup><em>a</em></sup></td>
-<td style="text-align: right;">2.3 ± 0.51 <sup><em>a</em></sup></td>
-<td style="text-align: right;">4 ± 1.7</td>
+<td style="text-align: right;">0.24 ± 0.43 <sup><em>a</em></sup></td>
+<td style="text-align: right;">1.9 ± 0.85 <sup><em>a</em></sup></td>
+<td style="text-align: right;">2.1 ± 0.67 <sup><em>a</em></sup></td>
+<td style="text-align: right;">3.3 ± 3.1</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;">120</td>
-<td style="text-align: right;">0.11 ± 0.16 <sup><em>a</em></sup></td>
-<td style="text-align: right;">2.1 ± 0.45 <sup><em>a</em></sup></td>
-<td style="text-align: right;">2.2 ± 0.51 <sup><em>a</em></sup></td>
-<td style="text-align: right;">4.4 ± 1.1</td>
+<td style="text-align: right;">-0.015 ± 0.25 <sup><em>a</em></sup></td>
+<td style="text-align: right;">2.1 ± 0.46 <sup><em>a</em></sup></td>
+<td style="text-align: right;">2.1 ± 0.62 <sup><em>a</em></sup></td>
+<td style="text-align: right;">4.4 ± 1.2</td>
 </tr>
 </tbody>
 </table>
@@ -1237,152 +1363,6 @@ Table&nbsp;5.4: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref
 </figure>
 </div>
 </div>
-</section>
-<section id="analysis-of-variance" class="level2" data-number="5.3">
-<h2 data-number="5.3" class="anchored" data-anchor-id="analysis-of-variance"><span class="header-section-number">5.3</span> Analysis of variance</h2>
-<section id="nitrification" class="level3">
-<h3 class="anchored" data-anchor-id="nitrification">Nitrification</h3>
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">Df</th>
-<th style="text-align: right;">Sum.Sq</th>
-<th style="text-align: right;">Mean.Sq</th>
-<th style="text-align: right;">F.value</th>
-<th style="text-align: right;">p-value</th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">depth</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1870</td>
-<td style="text-align: right;">1870.0</td>
-<td style="text-align: right;">22.60</td>
-<td style="text-align: right;">3.23e-05</td>
-<td style="text-align: left;">***</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">as.factor(column)</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">2030</td>
-<td style="text-align: right;">184.0</td>
-<td style="text-align: right;">2.22</td>
-<td style="text-align: right;">3.51e-02</td>
-<td style="text-align: left;">*</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">depth:as.factor(column)</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">3080</td>
-<td style="text-align: right;">280.0</td>
-<td style="text-align: right;">3.38</td>
-<td style="text-align: right;">2.78e-03</td>
-<td style="text-align: left;">**</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Residuals</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">2990</td>
-<td style="text-align: right;">82.9</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="denitrification" class="level3">
-<h3 class="anchored" data-anchor-id="denitrification">Denitrification</h3>
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">Df</th>
-<th style="text-align: right;">Sum.Sq</th>
-<th style="text-align: right;">Mean.Sq</th>
-<th style="text-align: right;">F.value</th>
-<th style="text-align: right;">p-value</th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">depth</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">126</td>
-<td style="text-align: right;">126.0</td>
-<td style="text-align: right;">2.3</td>
-<td style="text-align: right;">0.135</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Residuals</td>
-<td style="text-align: right;">58</td>
-<td style="text-align: right;">3180</td>
-<td style="text-align: right;">54.9</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="reduction" class="level3">
-<h3 class="anchored" data-anchor-id="reduction">Reduction</h3>
-<table class="table">
-<thead>
-<tr class="header">
-<th style="text-align: left;"></th>
-<th style="text-align: right;">Df</th>
-<th style="text-align: right;">Sum.Sq</th>
-<th style="text-align: right;">Mean.Sq</th>
-<th style="text-align: right;">F.value</th>
-<th style="text-align: right;">p-value</th>
-<th style="text-align: left;"></th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;">depth</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">51.4</td>
-<td style="text-align: right;">51.4</td>
-<td style="text-align: right;">0.548</td>
-<td style="text-align: right;">0.464000</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">as.factor(column)</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">5380.0</td>
-<td style="text-align: right;">489.0</td>
-<td style="text-align: right;">5.210</td>
-<td style="text-align: right;">0.000075</td>
-<td style="text-align: left;">***</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">depth:as.factor(column)</td>
-<td style="text-align: right;">11</td>
-<td style="text-align: right;">1880.0</td>
-<td style="text-align: right;">171.0</td>
-<td style="text-align: right;">1.820</td>
-<td style="text-align: right;">0.086500</td>
-<td style="text-align: left;">.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Residuals</td>
-<td style="text-align: right;">36</td>
-<td style="text-align: right;">3380.0</td>
-<td style="text-align: right;">93.9</td>
-<td style="text-align: right;"></td>
-<td style="text-align: right;"></td>
-<td style="text-align: left;"></td>
-</tr>
-</tbody>
-</table>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
@@ -1390,7 +1370,6 @@ Table&nbsp;5.4: Values in <a href="#tbl-by-depth-and-variety" class="quarto-xref
 R Core Team. 2023. <a href="https://www.R-project.org/">R: A language and environment for statistical computing</a>. R Foundation for Statistical Computing, Vienna, Austria.
 </div>
 </div>
-</section>
 </section>
 
 </main> <!-- /main -->

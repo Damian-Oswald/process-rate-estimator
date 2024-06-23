@@ -109,8 +109,8 @@ ani.options(ani.width = 1600, # setting width
             interval = 0.05,
             ani.res = 300) # setting time/image
 saveGIF(expr = {
-   s <- exp(seq(log(100),log(3),length=150))
-   for (bandwidth in c(s,rev(s))) {
+   s <- 190^((sinpi(seq(0,2,l=400))+1)/2)+1
+   for (bandwidth in s[-length(s)]) {
       layout(matrix(c(1,1,1,1,3,2,2,2,2,3), ncol = 2))
       par(mar = rep(0.2, 4), oma = rep(0.01, 4))
       formula <- as.formula(paste("N2O", "date", sep  = " ~ "))
@@ -121,10 +121,9 @@ saveGIF(expr = {
       dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
       x <- as.numeric(dates)
       y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
-      for (sigma in 1:3) {
-         polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor(color, alpha.f = c(0.6,0.3,0.15)[sigma]), border = FALSE)
-      }
+      polygon(c(x, rev(x)), c(y$fit+y$se.fit*1.96, rev(y$fit-y$se.fit*1.96)), col = "#fc5d5e", border = FALSE)
       lines(dates, y$fit, lwd = 2)
+      box()
       points(formula, data = subset, lwd = 1.5, cex = 0.6)
 
       formula <- as.formula(paste("SP", "date", sep  = " ~ "))
@@ -135,10 +134,9 @@ saveGIF(expr = {
       dates <- seq.Date(from = as.Date("2015-08-01"), to = as.Date("2016-02-28"), by = 1)
       x <- as.numeric(dates)
       y <- predict(model, newdata = data.frame(date = x), se.fit = TRUE)
-      for (sigma in 1:3) {
-         polygon(c(x, rev(x)), c(y$fit+y$se.fit*sigma, rev(y$fit-y$se.fit*sigma)), col = adjustcolor(color, alpha.f = c(0.6,0.3,0.15)[sigma]), border = FALSE)
-      }
+      polygon(c(x, rev(x)), c(y$fit+y$se.fit*1.96, rev(y$fit-y$se.fit*1.96)), col = "#fc5d5e", border = FALSE)
       lines(dates, y$fit, lwd = 2)
+      box()
       points(formula, data = subset, lwd = 1.5, cex = 0.6)
 
       par(mar = c(4,0.5,0,0.5))

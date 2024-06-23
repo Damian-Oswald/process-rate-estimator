@@ -139,7 +139,7 @@ However, the bandwidth needs to be actively chosen and cannot be intrinsically e
 
 @fig-explanation gives an intuitive understanding on why we don't want to use the same bandwidth for every single combination of depth and column: In some instances we seem to have a very clear signal, while in others, there seems to be much noise -- we are dealing with unequal variance, a.k.a. heteroskedasticity.
 
-![Animated explanation on two examplary subsets of the data. On the left, there is a very high sinal to noise ratio, thus the optimal `bandwith` hyperparameter will be smaller than on the right.](graphics/explanation.gif){#fig-explanation}
+![Animated explanation on two examplary subsets of the data. On the left, there is a very high signal to noise ratio, thus the optimal `bandwith` hyperparameter will be smaller than on the right.](graphics/explanation.gif){#fig-explanation}
 
 The bandwidth hyperparameter is individually tuned using 3-fold 10 times repeated cross-validation for every combination of column and depth and variable[^variable], respectively. You can see an overview of the found hyperparameters in [figure @fig-hyperparameters-1], [-@fig-hyperparameters-2], and [-@fig-hyperparameters-3].
 
