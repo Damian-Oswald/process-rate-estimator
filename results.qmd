@@ -109,6 +109,8 @@ df2 %>%
 
 @tbl-negative shows that nitrification rates are particularly affected by this phenomenon -- especially at lower depths -- with five cases where negative estimates were made for every single day. Denitrification and reduction rates are much less affected.
 
+This correlation is also evident in [figure @fig-scatterplot], which depicts the values of all cumulative process rates. Notably, column 12 stands out with its markedly negative denitrification and reduction rates, contrasted by extremely high nitrification rates. This observation aligns with the inherent correlation among the three process rate estimates.
+
 :::{.column-page}
 ```{r}
 #| eval: true
@@ -175,6 +177,8 @@ f("Denitrification", "Reduction",
   ylab = expression("Reduction [g N"[2]*"O-N]"))
 ```
 :::
+
+Although physically impossible, the uncorrected values of cumulative nitrification, denitrification, and reduction are used for further analyses in the interest of intellectual honesty.
 
 ## Results of the cumulative process rates
 
