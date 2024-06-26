@@ -157,7 +157,7 @@ By reviewing the coefficients in [table @tbl-coefficients], we can identify whic
 ```{r}
 #| label: tbl-coefficients
 #| results: asis
-#| tbl-cap: Coefficients ($\mu$ ± $\sigma$) for the models fit on combinations of depth and column.
+#| tbl-cap: Coefficients ($\mu$ ± $\sigma$) for the models fit on combinations of depth and column. Note that the unit of the bulk density from the istope end members, hence the coefficients are not directly comparable.
 #| echo: false
 #| eval: true
 #| tbl-colwidths: [10,30,30,30]
@@ -187,7 +187,7 @@ knitr::kable(df, align = "lrrr", row.names = FALSE)
 When interpreting the raw coefficients $\boldsymbol \beta$ in the regression models used in the sensitivity analysis, it's important to note that these coefficients reflect the effect size of each parameter at a fixed value, assuming other parameters are held constant. However, these coefficients do not take into account the prior uncertainty associated with each parameter listed in [table @tbl-sensitivity].
 
 :::{.column-screen-inset-right}
-![Results of the coefficients for all processes and parameters. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.](scripts/sensitivity-analysis/output/Coefficients.svg){#fig-coefficients width=100%}
+![Results of the coefficients for all processes and parameters. The bulk density (`BD`) was omitted from this graph because its unit and hence its parameter's magnitude differs from the istope end members. The mangitude of the coefficients can be interpreted as the effect size said parameter would have without considering its uncertainty.](scripts/sensitivity-analysis/output/Coefficients.svg){#fig-coefficients width=100%}
 :::
 
 This means that while a coefficient can indicate how much the output will change with a one-unit change in the parameter, it doesn't take into account the uncertainty of the parameter itself, which is also a driver of the overall contribution to the model sensitivity.

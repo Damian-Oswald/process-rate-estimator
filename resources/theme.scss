@@ -121,11 +121,10 @@ details[open] summary {
 .table tbody tr {
     border-bottom: 1px solid $dark;
 }
-.table caption {
-   text-align: left;
-   font-size: 1.1em;
-   color: $figurecaption;
-   // font-style: italic;
+.quarto-float-caption-top {
+    text-align: left !important;  // Use !important to override any other styles
+    font-size: 0.85em;
+    color: $figurecaption;
 }
 
 // Variables
