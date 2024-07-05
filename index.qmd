@@ -2,8 +2,17 @@
 This repo is still very much work in progress.
 :::
 
-# Preface
-
 This site contains the documentation for the process rate estimator.
-
 For a detailed (scientific) description of the process rate estimator, see @decock2022process.
+
+The project was done for the sustainable agro-ecosystems group at ETH Zurich. While the project documentation is presented on this website, the souce code for the process rate estimator in contained in an R package called `PRE`. You can explore said package in [this GitHub repository](https://github.com/damian-oswald/PRE/). A brief instruction of the installation of `PRE` is provided in the next chapter.
+
+# Introduction
+
+Denitrification is the natural process by which nitrate (NO~3~^-^) in the soil are converted by bacteria into nitrous oxide (N~2~O) or pure nitrigen (N~2~). The latter is called *total denitrification* --- the full process described in @eq-denitrification takes place.
+
+$$
+\ce{NO3^- ->[\text{Nitrate}][\text{reductase}] NO2^- ->[\text{Nitrite}][\text{reductase}] NO ->[\text{Nitrite oxide}][\text{reductase}] N2O^- ->[\text{Nitrous oxide}][\text{reductase}] N2}
+$${#eq-denitrification}
+
+Denitrification occurs in conditions where oxygen is limited, such as waterlogged soils. It is part of the nitrogen cycle, where nitrogen is circulated between the atmosphere, organisms and the earth.
