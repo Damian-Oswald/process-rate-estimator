@@ -6,7 +6,7 @@ book:
   title: Process Rate Estimator (`PRE`)
   chapters:
     - index.qmd
-    - introduction.qmd
+    - installation.qmd
     - data-preparation.qmd
     - running-the-model.qmd
     - results.qmd

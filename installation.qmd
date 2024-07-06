@@ -1,20 +1,8 @@
 ---
-title: Introduction
+title: Installation
 execute: 
   eval: false
 ---
-
-## Background
-
-Denitrification is the natural process by which nitrate (NO~3~^-^) in the soil are converted by bacteria into nitrous oxide (N~2~O) or pure nitrigen (N~2~). The latter is called *total denitrification* --- the full process described in @eq-denitrification takes place.
-
-$$
-\ce{NO3^- ->[\text{Nitrate}][\text{reductase}] NO2^- ->[\text{Nitrite}][\text{reductase}] NO ->[\text{Nitrite oxide}][\text{reductase}] N2O^- ->[\text{Nitrous oxide}][\text{reductase}] N2}
-$${#eq-denitrification}
-
-Denitrification occurs in conditions where oxygen is limited, such as waterlogged soils. It is part of the nitrogen cycle, where nitrogen is circulated between the atmosphere, organisms and the earth.
-
-## Installation of the R package PRE
 
 All functions that are used repeatedly throughout this projec are implemented in an R package called `PRE`. The source code of this package is stored in a [publically accessible way on GitHub](https://github.com/Damian-Oswald/PRE). You can install the package directly from GitHub using the `install_github` function from the `remotes` package.
 
@@ -32,7 +20,7 @@ Once the package is installed, you can attach it to the search path in the usual
 library(PRE)
 ```
 
-### What do the various functions do?
+## What do the various functions do?
 
 The R code shown on this project help page is extremely simplified. If you want want to understand what a specific function of the `PRE` package does, simple visit the corresponding R help page. For example, you could read on the function `crossValidate` by using one of the the following commands.
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Process Rate Estimator (`PRE`) – 2&nbsp; Introduction</title>
+<title>Process Rate Estimator (`PRE`) – 2&nbsp; Installation</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -103,35 +103,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -162,7 +133,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./introduction.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./installation.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Installation</span></a></li></ol></nav>
         <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -177,13 +148,13 @@ window.Quarto = {
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./introduction.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  <a href="./installation.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Installation</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -232,20 +203,16 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#background" id="toc-background" class="nav-link active" data-scroll-target="#background"><span class="header-section-number">2.1</span> Background</a></li>
-  <li><a href="#installation-of-the-r-package-pre" id="toc-installation-of-the-r-package-pre" class="nav-link" data-scroll-target="#installation-of-the-r-package-pre"><span class="header-section-number">2.2</span> Installation of the R package PRE</a>
-  <ul class="collapse">
-  <li><a href="#what-do-the-various-functions-do" id="toc-what-do-the-various-functions-do" class="nav-link" data-scroll-target="#what-do-the-various-functions-do">What do the various functions do?</a></li>
-  </ul></li>
+  <li><a href="#what-do-the-various-functions-do" id="toc-what-do-the-various-functions-do" class="nav-link active" data-scroll-target="#what-do-the-various-functions-do"><span class="header-section-number">2.1</span> What do the various functions do?</a></li>
   </ul>
-<div class="toc-actions"><ul><li><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/installation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Introduction</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Installation</span></h1>
 </div>
 
 
@@ -262,16 +229,6 @@ window.Quarto = {
 </header>
 
 
-<section id="background" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="background"><span class="header-section-number">2.1</span> Background</h2>
-<p>Denitrification is the natural process by which nitrate (NO<sub>3</sub><sup>-</sup>) in the soil are converted by bacteria into nitrous oxide (N<sub>2</sub>O) or pure nitrigen (N<sub>2</sub>). The latter is called <em>total denitrification</em> — the full process described in <a href="#eq-denitrification" class="quarto-xref">Equation&nbsp;<span>2.1</span></a> takes place.</p>
-<p><span id="eq-denitrification"><span class="math display">\[
-\ce{NO3^- -&gt;[\text{Nitrate}][\text{reductase}] NO2^- -&gt;[\text{Nitrite}][\text{reductase}] NO -&gt;[\text{Nitrite oxide}][\text{reductase}] N2O^- -&gt;[\text{Nitrous oxide}][\text{reductase}] N2}
-\tag{2.1}\]</span></span></p>
-<p>Denitrification occurs in conditions where oxygen is limited, such as waterlogged soils. It is part of the nitrogen cycle, where nitrogen is circulated between the atmosphere, organisms and the earth.</p>
-</section>
-<section id="installation-of-the-r-package-pre" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="installation-of-the-r-package-pre"><span class="header-section-number">2.2</span> Installation of the R package PRE</h2>
 <p>All functions that are used repeatedly throughout this projec are implemented in an R package called <code>PRE</code>. The source code of this package is stored in a <a href="https://github.com/Damian-Oswald/PRE">publically accessible way on GitHub</a>. You can install the package directly from GitHub using the <code>install_github</code> function from the <code>remotes</code> package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"remotes"</span>)</span>
@@ -281,8 +238,8 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(PRE)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="what-do-the-various-functions-do" class="level3">
-<h3 class="anchored" data-anchor-id="what-do-the-various-functions-do">What do the various functions do?</h3>
+<section id="what-do-the-various-functions-do" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="what-do-the-various-functions-do"><span class="header-section-number">2.1</span> What do the various functions do?</h2>
 <p>The R code shown on this project help page is extremely simplified. If you want want to understand what a specific function of the <code>PRE</code> package does, simple visit the corresponding R help page. For example, you could read on the function <code>crossValidate</code> by using one of the the following commands.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">help</span>(<span class="st">"crossValidate"</span>, <span class="at">package =</span> <span class="st">"PRE"</span>)</span>
@@ -308,7 +265,7 @@ window.Quarto = {
     }
     return(results)
 }
-&lt;bytecode: 0x7fabaf72f710&gt;
+&lt;bytecode: 0x7fbdb9476fa8&gt;
 &lt;environment: namespace:PRE&gt;</code></pre>
 </div>
 </div>
@@ -317,7 +274,6 @@ window.Quarto = {
 <p>Notice how the base name (the last part of the URL) matches the function name. You can replace that by any function name of your liking.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
@@ -782,8 +738,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link" aria-label="Preface">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span>
+      <a href="./index.html" class="pagination-link" aria-label="Introduction">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
@@ -797,4 +753,4 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/introduction.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/damian-oswald/process-rate-estimator/blob/main/installation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/damian-oswald/process-rate-estimator/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
