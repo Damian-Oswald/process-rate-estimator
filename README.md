@@ -1,14 +1,10 @@
-> [!NOTE]  
-> This repo is still very much work in progress.
+:test_tube: Process Rate Estimator
+==================================
 
-Process Rate Estimator
-======================
-Damian Oswald
-September 23, 2023
-
-# How can I run the Process Rate Estimator?
+# How can I run the process rate estimator?
 
 To run the process rate estimator, first install the R package `PRE`.[^1]
+
 ```r
 remotes::install_github("https://github.com/Damian-Oswald/PRE")
 ```
@@ -26,16 +22,14 @@ With this, you are ready to run the main script, which will reproduce the result
 Rscript scripts/run-process-rate-estimator/run-PRE.R
 ```
 
-# How to reproduce the rest of the study?
-
 The scripts to reproduce the study results are divided by topic.
 
-## Sensitivity Analysis
+## :abacus: Sensitivity analysis
 
 To reproduce the sensitivity analysis, enter the following command:
 
 ```bash
-Rscript scripts/sensitivity-analysis/01-sensitivitiy-analysis.R
+Rscript scripts/sensitivity-analysis/sensitivitiy-analysis.R
 ```
 
 Note that you can open the corresponding file to change parameters such as `SAMPLESIZE` and `SAMPLEREPEAT`; however, doing this will change the exact numerical results.[^2]
