@@ -5,7 +5,7 @@ This repo is still very much work in progress.
 This site contains the documentation for the process rate estimator.
 For a detailed (scientific) description of the process rate estimator, see @decock2022process.
 
-The project was done for the sustainable agro-ecosystems group at ETH Zurich. While the project documentation is presented on this website, the souce code for the process rate estimator in contained in an R package called `PRE`. You can explore said package in [this GitHub repository](https://github.com/damian-oswald/PRE/). A brief instruction of the installation of `PRE` is provided in the next chapter.
+The project was done for the [sustainable agro-ecosystems group at ETH Zurich](https://sae.ethz.ch/). While the project documentation is presented on this website, the source code for the process rate estimator in contained in an R package called `PRE`. You can explore said package in [this GitHub repository](https://github.com/damian-oswald/PRE/). A brief instruction of the installation of `PRE` is provided in the next chapter. Meanwhile, the scripts for running the process rate estimator on some collected data are contained by the [main GitHub repository `process-rate-estimator`](https://github.com/damian-oswald/process-rate-estimator/), which also contains this documentation page.
 
 # Introduction
 
