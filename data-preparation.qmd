@@ -19,41 +19,41 @@ $$4 \times 3 \times 5 \times 161 = 9660$${#eq-dimension}
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
 | Code        | Name              | Description                | Class       | Missing | Distribution                                 |
 +=============+===================+============================+=============+=========+==============================================+
-| `date`      | Date              | Date of a measurement in   | `"Date"`    | 0%      | ![](graphics/date.png){width=300px}          |
+| `date`      | Date              | Date of a measurement in   | `"Date"`    | 0%      | ![](resources/date.png){width=300px}         |
 |             |                   | the `"Date"` format        |             |         |                                              |
 |             |                   | (`YYYY-MM-DD`), ranging    |             |         |                                              |
 |             |                   | from August 27 2015 to     |             |         |                                              |
 |             |                   | February 3 2016.           |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `column`    | Column            | Factor variable indicating | `"ordered"` | 0%      | ![](graphics/column.png){width=300px}        |
+| `column`    | Column            | Factor variable indicating | `"ordered"` | 0%      | ![](resources/column.png){width=300px}       |
 |             |                   | one out of twelve          |             |         |                                              |
 |             |                   | experimental units.        |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `depth`     | Measurement depth | Depth of the measurement,  | `"numeric"` | 0%      | ![](graphics/depth.png){width=300px}         |
+| `depth`     | Measurement depth | Depth of the measurement,  | `"numeric"` | 0%      | ![](resources/depth.png){width=300px}        |
 |             |                   | either 7.5, 30, 60, 90, or |             |         |                                              |
 |             |                   | 120 cm.                    |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `increment` | Depth increment   | Height of a soil layer     | `"integer"` | 0%      | ![](graphics/increment.png){width=300px}     |
+| `increment` | Depth increment   | Height of a soil layer     | `"integer"` | 0%      | ![](resources/increment.png){width=300px}    |
 |             |                   | from lower to upper        |             |         |                                              |
 |             |                   | boundary.                  |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `variety`   | Wheat variety     | Either `CH Claro`,         | `"factor"`  | 0%      | ![](graphics/variety.png){width=300px}       |
+| `variety`   | Wheat variety     | Either `CH Claro`,         | `"factor"`  | 0%      | ![](resources/variety.png){width=300px}      |
 |             |                   | `Monte Calme 268`,         |             |         |                                              |
 |             |                   | `Probus`, or `Zinal`.      |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `moisture`  | Soil moisture     | The moisture is expressed  | `"numeric"` | 0%      | ![](graphics/hist-moisture.png){width=300px} |
+| `moisture`  | Soil moisture     | The moisture is expressed  | `"numeric"` | 0%      | ![](resources/hist-moisture.png){width=300px}|
 |             |                   | as volumetric water        |             |         |                                              |
 |             |                   | content in cubic meters of |             |         |                                              |
 |             |                   | water per cubic meters of  |             |         |                                              |
 |             |                   | soil [$\frac{m^3}{m^3}$].  |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `N2O`       | Corrected N~2~O   |                            | `"numeric"` | 86.9%   | ![](graphics/hist-N2O.png){width=300px}      |
+| `N2O`       | Corrected N~2~O   |                            | `"numeric"` | 86.9%   | ![](resources/hist-N2O.png){width=300px}     |
 |             | concentration     |                            |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `SP`        | Site preference   | Site preference values     | `"numeric"` | 86.3%   | ![](graphics/hist-SP.png){width=300px}       |
+| `SP`        | Site preference   | Site preference values     | `"numeric"` | 86.3%   | ![](resources/hist-SP.png){width=300px}      |
 |             |                   | for N~2~O                  |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
-| `d18O`      | $\delta^{18}\ce O$| Ratio of stable isotopes   | `"numeric"` | 86.3%   | ![](graphics/hist-d18O.png){width=300px}     |
+| `d18O`      | $\delta^{18}\ce O$| Ratio of stable isotopes   | `"numeric"` | 86.3%   | ![](resources/hist-d18O.png){width=300px}    |
 |             | stable isotope    | oxygen-18 (^18^O) and      |             |         |                                              |
 |             | ratio             | oxygen-16 (^16^O).         |             |         |                                              |
 +-------------+-------------------+----------------------------+-------------+---------+----------------------------------------------+
@@ -139,7 +139,7 @@ However, the bandwidth needs to be actively chosen and cannot be intrinsically e
 
 @fig-explanation gives an intuitive understanding on why we don't want to use the same bandwidth for every single combination of depth and column: In some instances we seem to have a very clear signal, while in others, there seems to be much noise -- we are dealing with unequal variance, a.k.a. heteroskedasticity.
 
-![Animated explanation on two examplary subsets of the data. On the left, there is a very high signal to noise ratio, thus the optimal `bandwith` hyperparameter will be smaller than on the right.](graphics/explanation.gif){#fig-explanation}
+![Animated explanation on two examplary subsets of the data. On the left, there is a very high signal to noise ratio, thus the optimal `bandwith` hyperparameter will be smaller than on the right.](resources/explanation.gif){#fig-explanation}
 
 The bandwidth hyperparameter is individually tuned using 3-fold 10 times repeated cross-validation for every combination of column and depth and variable[^variable], respectively. You can see an overview of the found hyperparameters in [figure @fig-hyperparameters-1], [-@fig-hyperparameters-2], and [-@fig-hyperparameters-3].
 
@@ -151,15 +151,15 @@ The bandwidth hyperparameter is individually tuned using 3-fold 10 times repeate
 
 ## N~2~O concentration
 
-![Optimal hyperparameter size by depth and column for the N~2~O-N concentration.](graphics/hyperparameters-1.svg){#fig-hyperparameters-1 width=100%}
+![Optimal hyperparameter size by depth and column for the N~2~O-N concentration.](resources/hyperparameters-1.svg){#fig-hyperparameters-1 width=100%}
 
 ## Site preference
 
-![Optimal hyperparameter size by depth and column for the site preference.](graphics/hyperparameters-2.svg){#fig-hyperparameters-2 width=100%}
+![Optimal hyperparameter size by depth and column for the site preference.](resources/hyperparameters-2.svg){#fig-hyperparameters-2 width=100%}
 
 ## Stable isotope ratio	($\delta$^18^O)
 
-![Optimal hyperparameter size by depth and column for the stable isotope ratio $\delta$^18^O concentration.](graphics/hyperparameters-3.svg){#fig-hyperparameters-3 width=100%}
+![Optimal hyperparameter size by depth and column for the stable isotope ratio $\delta$^18^O concentration.](resources/hyperparameters-3.svg){#fig-hyperparameters-3 width=100%}
 
 :::
 
