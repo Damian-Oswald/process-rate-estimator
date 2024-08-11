@@ -37,7 +37,7 @@ These results are also documented [here](https://damian-oswald.github.io/process
 
 ## :abacus: Running the sensitivity analysis
 
-To reproduce the sensitivity analysis (which is documented [here]()https://damian-oswald.github.io/process-rate-estimator/sensitivity-analysis.html), enter the following command:
+To reproduce the sensitivity analysis (which is documented [here](https://damian-oswald.github.io/process-rate-estimator/sensitivity-analysis.html)), enter the following command:
 
 ``` bash
 Rscript scripts/sensitivity-analysis/sensitivitiy-analysis.R
