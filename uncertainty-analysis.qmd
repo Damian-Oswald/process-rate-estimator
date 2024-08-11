@@ -14,9 +14,9 @@ Two things are striking when looking at the clusters in [figure @fig-pairs-proce
 
 To quantify the uncertainty surrounding each parameter in the processes depicted, a method to summarize the set of estimated processes is needed. Since all distributions seem to be multivariate Gaussians, covariance matrices $\mathbf\Sigma$ are well fit to describe them. Utilizing a matrix norm presents a viable approach to further reduce each covariance matrix $\mathbf\Sigma$ to one number. For this, we'll use the determinant $\det(\mathbf\Sigma)$, which provides a measure of the total variance contained within the multivariate Gaussian distribution.[^alternatives]
 
-[^alternatives]: Alternatives to reduce the covariance matrix $\mathbf\Sigma$ to a scalar would be the trance or the Frobenius norm.
+[^alternatives]: Alternatives to reduce the covariance matrix $\mathbf\Sigma$ to a scalar would be the trace of the covariance matrix $\text{tr}(\mathbf\Sigma)$ or the Frobenius norm.
 
-    Although the trace of the covariance matrix $\text{tr}(\mathbf\Sigma)$ gives us a measure of the total variance, it does not take into account the correlation between variables.
+    Although the trace gives us a measure of the total variance, it does not take into account the correlation between variables.
     
     Similarly, the Frobenius norm is less effective than the determinant in measuring the "volume" of a $\mathbf\Sigma$ because it sums the squares of all matrix elements without capturing the multidimensional shape and scale interactions that the determinant reflects.
 

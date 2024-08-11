@@ -41,7 +41,7 @@ cat(":::\n\n")
 ```
 :::
 
-Estimated process rates over time for all columns and depths. *Click on the column or depth buttons on the top of the tab set to navigate between the visualizations.*
+Estimated process rates over time for all columns and depths. *Note: You may click on the column or depth buttons on the top of the tab set to navigate between the visualizations.*
 
 :::
 
@@ -120,36 +120,36 @@ This correlation is also evident in [figure @fig-scatterplot], which depicts the
 #| fig-height: 3.6
 #| out-width: 100%
 #| label: fig-scatterplot
-#| fig-cap: Combinations of scatterplots of the estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth and column. For some estimates, the column is indicated on the top. The grey area represents the physically impossible space.
+#| fig-cap: Combinations of scatterplots of the mean estimated process rates for nitrification, denitrification and reduction. Each point represents one mean process rate for a given depth and column. For some estimates, the column is indicated on the top. The grey area represents the physically impossible space.
 
 # read the results
 data <- read.csv(file.path("scripts","run-process-rate-estimator","output","estimated-process-rates.csv"))
 
-# compute the sum of process rates over entire time
+# compute the mean process rates over entire time
 for (x in c("Nitrification", "Denitrification", "Reduction")) {
-    assign(x, 0.001 * tapply(data[,x], with(data, list(variety, depth, column)), sum))
+    assign(x, tapply(data[,x], with(data, list(variety, depth, column)), mean))
 }
 names(dimnames(Nitrification)) <- names(dimnames(Denitrification)) <- names(dimnames(Reduction)) <- c("Variety", "Depth", "Column")
 
 # compute total produced nitrogen
 Production <- Nitrification + Denitrification
 
-with(data, tapply(Nitrification*0.001, list(depth, column, variety), sum)) |>
+with(data, tapply(Nitrification, list(depth, column, variety), mean)) |>
     reshape2::melt(varnames = c("depth", "column", "variety"), value.name = "Nitrification") |>
     na.omit() -> df
-with(data, tapply(Denitrification*0.001, list(depth, column, variety), sum)) |>
+with(data, tapply(Denitrification, list(depth, column, variety), mean)) |>
     reshape2::melt(varnames = c("depth", "column", "variety"), value.name = "Denitrification") |>
     na.omit() |>
     subset(select = "Denitrification") |>
     unlist() -> df$Denitrification
-with(data, tapply(Reduction*0.001, list(depth, column, variety), sum)) |>
+with(data, tapply(Reduction, list(depth, column, variety), mean)) |>
     reshape2::melt(varnames = c("depth", "column", "variety"), value.name = "Reduction") |>
     na.omit() |>
     subset(select = "Reduction") |>
     unlist() -> df$Reduction
 
 f <- function(x, y, ...) {
-    plot(df[,x], df[,y], pch = 21, ...)
+    plot(df[,x], df[,y], pch = 21, las = 1, ...)
     polygon(x = c(0,-1000,-1000,0), y = c(-1000,-1000,1000,1000), col = "gray90", border = NA)
     polygon(x = c(-1000,1000,1000,-1000), y = c(0,0,-1000,-1000), col = "gray90", border = NA)
     polygon(x = c(0,1000,1000,0), y = c(0,0,1000,1000), lwd = 2)
@@ -163,16 +163,16 @@ f <- function(x, y, ...) {
 par(mar = c(4,4,0,0)+1, mfrow = c(1,3))
 labellist <- "116"
 f("Denitrification", "Nitrification",
-  ylim = c(-1,16),
+  ylim = c(-10,100),
   xlab = expression("Denitrification [g N"[2]*"O-N]"),
   ylab = expression("Nitrification [g N"[2]*"O-N]"))
 labellist <- rownames(subset(df, subset = Reduction < 0))
 f("Reduction", "Nitrification",
-  ylim = c(-1,16),
+  ylim = c(-10,100), xlim = c(-30,40),
   xlab = expression("Reduction [g N"[2]*"O-N]"),
   ylab = expression("Nitrification [g N"[2]*"O-N]"))
 f("Denitrification", "Reduction",
-  ylim = c(-5,7),
+  ylim = c(-30,45), xlim = c(-10,50),
   xlab = expression("Denitrification [g N"[2]*"O-N]"),
   ylab = expression("Reduction [g N"[2]*"O-N]"))
 ```
@@ -192,7 +192,7 @@ Meanwhile, the consumption is simply the cumulative N~2~O reduction.
 #| echo: false
 #| tbl-colwidths: [22,14,16,16,16,16]
 #| label: tbl-by-depth-and-variety
-#| tbl-cap: "Overall results of the process rate estimator (μ ±  σ) by depth layer and variety. N~2~O~nit~ is the sum of the nitrification rate over the entire estimated period, while N~2~O~den~ is the sum of the denitrification rate. For reference, this table also displays N~2~O~produced~, which is simply N~2~O~nit~ + N~2~O~den~, as well as N~2~O~consumed~, which is the sum of the reduction rate."
+#| tbl-cap: "Overall results of the mean estimated process rates (μ ±  σ) by depth layer and variety. N~2~O~nit~ is the sum of the nitrification rate over the entire estimated period, while N~2~O~den~ is the sum of the denitrification rate. For reference, this table also displays N~2~O~produced~, which is simply N~2~O~nit~ + N~2~O~den~, as well as N~2~O~consumed~, which is the sum of the reduction rate."
 
 # write function to paste mean ± sd
 f <- function(x) paste(signif(mean(x, na.rm = TRUE), 2), "±", signif(sd(x, na.rm = TRUE), 2))
@@ -217,7 +217,7 @@ Owing to all processes' significant divergence of the linear model's residuals f
 #| echo: false
 #| tbl-colwidths: [20,25,30,20,5]
 #| label: tbl-kruskal-wallis-variety
-#| tbl-cap: Results of the Kruskal-Wallis rank sum test inspecting the effects of variety on the cumulative process rates over all days.
+#| tbl-cap: Results of the Kruskal-Wallis rank sum test inspecting the effects of variety on the mean estimated process rates.
 
 # read data
 data <- read.csv(file.path("scripts","run-process-rate-estimator","output","estimated-process-rates.csv"))
