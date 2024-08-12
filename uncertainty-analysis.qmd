@@ -28,6 +28,8 @@ The determinants of each clusters covariance matrix $\mathbf \Sigma$ in [figure 
 
 ## Process rate estimates with respective uncertainties
 
+In the end, the values from our uncertainty analysis are the best guess of the *actual* uncertainty of each estimate. @tbl-uncertainty showcased the mean estimates with their respective standard deviation computed from the uncertainty analysis.
+
 :::{.column-page}
 
 ```{r}
