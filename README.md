@@ -4,6 +4,19 @@ This repository contains the source code and documentation for the process rate 
 
 The project was done for the [sustainable agro-ecosystems group at ETH Zurich](https://sae.ethz.ch/). While the project documentation is presented on [this website](https://damian-oswald.github.io/process-rate-estimator/), the source code for the process rate estimator in contained in an R package called `PRE`. You can explore said package in [this GitHub repository](https://github.com/damian-oswald/PRE/). Meanwhile, this repository contains the scripts for running the process rate estimator on some collected data as well as the source code for reproducing the documentation page.
 
+# :file_folder: The repository structure
+
+This repository contains:
+
+1. **The source code for the documentation page:** This repository contains the quarto documents necessary to render the documentation page (i.e., a bunch of `.qmd` and `.yml` files). Images, GIFs, bibliography etc. is in the `/resources` folder.
+2. **The R scripts for running the process rate estimator:** The R scripts in the folder `/scripts` run some part of the process rate estimator. Specifically, they:
+  - Prepare the collected data appropriately (`scripts/data-preparation`).
+  - Find the best hyper-parameters (`scripts/hypertuning`).
+  - Run the process rate estimator itself (`scripts/run-process-rate-estimator`).
+  - Run the sensitivity and uncertainty analyses (`scripts/sensitivity-analysis`).
+
+Note that the latter two are subdivided into scripts that perform the calculation and scripts that generate visualizations based on the output.
+
 # :question: How can I run the process rate estimator?
 
 To run the process rate estimator, first install the R package `PRE`.[^readme-1]
