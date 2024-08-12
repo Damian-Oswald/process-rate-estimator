@@ -221,7 +221,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#looking-at-the-process-rates-over-time" id="toc-looking-at-the-process-rates-over-time" class="nav-link active" data-scroll-target="#looking-at-the-process-rates-over-time"><span class="header-section-number">5.1</span> Looking at the process rates over time</a></li>
-  <li><a href="#results-of-the-cumulative-process-rates" id="toc-results-of-the-cumulative-process-rates" class="nav-link" data-scroll-target="#results-of-the-cumulative-process-rates"><span class="header-section-number">5.2</span> Results of the cumulative process rates</a></li>
+  <li><a href="#results-of-the-mean-process-rates" id="toc-results-of-the-mean-process-rates" class="nav-link" data-scroll-target="#results-of-the-mean-process-rates"><span class="header-section-number">5.2</span> Results of the mean process rates</a></li>
   <li><a href="#testing-for-variety-effects" id="toc-testing-for-variety-effects" class="nav-link" data-scroll-target="#testing-for-variety-effects"><span class="header-section-number">5.3</span> Testing for variety effects</a></li>
   <li><a href="#testing-for-depth-effects" id="toc-testing-for-depth-effects" class="nav-link" data-scroll-target="#testing-for-depth-effects"><span class="header-section-number">5.4</span> Testing for depth effects</a></li>
   </ul>
@@ -893,7 +893,10 @@ Table&nbsp;5.1: Percentage of negative process rate estimates (number of days wi
 </div>
 </div>
 <p><a href="#tbl-negative" class="quarto-xref">Table&nbsp;<span>5.1</span></a> shows that nitrification rates are particularly affected by this phenomenon – especially at lower depths – with five cases where negative estimates were made for every single day. Denitrification and reduction rates are much less affected.</p>
-<p>This correlation is also evident in <a href="#fig-scatterplot" class="quarto-xref">figure&nbsp;<span>5.2</span></a>, which depicts the values of all cumulative process rates. Notably, column 12 stands out with its markedly negative denitrification and reduction rates, contrasted by extremely high nitrification rates. This observation aligns with the inherent correlation among the three process rate estimates.</p>
+</section>
+<section id="results-of-the-mean-process-rates" class="level2 page-columns page-full" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="results-of-the-mean-process-rates"><span class="header-section-number">5.2</span> Results of the mean process rates</h2>
+<p><a href="#fig-scatterplot" class="quarto-xref">Figure&nbsp;<span>5.2</span></a> depicts the values of all mean process rates. Notably, column 12 stands out with its markedly negative denitrification and reduction rates, contrasted by extremely high nitrification rates. This observation aligns with the inherent correlation among the three process rate estimates.</p>
 <div class="page-columns page-full">
 <div class="cell page-columns page-full">
 <div class="cell-output-display page-columns page-full">
@@ -910,18 +913,15 @@ Figure&nbsp;5.2: Combinations of scatterplots of the mean estimated process rate
 </div>
 </div>
 </div>
-<p>Although physically impossible, the uncorrected values of cumulative nitrification, denitrification, and reduction are used for further analyses in the interest of intellectual honesty.</p>
-</section>
-<section id="results-of-the-cumulative-process-rates" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="results-of-the-cumulative-process-rates"><span class="header-section-number">5.2</span> Results of the cumulative process rates</h2>
-<p>The results presented in <a href="#tbl-by-depth-and-variety" class="quarto-xref">table&nbsp;<span>5.2</span></a> shows the cumulative nitrous oxide nitrification (<span class="math inline">\(\ce{N2O}_{\text{nit}}\)</span>), denitrification (<span class="math inline">\(\ce{N2O}_{\text{den}}\)</span>), consumption (<span class="math inline">\(\ce{N2O}_{\text{consumed}}\)</span>), and production (<span class="math inline">\(\ce{N2O}_{\text{produced}}\)</span>). The N<sub>2</sub>O production is hereby defined as:</p>
+<p>Although physically impossible, the uncorrected values of mean nitrification, denitrification, and reduction are used for further analyses in the interest of intellectual honesty.</p>
+<p>The results presented in <a href="#tbl-by-depth-and-variety" class="quarto-xref">table&nbsp;<span>5.2</span></a> also show the mean nitrous oxide nitrification (<span class="math inline">\(\ce{N2O}_{\text{nit}}\)</span>), denitrification (<span class="math inline">\(\ce{N2O}_{\text{den}}\)</span>), consumption (<span class="math inline">\(\ce{N2O}_{\text{consumed}}\)</span>), and production (<span class="math inline">\(\ce{N2O}_{\text{produced}}\)</span>). The N<sub>2</sub>O production is hereby defined as:</p>
 <p><span id="eq-N2O-produced"><span class="math display">\[\ce{N2O}_{\text{production}} = \ce{N2O}_{\text{nit}} + \ce{N2O}_{\text{den}} \tag{5.1}\]</span></span></p>
-<p>Meanwhile, the consumption is simply the cumulative N<sub>2</sub>O reduction.</p>
+<p>Meanwhile, the consumption is simply the mean N<sub>2</sub>O reduction.</p>
 <div class="cell" data-tbl-colwidths="[22,14,16,16,16,16]">
 <div id="tbl-by-depth-and-variety" class="cell quarto-float anchored" data-tbl-colwidths="[22,14,16,16,16,16]">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-by-depth-and-variety-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.2: Overall results of the mean estimated process rates (μ ± σ) by depth layer and variety. N<sub>2</sub>O<sub>nit</sub> is the sum of the nitrification rate over the entire estimated period, while N<sub>2</sub>O<sub>den</sub> is the sum of the denitrification rate. For reference, this table also displays N<sub>2</sub>O<sub>produced</sub>, which is simply N<sub>2</sub>O<sub>nit</sub> + N<sub>2</sub>O<sub>den</sub>, as well as N<sub>2</sub>O<sub>consumed</sub>, which is the sum of the reduction rate.
+Table&nbsp;5.2: Overall results of the mean estimated process rates (μ ± σ) by depth layer and variety. N<sub>2</sub>O<sub>nit</sub> is the mean nitrification rate over the entire estimated period, while N<sub>2</sub>O<sub>den</sub> is the mean denitrification rate. For reference, this table also displays N<sub>2</sub>O<sub>produced</sub>, which is simply N<sub>2</sub>O<sub>nit</sub> + N<sub>2</sub>O<sub>den</sub>, as well as N<sub>2</sub>O<sub>consumed</sub>, which is the mean reduction rate.
 </figcaption>
 <div aria-describedby="tbl-by-depth-and-variety-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1240,7 +1240,7 @@ Table&nbsp;5.4: Values from <a href="#tbl-by-depth-and-variety" class="quarto-xr
 <div id="tbl-kruskal-wallis-depth" class="cell quarto-float anchored" data-tbl-colwidths="[20,25,30,20,5]">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-kruskal-wallis-depth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;5.5: Results of the Kruskal-Wallis rank sum test inspecting the effects of depth layer on the cumulative process rates over all days.
+Table&nbsp;5.5: Results of the Kruskal-Wallis rank sum test inspecting the effects of depth layer on the mean process rates over all days.
 </figcaption>
 <div aria-describedby="tbl-kruskal-wallis-depth-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
@@ -1271,16 +1271,16 @@ Table&nbsp;5.5: Results of the Kruskal-Wallis rank sum test inspecting the effec
 </tr>
 <tr class="even">
 <td style="text-align: left;">Denitrification</td>
-<td style="text-align: right;">18.33</td>
+<td style="text-align: right;">18.16</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">0.0011</td>
 <td style="text-align: left;">**</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Reduction</td>
-<td style="text-align: right;">2.83</td>
+<td style="text-align: right;">2.85</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">0.59</td>
+<td style="text-align: right;">0.58</td>
 <td style="text-align: left;"></td>
 </tr>
 </tbody>

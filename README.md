@@ -9,11 +9,7 @@ The project was done for the [sustainable agro-ecosystems group at ETH Zurich](h
 This repository contains:
 
 1. **The source code for the documentation page:** This repository contains the quarto documents necessary to render the documentation page (i.e., a bunch of `.qmd` and `.yml` files). Images, GIFs, bibliography etc. is in the `/resources` folder.
-2. **The R scripts for running the process rate estimator:** The R scripts in the folder `/scripts` run some part of the process rate estimator. Specifically, they:
-  - Prepare the collected data appropriately (`scripts/data-preparation`).
-  - Find the best hyper-parameters (`scripts/hypertuning`).
-  - Run the process rate estimator itself (`scripts/run-process-rate-estimator`).
-  - Run the sensitivity and uncertainty analyses (`scripts/sensitivity-analysis`).
+2. **The R scripts for running the process rate estimator:** The R scripts in the folder `/scripts` run some part of the process rate estimator. Specifically, they (1) prepare the collected data appropriately (`scripts/data-preparation`), (2) find the best hyper-parameters (`scripts/hypertuning`), (3) run the process rate estimator itself (`scripts/run-process-rate-estimator`), (4) run the sensitivity and uncertainty analyses (`scripts/sensitivity-analysis`).
 
 Note that the latter two are subdivided into scripts that perform the calculation and scripts that generate visualizations based on the output.
 
